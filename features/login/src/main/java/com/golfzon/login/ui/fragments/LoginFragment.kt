@@ -10,11 +10,16 @@ import com.golfzon.login.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
     private var binding by autoCleared<FragmentLoginBinding> { onDestroyBindingView() }
+    private val loginViewModel by viewModels<LoginViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
+        binding.vm = loginViewModel
+        binding.lifecycleOwner = this
+
+        mAuth = FirebaseAuth.getInstance()
         return binding.root
     }
 
