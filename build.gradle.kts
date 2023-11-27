@@ -2,11 +2,11 @@
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.com.android.application) apply false
-    alias(libs.plugins.org.jetbrains.kotlin.android) apply false
-    alias(libs.plugins.org.jetbrains.kotlin.kapt) apply false
-    // Add the dependency for the Google services Gradle plugin
-    id("com.google.gms.google-services") version "4.4.0" apply false
     alias(libs.plugins.com.android.library) apply false
     alias(libs.plugins.org.jetbrains.kotlin.jvm) apply false
+    alias(libs.plugins.org.jetbrains.kotlin.android) apply false
+    alias(libs.plugins.org.jetbrains.kotlin.kapt) apply false
+    alias(libs.plugins.com.google.gms.gooleServices) apply false
+    alias(libs.plugins.dagger.hilt.android) apply false
 }
 true // Needed to make the Suppress annotation work for the plugins block

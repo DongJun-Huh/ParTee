@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.org.jetbrains.kotlin.kapt)
     alias(libs.plugins.com.google.gms.gooleServices)
+    alias(libs.plugins.dagger.hilt.android)
 }
 
 android {
@@ -60,4 +61,5 @@ dependencies {
     implementation(libs.bundles.firebase)
     // https://firebase.google.com/docs/android/setup#available-libraries
     implementation(libs.bundles.jetpack.navigation)
+    implementation(libs.bundles.hilt)
 }

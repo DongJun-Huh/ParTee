@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.org.jetbrains.kotlin.kapt)
+    alias(libs.plugins.dagger.hilt.android)
 }
 
 android {
@@ -47,6 +48,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.constraintlayout)
     implementation(libs.bundles.android.lifecycle)
+    implementation(libs.bundles.hilt)
     implementation(libs.annotation)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

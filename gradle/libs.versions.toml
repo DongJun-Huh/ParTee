@@ -17,6 +17,12 @@ coroutine = "1.7.3"
 annotation = "1.6.0"
 org-jetbrains-kotlin-jvm = "1.9.0"
 
+# DI
+hilt = "2.46.1"
+javax-inject = "1"
+
+databinding = "8.1.4"
+
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -43,6 +49,12 @@ navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx",
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutine"}
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutine"}
 annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+androidx-databinding-common = { group = "androidx.databinding", name = "databinding-common", version = "databinding" }
+
+# DI
+dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt"}
+javax-inject = { module = "javax.inject:javax.inject", version.ref = "javax-inject" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
@@ -51,9 +63,11 @@ org-jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "o
 com-google-gms-gooleServices = { id = "com.google.gms.google-services", version.ref = "gms-googleServices" }
 com-android-library = { id = "com.android.library", version.ref = "agp" }
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
+dagger-hilt-android = { id = "com.google.dagger.hilt.android" , version.ref = "hilt" }
 
 [bundles]
 firebase = ["firebase-analytics", "firebase-auth-ktx", "firebase-ui-auth", "firebase-firestore-ktx"]
 android-lifecycle = ["lifecycle-viewmodel-ktx", "lifecycle-livedata-ktx", "lifecycle-viewmodel-savedstate", "lifecycle-compiler"]
 jetpack-navigation = ["navigation-fragment-ktx", "navigation-ui-ktx"]
 coroutine = ["kotlinx-coroutines-core", "kotlinx-coroutines-android"]
+hilt =["dagger-hilt-android", "dagger-hilt-android-compiler", "javax-inject"]
