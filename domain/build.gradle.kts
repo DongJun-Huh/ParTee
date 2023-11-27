@@ -8,3 +8,8 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
+
+dependencies {
+    implementation(libs.bundles.coroutine)
+    implementation(libs.javax.inject)
+}
