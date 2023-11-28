@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.fragments.UserInfoSetFragment">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.golfzon.login.ui.LoginViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layout_user_info_set_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="130dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_user_info_set_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="닉네임을 설정해주세요" />
+
+            <EditText
+                android:id="@+id/et_user_info_set_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="닉네임"
+                android:text="@={vm.nickname}" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_user_info_set_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_user_info_set_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="나이를 설정해주세요" />
+
+            <EditText
+                android:id="@+id/et_user_info_set_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="나이"
+                android:text="@={``+vm.age}" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_user_info_set_yearsPlaying"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_user_info_set_yearsPlaying"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="구력을 설정해주세요" />
+
+            <EditText
+                android:id="@+id/et_user_info_set_yearsPlaying"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="구력"
+                android:text="@={``+vm.yearsPlaying}" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_user_info_set_average"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_user_info_set_average"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="평균 타수를 설정해주세요" />
+
+            <EditText
+                android:id="@+id/et_user_info_set_average"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="평균 타수"
+                android:text="@={``+vm.average}" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_user_info_set_introduce"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_user_info_set_introduce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="간단한 자기소개를 설정해주세요" />
+
+            <EditText
+                android:id="@+id/et_user_info_set_introduce"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="start"
+                android:hint="자기소개"
+                android:text="@={vm.introduceMessage}" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_user_info_set_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="50dp"
+            android:background="@color/golfzon_light_gray_CCCCCC"
+            android:gravity="center"
+            android:paddingVertical="20dp"
+            android:text="다음"
+            android:textColor="@color/black" />
+    </LinearLayout>
+</layout>

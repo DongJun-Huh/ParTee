@@ -197,4 +197,24 @@ class MemberRepositoryImpl @Inject constructor(
                 }
         }
     }
+
+    override suspend fun requestSetUserInfo(UId: String, user: User): Boolean {
+        return suspendCancellableCoroutine { continuation ->
+            val newUser = hashMapOf(
+                "nickname" to user.nickname,
+                "age" to user.age,
+                "yearsPlaying" to user.yearsPlaying,
+                "average" to user.average,
+                "introduceMessage" to user.introduceMessage,
+                "profileImg" to user.profileImg
+            )
+            val userDocumentReference = firestore.collection("users")
+                .document(UId)
+            val setUserTask: Task<Void> = userDocumentReference.set(newUser)
+
+            setUserTask.addOnSuccessListener {
+                if (continuation.isActive) continuation.resume(true)
+            }
+        }
+    }
 }

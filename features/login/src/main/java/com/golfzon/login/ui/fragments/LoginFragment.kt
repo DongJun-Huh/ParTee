@@ -6,8 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import dagger.hilt.android.AndroidEntryPoint
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.firebase.ui.auth.AuthUI
+import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
@@ -18,7 +19,7 @@ import com.golfzon.login.ui.LoginViewModel
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
     private var binding by autoCleared<FragmentLoginBinding> { onDestroyBindingView() }
-    private val loginViewModel by viewModels<LoginViewModel>()
+    private val loginViewModel by activityViewModels<LoginViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,11 +65,14 @@ class LoginFragment : Fragment() {
             }
         }
 
-        loginViewModel.isUserInitialized.observe(viewLifecycleOwner){ isUserInitialized ->
+        loginViewModel.isUserInitialized.observe(viewLifecycleOwner) { isUserInitialized ->
             if (isUserInitialized.getContentIfNotHandled() == true) {
                 // TODO: 정보가 모두 존재하는게 확인되면 바로 MainActivity로 넘길 수 있도록 설정
             } else {
-                // TODO: 새로 회원가입한 유저 or 유저 정보는 있지만, 정보설정은 안된 유저인지 체크 후, 체크가 안되면 정보설정 화면으로 이동
+                findNavController().navigate(
+                    LoginFragmentDirections.actionLoginFragmentToUserInfoSetFragment()
+                )
+                // 새로 회원가입한 유저 or 유저 정보는 있지만, 정보설정은 안된 유저인지 체크 후, 체크가 안되면 정보설정 화면으로 이동
             }
         }
     }
