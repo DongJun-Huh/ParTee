@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.jvm) apply false
     alias(libs.plugins.org.jetbrains.kotlin.android) apply false
     alias(libs.plugins.org.jetbrains.kotlin.kapt) apply false
+    alias(libs.plugins.navigation.safeArgs.kotlin) apply false
     alias(libs.plugins.com.google.gms.gooleServices) apply false
     alias(libs.plugins.dagger.hilt.android) apply false
 }
