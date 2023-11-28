@@ -9,15 +9,15 @@ import com.golfzon.domain.repository.MemberRepository
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 class MemberRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : MemberRepository {
     override suspend fun requestRegisterUser(UId: String, email: String): Boolean {
-        return suspendCoroutine { continuation ->
+        return suspendCancellableCoroutine { continuation ->
             val newUser = hashMapOf(
                 "email" to email,
                 "nickname" to null,
@@ -27,10 +27,10 @@ class MemberRepositoryImpl @Inject constructor(
                 "introduceMessage" to null,
                 "profileImg" to null
             )
-
-            val registerTask = firestore.collection("users")
+            val userDocumentReference = firestore.collection("users")
                 .document(UId)
-                .set(newUser)
+            val setUserTask: Task<Void> = userDocumentReference.set(newUser)
+            setUserTask
                 .addOnSuccessListener {
                     val newUserTeamInfo = hashMapOf(
                         "teamUId" to null,
@@ -43,41 +43,30 @@ class MemberRepositoryImpl @Inject constructor(
                     val newUserThemeTeamsInfo = hashMapOf(
                         "themeTeamUId" to listOf<String>()
                     )
-
-                    firestore.collection("users")
-                        .document(UId)
-                        .collection("extraInfo")
-                        .document("teamInfo")
-                        .set(newUserTeamInfo)
-
-                    firestore.collection("users")
-                        .document(UId)
-                        .collection("extraInfo")
-                        .document("groupsInfo")
-                        .set(newUserGroupsInfo)
-
-                    firestore.collection("users")
-                        .document(UId)
-                        .collection("extraInfo")
-                        .document("themeTeamsInfo")
-                        .set(newUserThemeTeamsInfo)
-                }
-            registerTask
-                .addOnSuccessListener {
-                    continuation.resume(true)
+                    val extraInfoCollection = userDocumentReference.collection("extraInfo")
+                    val setTeamInfoTask =
+                        extraInfoCollection.document("teamInfo").set(newUserTeamInfo)
+                    val setGroupsInfoTask =
+                        extraInfoCollection.document("groupsInfo").set(newUserGroupsInfo)
+                    val setThemeTeamsInfoTask =
+                        extraInfoCollection.document("themeTeamsInfo").set(newUserThemeTeamsInfo)
+                    Tasks.whenAll(setTeamInfoTask, setGroupsInfoTask, setThemeTeamsInfoTask)
+                        .addOnSuccessListener {
+                            if (continuation.isActive) continuation.resume(true)
+                        }
+                        .addOnFailureListener {
+                            if (continuation.isActive) continuation.resume(false)
+                        }
                 }
                 .addOnFailureListener {
-                    continuation.resume(false)
+                    if (continuation.isActive) continuation.resume(false)
                 }
         }
     }
 
     // Return Value: (최초가입여부, 유저정보)
     override suspend fun requestLogin(UId: String, email: String): Pair<Boolean, User?> {
-        return suspendCoroutine { continuation ->
-            var isUserExist = false
-            var isUserInitialized = false
-
+        return suspendCancellableCoroutine { continuation ->
             var curUser = User(
                 userUId = UId,
                 email = email,
@@ -97,7 +86,6 @@ class MemberRepositoryImpl @Inject constructor(
                     themeTeamsInfo = listOf()
                 )
             )
-
             val tasks = mutableListOf<Task<*>>()
 
             // 최초 회원가입 여부 확인 및 정보 입력여부 확인 후 2가지 조건 통과시, User 정보 받아옴
@@ -107,10 +95,8 @@ class MemberRepositoryImpl @Inject constructor(
                 .addOnSuccessListener {
                     if (it.data == null) {
                         // 1. 가입되어 있지 않은 경우
-                        isUserExist = false
-                        continuation.resume(Pair(false, null))
+                        if (continuation.isActive) continuation.resume(Pair(false, null))
                     } else {
-                        isUserExist = true
                         it.data?.let { userBasicInfo ->
                             if (userBasicInfo["email"] != null &&
                                 userBasicInfo["nickname"] != null &&
@@ -120,8 +106,6 @@ class MemberRepositoryImpl @Inject constructor(
                                 userBasicInfo["introduceMessage"] != null &&
                                 userBasicInfo["profileImg"] != null
                             ) {
-                                isUserInitialized = true
-
                                 curUser = curUser.copy(
                                     userUId = curUser.userUId,
                                     email = userBasicInfo["email"] as String,
@@ -134,7 +118,7 @@ class MemberRepositoryImpl @Inject constructor(
                                 )
                             } else {
                                 // 2. 기본 정보가 입력되어 있지 않은 경우
-                                continuation.resume(Pair(true, null))
+                                if (continuation.isActive) continuation.resume(Pair(true, null))
                             }
                         }
 
@@ -199,17 +183,17 @@ class MemberRepositoryImpl @Inject constructor(
                         Tasks.whenAll(tasks)
                             .addOnSuccessListener {
                                 // 3. 가입되어 있고, 모든 정보가 입력되어 있는 상태인 경우 정보를 돌려줌
-                                continuation.resume(Pair(true, curUser))
+                                if (continuation.isActive) continuation.resume(Pair(true, curUser))
                             }
                             .addOnFailureListener {
                                 // TODO 실패시 별도 처리
-                                continuation.resume(Pair(false, null))
+                                if (continuation.isActive) continuation.resume(Pair(false, null))
                             }
                     }
                 }
                 .addOnFailureListener {
                     // TODO 실패시 별도 처리
-                    continuation.resume(Pair(false, null))
+                    if (continuation.isActive) continuation.resume(Pair(false, null))
                 }
         }
     }
