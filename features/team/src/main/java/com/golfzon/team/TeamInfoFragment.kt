@@ -30,6 +30,7 @@ class TeamInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initializeTeamInfo()
     }
 
     private fun getTeamInfo() {
@@ -37,6 +38,12 @@ class TeamInfoFragment : Fragment() {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 teamViewModel.getTeamInfo()
             }
+        }
+    }
+
+    private fun initializeTeamInfo() {
+        teamViewModel.teamInfo.observe(viewLifecycleOwner) { teamInfo ->
+            // TODO TEAM INFORMATION INITIALIZE
         }
     }
 }
