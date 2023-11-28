@@ -60,4 +60,5 @@ dependencies {
     implementation(libs.bundles.firebase)
     // https://firebase.google.com/docs/android/setup#available-libraries
     implementation(libs.bundles.jetpack.navigation)
+    implementation(libs.glide)
 }
