@@ -64,17 +64,11 @@ class LoginFragment : Fragment() {
             }
         }
 
-        loginViewModel.isInitializeNeed.observe(viewLifecycleOwner){ isInitializeNeed ->
-            if (isInitializeNeed.getContentIfNotHandled() == true) {
-                // TODO: 새로 회원가입한 유저 or 유저 정보는 있지만, 정보설정은 안된 유저인지 체크 후, 체크가 안되면 정보설정 화면으로 이동
-            } else {
+        loginViewModel.isUserInitialized.observe(viewLifecycleOwner){ isUserInitialized ->
+            if (isUserInitialized.getContentIfNotHandled() == true) {
                 // TODO: 정보가 모두 존재하는게 확인되면 바로 MainActivity로 넘길 수 있도록 설정
-            }
-        }
-
-        loginViewModel.isRegisterSuccess.observe(viewLifecycleOwner) {
-            if (it.getContentIfNotHandled() == true) {
-                loginViewModel.checkIsInitializeNeed()
+            } else {
+                // TODO: 새로 회원가입한 유저 or 유저 정보는 있지만, 정보설정은 안된 유저인지 체크 후, 체크가 안되면 정보설정 화면으로 이동
             }
         }
     }
