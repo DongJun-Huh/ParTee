@@ -1,5 +1,6 @@
 package com.golfzon.login.ui
 
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.golfzon.core_ui.Event
+import com.golfzon.core_ui.ImageUploadUtil.bitmapToFile
 import com.golfzon.domain.model.TeamInfo
 import com.golfzon.domain.model.User
 import com.golfzon.domain.model.UserInfo
@@ -57,18 +59,22 @@ class LoginViewModel @Inject constructor(
     // TODO: SharedPreference OR DataStore를 활용해서 앱 전역에서 사용할 수 있도록 설정
     var curUserUId = MutableLiveData<String>()
 
+    val email = MutableLiveData<String>()
     val nickname = MutableLiveData<String>()
     val age = MutableLiveData<Int>(0)
     val yearsPlaying = MutableLiveData<Int>(0)
     val average = MutableLiveData<Int>(0)
     val introduceMessage = MutableLiveData<String>()
-    val profileImg = MutableLiveData<String>("TEMP URL") // TODO 이미지 URL로 변경
+    val profileImg = MutableLiveData<String>() // TODO 추후에 덮어씌워지므로 의미없는 파일이기에 삭제 필요
+    val profileImgBitmap = MutableLiveData<Bitmap>()
+    val profileImgPath = MutableLiveData<String>()
 
     fun onGoogleLoginResult(result: FirebaseAuthUIAuthenticationResult) {
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
             val user = FirebaseAuth.getInstance().currentUser
             if (user != null && !user.email.isNullOrEmpty()) {
                 curUserUId.postValue(user.uid) // TODO : SharedPreference OR DataStore 구현 이후 삭제
+                email.postValue(user.email)
                 requestLogin(userUId = user.uid, userEmail = user.email!!)
                 _loginSuccess.postValue(Event(true))
             } else {
@@ -103,7 +109,7 @@ class LoginViewModel @Inject constructor(
     fun requestSetUserInfo() = viewModelScope.launch {
         val newUser = User(
             userUId = curUserUId.value ?: "",
-            email = "",
+            email = email.value ?: "",
             nickname = nickname.value,
             age = age.value,
             yearsPlaying = yearsPlaying.value,
@@ -119,7 +125,8 @@ class LoginViewModel @Inject constructor(
 
         requestSetUserInfoUseCase(
             curUserUId.value ?: "",
-            newUser
+            newUser,
+            bitmapToFile(profileImgBitmap.value!!, profileImgPath.value!!)!!
         ).let {
             _isSetUserInfoSuccess.postValue(Event(it))
         }

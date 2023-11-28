@@ -1,3 +1,9 @@
 <resources>
     <string name="login_google">구글 계정으로 로그인</string>
+
+    <!-- Select Image  -->
+    <string name="image_option_gallery">앨범에서 선택</string>
+    <string name="image_option_camera">사진 직접촬영</string>
+    <string name="upload_image_fail_file_extension">jpg, jpeg, png, webp 형식의 이미지 파일만 업로드 가능합니다.</string>
+
 </resources>
