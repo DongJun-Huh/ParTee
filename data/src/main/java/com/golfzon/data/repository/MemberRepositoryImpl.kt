@@ -1,5 +1,6 @@
 package com.golfzon.data.repository
 
+import android.net.Uri
 import com.golfzon.domain.model.GroupInfo
 import com.golfzon.domain.model.TeamInfo
 import com.golfzon.domain.model.ThemeTeamInfo
@@ -9,12 +10,15 @@ import com.golfzon.domain.repository.MemberRepository
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.suspendCancellableCoroutine
+import java.io.File
 import javax.inject.Inject
 import kotlin.coroutines.resume
 
 class MemberRepositoryImpl @Inject constructor(
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
+    private val firebaseStorage: FirebaseStorage
 ) : MemberRepository {
     override suspend fun requestRegisterUser(UId: String, email: String): Boolean {
         return suspendCancellableCoroutine { continuation ->
@@ -198,23 +202,36 @@ class MemberRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun requestSetUserInfo(UId: String, user: User): Boolean {
+    override suspend fun requestSetUserInfo(UId: String, user: User, userImg: File): Boolean {
         return suspendCancellableCoroutine { continuation ->
+            val storageRef = firebaseStorage.reference
+            val userImageExtension = if (userImg.path.split(".").last().isNotEmpty()) userImg.path.split(".").last() else "jpg"
+            val userImagesRef = storageRef.child("users/${UId}.${userImageExtension}")
             val newUser = hashMapOf(
                 "nickname" to user.nickname,
+                "email" to user.email,
                 "age" to user.age,
                 "yearsPlaying" to user.yearsPlaying,
                 "average" to user.average,
                 "introduceMessage" to user.introduceMessage,
-                "profileImg" to user.profileImg
+                "profileImg" to "users/${UId}.${userImageExtension}"
             )
             val userDocumentReference = firestore.collection("users")
                 .document(UId)
-            val setUserTask: Task<Void> = userDocumentReference.set(newUser)
 
-            setUserTask.addOnSuccessListener {
-                if (continuation.isActive) continuation.resume(true)
-            }
+            val tasks = mutableListOf<Task<*>>()
+            val setUserTask: Task<Void> = userDocumentReference.set(newUser)
+            val uploadTask = userImagesRef.putFile(Uri.fromFile(userImg))
+            tasks.add(setUserTask)
+            tasks.add(uploadTask)
+
+            Tasks.whenAll(tasks)
+                .addOnSuccessListener {
+                    if (continuation.isActive) continuation.resume(true)
+                }
+                .addOnFailureListener {
+                    if (continuation.isActive) continuation.resume(false)
+                }
         }
     }
 }
