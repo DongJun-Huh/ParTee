@@ -54,18 +54,13 @@ class LoginViewModel @Inject constructor(
     val isUserInitialized: LiveData<Event<Boolean>> get() = _isUserInitialized
 
     private val _isSetUserInfoSuccess = MutableLiveData<Event<Boolean>>()
-    val isSetUserInfoSuccess: LiveData<Event<Boolean>> get() = isSetUserInfoSuccess
+    val isSetUserInfoSuccess: LiveData<Event<Boolean>> get() = _isSetUserInfoSuccess
 
-    // TODO: SharedPreference OR DataStore를 활용해서 앱 전역에서 사용할 수 있도록 설정
-    var curUserUId = MutableLiveData<String>()
-
-    val email = MutableLiveData<String>()
     val nickname = MutableLiveData<String>()
     val age = MutableLiveData<Int>(0)
     val yearsPlaying = MutableLiveData<Int>(0)
     val average = MutableLiveData<Int>(0)
     val introduceMessage = MutableLiveData<String>()
-    val profileImg = MutableLiveData<String>() // TODO 추후에 덮어씌워지므로 의미없는 파일이기에 삭제 필요
     val profileImgBitmap = MutableLiveData<Bitmap>()
     val profileImgPath = MutableLiveData<String>()
 
@@ -73,8 +68,6 @@ class LoginViewModel @Inject constructor(
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
             val user = FirebaseAuth.getInstance().currentUser
             if (user != null && !user.email.isNullOrEmpty()) {
-                curUserUId.postValue(user.uid) // TODO : SharedPreference OR DataStore 구현 이후 삭제
-                email.postValue(user.email)
                 requestLogin(userUId = user.uid, userEmail = user.email!!)
                 _loginSuccess.postValue(Event(true))
             } else {
@@ -107,15 +100,15 @@ class LoginViewModel @Inject constructor(
     }
 
     fun requestSetUserInfo() = viewModelScope.launch {
-        val newUser = User(
-            userUId = curUserUId.value ?: "",
-            email = email.value ?: "",
+        val newUserInfo = User(
+            userUId = "",
+            email = "",
             nickname = nickname.value,
             age = age.value,
             yearsPlaying = yearsPlaying.value,
             average = average.value,
             introduceMessage = introduceMessage.value,
-            profileImg = profileImg.value,
+            profileImg = "",
             userInfo = UserInfo(
                 TeamInfo(null, false, false),
                 listOf(),
@@ -124,8 +117,7 @@ class LoginViewModel @Inject constructor(
         )
 
         requestSetUserInfoUseCase(
-            curUserUId.value ?: "",
-            newUser,
+            newUserInfo,
             bitmapToFile(profileImgBitmap.value!!, profileImgPath.value!!)!!
         ).let {
             _isSetUserInfoSuccess.postValue(Event(it))
