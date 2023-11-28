@@ -9,8 +9,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.golfzon.core_ui.Event
+import com.golfzon.domain.model.TeamInfo
+import com.golfzon.domain.model.User
+import com.golfzon.domain.model.UserInfo
 import com.golfzon.domain.usecase.member.RequestLoginUseCase
 import com.golfzon.domain.usecase.member.RequestRegisterUseCase
+import com.golfzon.domain.usecase.member.RequestSetUserInfoUseCase
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val requestRegisterUseCase: RequestRegisterUseCase,
-    private val requestLoginUseCase: RequestLoginUseCase
+    private val requestLoginUseCase: RequestLoginUseCase,
+    private val requestSetUserInfoUseCase: RequestSetUserInfoUseCase
 ) : ViewModel() {
     private val _loginSuccess = MutableLiveData<Event<Boolean>>()
     val loginSuccess: LiveData<Event<Boolean>> get() = _loginSuccess
@@ -46,10 +51,24 @@ class LoginViewModel @Inject constructor(
     }
     val isUserInitialized: LiveData<Event<Boolean>> get() = _isUserInitialized
 
+    private val _isSetUserInfoSuccess = MutableLiveData<Event<Boolean>>()
+    val isSetUserInfoSuccess: LiveData<Event<Boolean>> get() = isSetUserInfoSuccess
+
+    // TODO: SharedPreference OR DataStore를 활용해서 앱 전역에서 사용할 수 있도록 설정
+    var curUserUId = MutableLiveData<String>()
+
+    val nickname = MutableLiveData<String>()
+    val age = MutableLiveData<Int>(0)
+    val yearsPlaying = MutableLiveData<Int>(0)
+    val average = MutableLiveData<Int>(0)
+    val introduceMessage = MutableLiveData<String>()
+    val profileImg = MutableLiveData<String>("TEMP URL") // TODO 이미지 URL로 변경
+
     fun onGoogleLoginResult(result: FirebaseAuthUIAuthenticationResult) {
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
             val user = FirebaseAuth.getInstance().currentUser
             if (user != null && !user.email.isNullOrEmpty()) {
+                curUserUId.postValue(user.uid) // TODO : SharedPreference OR DataStore 구현 이후 삭제
                 requestLogin(userUId = user.uid, userEmail = user.email!!)
                 _loginSuccess.postValue(Event(true))
             } else {
@@ -78,6 +97,31 @@ class LoginViewModel @Inject constructor(
     private fun requestRegister(userUId: String, userEmail: String) = viewModelScope.launch {
         requestRegisterUseCase(UId = userUId, email = userEmail).let {
             _isRegisterSuccess.postValue(Event(it))
+        }
+    }
+
+    fun requestSetUserInfo() = viewModelScope.launch {
+        val newUser = User(
+            userUId = curUserUId.value ?: "",
+            email = "",
+            nickname = nickname.value,
+            age = age.value,
+            yearsPlaying = yearsPlaying.value,
+            average = average.value,
+            introduceMessage = introduceMessage.value,
+            profileImg = profileImg.value,
+            userInfo = UserInfo(
+                TeamInfo(null, false, false),
+                listOf(),
+                listOf()
+            )
+        )
+
+        requestSetUserInfoUseCase(
+            curUserUId.value ?: "",
+            newUser
+        ).let {
+            _isSetUserInfoSuccess.postValue(Event(it))
         }
     }
 }
