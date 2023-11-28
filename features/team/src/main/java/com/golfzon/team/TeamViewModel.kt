@@ -13,12 +13,12 @@ import javax.inject.Inject
 class TeamViewModel @Inject constructor(
     private val getUserTeamInfoUseCase: GetUserTeamInfoUseCase
 ) : ViewModel() {
-    private val _teamInfo = MutableLiveData<Event<Team>>()
-    val teamInfo: LiveData<Event<Team>> get() = teamInfo
+    private val _teamInfo = MutableLiveData<Team>()
+    val teamInfo: LiveData<Team> get() = teamInfo
 
     suspend fun getTeamInfo() {
         getUserTeamInfoUseCase().let { curTeam ->
-            _teamInfo.postValue(Event(curTeam))
+            _teamInfo.postValue(curTeam)
         }
     }
 }

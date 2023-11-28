@@ -5,6 +5,9 @@
     tools:context=".TeamInfoFragment">
 
     <data>
+        <variable
+            name="vm"
+            type="com.golfzon.team.TeamViewModel" />
 
     </data>
 
