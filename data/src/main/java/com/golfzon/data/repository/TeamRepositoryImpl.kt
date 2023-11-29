@@ -9,6 +9,8 @@ import com.golfzon.data.extension.storeValue
 import com.golfzon.domain.model.Team
 import com.golfzon.domain.model.TeamInfo
 import com.golfzon.domain.repository.TeamRepository
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.CoroutineScope
@@ -92,4 +94,43 @@ class TeamRepositoryImpl @Inject constructor(
 
         }
     }
+
+    override suspend fun requestTeamOrganize(newTeam: Team): String =
+        suspendCancellableCoroutine { continuation ->
+            var curUserUId = ""
+            runBlocking {
+                curUserUId = dataStore.readValue(stringPreferencesKey("userUid"), "") ?: ""
+            }
+
+            firestore.collection("teams")
+                .add(newTeam.copy(leaderUId = curUserUId))
+                .addOnSuccessListener { newTeamDocument ->
+                    val newTeamInfo = hashMapOf(
+                        "teamUId" to newTeamDocument.id,
+                        "isLeader" to false,
+                        "isOrganized" to true
+                    )
+
+                    val tasks = mutableListOf<Task<*>>()
+                    for (addedUser in newTeam.membersUId) {
+                        val memberUserEditTask = firestore.collection("users")
+                            .document(addedUser)
+                            .collection("extraInfo")
+                            .document("teamInfo")
+                            .set(newTeamInfo)
+                        tasks.add(memberUserEditTask)
+                    }
+
+                    val leaderUserEditTask = firestore.collection("users")
+                        .document(newTeam.leaderUId)
+                        .collection("extraInfo")
+                        .document("teamInfo")
+                        .set(newTeamInfo.apply { "isLeader" to true })
+                    tasks.add(leaderUserEditTask)
+                    Tasks.whenAll(tasks)
+                        .addOnSuccessListener {
+                            if (continuation.isActive) continuation.resume(newTeamDocument.id)
+                        }
+                }
+        }
 }
