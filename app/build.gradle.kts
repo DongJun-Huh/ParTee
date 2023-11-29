@@ -64,4 +64,5 @@ dependencies {
     implementation(libs.bundles.jetpack.navigation)
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.android.compiler)
+    implementation(libs.datastore)
 }
