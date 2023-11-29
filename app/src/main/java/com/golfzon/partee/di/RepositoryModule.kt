@@ -25,6 +25,6 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideTeamRepository(firestore: FirebaseFirestore, firebaseStorage: FirebaseStorage) : TeamRepository =
-        TeamRepositoryImpl(firestore = firestore, firebaseStorage = firebaseStorage)
+    fun provideTeamRepository(firestore: FirebaseFirestore, firebaseStorage: FirebaseStorage, dataStore: DataStore<Preferences>) : TeamRepository =
+        TeamRepositoryImpl(firestore = firestore, firebaseStorage = firebaseStorage, dataStore = dataStore)
 }

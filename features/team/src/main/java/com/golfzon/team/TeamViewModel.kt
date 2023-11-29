@@ -3,22 +3,29 @@ package com.golfzon.team
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.golfzon.core_ui.Event
+import androidx.lifecycle.viewModelScope
 import com.golfzon.domain.model.Team
-import com.golfzon.domain.usecase.team.GetUserTeamInfoUseCase
+import com.golfzon.domain.model.TeamInfo
+import com.golfzon.domain.usecase.team.GetUserTeamInfoBriefUseCase
+import com.golfzon.domain.usecase.team.GetUserTeamInfoDetailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TeamViewModel @Inject constructor(
-    private val getUserTeamInfoUseCase: GetUserTeamInfoUseCase
+    private val getUserTeamInfoBriefUseCase: GetUserTeamInfoBriefUseCase,
+    private val getUserTeamInfoDetailUseCase: GetUserTeamInfoDetailUseCase
 ) : ViewModel() {
-    private val _teamInfo = MutableLiveData<Team>()
-    val teamInfo: LiveData<Team> get() = teamInfo
+    private val _teamInfoBrief = MutableLiveData<TeamInfo>()
+    val teamInfoBrief: LiveData<TeamInfo> get() = _teamInfoBrief
 
-    suspend fun getTeamInfo() {
-        getUserTeamInfoUseCase().let { curTeam ->
-            _teamInfo.postValue(curTeam)
+    private val _teamInfoDetail = MutableLiveData<Team?>()
+    val teamInfoDetail: LiveData<Team?> get() = _teamInfoDetail
+
+    fun getTeamInfo() = viewModelScope.launch {
+        getUserTeamInfoDetailUseCase().let { curTeam ->
+            _teamInfoDetail.postValue(curTeam)
         }
     }
 }
