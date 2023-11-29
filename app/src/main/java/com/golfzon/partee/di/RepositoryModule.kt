@@ -1,5 +1,7 @@
 package com.golfzon.partee.di
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.golfzon.data.repository.MemberRepositoryImpl
 import com.golfzon.domain.repository.MemberRepository
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,6 +18,6 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideMemberRepository(firestore: FirebaseFirestore, firebaseStorage: FirebaseStorage) : MemberRepository =
-        MemberRepositoryImpl(firestore = firestore, firebaseStorage = firebaseStorage)
+    fun provideMemberRepository(firestore: FirebaseFirestore, firebaseStorage: FirebaseStorage, dataStore: DataStore<Preferences>) : MemberRepository =
+        MemberRepositoryImpl(firestore = firestore, firebaseStorage = firebaseStorage, dataStore = dataStore)
 }

@@ -1,6 +1,11 @@
 package com.golfzon.data.repository
 
 import android.net.Uri
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.stringPreferencesKey
+import com.golfzon.data.extension.readValue
+import com.golfzon.data.extension.storeValue
 import com.golfzon.domain.model.GroupInfo
 import com.golfzon.domain.model.TeamInfo
 import com.golfzon.domain.model.ThemeTeamInfo
@@ -11,6 +16,10 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 import javax.inject.Inject
@@ -18,7 +27,8 @@ import kotlin.coroutines.resume
 
 class MemberRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
-    private val firebaseStorage: FirebaseStorage
+    private val firebaseStorage: FirebaseStorage,
+    private val dataStore: DataStore<Preferences>
 ) : MemberRepository {
     override suspend fun requestRegisterUser(UId: String, email: String): Boolean {
         return suspendCancellableCoroutine { continuation ->
@@ -54,6 +64,11 @@ class MemberRepositoryImpl @Inject constructor(
                         extraInfoCollection.document("groupsInfo").set(newUserGroupsInfo)
                     val setThemeTeamsInfoTask =
                         extraInfoCollection.document("themeTeamsInfo").set(newUserThemeTeamsInfo)
+
+                    CoroutineScope(Dispatchers.IO).launch {
+                        dataStore.storeValue(stringPreferencesKey("userUid"), UId)
+                    }
+
                     Tasks.whenAll(setTeamInfoTask, setGroupsInfoTask, setThemeTeamsInfoTask)
                         .addOnSuccessListener {
                             if (continuation.isActive) continuation.resume(true)
@@ -187,6 +202,10 @@ class MemberRepositoryImpl @Inject constructor(
                         Tasks.whenAll(tasks)
                             .addOnSuccessListener {
                                 // 3. 가입되어 있고, 모든 정보가 입력되어 있는 상태인 경우 정보를 돌려줌
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    dataStore.storeValue(stringPreferencesKey("userUid"), UId)
+                                    dataStore.storeValue(stringPreferencesKey("userEmail"), email)
+                                }
                                 if (continuation.isActive) continuation.resume(Pair(true, curUser))
                             }
                             .addOnFailureListener {
@@ -202,22 +221,31 @@ class MemberRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun requestSetUserInfo(UId: String, user: User, userImg: File): Boolean {
+    override suspend fun requestSetUserInfo(user: User, userImg: File): Boolean {
         return suspendCancellableCoroutine { continuation ->
+            var curUserUId = ""
+            var curUserEmail = ""
+            runBlocking {
+                curUserUId = dataStore.readValue(stringPreferencesKey("userUid"), "") ?: ""
+                curUserEmail = dataStore.readValue(stringPreferencesKey("userEmail"), "") ?: ""
+            }
+
             val storageRef = firebaseStorage.reference
-            val userImageExtension = if (userImg.path.split(".").last().isNotEmpty()) userImg.path.split(".").last() else "jpg"
-            val userImagesRef = storageRef.child("users/${UId}.${userImageExtension}")
+            val userImageExtension =
+                if (userImg.path.split(".").last().isNotEmpty()) userImg.path.split(".")
+                    .last() else "jpg"
+            val userImagesRef = storageRef.child("users/${curUserUId}.${userImageExtension}")
             val newUser = hashMapOf(
                 "nickname" to user.nickname,
-                "email" to user.email,
+                "email" to curUserEmail,
                 "age" to user.age,
                 "yearsPlaying" to user.yearsPlaying,
                 "average" to user.average,
                 "introduceMessage" to user.introduceMessage,
-                "profileImg" to "users/${UId}.${userImageExtension}"
+                "profileImg" to "users/${curUserUId}.${userImageExtension}"
             )
             val userDocumentReference = firestore.collection("users")
-                .document(UId)
+                .document(curUserUId)
 
             val tasks = mutableListOf<Task<*>>()
             val setUserTask: Task<Void> = userDocumentReference.set(newUser)
