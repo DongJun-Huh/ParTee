@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary_8B95B3">#FF8B95B3</color>
+    <color name="primary_btn_AFB7CF">#FFAFB7CF</color>
 
     <color name="golfzon_indigo_002B4F">#FF002B4F</color>
     <color name="golfzon_blue_0C1A6F">#FF0C1A6F</color>
