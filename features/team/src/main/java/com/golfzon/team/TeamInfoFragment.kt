@@ -6,13 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.team.databinding.FragmentTeamInfoBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TeamInfoFragment : Fragment() {
@@ -24,6 +20,7 @@ class TeamInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentTeamInfoBinding.inflate(inflater, container, false)
+        setDataBindingVariables()
         getTeamInfo()
         return binding.root
     }
@@ -33,17 +30,24 @@ class TeamInfoFragment : Fragment() {
         initializeTeamInfo()
     }
 
-    private fun getTeamInfo() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                teamViewModel.getTeamInfo()
-            }
+    private fun setDataBindingVariables() {
+        binding.apply {
+            vm = teamViewModel
+            lifecycleOwner = viewLifecycleOwner
         }
     }
 
+    private fun getTeamInfo() {
+        teamViewModel.getTeamInfo()
+    }
+
     private fun initializeTeamInfo() {
-        teamViewModel.teamInfo.observe(viewLifecycleOwner) { teamInfo ->
-            // TODO TEAM INFORMATION INITIALIZE
+        teamViewModel.teamInfoDetail.observe(viewLifecycleOwner) { teamInfo ->
+            if (teamInfo == null) {
+                // TODO: TEAM이 존재하지 않는 경우
+            } else {
+                // TODO TEAM INFORMATION INITIALIZE
+            }
         }
     }
 }
