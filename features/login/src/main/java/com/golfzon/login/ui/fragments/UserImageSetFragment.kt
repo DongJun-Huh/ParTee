@@ -9,14 +9,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
+import com.golfzon.login.R
 import com.golfzon.login.databinding.FragmentUserImageSetBinding
+import com.golfzon.login.ui.LoginActivity
 import com.golfzon.login.ui.LoginViewModel
+import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class UserImageSetFragment : Fragment() {
-    private lateinit var binding: FragmentUserImageSetBinding
+    private var binding by autoCleared<FragmentUserImageSetBinding>()
     private val loginViewModel by activityViewModels<LoginViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,8 +34,10 @@ class UserImageSetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUserImageOptionClickListener()
+        setUserIntroduceOptionClickListener()
         observeUserImage()
         observeUserInitializeComplete()
+        setNext()
     }
 
     private fun setDataBindingVariables() {
@@ -42,8 +48,16 @@ class UserImageSetFragment : Fragment() {
     }
 
     private fun setUserImageOptionClickListener() {
-        binding.ivUserImageSet.setOnDebounceClickListener {
+        binding.btnUserImageSetInputButtonImage.setOnDebounceClickListener {
             findNavController().navigate(UserImageSetFragmentDirections.actionUserImageSetFragmentToUserImageSetOptionFragment())
+        }
+    }
+
+    private fun setUserIntroduceOptionClickListener() {
+        binding.btnUserImageSetInputButtonIntroduce.setOnDebounceClickListener {
+            findNavController().navigate(UserImageSetFragmentDirections.actionUserImageSetFragmentToUserInfoSetIntroduceFragment())
+            (it as MaterialButton).text =
+                getString(R.string.register_user_image_set_button_change_introduce_message)
         }
     }
 
@@ -53,7 +67,14 @@ class UserImageSetFragment : Fragment() {
                 .load(it.copy(Bitmap.Config.ARGB_8888, true))
                 // Cannot create a mutable Bitmap with config: HARDWARE 오류로 COPY해 mutable가능하도록 한 뒤 사용
                 .into(binding.ivUserImageSet)
+            binding.tvUserImageSetInputDescription.visibility = View.GONE
+            binding.btnUserImageSetInputButtonImage.text =
+                getString(R.string.register_user_image_set_button_change_image)
         }
+    }
+
+    private fun setNext() {
+        (requireActivity() as LoginActivity).setSaveClickListener()
     }
 
     private fun observeUserInitializeComplete() {

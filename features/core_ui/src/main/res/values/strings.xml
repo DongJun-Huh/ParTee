@@ -1,0 +1,10 @@
+<resources>
+    <string name="nickname">닉네임</string>
+    <string name="age">나이</string>
+    <string name="years_playing">구력</string>
+    <string name="average">타수</string>
+    <string name="next">다음</string>
+    <string name="complete">완료</string>
+    <string name="save">저장</string>
+    <string name="cancel">취소</string>
+</resources>

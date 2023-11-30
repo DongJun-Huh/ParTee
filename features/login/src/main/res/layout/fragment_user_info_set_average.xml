@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.fragments.UserInfoSetAverageFragment">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.golfzon.login.ui.LoginViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/layout_user_info_set_average_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/layout_user_info_set_average_title_brief"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_flash" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/pretendard_semi_bold"
+                    android:text="@string/average"
+                    android:textColor="@color/primary_btn_AFB7CF"
+                    android:textFontWeight="500"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/pretendard_regular"
+                android:letterSpacing="0.01"
+                android:lineHeight="20sp"
+                android:lineSpacingExtra="-4sp"
+                android:text="@string/register_user_info_set_average_description"
+                android:textColor="@color/primary_8B95B3"
+                android:textFontWeight="500"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_user_info_set_average_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="52dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_user_info_set_average_title"
+            app:layout_constraintVertical_bias="0.5">
+
+            <EditText
+                android:id="@+id/et_user_info_set_average_input_digit_hundred"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/btn_background_radius_12"
+                android:backgroundTint="#F5F6F9"
+                android:fontFamily="@font/pretendard_regular"
+                android:gravity="center"
+                android:hint="0"
+                android:inputType="numberDecimal"
+                android:lineHeight="20sp"
+                android:maxLength="1"
+                android:text="@={vm.averageHundred}"
+                android:textColorHint="#CCD1E0"
+                android:textFontWeight="500"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_user_info_set_average_input_digit_ten"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/btn_background_radius_12"
+                android:backgroundTint="#F5F6F9"
+                android:fontFamily="@font/pretendard_regular"
+                android:gravity="center"
+                android:hint="8"
+                android:inputType="numberDecimal"
+                android:lineHeight="20sp"
+                android:maxLength="1"
+                android:text="@={vm.averageTen}"
+                android:textColorHint="#CCD1E0"
+                android:textFontWeight="500"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_user_info_set_average_input_digit_one"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/btn_background_radius_12"
+                android:backgroundTint="#F5F6F9"
+                android:fontFamily="@font/pretendard_regular"
+                android:gravity="center"
+                android:hint="5"
+                android:inputType="numberDecimal"
+                android:lineHeight="20sp"
+                android:maxLength="1"
+                android:text="@={vm.averageOne}"
+                android:textColorHint="#CCD1E0"
+                android:textFontWeight="500"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/pretendard_regular"
+                android:text="타"
+                android:textColor="#CCD1E0"
+                android:textFontWeight="500"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_user_info_set_average_next"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/btn_background_radius_12"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:gravity="center"
+            android:lineHeight="20sp"
+            android:padding="10dp"
+            android:stateListAnimator="@null"
+            android:text="@string/next"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_user_info_set_average_input"
+            app:layout_constraintVertical_bias="1.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

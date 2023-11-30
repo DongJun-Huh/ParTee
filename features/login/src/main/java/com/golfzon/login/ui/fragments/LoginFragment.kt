@@ -70,7 +70,7 @@ class LoginFragment : Fragment() {
                 // TODO: 정보가 모두 존재하는게 확인되면 바로 MainActivity로 넘길 수 있도록 설정
             } else {
                 findNavController().navigate(
-                    LoginFragmentDirections.actionLoginFragmentToUserInfoSetFragment()
+                    LoginFragmentDirections.actionLoginFragmentToUserInfoSetNicknameFragment()
                 )
                 // 새로 회원가입한 유저 or 유저 정보는 있지만, 정보설정은 안된 유저인지 체크 후, 체크가 안되면 정보설정 화면으로 이동
             }

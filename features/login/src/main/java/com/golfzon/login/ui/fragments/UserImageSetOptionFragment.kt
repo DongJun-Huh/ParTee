@@ -16,6 +16,8 @@ import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.golfzon.core_ui.DialogUtil.resizeDialogFragment
+import com.golfzon.core_ui.DialogUtil.setDialogRadius
 import com.golfzon.core_ui.ImageUploadUtil.extension
 import com.golfzon.core_ui.ImageUploadUtil.isPermitExtension
 import com.golfzon.core_ui.ImageUploadUtil.toBitmap
@@ -43,6 +45,7 @@ class UserImageSetOptionFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentUserImageSetOptionBinding.inflate(inflater, container, false)
+        setDialogRadius(dialog!!)
         return binding.root
     }
 
@@ -50,6 +53,11 @@ class UserImageSetOptionFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setImageSelectGalleryClickListener()
         setImageTakePhotoClickListener()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        resizeDialogFragment(requireContext(), dialog!!)
     }
 
     private fun setImageSelectGalleryClickListener() {
