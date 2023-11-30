@@ -49,6 +49,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":features:core_ui"))
     implementation(project(":features:login"))
+    implementation(project(":features:team"))
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
