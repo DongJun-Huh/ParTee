@@ -12,6 +12,10 @@
         <action
             android:id="@+id/action_LoginFragment_to_UserInfoSetNicknameFragment"
             app:destination="@id/UserInfoSetNicknameFragment"
+            app:enterAnim="@anim/translate_bottom_up"
+            app:exitAnim="@anim/translate_nothing"
+            app:popEnterAnim="@anim/translate_nothing"
+            app:popExitAnim="@anim/translate_top_down"
             app:popUpTo="@id/LoginFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -23,7 +27,11 @@
         tools:layout="@layout/fragment_user_info_set_nickname">
         <action
             android:id="@+id/action_UserInfoSetNicknameFragment_to_UserInfoSetAgeFragment"
-            app:destination="@id/UserInfoSetAgeFragment" />
+            app:destination="@id/UserInfoSetAgeFragment"
+            app:enterAnim="@anim/translate_from_right_in"
+            app:exitAnim="@anim/translate_to_left_out"
+            app:popEnterAnim="@anim/translate_from_left_in"
+            app:popExitAnim="@anim/translate_to_right_out" />
     </fragment>
 
     <fragment
@@ -33,7 +41,11 @@
         tools:layout="@layout/fragment_user_info_set_age">
         <action
             android:id="@+id/action_UserInfoSetAgeFragment_to_UserInfoSetYearsPlayingFragment"
-            app:destination="@id/UserInfoSetYearsPlayingFragment" />
+            app:destination="@id/UserInfoSetYearsPlayingFragment"
+            app:enterAnim="@anim/translate_from_right_in"
+            app:exitAnim="@anim/translate_to_left_out"
+            app:popEnterAnim="@anim/translate_from_left_in"
+            app:popExitAnim="@anim/translate_to_right_out" />
     </fragment>
 
     <fragment
@@ -43,7 +55,11 @@
         tools:layout="@layout/fragment_user_info_set_years_playing">
         <action
             android:id="@+id/action_UserInfoSetYearsPlayingFragment_to_UserInfoSetAverageFragment"
-            app:destination="@id/UserInfoSetAverageFragment" />
+            app:destination="@id/UserInfoSetAverageFragment"
+            app:enterAnim="@anim/translate_from_right_in"
+            app:exitAnim="@anim/translate_to_left_out"
+            app:popEnterAnim="@anim/translate_from_left_in"
+            app:popExitAnim="@anim/translate_to_right_out" />
     </fragment>
 
     <fragment
@@ -53,7 +69,11 @@
         tools:layout="@layout/fragment_user_info_set_average">
         <action
             android:id="@+id/action_UserInfoSetAverageFragment_to_UserImageSetFragment"
-            app:destination="@id/UserImageSetFragment" />
+            app:destination="@id/UserImageSetFragment"
+            app:enterAnim="@anim/translate_from_right_in"
+            app:exitAnim="@anim/translate_to_left_out"
+            app:popEnterAnim="@anim/translate_from_left_in"
+            app:popExitAnim="@anim/translate_to_right_out" />
     </fragment>
 
     <fragment
@@ -63,7 +83,11 @@
         tools:layout="@layout/fragment_user_info_set">
         <action
             android:id="@+id/action_UserInfoSetFragment_to_UserImageSetFragment"
-            app:destination="@id/UserImageSetFragment" />
+            app:destination="@id/UserImageSetFragment"
+            app:enterAnim="@anim/translate_from_right_in"
+            app:exitAnim="@anim/translate_to_left_out"
+            app:popEnterAnim="@anim/translate_from_left_in"
+            app:popExitAnim="@anim/translate_to_right_out" />
     </fragment>
     <fragment
         android:id="@+id/UserImageSetFragment"
