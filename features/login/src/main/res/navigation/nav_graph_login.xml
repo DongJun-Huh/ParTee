@@ -10,11 +10,52 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_LoginFragment_to_UserInfoSetFragment"
-            app:destination="@id/UserInfoSetFragment"
+            android:id="@+id/action_LoginFragment_to_UserInfoSetNicknameFragment"
+            app:destination="@id/UserInfoSetNicknameFragment"
             app:popUpTo="@id/LoginFragment"
             app:popUpToInclusive="true" />
     </fragment>
+
+    <fragment
+        android:id="@+id/UserInfoSetNicknameFragment"
+        android:name="com.golfzon.login.ui.fragments.UserInfoSetNicknameFragment"
+        android:label="fragment_user_info_set_nickname"
+        tools:layout="@layout/fragment_user_info_set_nickname">
+        <action
+            android:id="@+id/action_UserInfoSetNicknameFragment_to_UserInfoSetAgeFragment"
+            app:destination="@id/UserInfoSetAgeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/UserInfoSetAgeFragment"
+        android:name="com.golfzon.login.ui.fragments.UserInfoSetAgeFragment"
+        android:label="fragment_user_info_set_age"
+        tools:layout="@layout/fragment_user_info_set_age">
+        <action
+            android:id="@+id/action_UserInfoSetAgeFragment_to_UserInfoSetYearsPlayingFragment"
+            app:destination="@id/UserInfoSetYearsPlayingFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/UserInfoSetYearsPlayingFragment"
+        android:name="com.golfzon.login.ui.fragments.UserInfoSetYearsPlayingFragment"
+        android:label="fragment_user_info_set_years_playing"
+        tools:layout="@layout/fragment_user_info_set_years_playing">
+        <action
+            android:id="@+id/action_UserInfoSetYearsPlayingFragment_to_UserInfoSetAverageFragment"
+            app:destination="@id/UserInfoSetAverageFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/UserInfoSetAverageFragment"
+        android:name="com.golfzon.login.ui.fragments.UserInfoSetAverageFragment"
+        android:label="fragment_user_info_set_average"
+        tools:layout="@layout/fragment_user_info_set_average">
+        <action
+            android:id="@+id/action_UserInfoSetAverageFragment_to_UserImageSetFragment"
+            app:destination="@id/UserImageSetFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/UserInfoSetFragment"
         android:name="com.golfzon.login.ui.fragments.UserInfoSetFragment"
@@ -32,10 +73,18 @@
         <action
             android:id="@+id/action_userImageSetFragment_to_userImageSetOptionFragment"
             app:destination="@id/UserImageSetOptionFragment" />
+        <action
+            android:id="@+id/action_userImageSetFragment_to_userInfoSetIntroduceFragment"
+            app:destination="@id/UserInfoSetIntroduceFragment" />
     </fragment>
     <dialog
         android:id="@+id/UserImageSetOptionFragment"
         android:name="com.golfzon.login.ui.fragments.UserImageSetOptionFragment"
         android:label="fragment_user_image_set_option"
-        tools:layout="@layout/fragment_user_image_set_option"/>
+        tools:layout="@layout/fragment_user_image_set_option" />
+    <dialog
+        android:id="@+id/UserInfoSetIntroduceFragment"
+        android:name="com.golfzon.login.ui.fragments.UserInfoSetIntroduceFragment"
+        android:label="fragment_user_image_set_option"
+        tools:layout="@layout/fragment_user_info_set_introduce" />
 </navigation>

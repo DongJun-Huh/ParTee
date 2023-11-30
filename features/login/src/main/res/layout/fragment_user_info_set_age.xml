@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.fragments.UserInfoSetNicknameFragment">
+    tools:context=".ui.fragments.UserInfoSetAgeFragment">
 
     <data>
 
@@ -13,11 +13,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:animateLayoutChanges="true">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/layout_user_info_set_nickname_title"
+            android:id="@+id/layout_user_info_set_age_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
@@ -26,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:id="@+id/layout_user_info_set_nickname_title_brief"
+                android:id="@+id/layout_user_info_set_age_title_brief"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -36,14 +35,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_tag_user" />
+                    android:src="@drawable/ic_cake" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/pretendard_semi_bold"
-                    android:text="@string/nickname"
+                    android:text="@string/age"
                     android:textColor="@color/primary_btn_AFB7CF"
                     android:textFontWeight="500"
                     android:textSize="12sp" />
@@ -57,34 +56,80 @@
                 android:letterSpacing="0.01"
                 android:lineHeight="20sp"
                 android:lineSpacingExtra="-4sp"
-                android:text="@string/register_user_info_set_nickname_description"
+                android:text="@string/register_user_info_set_age_description"
                 android:textColor="@color/primary_8B95B3"
                 android:textFontWeight="500"
                 android:textSize="20sp" />
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/et_user_info_set_nickname"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/layout_user_info_set_age_input"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="52dp"
-            android:background="@drawable/btn_background_radius_12"
-            android:backgroundTint="#F5F6F9"
-            android:fontFamily="@font/pretendard_regular"
-            android:gravity="center"
-            android:hint="@string/register_user_info_set_nickname_edittext_hint"
-            android:lineHeight="20sp"
-            android:paddingVertical="18dp"
-            android:text="@={vm.nickname}"
-            android:textColorHint="#CCD1E0"
-            android:textFontWeight="500"
-            android:textSize="16sp"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_user_info_set_nickname_title" />
+            app:layout_constraintTop_toBottomOf="@id/layout_user_info_set_age_title"
+            app:layout_constraintVertical_bias="0.5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_regular"
+                android:text="만"
+                android:textColor="#CCD1E0"
+                android:textFontWeight="500"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_user_info_set_age_input_digit_ten"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/btn_background_radius_12"
+                android:backgroundTint="#F5F6F9"
+                android:fontFamily="@font/pretendard_regular"
+                android:gravity="center"
+                android:hint="4"
+                android:inputType="numberDecimal"
+                android:lineHeight="20sp"
+                android:text="@={vm.ageTen}"
+                android:textColorHint="#CCD1E0"
+                android:textFontWeight="500"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_user_info_set_age_input_digit_one"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/btn_background_radius_12"
+                android:backgroundTint="#F5F6F9"
+                android:fontFamily="@font/pretendard_regular"
+                android:gravity="center"
+                android:hint="7"
+                android:inputType="numberDecimal"
+                android:lineHeight="20sp"
+                android:text="@={vm.ageOne}"
+                android:textColorHint="#CCD1E0"
+                android:textFontWeight="500"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/pretendard_regular"
+                android:text="세"
+                android:textColor="#CCD1E0"
+                android:textFontWeight="500"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_user_info_set_nickname_next"
+            android:id="@+id/btn_user_info_set_age_next"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginBottom="4dp"
@@ -100,7 +145,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_user_info_set_nickname"
+            app:layout_constraintTop_toBottomOf="@id/layout_user_info_set_age_input"
             app:layout_constraintVertical_bias="1.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

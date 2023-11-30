@@ -33,7 +33,8 @@
         </provider>
         <activity
             android:name="com.golfzon.login.ui.LoginActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
