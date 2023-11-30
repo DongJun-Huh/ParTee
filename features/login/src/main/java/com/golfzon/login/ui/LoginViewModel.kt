@@ -57,9 +57,16 @@ class LoginViewModel @Inject constructor(
     val isSetUserInfoSuccess: LiveData<Event<Boolean>> get() = _isSetUserInfoSuccess
 
     val nickname = MutableLiveData<String>()
-    val age = MutableLiveData<Int>(0)
-    val yearsPlaying = MutableLiveData<Int>(0)
-    val average = MutableLiveData<Int>(0)
+    val age = MutableLiveData<Int>(0) // TODO 삭제
+    val ageTen = MutableLiveData<String>()
+    val ageOne = MutableLiveData<String>()
+    val yearsPlaying = MutableLiveData<Int>(0) // TODO 삭제
+    val yearsPlayingTen = MutableLiveData<String>()
+    val yearsPlayingOne = MutableLiveData<String>()
+    val average = MutableLiveData<Int>(0) // TODO 삭제
+    val averageHundred = MutableLiveData<String>()
+    val averageTen = MutableLiveData<String>()
+    val averageOne = MutableLiveData<String>()
     val introduceMessage = MutableLiveData<String>()
     val profileImgBitmap = MutableLiveData<Bitmap>()
     val profileImgPath = MutableLiveData<String>()
@@ -104,9 +111,9 @@ class LoginViewModel @Inject constructor(
             userUId = "",
             email = "",
             nickname = nickname.value,
-            age = age.value,
-            yearsPlaying = yearsPlaying.value,
-            average = average.value,
+            age = "${ageTen.value ?: 0}${ageOne.value ?: 0}".toInt(),
+            yearsPlaying = "${yearsPlayingTen.value ?: 0}${yearsPlayingOne.value ?: 0}".toInt(),
+            average = "${averageHundred.value ?: 0}${averageTen.value ?: 0}${averageOne.value ?: 0}".toInt(),
             introduceMessage = introduceMessage.value,
             profileImg = "",
             userInfo = UserInfo(
