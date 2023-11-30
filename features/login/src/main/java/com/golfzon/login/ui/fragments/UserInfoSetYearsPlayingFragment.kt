@@ -6,17 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.golfzon.core_ui.GenericKeyEvent
 import com.golfzon.core_ui.GenericTextWatcher
-import com.golfzon.core_ui.extension.setOnDebounceClickListener
+import com.golfzon.core_ui.autoCleared
 import com.golfzon.login.databinding.FragmentUserInfoSetYearsPlayingBinding
+import com.golfzon.login.ui.LoginActivity
 import com.golfzon.login.ui.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class UserInfoSetYearsPlayingFragment : Fragment() {
-    private lateinit var binding: FragmentUserInfoSetYearsPlayingBinding
+    private var binding by autoCleared<FragmentUserInfoSetYearsPlayingBinding>()
     private val loginViewModel by activityViewModels<LoginViewModel>()
 
     override fun onCreateView(
@@ -42,9 +42,8 @@ class UserInfoSetYearsPlayingFragment : Fragment() {
     }
 
     private fun setNavigate() {
-        binding.btnUserInfoSetYearsPlayingNext.setOnDebounceClickListener {
-            findNavController().navigate(UserInfoSetYearsPlayingFragmentDirections.actionUserInfoSetYearsPlayingFragmentToUserInfoSetAverageFragment())
-        }
+        (requireActivity() as LoginActivity)
+            .setNextClickListener(UserInfoSetYearsPlayingFragmentDirections.actionUserInfoSetYearsPlayingFragmentToUserInfoSetAverageFragment())
     }
 
     private fun setAgeInput() {
