@@ -6,15 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
-import com.golfzon.core_ui.extension.setOnDebounceClickListener
+import com.golfzon.core_ui.autoCleared
 import com.golfzon.login.databinding.FragmentUserInfoSetNicknameBinding
+import com.golfzon.login.ui.LoginActivity
 import com.golfzon.login.ui.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class UserInfoSetNicknameFragment : Fragment() {
-    private lateinit var binding: FragmentUserInfoSetNicknameBinding
+    private var binding by autoCleared<FragmentUserInfoSetNicknameBinding>()
     private val loginViewModel by activityViewModels<LoginViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,8 +38,7 @@ class UserInfoSetNicknameFragment : Fragment() {
     }
 
     private fun setNavigate() {
-        binding.btnUserInfoSetNicknameNext.setOnDebounceClickListener {
-            findNavController().navigate(UserInfoSetNicknameFragmentDirections.actionUserInfoSetNicknameFragmentToUserInfoSetAgeFragment())
-        }
+        (requireActivity() as LoginActivity)
+            .setNextClickListener(UserInfoSetNicknameFragmentDirections.actionUserInfoSetNicknameFragmentToUserInfoSetAgeFragment())
     }
 }

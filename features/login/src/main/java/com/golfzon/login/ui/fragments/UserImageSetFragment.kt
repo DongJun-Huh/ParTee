@@ -9,16 +9,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.login.R
 import com.golfzon.login.databinding.FragmentUserImageSetBinding
+import com.golfzon.login.ui.LoginActivity
 import com.golfzon.login.ui.LoginViewModel
 import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class UserImageSetFragment : Fragment() {
-    private lateinit var binding: FragmentUserImageSetBinding
+    private var binding by autoCleared<FragmentUserImageSetBinding>()
     private val loginViewModel by activityViewModels<LoginViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +37,7 @@ class UserImageSetFragment : Fragment() {
         setUserIntroduceOptionClickListener()
         observeUserImage()
         observeUserInitializeComplete()
+        setNext()
     }
 
     private fun setDataBindingVariables() {
@@ -53,7 +56,8 @@ class UserImageSetFragment : Fragment() {
     private fun setUserIntroduceOptionClickListener() {
         binding.btnUserImageSetInputButtonIntroduce.setOnDebounceClickListener {
             findNavController().navigate(UserImageSetFragmentDirections.actionUserImageSetFragmentToUserInfoSetIntroduceFragment())
-            (it as MaterialButton).text = getString(R.string.register_user_image_set_button_change_introduce_message)
+            (it as MaterialButton).text =
+                getString(R.string.register_user_image_set_button_change_introduce_message)
         }
     }
 
@@ -67,6 +71,10 @@ class UserImageSetFragment : Fragment() {
             binding.btnUserImageSetInputButtonImage.text =
                 getString(R.string.register_user_image_set_button_change_image)
         }
+    }
+
+    private fun setNext() {
+        (requireActivity() as LoginActivity).setSaveClickListener()
     }
 
     private fun observeUserInitializeComplete() {

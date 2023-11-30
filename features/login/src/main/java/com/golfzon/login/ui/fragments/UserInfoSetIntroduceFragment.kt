@@ -51,6 +51,7 @@ class UserInfoSetIntroduceFragment : DialogFragment() {
             findNavController().navigateUp()
         }
     }
+
     private fun setSaveClickListener() {
         binding.tvUserInfoSetIntroduceSave.setOnDebounceClickListener {
             loginViewModel.introduceMessage.postValue(binding.etUserInfoSetIntroduce.text.toString())
