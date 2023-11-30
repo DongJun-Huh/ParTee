@@ -71,5 +71,9 @@ class TeamInfoFragment : Fragment() {
                 }
             }
         }
+
+        teamViewModel.teamUsers.observe(viewLifecycleOwner) { users ->
+            teamUserAdapter?.submitList(users)
+        }
     }
 }
