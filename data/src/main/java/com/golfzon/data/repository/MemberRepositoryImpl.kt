@@ -315,4 +315,43 @@ class MemberRepositoryImpl @Inject constructor(
                     }
                 }
         }
+
+    override suspend fun getUserInfo(UId: String): User =
+        suspendCancellableCoroutine { continuation ->
+            firestore.collection("users")
+                .document(UId)
+                .get()
+                .addOnSuccessListener { user ->
+                    user.data?.let { userDetail ->
+                        user.reference
+                            .collection("extraInfo")
+                            .document("teamInfo")
+                            .get()
+                            .addOnSuccessListener {
+                                it.data?.let { teamInfo ->
+                                    val curUser = User(
+                                        userUId = user.id,
+                                        email = userDetail["email"] as String,
+                                        nickname = userDetail["nickname"] as String?,
+                                        age = (userDetail["age"] as Long?)?.toInt(),
+                                        yearsPlaying = (userDetail["yearsPlaying"] as Long?)?.toInt(),
+                                        average = (userDetail["average"] as Long?)?.toInt(),
+                                        introduceMessage = userDetail["introduceMessage"] as String?,
+                                        profileImg = userDetail["profileImg"] as String?,
+                                        userInfo = UserInfo(
+                                            teamInfo = TeamInfo(
+                                                teamUId = teamInfo["teamUId"] as String?,
+                                                isLeader = teamInfo["isLeader"] as Boolean,
+                                                isOrganized = teamInfo["isOrganized"] as Boolean
+                                            ),
+                                            groupsInfo = listOf(),
+                                            themeTeamsInfo = listOf()
+                                        )
+                                    )
+                                    continuation.resume(curUser)
+                                }
+                            }
+                    }
+                }
+        }
 }
