@@ -74,7 +74,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_radius_32"
-                    android:backgroundTint="#AFB7CF"
                     android:fontFamily="@font/pretendard_regular"
                     android:gravity="center"
                     android:lineHeight="21sp"
@@ -84,7 +83,12 @@
                     android:text="@string/register_user_image_set_button_add_image"
                     android:textColor="@color/white"
                     android:textFontWeight="500"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    app:backgroundTint="#AFB7CF"
+                    app:icon="@drawable/ic_gallery_add"
+                    app:iconGravity="start"
+                    app:iconPadding="8dp"
+                    app:iconTint="@color/white" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_user_image_set_input_button_introduce"
@@ -92,7 +96,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:background="@drawable/background_radius_32"
-                    android:backgroundTint="#AFB7CF"
                     android:fontFamily="@font/pretendard_regular"
                     android:gravity="center"
                     android:lineHeight="21sp"
@@ -103,8 +106,11 @@
                     android:textColor="@color/white"
                     android:textFontWeight="500"
                     android:textSize="14sp"
+                    app:backgroundTint="#AFB7CF"
+                    app:icon="@drawable/ic_gallery_add"
                     app:iconGravity="start"
-                    app:iconTint="@color/black" />
+                    app:iconPadding="8dp"
+                    app:iconTint="@color/white" />
             </LinearLayout>
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -162,7 +168,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:fontFamily="@font/pretendard_regular"
-                        android:text="@{vm.age+`세`}"
+                        android:text="@{vm.ageTen != null ? vm.ageTen + vm.ageOne +`세` : vm.ageOne+`세`}"
                         android:textColor="@color/white"
                         android:textFontWeight="500"
                         android:textSize="12sp"

@@ -1,16 +1,14 @@
 package com.golfzon.login.ui.fragments
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.golfzon.core_ui.DialogUtil.resizeDialogFragment
+import com.golfzon.core_ui.DialogUtil.setDialogRadius
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.login.databinding.FragmentUserInfoSetIntroduceBinding
 import com.golfzon.login.ui.LoginViewModel
@@ -25,8 +23,7 @@ class UserInfoSetIntroduceFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentUserInfoSetIntroduceBinding.inflate(inflater, container, false)
-        dialog!!.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog!!.window?.requestFeature(Window.FEATURE_NO_TITLE)
+        setDialogRadius(dialog!!)
         setDataBindingVariables()
         return binding.root
     }

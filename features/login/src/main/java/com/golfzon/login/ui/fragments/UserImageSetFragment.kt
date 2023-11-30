@@ -13,6 +13,7 @@ import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.login.R
 import com.golfzon.login.databinding.FragmentUserImageSetBinding
 import com.golfzon.login.ui.LoginViewModel
+import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,8 +53,7 @@ class UserImageSetFragment : Fragment() {
     private fun setUserIntroduceOptionClickListener() {
         binding.btnUserImageSetInputButtonIntroduce.setOnDebounceClickListener {
             findNavController().navigate(UserImageSetFragmentDirections.actionUserImageSetFragmentToUserInfoSetIntroduceFragment())
-            binding.btnUserImageSetComplete.text =
-                getString(R.string.register_user_image_set_button_change_introduce_message)
+            (it as MaterialButton).text = getString(R.string.register_user_image_set_button_change_introduce_message)
         }
     }
 
