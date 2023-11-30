@@ -82,6 +82,8 @@ class TeamRepositoryImpl @Inject constructor(
                 .addOnSuccessListener { teamDetail ->
                     if (continuation.isActive) continuation.resume(
                         Team(
+                            teamName = teamDetail["teamName"] as String,
+                            teamImageUrl = teamDetail["teamImageUrl"] as String,
                             leaderUId = teamDetail["leaderUId"] as String,
                             membersUId = teamDetail["membersUId"] as List<String>,
                             headCount = (teamDetail["headCount"] as Long).toInt(),

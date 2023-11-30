@@ -8,4 +8,5 @@ interface MemberRepository {
     suspend fun requestLogin(UId: String, email: String): Pair<Boolean, User?>
     suspend fun requestSetUserInfo(user: User, userImg: File): Boolean
     suspend fun getUsersInfo(nickname: String): List<User>
+    suspend fun getUserInfo(UId: String): User
 }
