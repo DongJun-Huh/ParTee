@@ -34,8 +34,11 @@ class TeamViewModel @Inject constructor(
     private val _searchedUsers = ListLiveData<User>()
     val searchedUsers: ListLiveData<User> get() = _searchedUsers
 
-    private val _teamUsers = ListLiveData<User>()
-    val teamUsers: ListLiveData<User> get() = _teamUsers
+    private val _teamUsers = ListLiveData<Pair<User, Boolean>>()
+    val teamUsers: ListLiveData<Pair<User, Boolean>> get() = _teamUsers
+
+    private val _newTeam = MutableLiveData<Team>()
+    val newTeam: LiveData<Team> get() = _newTeam
 
     fun getTeamInfo() = viewModelScope.launch {
         getUserTeamInfoDetailUseCase().let { curTeam ->
@@ -43,13 +46,19 @@ class TeamViewModel @Inject constructor(
         }
     }
 
-    fun clearUserInfo() {
-        teamUsers.clear(true)
+    fun getNewTeamInfo() = viewModelScope.launch {
+        getUserTeamInfoDetailUseCase().let {
+            _newTeam.postValue(it)
+        }
     }
 
-    fun getUserInfo(UId: String) = viewModelScope.launch {
+    fun clearUserInfo() {
+        _teamUsers.clear(true)
+    }
+
+    fun getTeamMemberInfo(UId: String) = viewModelScope.launch {
         getUserInfoUseCase(UId).let {
-            teamUsers.add(it, true)
+            _teamUsers.add(it, true)
         }
     }
 
@@ -61,17 +70,8 @@ class TeamViewModel @Inject constructor(
 
     fun organizeTeam() = viewModelScope.launch {
         requestTeamOrganizedUseCase(
-            // TODO teamName, teamImageUrl, leaderUId, membersUId, headCount, searchingTimes, openChatUrl만 설정
-            newTeam = Team(
-                teamName = "",
-                teamImageUrl = "",
-                leaderUId = "",
-                membersUId = listOf(),
-                headCount = 0,
-                searchingHeadCount = 0,
-                searchingTimes = "",
-                openChatUrl = ""
-            )
+            // TODO teamName, teamImageUrl, leaderUId, membersUId, headCount, searchingTimes, searchingLocations, openChatUrl만 설정
+            newTeam = _newTeam.value!!
         )
     }
 }

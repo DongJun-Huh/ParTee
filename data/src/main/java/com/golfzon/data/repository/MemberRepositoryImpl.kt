@@ -234,7 +234,7 @@ class MemberRepositoryImpl @Inject constructor(
             val userImageExtension =
                 if (userImg.path.split(".").last().isNotEmpty()) userImg.path.split(".")
                     .last() else "jpg"
-            val userImagesRef = storageRef.child("users/${curUserUId}.${userImageExtension}")
+            val userImagesRef = storageRef.child("${curUserUId}.${userImageExtension}")
             val newUser = hashMapOf(
                 "nickname" to user.nickname,
                 "email" to curUserEmail,
@@ -242,7 +242,7 @@ class MemberRepositoryImpl @Inject constructor(
                 "yearsPlaying" to user.yearsPlaying,
                 "average" to user.average,
                 "introduceMessage" to user.introduceMessage,
-                "profileImg" to "users/${curUserUId}.${userImageExtension}"
+                "profileImg" to "${curUserUId}.${userImageExtension}"
             )
             val userDocumentReference = firestore.collection("users")
                 .document(curUserUId)
@@ -266,45 +266,49 @@ class MemberRepositoryImpl @Inject constructor(
     override suspend fun getUsersInfo(nickname: String): List<User> =
         suspendCancellableCoroutine { continuation ->
             val resultUsers = mutableListOf<User>()
+            var curUserUId = ""
+            runBlocking {
+                curUserUId = dataStore.readValue(stringPreferencesKey("userUid"), "") ?: ""
+            }
 
             firestore.collection("users")
                 .get()
                 .addOnSuccessListener { users ->
                     val searchTasks = mutableListOf<Task<*>>()
                     for (user in users.documents) {
-                        user.data?.let { userDetail ->
-                            if (userDetail["nickname"] == nickname) {
-
-                                val searchTask = user.reference
-                                    .collection("extraInfo")
-                                    .document("teamInfo")
-                                    .get()
-                                    .addOnSuccessListener {
-                                        it.data?.let { teamInfo ->
-                                            val curUser = User(
-                                                userUId = user.id,
-                                                email = userDetail["email"] as String,
-                                                nickname = userDetail["nickname"] as String?,
-                                                age = (userDetail["age"] as Long?)?.toInt(),
-                                                yearsPlaying = (userDetail["yearsPlaying"] as Long?)?.toInt(),
-                                                average = (userDetail["average"] as Long?)?.toInt(),
-                                                introduceMessage = userDetail["introduceMessage"] as String?,
-                                                profileImg = userDetail["profileImg"] as String?,
-                                                userInfo = UserInfo(
-                                                    teamInfo = TeamInfo(
-                                                        teamUId = teamInfo["teamUId"] as String?,
-                                                        isLeader = teamInfo["isLeader"] as Boolean,
-                                                        isOrganized = teamInfo["isOrganized"] as Boolean
-                                                    ),
-                                                    groupsInfo = listOf(),
-                                                    themeTeamsInfo = listOf()
+                        if (user.id != curUserUId) {
+                            user.data?.let { userDetail ->
+                                if (userDetail["nickname"] == nickname) {
+                                    val searchTask = user.reference
+                                        .collection("extraInfo")
+                                        .document("teamInfo")
+                                        .get()
+                                        .addOnSuccessListener {
+                                            it.data?.let { teamInfo ->
+                                                val curUser = User(
+                                                    userUId = user.id,
+                                                    email = userDetail["email"] as String,
+                                                    nickname = userDetail["nickname"] as String?,
+                                                    age = (userDetail["age"] as Long?)?.toInt(),
+                                                    yearsPlaying = (userDetail["yearsPlaying"] as Long?)?.toInt(),
+                                                    average = (userDetail["average"] as Long?)?.toInt(),
+                                                    introduceMessage = userDetail["introduceMessage"] as String?,
+                                                    profileImg = userDetail["profileImg"] as String?,
+                                                    userInfo = UserInfo(
+                                                        teamInfo = TeamInfo(
+                                                            teamUId = teamInfo["teamUId"] as String?,
+                                                            isLeader = teamInfo["isLeader"] as Boolean,
+                                                            isOrganized = teamInfo["isOrganized"] as Boolean
+                                                        ),
+                                                        groupsInfo = listOf(),
+                                                        themeTeamsInfo = listOf()
+                                                    )
                                                 )
-                                            )
-                                            resultUsers.add(curUser)
+                                                resultUsers.add(curUser)
+                                            }
                                         }
-                                    }
-                                searchTasks.add(searchTask)
-
+                                    searchTasks.add(searchTask)
+                                }
                             }
                         }
                     }
@@ -316,8 +320,13 @@ class MemberRepositoryImpl @Inject constructor(
                 }
         }
 
-    override suspend fun getUserInfo(UId: String): User =
+    override suspend fun getUserInfo(UId: String): Pair<User, Boolean> =
         suspendCancellableCoroutine { continuation ->
+            var curUserUId = ""
+            runBlocking {
+                curUserUId = dataStore.readValue(stringPreferencesKey("userUid"), "") ?: ""
+            }
+
             firestore.collection("users")
                 .document(UId)
                 .get()
@@ -348,7 +357,7 @@ class MemberRepositoryImpl @Inject constructor(
                                             themeTeamsInfo = listOf()
                                         )
                                     )
-                                    continuation.resume(curUser)
+                                    continuation.resume(Pair(curUser, curUserUId == UId))
                                 }
                             }
                     }
