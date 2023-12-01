@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".TeamMemberAddFragment">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.golfzon.team.TeamViewModel" />
+        <variable
+            name="searchNickname"
+            type="String" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et_team_member_add_search"
+            android:text="@={searchNickname}"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_team_members_add_search"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:background="@drawable/btn_background_radius_12"
+            android:backgroundTint="@color/primary_btn_AFB7CF"
+            android:gravity="center"
+            android:onClick="@{()->vm.searchUsers(searchNickname)}"
+            android:text="@string/search" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_team_members_add_search_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </LinearLayout>
+</layout>
