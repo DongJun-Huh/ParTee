@@ -56,18 +56,18 @@ class TeamInfoFragment : Fragment() {
     }
 
     private fun getTeamInfo() {
-        teamViewModel.getTeamInfo()
+        teamViewModel.getNewTeamInfo()
     }
 
     private fun initializeTeamInfo() {
-        teamViewModel.teamInfoDetail.observe(viewLifecycleOwner) { teamInfo ->
+        teamViewModel.newTeam.observe(viewLifecycleOwner) { teamInfo ->
             if (teamInfo == null) {
                 // TODO: TEAM이 존재하지 않는 경우
             } else {
                 // TODO TEAM INFORMATION INITIALIZE
                 teamViewModel.clearUserInfo()
                 teamInfo.membersUId.map { UId ->
-                    teamViewModel.getUserInfo(UId)
+                    teamViewModel.getTeamMemberInfo(UId)
                 }
             }
         }

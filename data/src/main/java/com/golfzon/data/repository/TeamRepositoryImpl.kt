@@ -68,13 +68,13 @@ class TeamRepositoryImpl @Inject constructor(
 
     override suspend fun getUserTeamInfoDetail(): Team? {
         return suspendCancellableCoroutine { continuation ->
-            var curTeamUId = ""
-            runBlocking {
-                val curTeamInfoBrief = getUserTeamInfoBrief()
-                if (curTeamInfoBrief.teamUId == null) {
-                    if (continuation.isActive) continuation.resume(null)
-                } else curTeamUId = curTeamInfoBrief.teamUId!!
-            }
+            var curTeamUId = "qncITeKMVerPNKYbi576"
+//            runBlocking {
+//                val curTeamInfoBrief = getUserTeamInfoBrief()
+//                if (curTeamInfoBrief.teamUId == null) {
+//                    if (continuation.isActive) continuation.resume(null)
+//                } else curTeamUId = curTeamInfoBrief.teamUId!!
+//            }
 
             firestore.collection("teams")
                 .document(curTeamUId)
@@ -89,6 +89,7 @@ class TeamRepositoryImpl @Inject constructor(
                             headCount = (teamDetail["headCount"] as Long).toInt(),
                             searchingHeadCount = (teamDetail["searchingHeadCount"] as Long).toInt(),
                             searchingTimes = teamDetail["searchingTimes"] as String,
+                            searchingLocations = teamDetail["searchingLocations"] as String,
                             openChatUrl = teamDetail["openChatUrl"] as String
                         )
                     )

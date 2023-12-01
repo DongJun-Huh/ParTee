@@ -9,13 +9,13 @@ import com.bumptech.glide.Glide
 import com.golfzon.domain.model.User
 import com.golfzon.team.databinding.ItemTeamInfoUserBinding
 
-class TeamUserAdapter() : ListAdapter<User, TeamUserAdapter.TeamUserViewHolder>(diffCallback) {
+class TeamUserAdapter() : ListAdapter<Pair<User, Boolean>, TeamUserAdapter.TeamUserViewHolder>(diffCallback) {
     companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<User>() {
-            override fun areItemsTheSame(oldItem: User, newItem: User) =
-                oldItem.userUId == newItem.userUId
+        private val diffCallback = object : DiffUtil.ItemCallback<Pair<User, Boolean>>() {
+            override fun areItemsTheSame(oldItem: Pair<User, Boolean>, newItem: Pair<User, Boolean>) =
+                oldItem.first.userUId == newItem.first.userUId
 
-            override fun areContentsTheSame(oldItem: User, newItem: User): Boolean =
+            override fun areContentsTheSame(oldItem: Pair<User, Boolean>, newItem: Pair<User, Boolean>): Boolean =
                 oldItem == newItem
         }
     }
@@ -33,22 +33,23 @@ class TeamUserAdapter() : ListAdapter<User, TeamUserAdapter.TeamUserViewHolder>(
         holder.bind(getItem(position))
     }
 
-    override fun submitList(list: MutableList<User>?) {
+    override fun submitList(list: MutableList<Pair<User, Boolean>>?) {
         super.submitList(list?.let { ArrayList(it) })
     }
 
     inner class TeamUserViewHolder(private val binding: ItemTeamInfoUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(user: User) {
+        fun bind(user: Pair<User, Boolean>) {
             setBindingSetVariable(user)
-//            Glide.with(binding.ivTeamInfoUser.context)
-//                .load(user.profileImg)
-//                .into(binding.ivTeamInfoUser)
+            Glide.with(binding.ivTeamInfoUser.context)
+                .load("https://firebasestorage.googleapis.com/v0/b/partee-1ba05.appspot.com/o/users%2F${user.first.profileImg}?alt=media")
+                .into(binding.ivTeamInfoUser)
         }
 
-        private fun setBindingSetVariable(user: User) {
+        private fun setBindingSetVariable(user: Pair<User, Boolean>) {
             with(binding) {
-                setVariable(BR.user, user)
+                setVariable(BR.user, user.first)
+                setVariable(BR.isCurUser, user.second)
                 executePendingBindings()
             }
         }
