@@ -11,4 +11,10 @@
         tools:layout="@layout/fragment_team_info">
 
     </fragment>
+    <fragment
+        android:id="@+id/TeamMemberAddFragment"
+        android:name="com.golfzon.team.TeamMemberAddFragment"
+        android:label="fragment_team_member_add"
+        tools:layout="@layout/fragment_team_member_add">
+    </fragment>
 </navigation>
