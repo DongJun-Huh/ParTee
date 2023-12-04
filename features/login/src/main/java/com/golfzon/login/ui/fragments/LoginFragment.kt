@@ -14,6 +14,7 @@ import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.core_ui.extension.toast
 import com.golfzon.login.databinding.FragmentLoginBinding
+import com.golfzon.login.ui.LoginActivity
 import com.golfzon.login.ui.LoginViewModel
 
 @AndroidEntryPoint
@@ -67,7 +68,7 @@ class LoginFragment : Fragment() {
 
         loginViewModel.isUserInitialized.observe(viewLifecycleOwner) { isUserInitialized ->
             if (isUserInitialized.getContentIfNotHandled() == true) {
-                // TODO: 정보가 모두 존재하는게 확인되면 바로 MainActivity로 넘길 수 있도록 설정
+                (requireActivity() as LoginActivity).navigateToTeam()
             } else {
                 findNavController().navigate(
                     LoginFragmentDirections.actionLoginFragmentToUserInfoSetNicknameFragment()

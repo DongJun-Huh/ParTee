@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.org.jetbrains.kotlin.kapt)
+    alias(libs.plugins.navigation.safeArgs.kotlin)
     alias(libs.plugins.dagger.hilt.android)
 }
 
@@ -48,6 +49,7 @@ dependencies {
     implementation(libs.bundles.android.lifecycle)
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.android.compiler)
+    implementation(libs.bundles.jetpack.navigation)
     implementation(libs.glide)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
