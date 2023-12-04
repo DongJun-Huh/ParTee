@@ -64,7 +64,7 @@ class TeamViewModel @Inject constructor(
 
     fun searchUsers(nickname: String) = viewModelScope.launch {
         getSearchedUsersUseCase(nickname = nickname).let {
-            _searchedUsers.addAll(it, true)
+            _searchedUsers.replaceAll(it, true)
         }
     }
 

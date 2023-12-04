@@ -1,15 +1,16 @@
 package com.golfzon.team
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.golfzon.core_ui.GridSpacingItemDecoration
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
+import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.team.databinding.FragmentTeamInfoBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,6 +34,7 @@ class TeamInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initializeTeamInfo()
         setTeamUserAdapter()
+        setAddMemberClickListener()
     }
 
     private fun onDestroyBindingView() {
@@ -74,6 +76,12 @@ class TeamInfoFragment : Fragment() {
 
         teamViewModel.teamUsers.observe(viewLifecycleOwner) { users ->
             teamUserAdapter?.submitList(users)
+        }
+    }
+
+    private fun setAddMemberClickListener() {
+        binding.btnTeamInfoActionAddUser.setOnDebounceClickListener {
+            findNavController().navigate(TeamInfoFragmentDirections.actionTeamInfoFragmentToTeamMemberAddFragment())
         }
     }
 }
