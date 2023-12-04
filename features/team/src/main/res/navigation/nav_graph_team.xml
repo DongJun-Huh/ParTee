@@ -9,12 +9,13 @@
         android:name="com.golfzon.team.TeamInfoFragment"
         android:label="fragment_team_info"
         tools:layout="@layout/fragment_team_info">
-
+        <action
+            android:id="@+id/action_TeamInfoFragment_to_TeamMemberAddFragment"
+            app:destination="@id/TeamMemberAddFragment" />
     </fragment>
-    <fragment
+    <dialog
         android:id="@+id/TeamMemberAddFragment"
         android:name="com.golfzon.team.TeamMemberAddFragment"
         android:label="fragment_team_member_add"
-        tools:layout="@layout/fragment_team_member_add">
-    </fragment>
+        tools:layout="@layout/fragment_team_member_add" />
 </navigation>

@@ -4,4 +4,5 @@
     <string name="team_change_location">위치 변경</string>
     <string name="team_image">대표 이미지</string>
     <string name="team_info_users_title">팀원 정보</string>
+    <string name="team_member_add_title">팀원 추가</string>
 </resources>
