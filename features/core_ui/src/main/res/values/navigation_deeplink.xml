@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_deeplink_url">/login</string>
+    <string name="team_deeplink_url">/team</string>
+</resources>

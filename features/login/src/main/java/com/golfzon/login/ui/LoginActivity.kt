@@ -1,5 +1,7 @@
 package com.golfzon.login.ui
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -8,20 +10,27 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.NavHostFragment
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
+import com.golfzon.core_ui.navigation.DeeplinkHandler
 import com.golfzon.login.R
 import com.golfzon.login.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private val loginViewModel by viewModels<LoginViewModel>()
+
+    @Inject
+    lateinit var deeplinkHandler: DeeplinkHandler
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setRegisterMenuVisibility()
         setAppbarAction()
+        setNavigation()
     }
 
     private fun setAppbarAction() {
@@ -60,4 +69,17 @@ class LoginActivity : AppCompatActivity() {
         return navHostFragment.navController
     }
 
+    private fun setNavigation() {
+        intent?.let { handleIntent(it) }
+    }
+    private fun handleIntent(intent: Intent) {
+        intent.data?.toString()?.let {
+            deeplinkHandler.process(it)
+            finish()
+        }
+    }
+    fun navigateToTeam() {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/team"))
+        startActivity(intent)
+    }
 }
