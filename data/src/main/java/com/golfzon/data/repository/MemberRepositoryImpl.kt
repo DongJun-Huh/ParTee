@@ -30,6 +30,7 @@ class MemberRepositoryImpl @Inject constructor(
     private val firebaseStorage: FirebaseStorage,
     private val dataStore: DataStore<Preferences>
 ) : MemberRepository {
+    // TODO 임시로 curUserUId 기본값으로 들어가있는 saGsdRTdEfeJklbHjIBHGpGRZdj1 삭제
     override suspend fun requestRegisterUser(UId: String, email: String): Boolean {
         return suspendCancellableCoroutine { continuation ->
             val newUser = hashMapOf(
@@ -66,7 +67,7 @@ class MemberRepositoryImpl @Inject constructor(
                         extraInfoCollection.document("themeTeamsInfo").set(newUserThemeTeamsInfo)
 
                     CoroutineScope(Dispatchers.IO).launch {
-                        dataStore.storeValue(stringPreferencesKey("userUid"), UId)
+                        dataStore.storeValue(stringPreferencesKey("userUId"), UId)
                     }
 
                     Tasks.whenAll(setTeamInfoTask, setGroupsInfoTask, setThemeTeamsInfoTask)
@@ -203,7 +204,7 @@ class MemberRepositoryImpl @Inject constructor(
                             .addOnSuccessListener {
                                 // 3. 가입되어 있고, 모든 정보가 입력되어 있는 상태인 경우 정보를 돌려줌
                                 CoroutineScope(Dispatchers.IO).launch {
-                                    dataStore.storeValue(stringPreferencesKey("userUid"), UId)
+                                    dataStore.storeValue(stringPreferencesKey("userUId"), UId)
                                     dataStore.storeValue(stringPreferencesKey("userEmail"), email)
                                 }
                                 if (continuation.isActive) continuation.resume(Pair(true, curUser))
@@ -226,8 +227,8 @@ class MemberRepositoryImpl @Inject constructor(
             var curUserUId = ""
             var curUserEmail = ""
             runBlocking {
-                curUserUId = dataStore.readValue(stringPreferencesKey("userUid"), "") ?: ""
-                curUserEmail = dataStore.readValue(stringPreferencesKey("userEmail"), "") ?: ""
+                curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "saGsdRTdEfeJklbHjIBHGpGRZdj1") ?: ""
+                curUserEmail = dataStore.readValue(stringPreferencesKey("userEmail"), "saGsdRTdEfeJklbHjIBHGpGRZdj1") ?: ""
             }
 
             val storageRef = firebaseStorage.reference
@@ -268,7 +269,7 @@ class MemberRepositoryImpl @Inject constructor(
             val resultUsers = mutableListOf<User>()
             var curUserUId = ""
             runBlocking {
-                curUserUId = dataStore.readValue(stringPreferencesKey("userUid"), "") ?: ""
+                curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "saGsdRTdEfeJklbHjIBHGpGRZdj1") ?: ""
             }
 
             firestore.collection("users")
@@ -324,7 +325,7 @@ class MemberRepositoryImpl @Inject constructor(
         suspendCancellableCoroutine { continuation ->
             var curUserUId = ""
             runBlocking {
-                curUserUId = dataStore.readValue(stringPreferencesKey("userUid"), "") ?: ""
+                curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "saGsdRTdEfeJklbHjIBHGpGRZdj1") ?: ""
             }
 
             firestore.collection("users")

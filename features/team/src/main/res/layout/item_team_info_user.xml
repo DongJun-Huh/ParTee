@@ -18,6 +18,10 @@
         <variable
             name="isCurUser"
             type="Boolean" />
+
+        <variable
+            name="isLeader"
+            type="Boolean" />
     </data>
 
     <LinearLayout
@@ -52,7 +56,7 @@
                 android:layout_marginTop="-11dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_crown"
-                android:visibility="@{user.userInfo.teamInfo.isLeader ? View.VISIBLE :View.INVISIBLE }"
+                android:visibility="@{isLeader ? View.VISIBLE :View.INVISIBLE }"
                 app:layout_constraintBottom_toBottomOf="@id/iv_team_info_user"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

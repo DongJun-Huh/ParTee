@@ -34,8 +34,8 @@ class TeamViewModel @Inject constructor(
     private val _searchedUsers = ListLiveData<User>()
     val searchedUsers: ListLiveData<User> get() = _searchedUsers
 
-    private val _teamUsers = ListLiveData<Pair<User, Boolean>>()
-    val teamUsers: ListLiveData<Pair<User, Boolean>> get() = _teamUsers
+    private val _teamUsers = ListLiveData<Triple<User, Boolean, String>>()
+    val teamUsers: ListLiveData<Triple<User, Boolean, String>> get() = _teamUsers
 
     private val _newTeam = MutableLiveData<Team>()
     val newTeam: LiveData<Team> get() = _newTeam
@@ -56,9 +56,9 @@ class TeamViewModel @Inject constructor(
         _teamUsers.clear(true)
     }
 
-    fun getTeamMemberInfo(UId: String) = viewModelScope.launch {
+    fun getTeamMemberInfo(UId: String, leaderUId: String) = viewModelScope.launch {
         getUserInfoUseCase(UId).let {
-            _teamUsers.add(it, true)
+            _teamUsers.add(Triple(it.first, it.second, leaderUId), true)
         }
     }
 
