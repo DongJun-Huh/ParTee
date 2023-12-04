@@ -47,16 +47,20 @@
 
                 <EditText
                     android:id="@+id/et_team_member_add_search"
+                    onEditorEnterAction="@{()->vm.searchUsers(etTeamMemberAddSearch.getText().toString)}"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_background_radius_12"
                     android:backgroundTint="@color/white"
                     android:fontFamily="@font/pretendard_regular"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
                     android:lineHeight="20sp"
                     android:maxLines="1"
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="10dp"
+                    android:singleLine="true"
                     android:text="@={searchNickname}"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="500"
@@ -64,6 +68,7 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_team_members_add_search"
+                    onDebounceClick="@{()->vm.searchUsers(searchNickname)}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
@@ -72,7 +77,6 @@
                     android:fontFamily="@font/pretendard_regular"
                     android:gravity="center"
                     android:lineHeight="20sp"
-                    android:onClick="@{()->vm.searchUsers(searchNickname)}"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="10dp"
                     android:text="@string/search"

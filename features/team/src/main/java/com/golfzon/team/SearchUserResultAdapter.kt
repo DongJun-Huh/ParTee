@@ -1,11 +1,13 @@
 package com.golfzon.team
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.domain.model.User
 import com.golfzon.team.databinding.ItemSearchUserResultBinding
 
@@ -18,6 +20,14 @@ class SearchUserResultAdapter() : ListAdapter<User, SearchUserResultAdapter.Sear
             override fun areContentsTheSame(oldItem: User, newItem: User): Boolean =
                 oldItem == newItem
         }
+    }
+    interface OnItemClickListener {
+        fun onItemClick(v: View, user: User)
+    }
+
+    private var listener: OnItemClickListener? = null
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchUserResultViewHolder =
@@ -44,6 +54,10 @@ class SearchUserResultAdapter() : ListAdapter<User, SearchUserResultAdapter.Sear
             Glide.with(binding.ivSearchUserResult.context)
                 .load("https://firebasestorage.googleapis.com/v0/b/partee-1ba05.appspot.com/o/users%2F${user.profileImg}?alt=media")
                 .into(binding.ivSearchUserResult)
+
+            binding.root.setOnDebounceClickListener {
+                listener?.onItemClick(it, user)
+            }
         }
 
         private fun setBindingSetVariable(user: User) {
