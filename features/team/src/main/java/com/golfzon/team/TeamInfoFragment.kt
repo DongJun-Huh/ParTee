@@ -35,6 +35,7 @@ class TeamInfoFragment : Fragment() {
         initializeTeamInfo()
         setTeamUserAdapter()
         setAddMemberClickListener()
+        setTeamLocationSetClickListener()
     }
 
     private fun onDestroyBindingView() {
@@ -82,6 +83,12 @@ class TeamInfoFragment : Fragment() {
     private fun setAddMemberClickListener() {
         binding.btnTeamInfoActionAddUser.setOnDebounceClickListener {
             findNavController().navigate(TeamInfoFragmentDirections.actionTeamInfoFragmentToTeamMemberAddFragment())
+        }
+    }
+
+    private fun setTeamLocationSetClickListener() {
+        binding.btnTeamInfoActionChangeLocation.setOnDebounceClickListener {
+            findNavController().navigate(TeamInfoFragmentDirections.actionTeamInfoFragmentToTeamLocationSetFragment())
         }
     }
 }

@@ -89,7 +89,7 @@ class TeamRepositoryImpl @Inject constructor(
                             headCount = (teamDetail["headCount"] as Long).toInt(),
                             searchingHeadCount = (teamDetail["searchingHeadCount"] as Long).toInt(),
                             searchingTimes = teamDetail["searchingTimes"] as String,
-                            searchingLocations = teamDetail["searchingLocations"] as String,
+                            searchingLocations = teamDetail["searchingLocations"] as List<String>,
                             openChatUrl = teamDetail["openChatUrl"] as String
                         )
                     )

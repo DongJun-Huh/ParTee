@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".TeamLocationSetFragment">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.golfzon.team.TeamViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_radius_28"
+        android:backgroundTint="@color/white"
+        android:orientation="vertical"
+        android:paddingHorizontal="34dp"
+        android:paddingVertical="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/pretendard_regular"
+            android:gravity="center_vertical"
+            android:lineHeight="19sp"
+            android:text="@string/team_location_change_title"
+            android:textColor="@color/primary_8B95B3"
+            android:textFontWeight="500"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/layout_team_location_set_places"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:flexWrap="wrap">
+
+            <CheckBox
+                android:id="@+id/cb_team_location_set_nationwide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/selector_background_radius_100"
+                android:button="@null"
+                android:fontFamily="@font/pretendard_regular"
+                android:lineHeight="19.6sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/nationwide"
+                android:textColor="@drawable/selector_textview_primary_50_to_white"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+
+            <CheckBox
+                android:id="@+id/cb_team_location_set_seoul"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/selector_background_radius_100"
+                android:button="@null"
+                android:fontFamily="@font/pretendard_regular"
+                android:lineHeight="19.6sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/seoul"
+                android:textColor="@drawable/selector_textview_primary_50_to_white"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+
+            <CheckBox
+                android:id="@+id/cb_team_location_set_gyeonggi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/selector_background_radius_100"
+                android:button="@null"
+                android:fontFamily="@font/pretendard_regular"
+                android:lineHeight="19.6sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/gyeonggi"
+                android:textColor="@drawable/selector_textview_primary_50_to_white"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+
+            <CheckBox
+                android:id="@+id/cb_team_location_set_incheon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/selector_background_radius_100"
+                android:button="@null"
+                android:fontFamily="@font/pretendard_regular"
+                android:lineHeight="19.6sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/incheon"
+                android:textColor="@drawable/selector_textview_primary_50_to_white"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+
+            <CheckBox
+                android:id="@+id/cb_team_location_set_daejeon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/selector_background_radius_100"
+                android:button="@null"
+                android:fontFamily="@font/pretendard_regular"
+                android:lineHeight="19.6sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/daejeon"
+                android:textColor="@drawable/selector_textview_primary_50_to_white"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+
+            <CheckBox
+                android:id="@+id/cb_team_location_set_daegu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/selector_background_radius_100"
+                android:button="@null"
+                android:fontFamily="@font/pretendard_regular"
+                android:lineHeight="19.6sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/daegu"
+                android:textColor="@drawable/selector_textview_primary_50_to_white"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+
+            <CheckBox
+                android:id="@+id/cb_team_location_set_busan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/selector_background_radius_100"
+                android:button="@null"
+                android:fontFamily="@font/pretendard_regular"
+                android:lineHeight="19.6sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/busan"
+                android:textColor="@drawable/selector_textview_primary_50_to_white"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+
+            <CheckBox
+                android:id="@+id/cb_team_location_set_gangwon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/selector_background_radius_100"
+                android:button="@null"
+                android:fontFamily="@font/pretendard_regular"
+                android:lineHeight="19.6sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/gangwon"
+                android:textColor="@drawable/selector_textview_primary_50_to_white"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+
+            <CheckBox
+                android:id="@+id/cb_team_location_set_gwangju"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/selector_background_radius_100"
+                android:button="@null"
+                android:fontFamily="@font/pretendard_regular"
+                android:lineHeight="19.6sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/gwangju"
+                android:textColor="@drawable/selector_textview_primary_50_to_white"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+
+            <CheckBox
+                android:id="@+id/cb_team_location_set_ulsan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/selector_background_radius_100"
+                android:button="@null"
+                android:fontFamily="@font/pretendard_regular"
+                android:lineHeight="19.6sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/ulsan"
+                android:textColor="@drawable/selector_textview_primary_50_to_white"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+
+            <CheckBox
+                android:id="@+id/cb_team_location_set_gyeongsang_nam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/selector_background_radius_100"
+                android:button="@null"
+                android:fontFamily="@font/pretendard_regular"
+                android:lineHeight="19.6sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/gyeongnam"
+                android:textColor="@drawable/selector_textview_primary_50_to_white"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+
+            <CheckBox
+                android:id="@+id/cb_team_location_set_gyeongsang_buk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/selector_background_radius_100"
+                android:button="@null"
+                android:fontFamily="@font/pretendard_regular"
+                android:lineHeight="19.6sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/gyeongbuk"
+                android:textColor="@drawable/selector_textview_primary_50_to_white"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+
+            <CheckBox
+                android:id="@+id/cb_team_location_set_jeolla_nam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/selector_background_radius_100"
+                android:button="@null"
+                android:fontFamily="@font/pretendard_regular"
+                android:lineHeight="19.6sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/jeonnam"
+                android:textColor="@drawable/selector_textview_primary_50_to_white"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+
+            <CheckBox
+                android:id="@+id/cb_team_location_set_jeolla_buk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/selector_background_radius_100"
+                android:button="@null"
+                android:fontFamily="@font/pretendard_regular"
+                android:lineHeight="19.6sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/jeonbuk"
+                android:textColor="@drawable/selector_textview_primary_50_to_white"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+
+            <CheckBox
+                android:id="@+id/cb_team_location_set_jeju"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/selector_background_radius_100"
+                android:button="@null"
+                android:fontFamily="@font/pretendard_regular"
+                android:lineHeight="19.6sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/jeju"
+                android:textColor="@drawable/selector_textview_primary_50_to_white"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_team_location_set_save"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/btn_background_radius_12"
+            android:backgroundTint="@color/primary_btn_AFB7CF"
+            android:fontFamily="@font/pretendard_regular"
+            android:gravity="center"
+            android:lineHeight="24sp"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="8dp"
+            android:text="@string/save"
+            android:textColor="@color/white"
+            android:textFontWeight="500"
+            android:textSize="16sp" />
+    </LinearLayout>
+</layout>

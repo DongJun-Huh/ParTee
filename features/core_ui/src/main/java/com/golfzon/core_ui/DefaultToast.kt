@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import com.golfzon.core_ui.databinding.ItemDefaultToastBinding
 
 object DefaultToast {
-    fun createToast(context: Context, message: String, bottomOffset: Int): Toast? {
+    fun createToast(context: Context, message: String, bottomOffset: Int = 44): Toast? {
         val inflater = LayoutInflater.from(context)
         val binding = DataBindingUtil.inflate<ItemDefaultToastBinding>(
             inflater,

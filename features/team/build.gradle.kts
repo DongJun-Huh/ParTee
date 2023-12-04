@@ -62,4 +62,5 @@ dependencies {
     // https://firebase.google.com/docs/android/setup#available-libraries
     implementation(libs.bundles.jetpack.navigation)
     implementation(libs.glide)
+    implementation(libs.flexbox)
 }

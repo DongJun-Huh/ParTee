@@ -86,7 +86,18 @@ class TeamViewModel @Inject constructor(
         _newTeam.postValue(
             _newTeam.value?.let {
                 it.copy(
-                    membersUId = it.membersUId + listOf(newUserUId)
+                    membersUId = it.membersUId + listOf(newUserUId),
+                    headCount = it.headCount + 1
+                )
+            }
+        )
+    }
+
+    fun setLocation(locations: List<String>) = viewModelScope.launch {
+        _newTeam.postValue(
+            _newTeam.value?.let {
+                it.copy(
+                    searchingLocations = locations
                 )
             }
         )

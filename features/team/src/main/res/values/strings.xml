@@ -6,4 +6,7 @@
     <string name="team_info_users_title">팀원 정보</string>
     <string name="team_member_add_title">팀원 추가</string>
     <string name="team_member_add_success_toast_message">팀원을 추가했어요</string>
+    <string name="team_location_change_title">활동 지역을 선택해주세요.</string>
+    <string name="team_location_change_fail_not_select">지역을 선택해주세요</string>
+    <string name="team_location_change_fail_limit">8개 이하의 지역을 선택해주세요</string>
 </resources>
