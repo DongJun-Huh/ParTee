@@ -1,12 +1,13 @@
 <resources>
-    <string name="team_split">팀 해체</string>
+    <string name="team_break">팀 해체</string>
     <string name="team_add_member">팀원 추가</string>
     <string name="team_change_location">위치 변경</string>
-    <string name="team_image">대표 이미지</string>
+    <string name="team_change_info">팀 정보</string>
     <string name="team_info_users_title">팀원 정보</string>
     <string name="team_member_add_title">팀원 추가</string>
     <string name="team_member_add_success_toast_message">팀원을 추가했어요</string>
     <string name="team_location_change_title">활동 지역을 선택해주세요.</string>
     <string name="team_location_change_fail_not_select">지역을 선택해주세요</string>
     <string name="team_location_change_fail_limit">8개 이하의 지역을 선택해주세요</string>
+    <string name="team_info_set_image_title">대표 사진 설정</string>
 </resources>

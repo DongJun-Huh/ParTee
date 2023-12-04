@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.golfzon.core_ui.GridSpacingItemDecoration
+import com.golfzon.core_ui.KeyBoardUtil.showKeyboard
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
@@ -36,6 +37,12 @@ class TeamInfoFragment : Fragment() {
         setTeamUserAdapter()
         setAddMemberClickListener()
         setTeamLocationSetClickListener()
+        setTeamInfoSetClickListener()
+        setTeamInfoChangeCancelClickListener()
+        setTeamInfoChangeNameClickListener()
+        setTeamInfoChangeImageClickListener()
+        setTeamInfoChangeSaveClickListener()
+        setTeamInfoSetImageLayout()
     }
 
     private fun onDestroyBindingView() {
@@ -64,14 +71,9 @@ class TeamInfoFragment : Fragment() {
 
     private fun initializeTeamInfo() {
         teamViewModel.newTeam.observe(viewLifecycleOwner) { teamInfo ->
-            if (teamInfo == null) {
-                // TODO: TEAM이 존재하지 않는 경우
-            } else {
-                // TODO TEAM INFORMATION INITIALIZE
-                teamViewModel.clearUserInfo()
-                teamInfo.membersUId.map { UId ->
-                    teamViewModel.getTeamMemberInfo(UId)
-                }
+            teamViewModel.clearUserInfo()
+            teamInfo.membersUId.map { UId ->
+                teamViewModel.getTeamMemberInfo(UId, teamInfo.leaderUId)
             }
         }
 
@@ -90,5 +92,76 @@ class TeamInfoFragment : Fragment() {
         binding.btnTeamInfoActionChangeLocation.setOnDebounceClickListener {
             findNavController().navigate(TeamInfoFragmentDirections.actionTeamInfoFragmentToTeamLocationSetFragment())
         }
+    }
+
+    private fun setTeamInfoSetLayoutOnAndOff() {
+        with(binding) {
+            layoutTeamInfoUsers.toggleHideAndShow()
+            btnTeamInfoSave.toggleHideAndShow()
+            btnTeamInfoBack.toggleHideAndShow()
+            btnTeamInfoBreak.toggleHideAndShow()
+
+            btnTeamInfoSetCancel.toggleHideAndShow()
+            btnTeamInfoSetSave.toggleHideAndShow()
+            tvTeamInfoSetDim.toggleHideAndShow()
+            ivTeamInfoSetNickname.toggleHideAndShow()
+            layoutTeamInfoSetImage.toggleHideAndShow()
+
+            etTeamInfoSetName.isEnabled = !etTeamInfoSetName.isEnabled
+        }
+    }
+
+    private fun setTeamInfoSetClickListener() {
+        binding.btnTeamInfoActionChangeInfo.setOnDebounceClickListener {
+            setTeamInfoSetLayoutOnAndOff()
+        }
+    }
+
+    private fun setTeamInfoChangeCancelClickListener() {
+        binding.btnTeamInfoSetCancel.setOnDebounceClickListener {
+            binding.etTeamInfoSetName.setText(teamViewModel.newTeam.value?.teamName)
+            setTeamInfoSetLayoutOnAndOff()
+        }
+    }
+
+    private fun setTeamInfoChangeNameClickListener() {
+        binding.btnTeamInfoSetSave.setOnDebounceClickListener {
+            teamViewModel.changeTeamName(binding.etTeamInfoSetName.text.toString())
+            setTeamInfoSetLayoutOnAndOff()
+        }
+    }
+
+    private fun setTeamInfoChangeImageClickListener() {
+        with(binding) {
+            layoutTeamInfoName.setOnDebounceClickListener {
+                with(etTeamInfoSetName) {
+                    if (isEnabled) {
+                        requestFocus()
+                        this.showKeyboard(requireContext())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setTeamInfoChangeSaveClickListener() {
+        binding.btnTeamInfoSave.setOnDebounceClickListener {
+            teamViewModel.organizeTeam()
+        }
+    }
+
+    private fun setTeamInfoSetImageLayout() {
+        // TODO Image Setting 기능 추가
+//        val flexboxLayoutManager = FlexboxLayoutManager(requireContext())
+//        flexboxLayoutManager.flexWrap = FlexWrap.WRAP
+//        binding.rvTeamInfoSetImages.layoutManager = flexboxLayoutManager
+
+        binding.ivTeamInfoSetImage.setOnDebounceClickListener {
+            // TODO 임시 이미지 설정 기능 추가
+        }
+    }
+
+    private fun View.toggleHideAndShow() {
+        visibility = if (visibility == View.VISIBLE) View.GONE else View.VISIBLE
     }
 }
