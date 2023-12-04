@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.golfzon.core_ui.DefaultToast
 import com.golfzon.core_ui.DialogUtil.setDialogRadius
 import com.golfzon.core_ui.GridSpacingItemDecoration
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
+import com.golfzon.domain.model.User
 import com.golfzon.team.databinding.FragmentTeamMemberAddBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,6 +37,7 @@ class TeamMemberAddFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setSearchUserResultAdapter()
         observeSearchResults()
+        setUserClickListener()
     }
 
     private fun setDataBindingVariables() {
@@ -45,6 +49,7 @@ class TeamMemberAddFragment : BottomSheetDialogFragment() {
 
     private fun onDestroyBindingView() {
         searchUserResultAdapter = null
+        teamViewModel.clearSearchedUsers()
     }
 
     private fun setDialogStyle() {
@@ -66,5 +71,20 @@ class TeamMemberAddFragment : BottomSheetDialogFragment() {
             adapter = searchUserResultAdapter
             addItemDecoration(GridSpacingItemDecoration(1, 8.dp))
         }
+    }
+
+    private fun setUserClickListener() {
+        searchUserResultAdapter?.setOnItemClickListener(object :
+            SearchUserResultAdapter.OnItemClickListener {
+            override fun onItemClick(v: View, user: User) {
+                teamViewModel.addTeamMember(user.userUId)
+                DefaultToast.createToast(
+                    requireContext(),
+                    getString(R.string.team_member_add_success_toast_message),
+                    44
+                )?.show()
+                findNavController().navigateUp()
+            }
+        })
     }
 }

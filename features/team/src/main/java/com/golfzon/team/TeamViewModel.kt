@@ -64,14 +64,31 @@ class TeamViewModel @Inject constructor(
 
     fun searchUsers(nickname: String) = viewModelScope.launch {
         getSearchedUsersUseCase(nickname = nickname).let {
-            _searchedUsers.replaceAll(it, true)
+            val results = it.filter { user ->
+                !(_newTeam.value?.membersUId?.contains(user.userUId) ?: true)
+            }
+            _searchedUsers.replaceAll(results, true)
         }
+    }
+
+    fun clearSearchedUsers() {
+        _searchedUsers.clear(true)
     }
 
     fun organizeTeam() = viewModelScope.launch {
         requestTeamOrganizedUseCase(
             // TODO teamName, teamImageUrl, leaderUId, membersUId, headCount, searchingTimes, searchingLocations, openChatUrl만 설정
             newTeam = _newTeam.value!!
+        )
+    }
+
+    fun addTeamMember(newUserUId: String) = viewModelScope.launch {
+        _newTeam.postValue(
+            _newTeam.value?.let {
+                it.copy(
+                    membersUId = it.membersUId + listOf(newUserUId)
+                )
+            }
         )
     }
 }
