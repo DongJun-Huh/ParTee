@@ -12,10 +12,18 @@
         <action
             android:id="@+id/action_TeamInfoFragment_to_TeamMemberAddFragment"
             app:destination="@id/TeamMemberAddFragment" />
+        <action
+            android:id="@+id/action_TeamInfoFragment_to_TeamLocationSetFragment"
+            app:destination="@id/TeamLocationSetFragment" />
     </fragment>
     <dialog
         android:id="@+id/TeamMemberAddFragment"
         android:name="com.golfzon.team.TeamMemberAddFragment"
         android:label="fragment_team_member_add"
         tools:layout="@layout/fragment_team_member_add" />
+    <dialog
+        android:id="@+id/TeamLocationSetFragment"
+        android:name="com.golfzon.team.TeamLocationSetFragment"
+        android:label="fragment_team_location_set"
+        tools:layout="@layout/fragment_team_location_set" />
 </navigation>

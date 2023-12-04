@@ -118,7 +118,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:fontFamily="@font/pretendard_medium"
-                    android:text="@{vm.newTeam.searchingLocations}"
+                    displayListsToString="@{vm.newTeam.searchingLocations}"
+                    divider="@{`/`}"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     tools:text="서울 / 인천 / 경기" />
