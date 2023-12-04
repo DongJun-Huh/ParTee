@@ -102,4 +102,14 @@ class TeamViewModel @Inject constructor(
             }
         )
     }
+
+    fun changeTeamName(newTeamName: String) = viewModelScope.launch {
+        _newTeam.postValue(
+            _newTeam.value?.let {
+                it.copy(
+                    teamName = newTeamName
+                )
+            }
+        )
+    }
 }
