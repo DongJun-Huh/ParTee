@@ -51,9 +51,11 @@ class TeamLocationSetFragment : DialogFragment() {
     }
 
     private fun initializeSearchingPlaces() {
-        for (placeName in teamViewModel.newTeam.value!!.searchingLocations) {
-            binding.layoutTeamLocationSetPlaces.children.forEach { curCheckBox ->
-                if ((curCheckBox as CheckBox).text == placeName) curCheckBox.isChecked = true
+        teamViewModel.newTeam.value?.searchingLocations?.let { curSearchingPlaces ->
+            for (placeName in curSearchingPlaces) {
+                binding.layoutTeamLocationSetPlaces.children.forEach { curCheckBox ->
+                    if ((curCheckBox as CheckBox).text == placeName) curCheckBox.isChecked = true
+                }
             }
         }
     }
