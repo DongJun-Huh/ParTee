@@ -31,5 +31,14 @@
         android:name="com.golfzon.matching.MatchingFragment"
         android:label="fragment_matching"
         tools:layout="@layout/fragment_matching">
+
+        <action
+            android:id="@+id/action_matchingFragment_to_matchingSuccessFragment"
+            app:destination="@id/MatchingSuccessFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/MatchingSuccessFragment"
+        android:name="com.golfzon.matching.MatchingSuccessFragment"
+        android:label="fragment_matching_success"
+        tools:layout="@layout/fragment_matching_success"></dialog>
 </navigation>

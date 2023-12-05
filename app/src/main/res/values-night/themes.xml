@@ -18,6 +18,10 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">32dp</item>
     </style>
+    <style name="ShapeAppearance.radius28" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">28dp</item>
+    </style>
     <style name="ShapeAppearance.radius8" parent="ShapeAppearance.MaterialComponents.LargeComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>

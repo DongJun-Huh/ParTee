@@ -13,7 +13,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
 
         <ImageView
             android:layout_width="match_parent"
@@ -366,6 +367,45 @@
                 android:text="팀 이름의 팀원들"
                 android:textColor="@color/white" />
 
+            <!-- TODO 기능도입후 삭제 ImageView -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="36dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_matching_candidate_user_1"
+                    android:layout_width="96dp"
+                    android:layout_height="100dp"
+                    android:background="#F5F6F9"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/user_sample"
+                    app:shapeAppearance="@style/ShapeAppearance.radius28" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_matching_candidate_user_2"
+                    android:layout_width="96dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="12dp"
+                    android:background="#F5F6F9"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/user_sample"
+                    app:shapeAppearance="@style/ShapeAppearance.radius28" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_matching_candidate_user_3"
+                    android:layout_width="96dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="12dp"
+                    android:background="#F5F6F9"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/user_sample"
+                    app:shapeAppearance="@style/ShapeAppearance.radius28" />
+
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_matching_candidate_users"
@@ -389,6 +429,7 @@
             app:layout_constraintVertical_bias="1.0">
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/btn_matching_reacions_dislike"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@color/primary_btn_AFB7CF"
@@ -398,6 +439,7 @@
                 app:shapeAppearance="@style/ShapeAppearance.circle" />
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/btn_matching_reacions_like"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="18dp"
@@ -407,6 +449,5 @@
                 android:tint="@color/white"
                 app:shapeAppearance="@style/ShapeAppearance.circle" />
         </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

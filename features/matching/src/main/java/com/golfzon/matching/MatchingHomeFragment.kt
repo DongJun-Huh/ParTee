@@ -98,7 +98,7 @@ class MatchingHomeFragment : Fragment() {
     }
 
     private fun setStartMatchingClickListener() {
-        binding.btnMatchingHomeTeamSetting.setOnDebounceClickListener {
+        binding.btnMatchingHomeStart.setOnDebounceClickListener {
             findNavController().navigate(MatchingHomeFragmentDirections.actionMatchingHomeFragmentToMatchingFilteringDialogFragment())
         }
     }
