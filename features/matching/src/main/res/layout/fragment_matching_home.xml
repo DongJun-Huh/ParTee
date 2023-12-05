@@ -6,11 +6,175 @@
 
     <data>
 
+        <import type="kotlin.Triple" />
+
+        <variable
+            name="userDetail"
+            type="Triple&lt;String, String, String&gt;" />
+
+        <variable
+            name="teamDetail"
+            type="com.golfzon.domain.model.Team" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/golfzon_gray_706F73">
 
+        <LinearLayout
+            android:id="@+id/layout_matching_home_appbar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:animateLayoutChanges="true"
+            android:background="@android:color/transparent"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <!-- App bar Component -->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_matching_home_top_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_matching_home_appbar"
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/pretendard_medium"
+                android:lineSpacingExtra="5sp"
+                android:text="@{userDetail.third+`님,\n골프치기 딱 좋은\n날씨에요`}"
+                android:textColor="@color/white"
+                android:textFontWeight="500"
+                android:textSize="22sp"
+                tools:text="허동준님,\n골프치기 딱 좋은\n날씨에요" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_matching_home_start"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginTop="52dp"
+            android:background="@drawable/btn_background_radius_12"
+            android:backgroundTint="@color/primary_btn_AFB7CF"
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+            android:letterSpacing="0"
+            android:lineSpacingExtra="5sp"
+            android:paddingHorizontal="24dp"
+            android:text="매칭 시작"
+            android:textColor="@color/white"
+            android:textFontWeight="500"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_matching_home_top_info"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <!-- BottomSheet로 변경 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="58dp"
+            android:background="#EBEDF3"
+            android:orientation="vertical"
+            android:paddingTop="22dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_matching_home_start">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/pretendard_semi_bold"
+                    android:letterSpacing="0"
+                    android:lineSpacingExtra="4sp"
+                    android:text="@{`TEAM ` + teamDetail.teamName}"
+                    android:textColor="@color/primary_8B95B3"
+                    android:textFontWeight="600"
+                    android:textSize="14sp"
+                    tools:text="TEAM 골프존" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_radius_100"
+                    android:backgroundTint="#80AFB7CF"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:letterSpacing="0"
+                    android:lineSpacingExtra="3sp"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:text="@{String.valueOf(teamDetail.headCount)+`/3`}"
+                    android:textColor="@color/primary_8B95B3"
+                    android:textFontWeight="500"
+                    android:textSize="12sp"
+                    tools:text="3/3" />
+
+                <ImageButton
+                    android:id="@+id/btn_matching_home_team_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_setting" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_matching_home_team_users"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="10dp"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_team_info_user" />
+        </LinearLayout>
+
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation_matching_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="72dp"
+            android:layout_marginBottom="28dp"
+            android:background="@drawable/background_radius_100"
+            app:backgroundTint="@color/primary_8B95B3"
+            app:itemRippleColor="@android:color/transparent"
+            app:itemTextColor="@drawable/selector_textview_white_50_to_white"
+            app:labelVisibilityMode="labeled"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:menu="@menu/bottom_navigation_menu" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

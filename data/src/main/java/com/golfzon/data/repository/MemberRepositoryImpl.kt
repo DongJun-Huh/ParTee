@@ -125,6 +125,12 @@ class MemberRepositoryImpl @Inject constructor(
                                 userBasicInfo["introduceMessage"] != null &&
                                 userBasicInfo["profileImg"] != null
                             ) {
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    dataStore.storeValue(stringPreferencesKey("userUId"), UId)
+                                    dataStore.storeValue(stringPreferencesKey("userEmail"), email)
+                                    dataStore.storeValue(stringPreferencesKey("userNickname"), userBasicInfo["nickname"] as String)
+                                }
+
                                 curUser = curUser.copy(
                                     userUId = curUser.userUId,
                                     email = userBasicInfo["email"] as String,
@@ -202,10 +208,6 @@ class MemberRepositoryImpl @Inject constructor(
                         Tasks.whenAll(tasks)
                             .addOnSuccessListener {
                                 // 3. 가입되어 있고, 모든 정보가 입력되어 있는 상태인 경우 정보를 돌려줌
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    dataStore.storeValue(stringPreferencesKey("userUId"), UId)
-                                    dataStore.storeValue(stringPreferencesKey("userEmail"), email)
-                                }
                                 if (continuation.isActive) continuation.resume(Pair(true, curUser))
                             }
                             .addOnFailureListener {
@@ -363,4 +365,17 @@ class MemberRepositoryImpl @Inject constructor(
                     }
                 }
         }
+
+    override suspend fun getCurUserInfo(): Triple<String, String, String> {
+        var curUserBasicInfo = Triple("", "", "")
+        runBlocking {
+            curUserBasicInfo = curUserBasicInfo.copy(
+                dataStore.readValue(stringPreferencesKey("userUId"), "") ?: "",
+                dataStore.readValue(stringPreferencesKey("userEmail"), "") ?: "",
+                dataStore.readValue(stringPreferencesKey("userNickname"), "") ?: ""
+            )
+        }
+
+        return curUserBasicInfo
+    }
 }

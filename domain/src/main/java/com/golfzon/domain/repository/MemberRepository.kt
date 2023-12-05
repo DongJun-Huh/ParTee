@@ -9,4 +9,5 @@ interface MemberRepository {
     suspend fun requestSetUserInfo(user: User, userImg: File): Boolean
     suspend fun getUsersInfo(nickname: String): List<User>
     suspend fun getUserInfo(UId: String): Pair<User, Boolean>
+    suspend fun getCurUserInfo(): Triple<String, String, String> // UId, Email, nickname순
 }
