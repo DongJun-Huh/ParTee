@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
-import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -20,7 +19,6 @@ import com.golfzon.core_ui.DialogUtil.resizeDialogFragment
 import com.golfzon.core_ui.DialogUtil.setDialogRadius
 import com.golfzon.core_ui.ImageUploadUtil.extension
 import com.golfzon.core_ui.ImageUploadUtil.isPermitExtension
-import com.golfzon.core_ui.ImageUploadUtil.toBitmap
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.core_ui.extension.toast
@@ -93,7 +91,10 @@ class UserImageSetOptionFragment : DialogFragment() {
                 val uri = data?.data!!
                 // 이미지 파일과 함께, 파일 확장자도 같이 저장
                 if (uri.extension(requireActivity().applicationContext.contentResolver).isPermitExtension) {
-                    setImageInfo(uri.toString(), uri.extension(requireActivity().applicationContext.contentResolver))
+                    setImageInfo(
+                        uri.toString(),
+                        uri.extension(requireActivity().applicationContext.contentResolver)
+                    )
                 } else {
                     this.toast(msg = getString(R.string.upload_image_fail_file_extension))
                     findNavController().popBackStack()
@@ -152,29 +153,23 @@ class UserImageSetOptionFragment : DialogFragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
             if (activityResult.resultCode == Activity.RESULT_OK) {
                 val photoFile = File(currentTakenPhotoPath)
-                val photoFileExtension = if (currentTakenPhotoPath.split(".").last().isNotEmpty()) currentTakenPhotoPath.split(".").last() else "jpg"
-                setImageInfo( Uri.fromFile(photoFile).toString(), photoFileExtension)
+                val photoFileExtension =
+                    if (currentTakenPhotoPath
+                            .split(".")
+                            .last()
+                            .isNotEmpty()
+                    ) currentTakenPhotoPath.split(".").last() else "jpg"
+                setImageInfo(Uri.fromFile(photoFile).toString(), photoFileExtension)
             }
         }
 
-    private fun setImageInfo(ImageString: String, fileExtension: String) {
-        loginViewModel.profileImgBitmap.postValue(
-            ImageString
-                .toUri()
-                .toBitmap(requireActivity().applicationContext.contentResolver)
+    private fun setImageInfo(imageString: String, fileExtension: String) {
+        loginViewModel.setImageFileExtension(fileExtension)
+        findNavController().navigate(
+            UserImageSetOptionFragmentDirections.actionUserImageSetOptionFragmentToImageCropFragment(
+                ImageString = imageString
+            )
         )
-        setUploadImagePath(fileExtension)
-        findNavController().popBackStack()
-    }
-
-    private fun setUploadImagePath(profileImgExtension: String) {
-        val imageFileTimeFormat = SimpleDateFormat("yyyy-MM-d-HH-mm-ss", Locale.KOREA)
-        // uri를 통하여 불러온 이미지를 임시로 파일로 저장할 경로로 앱 내부 캐시 디렉토리로 설정,
-        // 파일 이름은 불러온 시간 사용
-        val fileName = imageFileTimeFormat.format(Date(System.currentTimeMillis()))
-            .toString() + "." + profileImgExtension
-        val cacheDir = requireContext().cacheDir.toString()
-        loginViewModel.profileImgPath.postValue("$cacheDir/$fileName")
     }
 
     companion object {

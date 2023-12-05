@@ -105,10 +105,27 @@
         android:id="@+id/UserImageSetOptionFragment"
         android:name="com.golfzon.login.ui.fragments.UserImageSetOptionFragment"
         android:label="fragment_user_image_set_option"
-        tools:layout="@layout/fragment_user_image_set_option" />
+        tools:layout="@layout/fragment_user_image_set_option">
+
+        <action
+            android:id="@+id/action_userImageSetOptionFragment_to_imageCropFragment"
+            app:destination="@id/ImageCropFragment">
+
+            <argument
+                android:name="ImageString"
+                app:argType="string"/>
+        </action>
+    </dialog>
     <dialog
         android:id="@+id/UserInfoSetIntroduceFragment"
         android:name="com.golfzon.login.ui.fragments.UserInfoSetIntroduceFragment"
         android:label="fragment_user_image_set_option"
         tools:layout="@layout/fragment_user_info_set_introduce" />
+
+    <fragment
+        android:id="@+id/ImageCropFragment"
+        android:name="com.golfzon.core_ui.image.crop.ImageCropFragment"
+        android:label="fragment_image_crop"
+        tools:layout="@layout/fragment_image_crop">
+    </fragment>
 </navigation>

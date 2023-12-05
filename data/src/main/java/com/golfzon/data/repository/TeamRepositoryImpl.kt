@@ -28,16 +28,12 @@ class TeamRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : TeamRepository {
 
-    // TODO 임시로 curUserUId 기본값으로 들어가있는 saGsdRTdEfeJklbHjIBHGpGRZdj1 삭제
     override suspend fun getUserTeamInfoBrief(): TeamInfo {
         return suspendCancellableCoroutine { continuation ->
-            var curUserUId = "saGsdRTdEfeJklbHjIBHGpGRZdj1"
+            var curUserUId = ""
 
             CoroutineScope(Dispatchers.IO).launch {
-                curUserUId = dataStore.readValue(
-                    stringPreferencesKey("userUId"),
-                    "saGsdRTdEfeJklbHjIBHGpGRZdj1"
-                ) ?: ""
+                curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
 
                 firestore.collection("users")
                     .document(curUserUId)
@@ -82,9 +78,7 @@ class TeamRepositoryImpl @Inject constructor(
         return suspendCancellableCoroutine { continuation ->
             CoroutineScope(Dispatchers.IO).launch {
                 val curUserUId = dataStore.readValue(
-                    stringPreferencesKey("userUId"),
-                    "saGsdRTdEfeJklbHjIBHGpGRZdj1"
-                ) ?: ""
+                    stringPreferencesKey("userUId"), "") ?: ""
                 getUserTeamInfoBrief().let {
                     if (it.teamUId == null) {
                         if (continuation.isActive) {
@@ -134,7 +128,7 @@ class TeamRepositoryImpl @Inject constructor(
         suspendCancellableCoroutine { continuation ->
             var curUserUId = ""
             runBlocking {
-                curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "saGsdRTdEfeJklbHjIBHGpGRZdj1") ?: ""
+                curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
             }
 
             // TODO 이미지 설정 기능 추가시 제거

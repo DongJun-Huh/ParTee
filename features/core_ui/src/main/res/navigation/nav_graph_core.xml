@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_core">
+
+    <fragment
+        android:id="@+id/ImageCropFragment"
+        android:name="com.golfzon.core_ui.image.crop.ImageCropFragment"
+        android:label="fragment_image_crop"
+        tools:layout="@layout/fragment_image_crop">
+        <argument
+            android:name="ImageString"
+            app:argType="string"/>
+    </fragment>
+</navigation>

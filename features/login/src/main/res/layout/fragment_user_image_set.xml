@@ -13,22 +13,25 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="24dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_user_image_set_input"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_marginHorizontal="8dp"
             app:layout_constraintBottom_toTopOf="@id/btn_user_image_set_complete"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_user_image_set"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                app:layout_constraintVertical_bias="0.5"
                 android:background="#F5F6F9"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.golfzon.core_ui.ImageUploadUtil.getTempImageFilePath
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.login.R
@@ -35,9 +36,13 @@ class UserImageSetFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUserImageOptionClickListener()
         setUserIntroduceOptionClickListener()
-        observeUserImage()
         observeUserInitializeComplete()
         setNext()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        observeUserImage()
     }
 
     private fun setDataBindingVariables() {
@@ -62,25 +67,35 @@ class UserImageSetFragment : Fragment() {
     }
 
     private fun observeUserImage() {
-        loginViewModel.profileImgBitmap.observe(viewLifecycleOwner) {
-            Glide.with(requireContext())
-                .load(it.copy(Bitmap.Config.ARGB_8888, true))
-                // Cannot create a mutable Bitmap with config: HARDWARE 오류로 COPY해 mutable가능하도록 한 뒤 사용
-                .into(binding.ivUserImageSet)
-            binding.tvUserImageSetInputDescription.visibility = View.GONE
-            binding.btnUserImageSetInputButtonImage.text =
-                getString(R.string.register_user_image_set_button_change_image)
-        }
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bitmap>("editedImage")
+            ?.observe(viewLifecycleOwner) {
+                with(loginViewModel) {
+                    profileImgBitmap.postValue(it)
+                    profileImgPath.postValue(
+                        getTempImageFilePath(profileImgExtension.value ?: "jpg", requireContext())
+                    )
+                }
+
+                Glide.with(requireContext())
+                    .load(it.copy(Bitmap.Config.ARGB_8888, true))
+                    // Cannot create a mutable Bitmap with config: HARDWARE 오류로 COPY해 mutable가능하도록 한 뒤 사용
+                    .into(binding.ivUserImageSet)
+                with(binding) {
+                    tvUserImageSetInputDescription.visibility = View.GONE
+                    btnUserImageSetInputButtonImage.text =
+                        getString(R.string.register_user_image_set_button_change_image)
+                }
+            }
     }
 
     private fun setNext() {
-        (requireActivity() as LoginActivity).setSaveClickListener()
+        (requireActivity() as LoginActivity).setNextClickListener()
     }
 
     private fun observeUserInitializeComplete() {
         loginViewModel.isSetUserInfoSuccess.observe(viewLifecycleOwner) { isComplete ->
             if (isComplete.getContentIfNotHandled() == true) {
-                // TODO : 홈 화면으로 이동
+                (requireActivity() as LoginActivity).navigateToTeam()
             }
         }
     }

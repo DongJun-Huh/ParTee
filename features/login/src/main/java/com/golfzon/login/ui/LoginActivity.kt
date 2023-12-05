@@ -39,26 +39,66 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun setNextClickListener(directions: NavDirections) {
-        binding.btnNext.setOnDebounceClickListener {
-            findNavController().navigate(directions)
-        }
-    }
-    fun setSaveClickListener() {
-        binding.btnNext.setOnDebounceClickListener {
-            loginViewModel.requestSetUserInfo()
+    fun setNextClickListener(directions: NavDirections? = null) {
+        findNavController().addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.ImageCropFragment -> {
+                    binding.btnNext.setOnDebounceClickListener {
+                        findNavController().popBackStack()
+                    }
+                }
+
+                R.id.UserImageSetFragment -> {
+                    binding.btnNext.setOnDebounceClickListener {
+                        loginViewModel.requestSetUserInfo()
+                    }
+                }
+
+                else -> {
+                    binding.btnNext.setOnDebounceClickListener {
+                        directions?.let {
+                            findNavController().navigate(directions)
+                        }
+                    }
+                }
+            }
         }
     }
 
     private fun setRegisterMenuVisibility() {
         findNavController().addOnDestinationChangedListener { _, destination, _ ->
-            binding.layoutLoginAppbar.visibility = when (destination.id) {
+            setLoginLayout(destination.id)
+            setImageCropLayout(destination.id)
+        }
+    }
+
+    private fun setLoginLayout(destinationId: Int) {
+        with(binding) {
+            layoutLoginAppbar.visibility = when (destinationId) {
                 R.id.LoginFragment -> View.GONE
                 else -> View.VISIBLE
             }
-            binding.btnNext.visibility = when (destination.id) {
+            btnNext.visibility = when (destinationId) {
                 R.id.LoginFragment -> View.GONE
                 else -> View.VISIBLE
+            }
+        }
+    }
+
+    private fun setImageCropLayout(destinationId: Int) {
+        with(binding) {
+            btnLoginAppbarBack.visibility = when (destinationId) {
+                R.id.ImageCropFragment -> View.INVISIBLE
+                else -> View.VISIBLE
+            }
+            tvLoginAppbarTitle.text = when (destinationId) {
+                R.id.ImageCropFragment -> "Crop"
+                else -> "Join"
+            }
+            btnNext.text = when (destinationId) {
+                R.id.ImageCropFragment -> getString(com.golfzon.core_ui.R.string.complete)
+                R.id.UserImageSetFragment -> getString(com.golfzon.core_ui.R.string.complete)
+                else -> getString(com.golfzon.core_ui.R.string.next)
             }
         }
     }
@@ -70,16 +110,20 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setNavigation() {
-        intent?.let { handleIntent(it) }
+        intent?.let {
+            handleIntent(it)
+        }
     }
+
     private fun handleIntent(intent: Intent) {
         intent.data?.toString()?.let {
             deeplinkHandler.process(it)
-            finish()
         }
     }
+
     fun navigateToTeam() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/team"))
         startActivity(intent)
+        this@LoginActivity.finish()
     }
 }
