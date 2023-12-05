@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.golfzon.core_ui.GridSpacingItemDecoration
 import com.golfzon.core_ui.adapter.TeamUserAdapter
 import com.golfzon.core_ui.autoCleared
@@ -35,6 +36,7 @@ class MatchingHomeFragment : Fragment() {
         initializeUserInfo()
         initializeTeamInfo()
         navigateToTeamInfo()
+        setStartMatchingClickListener()
         setBottomNavigationView()
     }
 
@@ -92,6 +94,12 @@ class MatchingHomeFragment : Fragment() {
     private fun navigateToTeamInfo() {
         binding.btnMatchingHomeTeamSetting.setOnDebounceClickListener {
             (requireActivity() as MatchingActivity).navigateToTeam()
+        }
+    }
+
+    private fun setStartMatchingClickListener() {
+        binding.btnMatchingHomeTeamSetting.setOnDebounceClickListener {
+            findNavController().navigate(MatchingHomeFragmentDirections.actionMatchingHomeFragmentToMatchingFilteringDialogFragment())
         }
     }
 }
