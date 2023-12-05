@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MatchingSuccessFragment">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.golfzon.matching.MatchingViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_radius_28"
+        android:backgroundTint="@color/white"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/pretendard_medium"
+            android:text="매칭이 성공했어요!"
+            android:textColor="@color/primary_8B95B3"
+            android:textFontWeight="500"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/layout_matching_success_team_info_first"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_matching_success_team_info_first"
+                    android:layout_width="96dp"
+                    android:layout_height="100dp"
+                    android:background="#F5F6F9"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/user_sample"
+                    app:shapeAppearance="@style/ShapeAppearance.radius28" />
+
+                <TextView
+                    android:id="@+id/tv_matching_success_team_info_first_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="TEAM\n팀이름"
+                    android:textFontWeight="500" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_matching_success_team_info_second"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_matching_success_team_info_second"
+                    android:layout_width="96dp"
+                    android:layout_height="100dp"
+                    android:background="#F5F6F9"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/user_sample2"
+                    app:shapeAppearance="@style/ShapeAppearance.radius28" />
+
+                <TextView
+                    android:id="@+id/tv_matching_success_team_info_second_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="TEAM\n골프존"
+                    android:textFontWeight="500" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_matching_success_group_info"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/background_radius_100"
+            android:backgroundTint="#80AFB7CF"
+            android:fontFamily="@font/pretendard_medium"
+            android:maxLines="1"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:autoSizeTextType="uniform"
+            android:autoSizeStepGranularity="0.5sp"
+            android:autoSizeMinTextSize="11sp"
+            android:autoSizeMaxTextSize="16sp"
+            android:singleLine="true"
+            android:text="11월 29일 오후 9시~오후11시"
+            android:textColor="@color/primary_8B95B3"
+            android:textFontWeight="600" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_matching_success_group_reservation"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_background_radius_12"
+                android:backgroundTint="@color/primary_btn_AFB7CF"
+                android:fontFamily="@font/pretendard_medium"
+                android:gravity="center"
+                android:text="예약"
+                android:textColor="@color/white"
+                android:textFontWeight="500"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_matching_success_group_chat"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_background_radius_12"
+                android:backgroundTint="@color/primary_btn_AFB7CF"
+                android:fontFamily="@font/pretendard_medium"
+                android:gravity="center"
+                android:text="채팅"
+                android:textColor="@color/white"
+                android:textFontWeight="500"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>
