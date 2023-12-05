@@ -15,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:padding="24dp">
 
         <LinearLayout
             android:id="@+id/layout_user_info_set_nickname_title"
