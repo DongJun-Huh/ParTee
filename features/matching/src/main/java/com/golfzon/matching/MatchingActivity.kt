@@ -14,6 +14,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MatchingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMatchingBinding
+
     @Inject
     lateinit var deeplinkHandler: DeeplinkHandler
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +22,11 @@ class MatchingActivity : AppCompatActivity() {
         binding = ActivityMatchingBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setNavigation()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0) // TODO DEPRECATED 수정
     }
 
     private fun findNavController(): NavController {
@@ -40,8 +46,15 @@ class MatchingActivity : AppCompatActivity() {
             deeplinkHandler.process(it)
         }
     }
+
     fun navigateToTeam() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/team"))
+        startActivity(intent)
+    }
+
+    fun navigateToGroup() {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/group"))
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         startActivity(intent)
     }
 }

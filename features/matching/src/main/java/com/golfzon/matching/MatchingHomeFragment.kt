@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.golfzon.core_ui.GridSpacingItemDecoration
 import com.golfzon.core_ui.adapter.TeamUserAdapter
 import com.golfzon.core_ui.autoCleared
@@ -52,8 +53,13 @@ class MatchingHomeFragment : Fragment() {
 
     private fun setBottomNavigationView() {
         with(binding.bottomNavigationMatchingHome) {
+            setupWithNavController(findNavController())
             selectedItemId = R.id.MatchingHomeFragment
-            itemIconTintList = null;
+            itemIconTintList = null
+        }
+        binding.bottomNavigationMatchingHome.menu.findItem(com.golfzon.core_ui.R.id.GroupFragment).setOnMenuItemClickListener {
+            (requireActivity() as MatchingActivity).navigateToGroup()
+            true
         }
     }
 

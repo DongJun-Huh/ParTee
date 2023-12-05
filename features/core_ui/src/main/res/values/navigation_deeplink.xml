@@ -3,4 +3,5 @@
     <string name="login_deeplink_url">/login</string>
     <string name="team_deeplink_url">/team</string>
     <string name="matching_deeplink_url">/matching</string>
+    <string name="group_deeplink_url">/group</string>
 </resources>
