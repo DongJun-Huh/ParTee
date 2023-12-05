@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.golfzon.core_ui.DialogUtil
 import com.golfzon.core_ui.DialogUtil.resizeDialogFragment
 import com.golfzon.core_ui.autoCleared
+import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.matching.databinding.FragmentMatchingFilteringDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,6 +30,7 @@ class MatchingFilteringDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setStartClickListener()
     }
 
     override fun onResume() {
@@ -39,6 +42,13 @@ class MatchingFilteringDialogFragment : DialogFragment() {
         binding.apply {
             vm = matchingViewModel
             lifecycleOwner = viewLifecycleOwner
+        }
+    }
+
+    private fun setStartClickListener() {
+        binding.btnMatchingFilterStart.setOnDebounceClickListener {
+            // TODO 설정 내용 저장 기능 추가
+            findNavController().navigate(MatchingFilteringDialogFragmentDirections.actionMatchingHomeFragmentToMatchingFragment())
         }
     }
 }

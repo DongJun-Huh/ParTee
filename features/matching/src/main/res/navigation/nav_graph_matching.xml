@@ -20,5 +20,16 @@
         android:id="@+id/MatchingFilteringDialogFragment"
         android:name="com.golfzon.matching.MatchingFilteringDialogFragment"
         android:label="fragment_matching_filtering_dialog"
-        tools:layout="@layout/fragment_matching_filtering_dialog"></dialog>
+        tools:layout="@layout/fragment_matching_filtering_dialog">
+
+        <action
+            android:id="@+id/action_matchingHomeFragment_to_matchingFragment"
+            app:destination="@id/MatchingFragment" />
+    </dialog>
+    <fragment
+        android:id="@+id/MatchingFragment"
+        android:name="com.golfzon.matching.MatchingFragment"
+        android:label="fragment_matching"
+        tools:layout="@layout/fragment_matching">
+    </fragment>
 </navigation>
