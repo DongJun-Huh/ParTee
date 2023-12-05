@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/layout_recruit_post_badges"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:flow_maxElementsWrap="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/background_radius_100_stroke_1"
+            android:fontFamily="@font/pretendard_medium"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
+            android:text="부부/커플"
+            android:textColor="@color/primary_8B95B3"
+            android:textFontWeight="500" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/background_radius_100_stroke_1"
+            android:fontFamily="@font/pretendard_medium"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
+            android:text="마감 입박"
+            android:textColor="@color/primary_8B95B3"
+            android:textFontWeight="500" />
+    </LinearLayout>
+
+    <!-- TODO 실제 뷰로 구현 필요-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/sample_recruit"
+        app:layout_constraintTop_toBottomOf="@id/layout_recruit_post_badges"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
