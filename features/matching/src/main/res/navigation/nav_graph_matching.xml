@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_matching"
+    app:startDestination="@id/MatchingHomeFragment">
+    <fragment
+        android:id="@+id/MatchingHomeFragment"
+        android:name="com.golfzon.matching.MatchingHomeFragment"
+        android:label="fragment_matching_home"
+        tools:layout="@layout/fragment_matching_home"/>
+</navigation>
