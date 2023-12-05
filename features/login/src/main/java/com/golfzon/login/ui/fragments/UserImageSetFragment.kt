@@ -95,7 +95,7 @@ class UserImageSetFragment : Fragment() {
     private fun observeUserInitializeComplete() {
         loginViewModel.isSetUserInfoSuccess.observe(viewLifecycleOwner) { isComplete ->
             if (isComplete.getContentIfNotHandled() == true) {
-                (requireActivity() as LoginActivity).navigateToTeam()
+                (requireActivity() as LoginActivity).navigateToMatching()
             }
         }
     }

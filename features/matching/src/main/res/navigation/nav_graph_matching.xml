@@ -8,5 +8,37 @@
         android:id="@+id/MatchingHomeFragment"
         android:name="com.golfzon.matching.MatchingHomeFragment"
         android:label="fragment_matching_home"
-        tools:layout="@layout/fragment_matching_home"/>
+        tools:layout="@layout/fragment_matching_home">
+
+        <action
+            android:id="@+id/action_matchingHomeFragment_to_matchingFilteringDialogFragment"
+            app:destination="@id/MatchingFilteringDialogFragment" />
+
+    </fragment>
+
+    <dialog
+        android:id="@+id/MatchingFilteringDialogFragment"
+        android:name="com.golfzon.matching.MatchingFilteringDialogFragment"
+        android:label="fragment_matching_filtering_dialog"
+        tools:layout="@layout/fragment_matching_filtering_dialog">
+
+        <action
+            android:id="@+id/action_matchingHomeFragment_to_matchingFragment"
+            app:destination="@id/MatchingFragment" />
+    </dialog>
+    <fragment
+        android:id="@+id/MatchingFragment"
+        android:name="com.golfzon.matching.MatchingFragment"
+        android:label="fragment_matching"
+        tools:layout="@layout/fragment_matching">
+
+        <action
+            android:id="@+id/action_matchingFragment_to_matchingSuccessFragment"
+            app:destination="@id/MatchingSuccessFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/MatchingSuccessFragment"
+        android:name="com.golfzon.matching.MatchingSuccessFragment"
+        android:label="fragment_matching_success"
+        tools:layout="@layout/fragment_matching_success"></dialog>
 </navigation>

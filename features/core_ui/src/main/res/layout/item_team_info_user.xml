@@ -22,13 +22,17 @@
         <variable
             name="isLeader"
             type="Boolean" />
+
+        <variable
+            name="isWhiteTheme"
+            type="Boolean" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_radius_16"
-        android:backgroundTint="#80FFFFFF"
+        android:backgroundTint="@{isWhiteTheme ? @color/white : @color/white_opacity50}"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp"
         android:paddingTop="3dp"
@@ -56,12 +60,13 @@
                 android:layout_marginTop="-11dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_crown"
-                android:visibility="@{isLeader ? View.VISIBLE :View.INVISIBLE }"
+                android:visibility="@{isLeader ? View.VISIBLE :View.INVISIBLE}"
                 app:layout_constraintBottom_toBottomOf="@id/iv_team_info_user"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/iv_team_info_user"
                 app:layout_constraintVertical_bias="0.0"
+                android:tint="@{isWhiteTheme ? @color/primary_8B95B3 : @color/white}"
                 tools:visibility="visible" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -88,7 +93,7 @@
                     android:letterSpacing="0"
                     android:lineSpacingExtra="5sp"
                     android:text="@{user.nickname}"
-                    android:textColor="@color/white"
+                    android:textColor="@{isWhiteTheme ? @color/primary_8B95B3 : @color/white}"
                     android:textFontWeight="600"
                     android:textSize="16sp"
                     tools:text="허동준" />
@@ -99,13 +104,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:background="@drawable/background_radius_100"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="@{isWhiteTheme ? @color/white : @color/primary_8B95B3}"
                     android:fontFamily="@font/montserrat_medium"
                     android:gravity="center"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="2dp"
                     android:text="@string/me"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@{isWhiteTheme ? @color/primary_8B95B3 : @color/white}"
                     android:visibility="@{isCurUser ? View.VISIBLE :View.INVISIBLE }"
                     tools:visibility="visible" />
             </LinearLayout>
@@ -128,7 +133,7 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@android:color/transparent"
                         android:src="@drawable/ic_cake"
-                        android:tint="@color/white" />
+                        android:tint="@{isWhiteTheme ? @color/primary_8B95B3 : @color/white}" />
 
                     <TextView
                         android:id="@+id/tv_team_info_user_detail_basic_age"
@@ -137,7 +142,7 @@
                         android:layout_marginStart="4dp"
                         android:fontFamily="@font/pretendard_regular"
                         android:text="@{user.age+`세`}"
-                        android:textColor="@color/white"
+                        android:textColor="@{isWhiteTheme ? @color/primary_8B95B3 : @color/white}"
                         android:textFontWeight="500"
                         android:textSize="12sp"
                         tools:text="25세" />
@@ -154,7 +159,7 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@android:color/transparent"
                         android:src="@drawable/ic_flag"
-                        android:tint="@color/white" />
+                        android:tint="@{isWhiteTheme ? @color/primary_8B95B3 : @color/white}" />
 
                     <TextView
                         android:id="@+id/tv_team_info_user_detail_basic_years_playing"
@@ -163,7 +168,7 @@
                         android:layout_marginStart="4dp"
                         android:fontFamily="@font/pretendard_regular"
                         android:text="@{user.yearsPlaying+`년`}"
-                        android:textColor="@color/white"
+                        android:textColor="@{isWhiteTheme ? @color/primary_8B95B3 : @color/white}"
                         android:textFontWeight="500"
                         android:textSize="12sp"
                         tools:text="8년" />
@@ -180,7 +185,7 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@android:color/transparent"
                         android:src="@drawable/ic_flash"
-                        android:tint="@color/white" />
+                        android:tint="@{isWhiteTheme ? @color/primary_8B95B3 : @color/white}" />
 
                     <TextView
                         android:id="@+id/tv_team_info_user_detail_basic_average"
@@ -189,7 +194,7 @@
                         android:layout_marginStart="4dp"
                         android:fontFamily="@font/pretendard_regular"
                         android:text="@{user.average+`타`}"
-                        android:textColor="@color/white"
+                        android:textColor="@{isWhiteTheme ? @color/primary_8B95B3 : @color/white}"
                         android:textFontWeight="500"
                         android:textSize="12sp"
                         tools:text="100타" />

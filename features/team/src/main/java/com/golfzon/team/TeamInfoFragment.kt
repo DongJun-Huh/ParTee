@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.golfzon.core_ui.GridSpacingItemDecoration
 import com.golfzon.core_ui.KeyBoardUtil.showKeyboard
+import com.golfzon.core_ui.adapter.TeamUserAdapter
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
@@ -43,6 +45,7 @@ class TeamInfoFragment : Fragment() {
         setTeamInfoChangeImageClickListener()
         setTeamInfoChangeSaveClickListener()
         setTeamInfoSetImageLayout()
+        setBackClickListener()
     }
 
     private fun onDestroyBindingView() {
@@ -148,6 +151,12 @@ class TeamInfoFragment : Fragment() {
         binding.btnTeamInfoSave.setOnDebounceClickListener {
             teamViewModel.organizeTeam()
         }
+
+        teamViewModel.isTeamOrganizeSuccess.observe(viewLifecycleOwner) { isSuccess ->
+            if (isSuccess.getContentIfNotHandled() == true) {
+                (requireActivity() as TeamActivity).navigateToMatching()
+            }
+        }
     }
 
     private fun setTeamInfoSetImageLayout() {
@@ -158,6 +167,22 @@ class TeamInfoFragment : Fragment() {
 
         binding.ivTeamInfoSetImage.setOnDebounceClickListener {
             // TODO 임시 이미지 설정 기능 추가
+        }
+    }
+
+    private fun setBackClickListener() {
+        val onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                (requireActivity() as TeamActivity).navigateToMatching()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            onBackPressedCallback
+        )
+
+        binding.btnTeamInfoBack.setOnDebounceClickListener {
+            (requireActivity() as TeamActivity).navigateToMatching()
         }
     }
 

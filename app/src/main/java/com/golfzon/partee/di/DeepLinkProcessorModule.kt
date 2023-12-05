@@ -2,6 +2,7 @@ package com.golfzon.partee.di
 
 import com.golfzon.core_ui.navigation.DeeplinkProcessor
 import com.golfzon.login.ui.LoginDeeplinkProcessor
+import com.golfzon.matching.MatchingDeeplinkProcessor
 import com.golfzon.team.TeamDeeplinkProcessor
 import dagger.Binds
 import dagger.Module
@@ -19,5 +20,9 @@ interface DeepLinkProcessorModule {
     @Binds
     @IntoSet
     fun bindTeamDeeplinkProcessors(teamDeeplinkProcessor: TeamDeeplinkProcessor): DeeplinkProcessor
+
+    @Binds
+    @IntoSet
+    fun bindMatchingDeeplinkProcessors(matchingDeeplinkProcessor: MatchingDeeplinkProcessor): DeeplinkProcessor
 
 }

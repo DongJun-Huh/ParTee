@@ -1,5 +1,7 @@
 package com.golfzon.team
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
@@ -20,5 +22,11 @@ class TeamActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         return navHostFragment.navController
+    }
+
+    fun navigateToMatching() {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/matching}"))
+        startActivity(intent)
+        this@TeamActivity.finish()
     }
 }

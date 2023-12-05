@@ -68,7 +68,7 @@ class LoginFragment : Fragment() {
 
         loginViewModel.isUserInitialized.observe(viewLifecycleOwner) { isUserInitialized ->
             if (isUserInitialized.getContentIfNotHandled() == true) {
-                (requireActivity() as LoginActivity).navigateToTeam()
+                (requireActivity() as LoginActivity).navigateToMatching()
             } else {
                 findNavController().navigate(
                     LoginFragmentDirections.actionLoginFragmentToUserInfoSetNicknameFragment()

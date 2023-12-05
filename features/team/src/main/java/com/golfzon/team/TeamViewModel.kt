@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.golfzon.core_ui.Event
 import com.golfzon.core_ui.ListLiveData
 import com.golfzon.domain.model.Team
 import com.golfzon.domain.model.TeamInfo
@@ -40,11 +41,8 @@ class TeamViewModel @Inject constructor(
     private val _newTeam = MutableLiveData<Team>()
     val newTeam: LiveData<Team> get() = _newTeam
 
-    fun getTeamInfo() = viewModelScope.launch {
-        getUserTeamInfoDetailUseCase().let { curTeam ->
-            _teamInfoDetail.postValue(curTeam)
-        }
-    }
+    private val _isTeamOrganizeSuccess = MutableLiveData<Event<Boolean>>()
+    val isTeamOrganizeSuccess: LiveData<Event<Boolean>> get() = _isTeamOrganizeSuccess
 
     fun getNewTeamInfo() = viewModelScope.launch {
         getUserTeamInfoDetailUseCase().let {
@@ -79,7 +77,9 @@ class TeamViewModel @Inject constructor(
         requestTeamOrganizedUseCase(
             // TODO teamName, teamImageUrl, leaderUId, membersUId, headCount, searchingTimes, searchingLocations, openChatUrl만 설정
             newTeam = _newTeam.value!!
-        )
+        )?.let {
+            _isTeamOrganizeSuccess.postValue(Event(true))
+        }
     }
 
     fun addTeamMember(newUserUId: String) = viewModelScope.launch {

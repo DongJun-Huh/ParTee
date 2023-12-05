@@ -1,4 +1,4 @@
-package com.golfzon.team
+package com.golfzon.core_ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,11 +6,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.golfzon.core_ui.databinding.ItemTeamInfoUserBinding
 import com.golfzon.domain.model.User
-import com.golfzon.team.databinding.ItemTeamInfoUserBinding
 
-class TeamUserAdapter() :
+class TeamUserAdapter(private val isWhiteTheme: Boolean = false) :
     ListAdapter<Triple<User, Boolean, String>, TeamUserAdapter.TeamUserViewHolder>(diffCallback) {
+    // User: 표시할 유저 정보, Boolean: 현재 유저가 본인인지 유무, String: 현재 팀장 Id
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<Triple<User, Boolean, String>>() {
             override fun areItemsTheSame(
@@ -55,9 +56,10 @@ class TeamUserAdapter() :
 
         private fun setBindingSetVariable(user: Triple<User, Boolean, String>) {
             with(binding) {
-                setVariable(BR.user, user.first)
-                setVariable(BR.isCurUser, user.second)
-                setVariable(BR.isLeader, user.third == user.first.userUId)
+                this.user = user.first
+                this.isCurUser = user.second
+                this.isLeader = user.third == user.first.userUId
+                this.isWhiteTheme = this@TeamUserAdapter.isWhiteTheme
                 executePendingBindings()
             }
         }
