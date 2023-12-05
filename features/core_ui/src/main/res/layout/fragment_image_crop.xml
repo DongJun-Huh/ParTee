@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".image.crop.ImageCropFragment">
+
+    <com.naver.android.helloyako.imagecrop.view.ImageCropView
+        android:id="@+id/imageCropView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="28dp"
+        android:visibility="visible"
+        app:gridInnerColor="#66ffffff"
+        app:gridInnerStroke="1dp"
+        app:gridOuterColor="#ffffff"
+        app:gridOuterStroke="1dp"
+        app:outsideLayerColor="#99000000"
+        app:setInnerGridMode="on"
+        app:setOuterGridMode="on" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -48,6 +48,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.bundles.android.lifecycle)
     implementation(libs.dagger.hilt.android)
+    implementation(libs.constraintlayout)
+    implementation(libs.image.cropview)
     kapt(libs.dagger.hilt.android.compiler)
     implementation(libs.bundles.jetpack.navigation)
     implementation(libs.glide)
