@@ -1,6 +1,7 @@
 package com.golfzon.core_ui
 
 import android.content.ContentResolver
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
@@ -9,6 +10,9 @@ import android.provider.MediaStore
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 object ImageUploadUtil {
     private val PERMIT_IMAGE_EXTENSIONS = listOf("jpg", "jpeg", "png", "webp")
@@ -45,5 +49,15 @@ object ImageUploadUtil {
             out?.close()
         }
         return file
+    }
+
+    fun getTempImageFilePath(fileExtension: String, context: Context): String {
+        val imageFileTimeFormat = SimpleDateFormat("yyyy-MM-d-HH-mm-ss", Locale.KOREA)
+        // uri를 통하여 불러온 이미지를 임시로 파일로 저장할 경로로 앱 내부 캐시 디렉토리로 설정,
+        // 파일 이름은 불러온 시간 사용
+        val fileName = imageFileTimeFormat.format(Date(System.currentTimeMillis()))
+            .toString() + "." + fileExtension
+        val cacheDir = context.cacheDir.toString()
+        return "$cacheDir/$fileName"
     }
 }

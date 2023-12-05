@@ -30,7 +30,6 @@ class MemberRepositoryImpl @Inject constructor(
     private val firebaseStorage: FirebaseStorage,
     private val dataStore: DataStore<Preferences>
 ) : MemberRepository {
-    // TODO 임시로 curUserUId 기본값으로 들어가있는 saGsdRTdEfeJklbHjIBHGpGRZdj1 삭제
     override suspend fun requestRegisterUser(UId: String, email: String): Boolean {
         return suspendCancellableCoroutine { continuation ->
             val newUser = hashMapOf(
@@ -227,15 +226,15 @@ class MemberRepositoryImpl @Inject constructor(
             var curUserUId = ""
             var curUserEmail = ""
             runBlocking {
-                curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "saGsdRTdEfeJklbHjIBHGpGRZdj1") ?: ""
-                curUserEmail = dataStore.readValue(stringPreferencesKey("userEmail"), "saGsdRTdEfeJklbHjIBHGpGRZdj1") ?: ""
+                curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
+                curUserEmail = dataStore.readValue(stringPreferencesKey("userEmail"), "") ?: ""
             }
 
             val storageRef = firebaseStorage.reference
             val userImageExtension =
                 if (userImg.path.split(".").last().isNotEmpty()) userImg.path.split(".")
                     .last() else "jpg"
-            val userImagesRef = storageRef.child("${curUserUId}.${userImageExtension}")
+            val userImagesRef = storageRef.child("users/${curUserUId}.${userImageExtension}")
             val newUser = hashMapOf(
                 "nickname" to user.nickname,
                 "email" to curUserEmail,
@@ -269,7 +268,7 @@ class MemberRepositoryImpl @Inject constructor(
             val resultUsers = mutableListOf<User>()
             var curUserUId = ""
             runBlocking {
-                curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "saGsdRTdEfeJklbHjIBHGpGRZdj1") ?: ""
+                curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
             }
 
             firestore.collection("users")
@@ -325,7 +324,7 @@ class MemberRepositoryImpl @Inject constructor(
         suspendCancellableCoroutine { continuation ->
             var curUserUId = ""
             runBlocking {
-                curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "saGsdRTdEfeJklbHjIBHGpGRZdj1") ?: ""
+                curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
             }
 
             firestore.collection("users")
