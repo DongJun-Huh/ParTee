@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.recruit.databinding.FragmentRecruitHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,11 +26,24 @@ class RecruitHomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setBottomNavigationView()
     }
 
     private fun setDataBindingVariables() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
+        }
+    }
+
+    private fun setBottomNavigationView() {
+        with(binding.bottomNavigationRecruitpHome) {
+            setupWithNavController(findNavController())
+            selectedItemId = com.golfzon.core_ui.R.id.GroupFragment
+            itemIconTintList = null
+        }
+        binding.bottomNavigationRecruitpHome.menu.findItem(com.golfzon.core_ui.R.id.MatchingHomeFragment).setOnMenuItemClickListener {
+            (requireActivity() as RecruitActivity).navigateToGroup()
+            true
         }
     }
 }
