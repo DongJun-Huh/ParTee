@@ -12,6 +12,11 @@
     <string name="team">TEAM</string>
     <string name="me">ME</string>
 
+    <!-- 메뉴 -->
+    <string name="home">홈</string>
+    <string name="group">매칭 모임</string>
+    <string name="recruit">모임 찾기</string>
+
     <!-- 지역 -->
     <string name="nationwide">전국</string>
     <string name="seoul">서울</string>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/GroupFragment"
+        android:enabled="true"
+        android:icon="@drawable/selector_menu_icon_home"
+        android:title="@string/group" />
+    <item
+        android:id="@+id/MatchingHomeFragment"
+        android:enabled="true"
+        android:icon="@drawable/selector_menu_icon_home"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/RecruitFragment"
+        android:enabled="true"
+        android:icon="@drawable/selector_menu_icon_home"
+        android:title="@string/recruit" />
+</menu>
