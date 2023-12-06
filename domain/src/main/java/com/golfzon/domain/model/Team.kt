@@ -8,6 +8,7 @@ data class Team(
     val headCount: Int,
     val searchingHeadCount: Int,
     val searchingTimes: String,
+    val searchingDays: String,
     val searchingLocations: List<String>,
     val openChatUrl: String
 )
