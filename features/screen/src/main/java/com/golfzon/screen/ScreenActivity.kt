@@ -1,4 +1,4 @@
-package com.golfzon.group
+package com.golfzon.screen
 
 import android.content.Intent
 import android.net.Uri
@@ -7,15 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.golfzon.group.databinding.ActivityGroupBinding
+import com.golfzon.screen.databinding.ActivityScreenBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class GroupActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityGroupBinding
+class ScreenActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityScreenBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityGroupBinding.inflate(layoutInflater)
+        binding = ActivityScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 
@@ -29,6 +29,7 @@ class GroupActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         return navHostFragment.navController
     }
+
     private fun removeActivityChangeAnimation() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             overrideActivityTransition(OVERRIDE_TRANSITION_OPEN,0, 0)
@@ -37,21 +38,8 @@ class GroupActivity : AppCompatActivity() {
             overridePendingTransition(0, 0)
         }
     }
-
-    fun navigateToMatching() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/matching"))
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-        startActivity(intent)
-    }
-
-    fun navigateToRecruit() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/recruit"))
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-        startActivity(intent)
-    }
-
-    fun navigateToScreen() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/screen"))
+    fun navigateToGroup() {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/group"))
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         startActivity(intent)
     }

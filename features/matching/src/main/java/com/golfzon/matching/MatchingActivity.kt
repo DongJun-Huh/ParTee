@@ -73,4 +73,10 @@ class MatchingActivity : AppCompatActivity() {
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         startActivity(intent)
     }
+
+    fun navigateToScreen() {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/screen"))
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+        startActivity(intent)
+    }
 }
