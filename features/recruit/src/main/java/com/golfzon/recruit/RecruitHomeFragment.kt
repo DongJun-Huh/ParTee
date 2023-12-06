@@ -36,14 +36,20 @@ class RecruitHomeFragment : Fragment() {
     }
 
     private fun setBottomNavigationView() {
-        with(binding.bottomNavigationRecruitpHome) {
+        with(binding.bottomNavigationRecruitHome) {
             setupWithNavController(findNavController())
-            selectedItemId = com.golfzon.core_ui.R.id.GroupFragment
+            selectedItemId = R.id.RecruitHomeFragment
             itemIconTintList = null
         }
-        binding.bottomNavigationRecruitpHome.menu.findItem(com.golfzon.core_ui.R.id.MatchingHomeFragment).setOnMenuItemClickListener {
-            (requireActivity() as RecruitActivity).navigateToGroup()
-            true
+        with(binding.bottomNavigationRecruitHome.menu) {
+            findItem(com.golfzon.core_ui.R.id.MatchingHomeFragment).setOnMenuItemClickListener {
+                (requireActivity() as RecruitActivity).navigateToMatching()
+                true
+            }
+            findItem(com.golfzon.core_ui.R.id.GroupHomeFragment).setOnMenuItemClickListener {
+                (requireActivity() as RecruitActivity).navigateToGroup()
+                true
+            }
         }
     }
 }

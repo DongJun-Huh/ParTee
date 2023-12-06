@@ -2,6 +2,7 @@ package com.golfzon.matching
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
@@ -26,13 +27,22 @@ class MatchingActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        overridePendingTransition(0, 0) // TODO DEPRECATED 수정
+        removeActivityChangeAnimation()
     }
 
     private fun findNavController(): NavController {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         return navHostFragment.navController
+    }
+
+    private fun removeActivityChangeAnimation() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN,0, 0)
+            overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE,0, 0)
+        } else {
+            overridePendingTransition(0, 0)
+        }
     }
 
     private fun setNavigation() {
@@ -54,6 +64,12 @@ class MatchingActivity : AppCompatActivity() {
 
     fun navigateToGroup() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/group"))
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+        startActivity(intent)
+    }
+
+    fun navigateToRecruit() {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/recruit"))
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         startActivity(intent)
     }

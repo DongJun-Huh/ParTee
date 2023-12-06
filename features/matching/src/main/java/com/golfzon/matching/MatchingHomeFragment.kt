@@ -57,9 +57,15 @@ class MatchingHomeFragment : Fragment() {
             selectedItemId = R.id.MatchingHomeFragment
             itemIconTintList = null
         }
-        binding.bottomNavigationMatchingHome.menu.findItem(com.golfzon.core_ui.R.id.GroupFragment).setOnMenuItemClickListener {
-            (requireActivity() as MatchingActivity).navigateToGroup()
-            true
+        with(binding.bottomNavigationMatchingHome.menu) {
+            findItem(com.golfzon.core_ui.R.id.GroupHomeFragment).setOnMenuItemClickListener {
+                (requireActivity() as MatchingActivity).navigateToGroup()
+                true
+            }
+            findItem(com.golfzon.core_ui.R.id.RecruitHomeFragment).setOnMenuItemClickListener {
+                (requireActivity() as MatchingActivity).navigateToRecruit()
+                true
+            }
         }
     }
 
