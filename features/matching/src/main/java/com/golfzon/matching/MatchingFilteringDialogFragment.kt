@@ -48,7 +48,7 @@ class MatchingFilteringDialogFragment : DialogFragment() {
     private fun setStartClickListener() {
         binding.btnMatchingFilterStart.setOnDebounceClickListener {
             // TODO 설정 내용 저장 기능 추가
-            findNavController().navigate(MatchingFilteringDialogFragmentDirections.actionMatchingHomeFragmentToMatchingFragment())
+            findNavController().navigate(MatchingFilteringDialogFragmentDirections.actionMatchingFilteringDialogFragmentToMatchingFragment())
         }
     }
 }

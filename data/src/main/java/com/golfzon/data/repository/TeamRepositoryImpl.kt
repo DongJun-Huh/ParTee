@@ -3,7 +3,9 @@ package com.golfzon.data.repository
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.golfzon.data.extension.readValue
 import com.golfzon.data.extension.storeValue
 import com.golfzon.domain.model.Team
@@ -90,6 +92,7 @@ class TeamRepositoryImpl @Inject constructor(
                                     membersUId = listOf(curUserUId),
                                     headCount = 1,
                                     searchingTimes = "",
+                                    searchingDays = "",
                                     searchingLocations = listOf(),
                                     openChatUrl = "",
                                     searchingHeadCount = 0
@@ -103,6 +106,14 @@ class TeamRepositoryImpl @Inject constructor(
                             .get()
                             .addOnSuccessListener { teamDetail ->
                                 if (continuation.isActive) {
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        dataStore.storeValue(intPreferencesKey("teamHeadCount"), (teamDetail["headCount"] as Long).toInt())
+                                        dataStore.storeValue(stringSetPreferencesKey("searchingLocations"), (teamDetail["searchingLocations"] as List<String>).toSet())
+                                        dataStore.storeValue(stringPreferencesKey("searchingTimes"), (teamDetail["searchingTimes"] as String))
+                                        dataStore.storeValue(stringPreferencesKey("searchingDays"), (teamDetail["searchingDays"] as String))
+                                        dataStore.storeValue(stringPreferencesKey("teamUId"), (it.teamUId))
+                                    }
+
                                     continuation.resume(
                                         Team(
                                             teamName = teamDetail["teamName"] as String,
@@ -112,6 +123,7 @@ class TeamRepositoryImpl @Inject constructor(
                                             headCount = (teamDetail["headCount"] as Long).toInt(),
                                             searchingHeadCount = (teamDetail["searchingHeadCount"] as Long).toInt(),
                                             searchingTimes = teamDetail["searchingTimes"] as String,
+                                            searchingDays = teamDetail["searchingDays"] as String,
                                             searchingLocations = teamDetail["searchingLocations"] as List<String>,
                                             openChatUrl = teamDetail["openChatUrl"] as String
                                         )

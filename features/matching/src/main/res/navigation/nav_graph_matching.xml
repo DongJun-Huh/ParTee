@@ -23,7 +23,7 @@
         tools:layout="@layout/fragment_matching_filtering_dialog">
 
         <action
-            android:id="@+id/action_matchingHomeFragment_to_matchingFragment"
+            android:id="@+id/action_matchingFilteringDialogFragment_to_matchingFragment"
             app:destination="@id/MatchingFragment" />
     </dialog>
     <fragment

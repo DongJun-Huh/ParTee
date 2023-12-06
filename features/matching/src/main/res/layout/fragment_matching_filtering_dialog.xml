@@ -38,6 +38,7 @@
                 android:orientation="horizontal">
 
                 <ImageButton
+                    onDebounceClick="@{() -> vm.minusCurSearchingHeadCount()}"
                     android:layout_width="46dp"
                     android:layout_height="46dp"
                     android:background="@drawable/btn_background_radius_12"
@@ -53,12 +54,14 @@
                     android:gravity="center"
                     android:letterSpacing="0"
                     android:lineSpacingExtra="4sp"
+                    android:text="@={``+vm.curSearchingHeadCount}"
                     android:textColor="#1C1D22"
                     android:textFontWeight="500"
                     android:textSize="16sp"
                     tools:text="1" />
 
                 <ImageButton
+                    onDebounceClick="@{() -> vm.addCurSearchingHeadCount()}"
                     android:layout_width="46dp"
                     android:layout_height="46dp"
                     android:background="@drawable/btn_background_radius_12"

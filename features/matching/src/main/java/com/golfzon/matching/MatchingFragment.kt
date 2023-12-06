@@ -22,6 +22,7 @@ class MatchingFragment : Fragment() {
     ): View? {
         binding = FragmentMatchingBinding.inflate(inflater, container, false)
         setDataBindingVariables()
+        getCandidateTeams()
         return binding.root
     }
 
@@ -36,6 +37,10 @@ class MatchingFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             vm = matchingViewModel
         }
+    }
+
+    private fun getCandidateTeams() {
+        matchingViewModel.getCandidateTeams()
     }
 
     private fun tempUserImageClickListener() {
