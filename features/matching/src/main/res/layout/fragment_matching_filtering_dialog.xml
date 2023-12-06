@@ -91,27 +91,25 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_radius_100"
-                    android:backgroundTint="@color/primary_8B95B3"
+                    android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
                     android:gravity="center"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="4dp"
                     android:text="주중"
-                    android:textColor="@color/white" />
+                    android:textColor="@drawable/selector_textview_primary_50_to_white" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:background="@drawable/background_radius_100"
-                    android:backgroundTint="@color/primary_8B95B3"
+                    android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
                     android:gravity="center"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="4dp"
                     android:text="주말"
-                    android:textColor="@color/white" />
+                    android:textColor="@drawable/selector_textview_primary_50_to_white" />
             </RadioGroup>
 
             <RadioGroup
@@ -123,53 +121,49 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_radius_100"
-                    android:backgroundTint="@color/primary_8B95B3"
+                    android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
                     android:gravity="center"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="4dp"
                     android:text="오전"
-                    android:textColor="@color/white" />
+                    android:textColor="@drawable/selector_textview_primary_50_to_white" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:background="@drawable/background_radius_100"
-                    android:backgroundTint="@color/primary_8B95B3"
+                    android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
                     android:gravity="center"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="4dp"
                     android:text="오후"
-                    android:textColor="@color/white" />
+                    android:textColor="@drawable/selector_textview_primary_50_to_white" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:background="@drawable/background_radius_100"
-                    android:backgroundTint="@color/primary_8B95B3"
+                    android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
                     android:gravity="center"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="4dp"
                     android:text="야간"
-                    android:textColor="@color/white" />
+                    android:textColor="@drawable/selector_textview_primary_50_to_white" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:background="@drawable/background_radius_100"
-                    android:backgroundTint="@color/primary_8B95B3"
+                    android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
                     android:gravity="center"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="4dp"
                     android:text="새벽"
-                    android:textColor="@color/white" />
+                    android:textColor="@drawable/selector_textview_primary_50_to_white" />
             </RadioGroup>
         </LinearLayout>
 
