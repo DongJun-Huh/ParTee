@@ -40,12 +40,18 @@ class GroupHomeFragment : Fragment() {
     private fun setBottomNavigationView() {
         with(binding.bottomNavigationGroupHome) {
             setupWithNavController(findNavController())
-            selectedItemId = com.golfzon.core_ui.R.id.GroupFragment
+            selectedItemId = com.golfzon.core_ui.R.id.GroupHomeFragment
             itemIconTintList = null
         }
-        binding.bottomNavigationGroupHome.menu.findItem(com.golfzon.core_ui.R.id.MatchingHomeFragment).setOnMenuItemClickListener {
-            (requireActivity() as GroupActivity).navigateToGroup()
-            true
+        with(binding.bottomNavigationGroupHome.menu) {
+            findItem(com.golfzon.core_ui.R.id.MatchingHomeFragment).setOnMenuItemClickListener {
+                (requireActivity() as GroupActivity).navigateToMatching()
+                true
+            }
+            findItem(com.golfzon.core_ui.R.id.RecruitHomeFragment).setOnMenuItemClickListener {
+                (requireActivity() as GroupActivity).navigateToRecruit()
+                true
+            }
         }
     }
 

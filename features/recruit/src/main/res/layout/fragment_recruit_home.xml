@@ -49,83 +49,87 @@
             app:layout_constraintTop_toBottomOf="@id/layout_recruit_appbar"
             app:layout_constraintVertical_bias="0.0">
 
-            <!-- TODO 해당 레이아웃 내 뷰들은 모두 수정 대상-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_radius_100_stroke_1"
-                android:fontFamily="@font/pretendard_medium"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="4dp"
-                android:text="날짜"
-                android:textColor="@color/primary_8B95B3"
-                android:textFontWeight="500" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/background_radius_100_stroke_1"
-                android:fontFamily="@font/pretendard_medium"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="4dp"
-                android:text="시간"
-                android:textColor="@color/primary_8B95B3"
-                android:textFontWeight="500" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/background_radius_100_stroke_1"
-                android:fontFamily="@font/pretendard_medium"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="4dp"
-                android:text="지점"
-                android:textColor="@color/primary_8B95B3"
-                android:textFontWeight="500" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/background_radius_100_stroke_1"
-                android:fontFamily="@font/pretendard_medium"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="4dp"
-                android:text="지역"
-                android:textColor="@color/primary_8B95B3"
-                android:textFontWeight="500" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/background_radius_100_stroke_1"
-                android:fontFamily="@font/pretendard_medium"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="4dp"
-                android:text="연박"
-                android:textColor="@color/primary_8B95B3"
-                android:textFontWeight="500" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/background_radius_100_stroke_1"
-                android:fontFamily="@font/pretendard_medium"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="4dp"
-                android:text="부부/커플"
-                android:textColor="@color/primary_8B95B3"
-                android:textFontWeight="500" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/background_radius_100_stroke_1"
-                android:fontFamily="@font/pretendard_medium"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="4dp"
-                android:text="초대비 없음"
-                android:textColor="@color/primary_8B95B3"
-                android:textFontWeight="500" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!-- TODO 해당 레이아웃 내 뷰들은 모두 수정 대상-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_radius_100_stroke_1"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:text="날짜"
+                    android:textColor="@color/primary_8B95B3"
+                    android:textFontWeight="500" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/background_radius_100_stroke_1"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:text="시간"
+                    android:textColor="@color/primary_8B95B3"
+                    android:textFontWeight="500" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/background_radius_100_stroke_1"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:text="지점"
+                    android:textColor="@color/primary_8B95B3"
+                    android:textFontWeight="500" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/background_radius_100_stroke_1"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:text="지역"
+                    android:textColor="@color/primary_8B95B3"
+                    android:textFontWeight="500" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/background_radius_100_stroke_1"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:text="연박"
+                    android:textColor="@color/primary_8B95B3"
+                    android:textFontWeight="500" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/background_radius_100_stroke_1"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:text="부부/커플"
+                    android:textColor="@color/primary_8B95B3"
+                    android:textFontWeight="500" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/background_radius_100_stroke_1"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:text="초대비 없음"
+                    android:textColor="@color/primary_8B95B3"
+                    android:textFontWeight="500" />
+            </LinearLayout>
         </HorizontalScrollView>
         <!-- TODO 삭제할 뷰 -->
         <androidx.core.widget.NestedScrollView
@@ -194,7 +198,6 @@
                     app:layout_constraintVertical_bias="0.0" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation_recruit_home"
