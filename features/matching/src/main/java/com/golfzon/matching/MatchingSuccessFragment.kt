@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import com.golfzon.core_ui.DialogUtil.resizeDialogFragment
 import com.golfzon.core_ui.DialogUtil.setDialogRadius
 import com.golfzon.core_ui.autoCleared
+import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.matching.databinding.FragmentMatchingSuccessBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,6 +29,7 @@ class MatchingSuccessFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setReservationClickListener()
     }
 
     override fun onResume() {
@@ -39,6 +41,12 @@ class MatchingSuccessFragment : DialogFragment() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             vm = matchingViewModel
+        }
+    }
+
+    private fun setReservationClickListener() {
+        binding.btnMatchingSuccessGroupReservation.setOnDebounceClickListener {
+            (requireActivity() as MatchingActivity).navigateToScreen()
         }
     }
 }
