@@ -9,6 +9,26 @@
         <variable
             name="vm"
             type="com.golfzon.matching.MatchingViewModel" />
+
+        <variable
+            name="curUserTeamDetail"
+            type="com.golfzon.domain.model.Team" />
+
+        <variable
+            name="curTeamAvgAge"
+            type="Integer" />
+
+        <variable
+            name="curTeamAvgYearsPlaying"
+            type="Integer" />
+
+        <variable
+            name="curTeamAvgAverage"
+            type="Integer" />
+
+        <variable
+            name="curTeamDetail"
+            type="com.golfzon.domain.model.Team" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -67,18 +87,44 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="17dp"
                 android:fontFamily="@font/pretendard_medium"
-                android:text="2명 / 주중 오전/ 서울, 경기"
+                android:text="@{curUserTeamDetail.searchingHeadCount + `명 / ` + curUserTeamDetail.searchingDays + ` ` + curUserTeamDetail.searchingTimes + ` / `}"
                 android:textColor="@color/black"
                 android:textFontWeight="500"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_matching_filtering_current_locations"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.5" />
+                app:layout_constraintVertical_bias="0.5"
+                tools:text="2명 / 주중 오전 / " />
+
+            <TextView
+                android:id="@+id/tv_matching_filtering_current_locations"
+                displayListsToString="@{curUserTeamDetail.searchingLocations}"
+                divider="@{`, `}"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="10sp"
+                android:autoSizeStepGranularity="0.5sp"
+                android:autoSizeTextType="uniform"
+                android:fontFamily="@font/pretendard_medium"
+                android:gravity="start|center_vertical"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textFontWeight="500"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_matching_filtering_change"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/tv_matching_filtering_current"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5"
+                tools:text="서울, 경기" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_matching_filtering_change"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="7dp"
@@ -86,6 +132,7 @@
                 android:background="@drawable/btn_background_radius_12"
                 android:backgroundTint="#F5F6F9"
                 android:fontFamily="@font/pretendard_medium"
+                android:gravity="center"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="4dp"
                 android:text="변경"
@@ -95,7 +142,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@id/tv_matching_filtering_current"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/tv_matching_filtering_current_locations"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -129,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:fontFamily="@font/pretendard_semi_bold"
-                android:text="팀 이름"
+                android:text="@{curTeamDetail.teamName}"
                 android:textColor="@color/white"
                 android:textFontWeight="600"
                 android:textSize="28sp" />
@@ -154,11 +202,12 @@
                         android:tint="@color/white" />
 
                     <TextView
+                        displayListsToString="@{curTeamDetail.searchingLocations}"
+                        divider="@{` / `}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:gravity="center"
-                        android:text="서울 / 인천 / 경기"
                         android:textColor="@color/white" />
                 </LinearLayout>
 
@@ -176,12 +225,14 @@
                         android:tint="@color/white" />
 
                     <TextView
+                        android:id="@+id/tv_matching_candidate_team_info_avg_age"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:gravity="center"
-                        android:text="평균 25세"
-                        android:textColor="@color/white" />
+                        android:text="@{`평균 `+curTeamAvgAge+`세`}"
+                        android:textColor="@color/white"
+                        tools:text="평균 25세" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -198,12 +249,14 @@
                         android:tint="@color/white" />
 
                     <TextView
+                        android:id="@+id/tv_matching_candidate_team_info_avg_years_playing"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:gravity="center"
-                        android:text="평균 7년"
-                        android:textColor="@color/white" />
+                        android:text="@{`평균 `+curTeamAvgYearsPlaying+`년`}"
+                        android:textColor="@color/white"
+                        tools:text="평균 7년" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -220,12 +273,14 @@
                         android:tint="@color/white" />
 
                     <TextView
+                        android:id="@+id/tv_matching_candidate_team_info_avg_average"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:gravity="center"
-                        android:text="평균 120타"
-                        android:textColor="@color/white" />
+                        android:text="@{`평균 `+curTeamAvgAverage+`타`}"
+                        android:textColor="@color/white"
+                        tools:text="평균 120타" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -307,8 +362,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:gravity="center"
-                        android:text="25세"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        tools:text="25세" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -329,8 +384,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:gravity="center"
-                        android:text="3년"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        tools:text="3년" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -351,10 +406,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:gravity="center"
-                        android:text="100타"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        tools:text="100타" />
                 </LinearLayout>
-
             </LinearLayout>
         </LinearLayout>
 

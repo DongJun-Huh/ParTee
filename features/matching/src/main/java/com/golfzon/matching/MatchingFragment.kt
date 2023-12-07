@@ -11,6 +11,7 @@ import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.matching.databinding.FragmentMatchingBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class MatchingFragment : Fragment() {
@@ -22,6 +23,7 @@ class MatchingFragment : Fragment() {
     ): View? {
         binding = FragmentMatchingBinding.inflate(inflater, container, false)
         setDataBindingVariables()
+        getCurUserTeam()
         getCandidateTeams()
         return binding.root
     }
@@ -29,6 +31,9 @@ class MatchingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         tempUserImageClickListener()
+        observeCurrentUserTeam()
+        observeCurrentCandidateTeam()
+        observeCurrentCandidateTeamInfoAverage()
         observeMatchingSuccess()
     }
 
@@ -39,8 +44,38 @@ class MatchingFragment : Fragment() {
         }
     }
 
+    private fun getCurUserTeam() {
+        matchingViewModel.getTeamInfo()
+    }
+
     private fun getCandidateTeams() {
         matchingViewModel.getFilteredCandidateTeams()
+    }
+
+    private fun observeCurrentUserTeam() {
+        matchingViewModel.teamInfoDetail.observe(viewLifecycleOwner) { curUserTeam ->
+            binding.curUserTeamDetail = curUserTeam
+        }
+    }
+
+    private fun observeCurrentCandidateTeam() {
+        matchingViewModel.curCandidateTeam.observe(viewLifecycleOwner) { curTeam ->
+            binding.curTeamDetail = curTeam
+            matchingViewModel.getCandidateTeamMembersInfo(curTeam.membersUId)
+        }
+    }
+
+    private fun observeCurrentCandidateTeamInfoAverage() {
+        matchingViewModel.curCandidateTeamMembers.observe(viewLifecycleOwner) { curMembers ->
+            if (curMembers.isNotEmpty()) {
+                with(binding) {
+                    curTeamAvgAge = curMembers.map { it.age ?: 0 }.average().roundToInt()
+                    curTeamAvgYearsPlaying =
+                        curMembers.map { it.yearsPlaying ?: 0 }.average().roundToInt()
+                    curTeamAvgAverage = curMembers.map { it.average ?: 0 }.average().roundToInt()
+                }
+            }
+        }
     }
 
     private fun tempUserImageClickListener() {

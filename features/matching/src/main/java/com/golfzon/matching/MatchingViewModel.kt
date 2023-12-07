@@ -13,6 +13,7 @@ import com.golfzon.domain.usecase.matching.GetReactedTeamUseCase
 import com.golfzon.domain.usecase.matching.RequestReactionsToCandidateTeamUseCase
 import com.golfzon.domain.usecase.member.GetCurUserInfoUseCase
 import com.golfzon.domain.usecase.member.GetUserInfoUseCase
+import com.golfzon.domain.usecase.team.GetTeamInfoDetailUseCase
 import com.golfzon.domain.usecase.team.GetUserTeamInfoDetailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MatchingViewModel @Inject constructor(
     private val getUserTeamInfoDetailUseCase: GetUserTeamInfoDetailUseCase,
+    private val getTeamInfoDetailUseCase: GetTeamInfoDetailUseCase,
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val getCurUserInfoUseCase: GetCurUserInfoUseCase,
     private val getReactedTeamUseCase: GetReactedTeamUseCase,
@@ -39,6 +41,9 @@ class MatchingViewModel @Inject constructor(
 
     private val _curCandidateTeam = MutableLiveData<Team>()
     val curCandidateTeam: LiveData<Team> get() = _curCandidateTeam
+
+    private val _curCandidateTeamMembers = ListLiveData<User>()
+    val curCandidateTeamMembers: ListLiveData<User> get() = _curCandidateTeamMembers
 
     private val _isSuccessMatching = MutableLiveData<Event<Boolean>>()
     val isSuccessMatching: LiveData<Event<Boolean>> get() = _isSuccessMatching
@@ -66,6 +71,14 @@ class MatchingViewModel @Inject constructor(
         }
     }
 
+    fun getCandidateTeamMembersInfo(membersUId: List<String>) = viewModelScope.launch {
+        for (memberUId in membersUId) {
+            getUserInfoUseCase(memberUId).let {
+                _curCandidateTeamMembers.add(it.first, true)
+            }
+        }
+    }
+
     fun getCurrentUserInfo() = viewModelScope.launch {
         getCurUserInfoUseCase().let {
             _currentUserBasicInfo.postValue(it)
@@ -81,6 +94,7 @@ class MatchingViewModel @Inject constructor(
     private fun getCandidateTeams(reactedTeams: List<String>) = viewModelScope.launch {
         getCandidateTeamUseCase(curSearchingHeadCount.value ?: 1, reactedTeams)?.let {
             _candidateTeams.replaceAll(it, true)
+            _curCandidateTeam.postValue(_candidateTeams.value!![0])
         }
     }
 
@@ -91,6 +105,7 @@ class MatchingViewModel @Inject constructor(
         )?.let {
             _isSuccessMatching.postValue(Event(it))
             curCandidateTeamIndex.value = curCandidateTeamIndex.value!! + 1
+            _curCandidateTeam.postValue(_candidateTeams.value!![curCandidateTeamIndex.value!!])
         }
     }
 
