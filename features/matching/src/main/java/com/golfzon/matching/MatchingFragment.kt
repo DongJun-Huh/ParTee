@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.matching.databinding.FragmentMatchingBinding
@@ -29,7 +28,6 @@ class MatchingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         tempUserImageClickListener()
-        tempCandidateReactionClickListener()
     }
 
     private fun setDataBindingVariables() {
@@ -56,13 +54,6 @@ class MatchingFragment : Fragment() {
         binding.ivMatchingCandidateUser3.setOnDebounceClickListener {
             binding.layoutMatchingCandidateTeam.visibility = View.GONE
             binding.layoutMatchingCandidateUser.visibility = View.VISIBLE
-        }
-    }
-
-    private fun tempCandidateReactionClickListener() {
-        // TODO 기능 구현 후 삭제 메소드
-        binding.btnMatchingReacionsLike.setOnDebounceClickListener {
-            findNavController().navigate(MatchingFragmentDirections.actionMatchingFragmentToMatchingSuccessFragment())
         }
     }
 }

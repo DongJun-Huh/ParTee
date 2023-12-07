@@ -437,6 +437,7 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/btn_matching_reacions_dislike"
+                onDebounceClick="@{() -> vm.reactionsToCandidateTeam(false)}"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@color/primary_btn_AFB7CF"
@@ -447,6 +448,7 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/btn_matching_reacions_like"
+                onDebounceClick="@{() -> vm.reactionsToCandidateTeam(true)}"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="18dp"

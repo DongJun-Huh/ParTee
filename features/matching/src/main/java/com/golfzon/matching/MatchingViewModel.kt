@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.golfzon.core_ui.Event
 import com.golfzon.core_ui.ListLiveData
 import com.golfzon.domain.model.Team
 import com.golfzon.domain.model.User
 import com.golfzon.domain.usecase.matching.GetCandidateTeamUseCase
+import com.golfzon.domain.usecase.matching.RequestReactionsToCandidateTeamUseCase
 import com.golfzon.domain.usecase.member.GetCurUserInfoUseCase
 import com.golfzon.domain.usecase.member.GetUserInfoUseCase
 import com.golfzon.domain.usecase.team.GetUserTeamInfoDetailUseCase
@@ -20,17 +22,29 @@ class MatchingViewModel @Inject constructor(
     private val getUserTeamInfoDetailUseCase: GetUserTeamInfoDetailUseCase,
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val getCurUserInfoUseCase: GetCurUserInfoUseCase,
-    private val getCandidateTeamUseCase: GetCandidateTeamUseCase
-): ViewModel() {
+    private val getCandidateTeamUseCase: GetCandidateTeamUseCase,
+    private val requestReactionsToCandidateTeamUseCase: RequestReactionsToCandidateTeamUseCase
+) : ViewModel() {
 
-    private val _currentUserBasicInfo = MutableLiveData<Triple<String,String,String>>()
-    val currentUserBasicInfo: LiveData<Triple<String,String,String>> get() = _currentUserBasicInfo
+    private val _currentUserBasicInfo = MutableLiveData<Triple<String, String, String>>()
+    val currentUserBasicInfo: LiveData<Triple<String, String, String>> get() = _currentUserBasicInfo
 
     private val _teamInfoDetail = MutableLiveData<Team>()
     val teamInfoDetail: LiveData<Team> get() = _teamInfoDetail
 
     private val _teamUsers = ListLiveData<Triple<User, Boolean, String>>()
     val teamUsers: ListLiveData<Triple<User, Boolean, String>> get() = _teamUsers
+
+    private val _curCandidateTeam = MutableLiveData<Team>()
+    val curCandidateTeam: LiveData<Team> get() = _curCandidateTeam
+
+    private val _isSuccessMatching = MutableLiveData<Event<Boolean>>()
+    val isSuccessMatching: LiveData<Event<Boolean>> get() = _isSuccessMatching
+
+    private val _candidateTeams = ListLiveData<Team>()
+    val candidateTeams: ListLiveData<Team> get() = _candidateTeams
+    val curCandidateTeamIndex = MutableLiveData<Int>(0)
+    // TODO candidateTeams의 사이즈 == curCandidateTeamIndex -1 이 되면 MatchingFragment에서 더이상 후보가 존재하지 않음 노출 구현 및 리액션 기능 비활성화 처리
 
     val curSearchingHeadCount = MutableLiveData<Int>(1)
 
@@ -57,8 +71,18 @@ class MatchingViewModel @Inject constructor(
     }
 
     fun getCandidateTeams() = viewModelScope.launch {
-        getCandidateTeamUseCase(curSearchingHeadCount.value?: 1)?.let {
-            // TODO 받아온 팀에 대한 처리 로직 작성
+        getCandidateTeamUseCase(curSearchingHeadCount.value ?: 1)?.let {
+            _candidateTeams.replaceAll(it, true)
+        }
+    }
+
+    fun reactionsToCandidateTeam(isLike: Boolean) = viewModelScope.launch {
+        requestReactionsToCandidateTeamUseCase(
+            candidateTeamUId =
+            _candidateTeams.value!!.get(curCandidateTeamIndex.value!!).teamUId, isLike = isLike
+        )?.let {
+            _isSuccessMatching.postValue(Event(it))
+            curCandidateTeamIndex.value = curCandidateTeamIndex.value!! + 1
         }
     }
 
@@ -67,6 +91,7 @@ class MatchingViewModel @Inject constructor(
             if (headCount < 3) curSearchingHeadCount.value = headCount.plus(1)
         }
     }
+
     fun minusCurSearchingHeadCount() {
         curSearchingHeadCount.value?.let { headCount ->
             if (headCount > 1) curSearchingHeadCount.value = headCount.minus(1)
