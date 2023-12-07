@@ -79,8 +79,8 @@ class TeamRepositoryImpl @Inject constructor(
     override suspend fun getUserTeamInfoDetail(): Team? {
         return suspendCancellableCoroutine { continuation ->
             CoroutineScope(Dispatchers.IO).launch {
-                val curUserUId = dataStore.readValue(
-                    stringPreferencesKey("userUId"), "") ?: ""
+                val curUserUId =
+                    dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
                 getUserTeamInfoBrief().let {
                     if (it.teamUId == null) {
                         if (continuation.isActive) {
@@ -108,11 +108,28 @@ class TeamRepositoryImpl @Inject constructor(
                             .addOnSuccessListener { teamDetail ->
                                 if (continuation.isActive) {
                                     CoroutineScope(Dispatchers.IO).launch {
-                                        dataStore.storeValue(intPreferencesKey("teamHeadCount"), (teamDetail["headCount"] as Long).toInt())
-                                        dataStore.storeValue(stringSetPreferencesKey("searchingLocations"), (teamDetail["searchingLocations"] as List<String>).toSet())
-                                        dataStore.storeValue(stringPreferencesKey("searchingTimes"), (teamDetail["searchingTimes"] as String))
-                                        dataStore.storeValue(stringPreferencesKey("searchingDays"), (teamDetail["searchingDays"] as String))
-                                        dataStore.storeValue(stringPreferencesKey("teamUId"), (it.teamUId))
+                                        with(dataStore) {
+                                            storeValue(
+                                                intPreferencesKey("teamHeadCount"),
+                                                (teamDetail["headCount"] as Long).toInt()
+                                            )
+                                            storeValue(
+                                                stringSetPreferencesKey("searchingLocations"),
+                                                (teamDetail["searchingLocations"] as List<String>).toSet()
+                                            )
+                                            storeValue(
+                                                stringPreferencesKey("searchingTimes"),
+                                                (teamDetail["searchingTimes"] as String)
+                                            )
+                                            storeValue(
+                                                stringPreferencesKey("searchingDays"),
+                                                (teamDetail["searchingDays"] as String)
+                                            )
+                                            storeValue(
+                                                stringPreferencesKey("teamUId"),
+                                                (it.teamUId)
+                                            )
+                                        }
                                     }
 
                                     continuation.resume(
@@ -135,6 +152,33 @@ class TeamRepositoryImpl @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    override suspend fun getTeamInfoDetail(teamUId: String): Team {
+        return suspendCancellableCoroutine { continuation ->
+            firestore.collection("teams")
+                .document(teamUId)
+                .get()
+                .addOnSuccessListener {
+                    it.data?.let { teamDetail ->
+                        continuation.resume(
+                            Team(
+                                teamUId = teamUId,
+                                teamName = teamDetail["teamName"] as String,
+                                teamImageUrl = teamDetail["teamImageUrl"] as String,
+                                leaderUId = teamDetail["leaderUId"] as String,
+                                membersUId = teamDetail["membersUId"] as List<String>,
+                                headCount = (teamDetail["headCount"] as Long).toInt(),
+                                searchingHeadCount = (teamDetail["searchingHeadCount"] as Long).toInt(),
+                                searchingDays = teamDetail["searchingDays"] as String,
+                                searchingTimes = teamDetail["searchingTimes"] as String,
+                                searchingLocations = teamDetail["searchingLocations"] as List<String>,
+                                openChatUrl = teamDetail["openChatUrl"] as String,
+                            )
+                        )
+                    }
+                }
         }
     }
 
@@ -199,7 +243,12 @@ class TeamRepositoryImpl @Inject constructor(
 
                                 firestore.collection("likes")
                                     .document(newTeamDocument.id)
-                                    .set(hashMapOf("likes" to listOf<String>(), "dislikes" to listOf<String>()) )
+                                    .set(
+                                        hashMapOf(
+                                            "likes" to listOf<String>(),
+                                            "dislikes" to listOf<String>()
+                                        )
+                                    )
 
                                 val newTeamInfo = hashMapOf(
                                     "teamUId" to newTeamDocument.id,
