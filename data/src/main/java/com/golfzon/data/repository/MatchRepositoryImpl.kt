@@ -23,7 +23,7 @@ class MatchRepositoryImpl @Inject constructor(
     private val firebaseStorage: FirebaseStorage,
     private val dataStore: DataStore<Preferences>
 ) : MatchRepository {
-    override suspend fun getCandidateTeams(searchingHeadCount: Int): List<Team> {
+    override suspend fun getCandidateTeams(searchingHeadCount: Int, reactedTeams: List<String>): List<Team> {
         return suspendCancellableCoroutine { continuation ->
             var curUserUId = ""
             var curTeamUId = ""
@@ -50,7 +50,7 @@ class MatchRepositoryImpl @Inject constructor(
                 .get()
                 .addOnSuccessListener { searchedTeams ->
                     for (team in searchedTeams.documents) {
-                        if (curTeamUId != team.id) {
+                        if (team.id != curTeamUId && !reactedTeams.contains(team.id)) {
                             team.data?.let { teamDetail ->
                                 if ((teamDetail["headCount"] as Long).toInt() == searchingHeadCount
                                     // 겹치는 지역이 존재하거나, 두 팀 중 한 팀이라도 지역에 관계없다면 통과
@@ -63,7 +63,6 @@ class MatchRepositoryImpl @Inject constructor(
                                     && (teamDetail["searchingTimes"] as String) == curTeamSearchingTimes
                                     && (teamDetail["searchingDays"] as String) == curTeamSearchingDays
                                 ) {
-                                    Log.e("REPOSITORYIMPL", "${teamDetail}")
                                     resultTeams.add(
                                         Team(
                                             teamUId = team.id,
@@ -122,6 +121,30 @@ class MatchRepositoryImpl @Inject constructor(
                     }
                 } else {
                     // Handle the error case
+                    continuation.resumeWithException(
+                        task.exception ?: RuntimeException("Unknown error")
+                    )
+                }
+            }
+        }
+    }
+
+    override suspend fun getReactedTeams(): List<String> {
+        var curTeamUId = ""
+
+        runBlocking {
+            curTeamUId = dataStore.readValue(stringPreferencesKey("teamUId"), "") ?: ""
+        }
+
+        return suspendCancellableCoroutine { continuation ->
+            val curTeamRef = firestore.collection("likes").document(curTeamUId)
+            curTeamRef.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val data = task.result?.data
+                    val likes = (data?.get("likes") as? List<String>) ?: emptyList()
+                    val dislikes = (data?.get("dislikes") as? List<String>) ?: emptyList()
+                    if (continuation.isActive) continuation.resume(likes + dislikes)
+                } else {
                     continuation.resumeWithException(
                         task.exception ?: RuntimeException("Unknown error")
                     )
