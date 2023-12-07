@@ -38,7 +38,7 @@ class MatchingFragment : Fragment() {
     }
 
     private fun getCandidateTeams() {
-        matchingViewModel.getCandidateTeams()
+        matchingViewModel.getFilteredCandidateTeams()
     }
 
     private fun tempUserImageClickListener() {

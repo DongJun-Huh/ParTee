@@ -9,6 +9,7 @@ import com.golfzon.core_ui.ListLiveData
 import com.golfzon.domain.model.Team
 import com.golfzon.domain.model.User
 import com.golfzon.domain.usecase.matching.GetCandidateTeamUseCase
+import com.golfzon.domain.usecase.matching.GetReactedTeamUseCase
 import com.golfzon.domain.usecase.matching.RequestReactionsToCandidateTeamUseCase
 import com.golfzon.domain.usecase.member.GetCurUserInfoUseCase
 import com.golfzon.domain.usecase.member.GetUserInfoUseCase
@@ -22,6 +23,7 @@ class MatchingViewModel @Inject constructor(
     private val getUserTeamInfoDetailUseCase: GetUserTeamInfoDetailUseCase,
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val getCurUserInfoUseCase: GetCurUserInfoUseCase,
+    private val getReactedTeamUseCase: GetReactedTeamUseCase,
     private val getCandidateTeamUseCase: GetCandidateTeamUseCase,
     private val requestReactionsToCandidateTeamUseCase: RequestReactionsToCandidateTeamUseCase
 ) : ViewModel() {
@@ -70,8 +72,14 @@ class MatchingViewModel @Inject constructor(
         }
     }
 
-    fun getCandidateTeams() = viewModelScope.launch {
-        getCandidateTeamUseCase(curSearchingHeadCount.value ?: 1)?.let {
+    fun getFilteredCandidateTeams() = viewModelScope.launch {
+        getReactedTeamUseCase()?.let {
+            getCandidateTeams(it)
+        }
+    }
+
+    private fun getCandidateTeams(reactedTeams: List<String>) = viewModelScope.launch {
+        getCandidateTeamUseCase(curSearchingHeadCount.value ?: 1, reactedTeams)?.let {
             _candidateTeams.replaceAll(it, true)
         }
     }
