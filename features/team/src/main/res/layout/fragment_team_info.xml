@@ -207,6 +207,7 @@
             android:text="@string/save_2"
             android:textColor="@color/white"
             android:textSize="16sp"
+            onDebounceClick="@{() -> vm.organizeTeam()}"
             app:backgroundTint="@color/primary_btn_AFB7CF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,6 +1,7 @@
 package com.golfzon.domain.model
 
 data class Team(
+    val teamUId: String,
     val teamName: String,
     val teamImageUrl: String,
     val leaderUId: String,

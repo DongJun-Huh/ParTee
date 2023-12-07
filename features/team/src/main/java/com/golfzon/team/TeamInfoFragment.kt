@@ -43,7 +43,7 @@ class TeamInfoFragment : Fragment() {
         setTeamInfoChangeCancelClickListener()
         setTeamInfoChangeNameClickListener()
         setTeamInfoChangeImageClickListener()
-        setTeamInfoChangeSaveClickListener()
+        observeTeamInfoSave()
         setTeamInfoSetImageLayout()
         setBackClickListener()
     }
@@ -147,11 +147,7 @@ class TeamInfoFragment : Fragment() {
         }
     }
 
-    private fun setTeamInfoChangeSaveClickListener() {
-        binding.btnTeamInfoSave.setOnDebounceClickListener {
-            teamViewModel.organizeTeam()
-        }
-
+    private fun observeTeamInfoSave() {
         teamViewModel.isTeamOrganizeSuccess.observe(viewLifecycleOwner) { isSuccess ->
             if (isSuccess.getContentIfNotHandled() == true) {
                 (requireActivity() as TeamActivity).navigateToMatching()

@@ -86,6 +86,7 @@ class TeamRepositoryImpl @Inject constructor(
                         if (continuation.isActive) {
                             continuation.resume(
                                 Team(
+                                    teamUId = "",
                                     teamName = "팀 이름",
                                     teamImageUrl = "",
                                     leaderUId = curUserUId,
@@ -116,6 +117,7 @@ class TeamRepositoryImpl @Inject constructor(
 
                                     continuation.resume(
                                         Team(
+                                            teamUId = it.teamUId!!,
                                             teamName = teamDetail["teamName"] as String,
                                             teamImageUrl = teamDetail["teamImageUrl"] as String,
                                             leaderUId = teamDetail["leaderUId"] as String,
@@ -194,6 +196,11 @@ class TeamRepositoryImpl @Inject constructor(
                         firestore.collection("teams")
                             .add(newTeam.copy(leaderUId = curUserUId))
                             .addOnSuccessListener { newTeamDocument ->
+
+                                firestore.collection("likes")
+                                    .document(newTeamDocument.id)
+                                    .set(hashMapOf("likes" to listOf<String>(), "dislikes" to listOf<String>()) )
+
                                 val newTeamInfo = hashMapOf(
                                     "teamUId" to newTeamDocument.id,
                                     "isLeader" to false,
