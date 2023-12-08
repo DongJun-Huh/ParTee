@@ -92,10 +92,17 @@ class MatchingHomeFragment : Fragment() {
     private fun initializeTeamInfo() {
         matchingViewModel.teamInfoDetail.observe(viewLifecycleOwner) { teamInfo ->
             matchingViewModel.clearUserInfo()
-            teamInfo.membersUId.map { UId ->
-                matchingViewModel.getTeamMemberInfo(UId, teamInfo.leaderUId)
+            if (teamInfo != null) {
+                teamInfo.membersUId.map { UId ->
+                    matchingViewModel.getTeamMemberInfo(UId, teamInfo.leaderUId)
+                }
+                binding.teamDetail = teamInfo
+            } else {
+                with(binding) {
+                    rvMatchingHomeTeamUsers.visibility = View.INVISIBLE
+                    tvMatchingHomeTeamNotExist.visibility = View.VISIBLE
+                }
             }
-            binding.teamDetail = teamInfo
         }
 
         matchingViewModel.teamUsers.observe(viewLifecycleOwner) { users ->

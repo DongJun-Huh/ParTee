@@ -46,7 +46,10 @@ class TeamViewModel @Inject constructor(
 
     fun getNewTeamInfo() = viewModelScope.launch {
         getUserTeamInfoDetailUseCase().let {
-            _newTeam.postValue(it)
+            if (it != null) _newTeam.postValue(it)
+            else {
+                // TODO 새로운 팀 만들기
+            }
         }
     }
 

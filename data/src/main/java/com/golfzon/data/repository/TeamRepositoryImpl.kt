@@ -84,21 +84,7 @@ class TeamRepositoryImpl @Inject constructor(
                 getUserTeamInfoBrief().let {
                     if (it.teamUId == null) {
                         if (continuation.isActive) {
-                            continuation.resume(
-                                Team(
-                                    teamUId = "",
-                                    teamName = "팀 이름",
-                                    teamImageUrl = "",
-                                    leaderUId = curUserUId,
-                                    membersUId = listOf(curUserUId),
-                                    headCount = 1,
-                                    searchingTimes = "",
-                                    searchingDays = "",
-                                    searchingLocations = listOf(),
-                                    openChatUrl = "",
-                                    searchingHeadCount = 0
-                                )
-                            )
+                            continuation.resume(null)
                         }
                     } else {
 
