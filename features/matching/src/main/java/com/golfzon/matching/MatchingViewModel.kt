@@ -39,8 +39,8 @@ class MatchingViewModel @Inject constructor(
     private val _teamUsers = ListLiveData<Triple<User, Boolean, String>>()
     val teamUsers: ListLiveData<Triple<User, Boolean, String>> get() = _teamUsers
 
-    private val _curCandidateTeam = MutableLiveData<Team>()
-    val curCandidateTeam: LiveData<Team> get() = _curCandidateTeam
+    private val _curCandidateTeam = MutableLiveData<Team?>()
+    val curCandidateTeam: LiveData<Team?> get() = _curCandidateTeam
 
     private val _curCandidateTeamMembers = ListLiveData<User>()
     val curCandidateTeamMembers: ListLiveData<User> get() = _curCandidateTeamMembers
@@ -51,7 +51,10 @@ class MatchingViewModel @Inject constructor(
     private val _candidateTeams = ListLiveData<Team>()
     val candidateTeams: ListLiveData<Team> get() = _candidateTeams
     val curCandidateTeamIndex = MutableLiveData<Int>(0)
+
     // TODO candidateTeams의 사이즈 == curCandidateTeamIndex -1 이 되면 MatchingFragment에서 더이상 후보가 존재하지 않음 노출 구현 및 리액션 기능 비활성화 처리
+    private val _isCandidateEnd = MutableLiveData<Event<Boolean>>()
+    val isCandidateEnd: LiveData<Event<Boolean>> get() = _isCandidateEnd
 
     val curSearchingHeadCount = MutableLiveData<Int>(1)
 
@@ -72,11 +75,7 @@ class MatchingViewModel @Inject constructor(
     }
 
     fun getCandidateTeamMembersInfo(membersUId: List<String>) = viewModelScope.launch {
-        for (memberUId in membersUId) {
-            getUserInfoUseCase(memberUId).let {
-                _curCandidateTeamMembers.add(it.first, true)
-            }
-        }
+        _curCandidateTeamMembers.replaceAll(membersUId.map { getUserInfoUseCase(it).first }, true)
     }
 
     fun getCurrentUserInfo() = viewModelScope.launch {
@@ -94,19 +93,33 @@ class MatchingViewModel @Inject constructor(
     private fun getCandidateTeams(reactedTeams: List<String>) = viewModelScope.launch {
         getCandidateTeamUseCase(curSearchingHeadCount.value ?: 1, reactedTeams)?.let {
             _candidateTeams.replaceAll(it, true)
-            _curCandidateTeam.postValue(_candidateTeams.value!![0])
+            if (it.isNotEmpty()) {
+                _curCandidateTeam.postValue(it[0])
+            }
         }
     }
 
     fun reactionsToCandidateTeam(isLike: Boolean) = viewModelScope.launch {
-        requestReactionsToCandidateTeamUseCase(
-            candidateTeamUId =
-            _candidateTeams.value!!.get(curCandidateTeamIndex.value!!).teamUId, isLike = isLike
-        )?.let {
-            _isSuccessMatching.postValue(Event(it))
-            curCandidateTeamIndex.value = curCandidateTeamIndex.value!! + 1
-            _curCandidateTeam.postValue(_candidateTeams.value!![curCandidateTeamIndex.value!!])
+        if (curCandidateTeamIndex.value!! < _candidateTeams.value!!.size) {
+            requestReactionsToCandidateTeamUseCase(
+                candidateTeamUId =
+                _candidateTeams.value!!.get(curCandidateTeamIndex.value!!).teamUId, isLike = isLike
+            )?.let {
+                _isSuccessMatching.postValue(Event(it))
+                if (curCandidateTeamIndex.value!! != _candidateTeams.value!!.size - 1) {
+                    curCandidateTeamIndex.value = curCandidateTeamIndex.value!! + 1
+                    _curCandidateTeam.postValue(_candidateTeams.value!![curCandidateTeamIndex.value!!])
+                } else {
+                    _isCandidateEnd.postValue(Event(true))
+                }
+            }
         }
+    }
+
+    fun clearCandidateTeams() {
+        _candidateTeams.clear(true)
+        _curCandidateTeam.postValue(null)
+        _curCandidateTeamMembers.clear(true)
     }
 
     fun addCurSearchingHeadCount() {

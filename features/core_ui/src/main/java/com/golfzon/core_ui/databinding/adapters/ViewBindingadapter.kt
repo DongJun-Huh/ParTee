@@ -1,6 +1,5 @@
 package com.golfzon.core_ui.databinding.adapters
 
-import android.graphics.drawable.Drawable
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -9,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.golfzon.core_ui.R
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 
 @BindingAdapter("onDebounceClick")
@@ -54,12 +54,11 @@ fun TextView.displayListsToString(divider: String? = "", lists: List<String>?) {
     }
     this.text = result
 }
-
-@BindingAdapter("imageUrl", "placeholder")
-fun loadImage(imageView: ImageView, url: String, placeholder: Drawable) {
-    Glide.with(imageView.context)
-        .load(url)
-        .placeholder(placeholder)
-        .error(placeholder)
-        .into(imageView)
+@BindingAdapter(value = ["imageUId"], requireAll = false)
+fun ImageView.loadImage(imageUId: String? = "") {
+    Glide.with(this.context)
+        .load("https://firebasestorage.googleapis.com/v0/b/partee-1ba05.appspot.com/o/users%2F${imageUId}?alt=media")
+        .placeholder(R.drawable.background_img_golf)
+        .error(R.drawable.background_img_golf)
+        .into(this)
 }

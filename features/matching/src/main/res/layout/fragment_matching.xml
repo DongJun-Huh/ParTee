@@ -29,6 +29,10 @@
         <variable
             name="curTeamDetail"
             type="com.golfzon.domain.model.Team" />
+
+        <variable
+            name="curUserDetail"
+            type="com.golfzon.domain.model.User" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,10 +41,11 @@
         android:animateLayoutChanges="true">
 
         <ImageView
+            imageUId="@{curUserDetail.profileImg}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/background_img_golf" />
+            tools:src="@drawable/background_img_golf" />
 
 
         <LinearLayout
@@ -71,7 +76,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="41dp"
             android:layout_marginHorizontal="18dp"
             android:background="@drawable/btn_background_radius_12"
             android:backgroundTint="#D9D9D9"
@@ -126,15 +131,13 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_matching_filtering_change"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="7dp"
+                android:layout_height="28dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/btn_background_radius_12"
                 android:backgroundTint="#F5F6F9"
                 android:fontFamily="@font/pretendard_medium"
                 android:gravity="center"
                 android:paddingHorizontal="16dp"
-                android:paddingVertical="4dp"
                 android:text="변경"
                 android:textColor="@color/primary_8B95B3"
                 android:textFontWeight="500"
@@ -292,6 +295,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginBottom="33dp"
+            android:animateLayoutChanges="true"
             android:orientation="vertical"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/layout_matching_candidate_users"
@@ -302,6 +306,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
                 android:orientation="horizontal">
 
                 <TextView
@@ -310,7 +315,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:fontFamily="@font/pretendard_semi_bold"
-                    android:text="허동준"
+                    android:text="@{curUserDetail.nickname}"
                     android:textColor="@color/white"
                     android:textFontWeight="600"
                     android:textSize="28sp"
@@ -319,7 +324,8 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.5" />
+                    app:layout_constraintVertical_bias="0.5"
+                    tools:text="허동준" />
 
                 <ImageView
                     android:layout_width="0dp"
@@ -343,11 +349,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
+                android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -362,6 +370,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:gravity="center"
+                        android:text="@{curUserDetail.age+`세`}"
                         android:textColor="@color/white"
                         tools:text="25세" />
                 </LinearLayout>
@@ -370,6 +379,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:animateLayoutChanges="true"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -384,6 +394,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:gravity="center"
+                        android:text="@{curUserDetail.yearsPlaying+`년`}"
                         android:textColor="@color/white"
                         tools:text="3년" />
                 </LinearLayout>
@@ -392,6 +403,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:animateLayoutChanges="true"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -406,6 +418,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:gravity="center"
+                        android:text="@{curUserDetail.average+`타`}"
                         android:textColor="@color/white"
                         tools:text="100타" />
                 </LinearLayout>
@@ -428,53 +441,18 @@
                 android:text="팀 이름의 팀원들"
                 android:textColor="@color/white" />
 
-            <!-- TODO 기능도입후 삭제 ImageView -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="36dp"
-                android:orientation="horizontal">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/iv_matching_candidate_user_1"
-                    android:layout_width="96dp"
-                    android:layout_height="100dp"
-                    android:background="#F5F6F9"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/user_sample"
-                    app:shapeAppearance="@style/ShapeAppearance.radius28" />
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/iv_matching_candidate_user_2"
-                    android:layout_width="96dp"
-                    android:layout_height="100dp"
-                    android:layout_marginStart="12dp"
-                    android:background="#F5F6F9"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/user_sample"
-                    app:shapeAppearance="@style/ShapeAppearance.radius28" />
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/iv_matching_candidate_user_3"
-                    android:layout_width="96dp"
-                    android:layout_height="100dp"
-                    android:layout_marginStart="12dp"
-                    android:background="#F5F6F9"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/user_sample"
-                    app:shapeAppearance="@style/ShapeAppearance.radius28" />
-
-            </LinearLayout>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_matching_candidate_users"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="36dp"
                 android:orientation="horizontal"
-                tools:itemCount="3" />
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_candidate_team_member" />
         </LinearLayout>
 
         <LinearLayout
@@ -490,7 +468,7 @@
             app:layout_constraintVertical_bias="1.0">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/btn_matching_reacions_dislike"
+                android:id="@+id/btn_matching_reactions_dislike"
                 onDebounceClick="@{() -> vm.reactionsToCandidateTeam(false)}"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -501,7 +479,7 @@
                 app:shapeAppearance="@style/ShapeAppearance.circle" />
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/btn_matching_reacions_like"
+                android:id="@+id/btn_matching_reactions_like"
                 onDebounceClick="@{() -> vm.reactionsToCandidateTeam(true)}"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
