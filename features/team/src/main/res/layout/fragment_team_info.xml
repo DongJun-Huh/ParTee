@@ -280,6 +280,7 @@
                 android:textColor="@color/golfzon_red_FA0019"
                 android:textFontWeight="500"
                 android:textSize="14sp"
+                onDebounceClick="@{() -> vm.deleteTeam()}"
                 tools:visibility="gone" />
 
             <TextView

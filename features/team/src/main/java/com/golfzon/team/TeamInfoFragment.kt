@@ -46,6 +46,7 @@ class TeamInfoFragment : Fragment() {
         observeTeamInfoSave()
         setTeamInfoSetImageLayout()
         setBackClickListener()
+        observeDeleteTeamStatus()
     }
 
     private fun onDestroyBindingView() {
@@ -179,6 +180,14 @@ class TeamInfoFragment : Fragment() {
 
         binding.btnTeamInfoBack.setOnDebounceClickListener {
             (requireActivity() as TeamActivity).navigateToMatching()
+        }
+    }
+
+    private fun observeDeleteTeamStatus() {
+        teamViewModel.isTeamDeleteSuccess.observe(viewLifecycleOwner) { isSuccess ->
+            if (isSuccess.getContentIfNotHandled() == true) {
+                (requireActivity() as TeamActivity).navigateToMatching()
+            }
         }
     }
 

@@ -277,4 +277,48 @@ class TeamRepositoryImpl @Inject constructor(
                     }
                 }
         }
+
+    override suspend fun deleteTeam(teamUId: String): Boolean {
+        return suspendCancellableCoroutine { continuation ->
+            CoroutineScope(Dispatchers.IO).launch {
+                firestore.collection("likes")
+                    .document(teamUId)
+                    .delete()
+            }
+
+            firestore.collection("teams")
+                .document(teamUId)
+                .get()
+                .addOnSuccessListener { teamDocument ->
+                    teamDocument.data?.let {
+                        val teamMembers = (it["membersUId"] as List<String>)
+                        val deleteTasks = mutableListOf<Task<*>>()
+                        for (teamMember in teamMembers) {
+                            val deleteTask = firestore.collection("users")
+                                .document(teamMember)
+                                .collection("extraInfo")
+                                .document("teamInfo")
+                                .update(
+                                    mapOf(
+                                        "isLeader" to false,
+                                        "isOrganized" to false,
+                                        "teamUId" to null
+                                    )
+                                )
+                            deleteTasks.add(deleteTask)
+                        }
+
+                        Tasks.whenAll(deleteTasks)
+                            .addOnSuccessListener {
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    firestore.collection("teams")
+                                        .document(teamUId)
+                                        .delete()
+                                }
+                                if (continuation.isActive) continuation.resume(true)
+                            }
+                    }
+                }
+        }
+    }
 }

@@ -12,6 +12,7 @@ import com.golfzon.domain.model.User
 import com.golfzon.domain.usecase.member.GetCurUserInfoUseCase
 import com.golfzon.domain.usecase.member.GetSearchedUsersUseCase
 import com.golfzon.domain.usecase.member.GetUserInfoUseCase
+import com.golfzon.domain.usecase.team.DeleteTeamUseCase
 import com.golfzon.domain.usecase.team.GetUserTeamInfoBriefUseCase
 import com.golfzon.domain.usecase.team.GetUserTeamInfoDetailUseCase
 import com.golfzon.domain.usecase.team.RequestTeamOrganizedUseCase
@@ -26,7 +27,8 @@ class TeamViewModel @Inject constructor(
     private val getUserTeamInfoDetailUseCase: GetUserTeamInfoDetailUseCase,
     private val getSearchedUsersUseCase: GetSearchedUsersUseCase,
     private val requestTeamOrganizedUseCase: RequestTeamOrganizedUseCase,
-    private val getUserInfoUseCase: GetUserInfoUseCase
+    private val getUserInfoUseCase: GetUserInfoUseCase,
+    private val deleteTeamUseCase: DeleteTeamUseCase
 ) : ViewModel() {
     private val _teamInfoBrief = MutableLiveData<TeamInfo>()
     val teamInfoBrief: LiveData<TeamInfo> get() = _teamInfoBrief
@@ -45,6 +47,9 @@ class TeamViewModel @Inject constructor(
 
     private val _isTeamOrganizeSuccess = MutableLiveData<Event<Boolean>>()
     val isTeamOrganizeSuccess: LiveData<Event<Boolean>> get() = _isTeamOrganizeSuccess
+
+    private val _isTeamDeleteSuccess = MutableLiveData<Event<Boolean>>()
+    val isTeamDeleteSuccess: LiveData<Event<Boolean>> get() = _isTeamDeleteSuccess
 
     fun getNewTeamInfo() = viewModelScope.launch {
         getUserTeamInfoDetailUseCase().let {
@@ -154,5 +159,17 @@ class TeamViewModel @Inject constructor(
                 )
             }
         )
+    }
+
+    fun deleteTeam() = viewModelScope.launch {
+        _newTeam.value?.let {
+            if (it.teamUId.isNotEmpty()) {
+                deleteTeamUseCase(it.teamUId).let {
+                    _isTeamDeleteSuccess.postValue(Event(it))
+                }
+            } else {
+                _isTeamDeleteSuccess.postValue(Event(true))
+            }
+        }
     }
 }
