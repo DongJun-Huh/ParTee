@@ -8,7 +8,12 @@ import androidx.databinding.DataBindingUtil
 import com.golfzon.core_ui.databinding.ItemDefaultToastBinding
 
 object DefaultToast {
-    fun createToast(context: Context, message: String, bottomOffset: Int = 44): Toast? {
+    fun createToast(
+        context: Context,
+        message: String,
+        bottomOffset: Int = 44,
+        isError: Boolean = false
+    ): Toast? {
         val inflater = LayoutInflater.from(context)
         val binding = DataBindingUtil.inflate<ItemDefaultToastBinding>(
             inflater,
@@ -17,6 +22,8 @@ object DefaultToast {
             false
         )
         binding.toastMessage = message
+        if (isError)
+            binding.ivToastIcon.setImageDrawable(context.getDrawable(R.drawable.ic_x_circle))
 
         return Toast(context).apply {
             setGravity(Gravity.FILL_HORIZONTAL or Gravity.BOTTOM, 0, bottomOffset.Px)
