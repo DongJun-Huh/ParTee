@@ -9,6 +9,7 @@ import com.golfzon.core_ui.ListLiveData
 import com.golfzon.domain.model.Team
 import com.golfzon.domain.model.TeamInfo
 import com.golfzon.domain.model.User
+import com.golfzon.domain.usecase.member.GetCurUserInfoUseCase
 import com.golfzon.domain.usecase.member.GetSearchedUsersUseCase
 import com.golfzon.domain.usecase.member.GetUserInfoUseCase
 import com.golfzon.domain.usecase.team.GetUserTeamInfoBriefUseCase
@@ -20,6 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TeamViewModel @Inject constructor(
+    private val getCurUserInfoUseCase: GetCurUserInfoUseCase,
     private val getUserTeamInfoBriefUseCase: GetUserTeamInfoBriefUseCase,
     private val getUserTeamInfoDetailUseCase: GetUserTeamInfoDetailUseCase,
     private val getSearchedUsersUseCase: GetSearchedUsersUseCase,
@@ -48,7 +50,37 @@ class TeamViewModel @Inject constructor(
         getUserTeamInfoDetailUseCase().let {
             if (it != null) _newTeam.postValue(it)
             else {
-                // TODO 새로운 팀 만들기
+                var curUserUId = ""
+                var curUserAge = 0
+                var curUserYearsPlaying = 0
+                var curUserAverage = 0
+
+                curUserUId = getCurUserInfoUseCase().first
+                getUserInfoUseCase(curUserUId).first.let {
+                    curUserAge = it.age ?: 0
+                    curUserYearsPlaying = it.yearsPlaying ?: 0
+                    curUserAverage = it.average ?: 0
+                }
+
+                _newTeam.postValue(
+                    Team(
+                        teamUId = "",
+                        teamName = "팀 이름",
+                        teamImageUrl = "",
+                        leaderUId = curUserUId,
+                        membersUId = listOf(curUserUId),
+                        headCount = 1,
+                        searchingTimes = "",
+                        searchingDays = "",
+                        searchingLocations = listOf(),
+                        openChatUrl = "",
+                        searchingHeadCount = 0,
+                        totalAge = curUserAge,
+                        totalYearsPlaying = curUserYearsPlaying,
+                        totalAverage = curUserAverage,
+                        priorityScore = 0
+                    )
+                )
             }
         }
     }
@@ -85,7 +117,12 @@ class TeamViewModel @Inject constructor(
         }
     }
 
-    fun addTeamMember(newUserUId: String, newUserAge: Int, newUserYearsPlaying: Int, newUserAverage: Int) = viewModelScope.launch {
+    fun addTeamMember(
+        newUserUId: String,
+        newUserAge: Int,
+        newUserYearsPlaying: Int,
+        newUserAverage: Int
+    ) = viewModelScope.launch {
         _newTeam.postValue(
             _newTeam.value?.let {
                 it.copy(
