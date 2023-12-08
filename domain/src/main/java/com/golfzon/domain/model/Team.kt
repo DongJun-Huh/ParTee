@@ -11,5 +11,9 @@ data class Team(
     val searchingTimes: String,
     val searchingDays: String,
     val searchingLocations: List<String>,
-    val openChatUrl: String
+    val openChatUrl: String,
+    val totalAge: Int,
+    val totalYearsPlaying: Int,
+    val totalAverage: Int,
+    var priorityScore: Int,
 )

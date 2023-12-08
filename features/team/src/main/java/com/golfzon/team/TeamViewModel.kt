@@ -82,12 +82,15 @@ class TeamViewModel @Inject constructor(
         }
     }
 
-    fun addTeamMember(newUserUId: String) = viewModelScope.launch {
+    fun addTeamMember(newUserUId: String, newUserAge: Int, newUserYearsPlaying: Int, newUserAverage: Int) = viewModelScope.launch {
         _newTeam.postValue(
             _newTeam.value?.let {
                 it.copy(
                     membersUId = it.membersUId + listOf(newUserUId),
-                    headCount = it.headCount + 1
+                    headCount = it.headCount + 1,
+                    totalAge = it.totalAge + newUserAge,
+                    totalYearsPlaying = it.totalYearsPlaying + newUserYearsPlaying,
+                    totalAverage = it.totalAverage + newUserAverage
                 )
             }
         )

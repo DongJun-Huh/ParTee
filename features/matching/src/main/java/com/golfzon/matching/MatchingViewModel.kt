@@ -18,6 +18,7 @@ import com.golfzon.domain.usecase.team.GetUserTeamInfoDetailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.abs
 
 @HiltViewModel
 class MatchingViewModel @Inject constructor(
@@ -33,8 +34,8 @@ class MatchingViewModel @Inject constructor(
     private val _currentUserBasicInfo = MutableLiveData<Triple<String, String, String>>()
     val currentUserBasicInfo: LiveData<Triple<String, String, String>> get() = _currentUserBasicInfo
 
-    private val _teamInfoDetail = MutableLiveData<Team>()
-    val teamInfoDetail: LiveData<Team> get() = _teamInfoDetail
+    private val _teamInfoDetail = MutableLiveData<Team?>()
+    val teamInfoDetail: LiveData<Team?> get() = _teamInfoDetail
 
     private val _teamUsers = ListLiveData<Triple<User, Boolean, String>>()
     val teamUsers: ListLiveData<Triple<User, Boolean, String>> get() = _teamUsers
@@ -92,9 +93,23 @@ class MatchingViewModel @Inject constructor(
 
     private fun getCandidateTeams(reactedTeams: List<String>) = viewModelScope.launch {
         getCandidateTeamUseCase(curSearchingHeadCount.value ?: 1, reactedTeams)?.let {
-            _candidateTeams.replaceAll(it, true)
+            val priorityOrderedTeams = it.map { candidateTeam ->
+                val averageScore =
+                    (8 - (abs(_teamInfoDetail.value!!.totalAverage - candidateTeam.totalAverage) / 10)).getPreventedMinusScore
+                val yearsPlayingScore =
+                    (8 - (abs(_teamInfoDetail.value!!.totalYearsPlaying - candidateTeam.totalYearsPlaying) / 3)).getPreventedMinusScore
+                val locationScore = candidateTeam.searchingLocations.toSet()
+                    .intersect(_teamInfoDetail.value!!.searchingLocations.toSet()).size
+                val ageScore =
+                    (8 - (abs(_teamInfoDetail.value!!.totalAge - candidateTeam.totalAge) / 5)).getPreventedMinusScore
+                candidateTeam.copy(
+                    priorityScore = ageScore + yearsPlayingScore + averageScore + locationScore
+                )
+            }.toMutableList().sortedByDescending { it.priorityScore }
+
+            _candidateTeams.replaceAll(priorityOrderedTeams, true)
             if (it.isNotEmpty()) {
-                _curCandidateTeam.postValue(it[0])
+                _curCandidateTeam.postValue(priorityOrderedTeams[0])
             }
         }
     }
@@ -133,4 +148,6 @@ class MatchingViewModel @Inject constructor(
             if (headCount > 1) curSearchingHeadCount.value = headCount.minus(1)
         }
     }
+
+    private val Int.getPreventedMinusScore: Int get() = if (this <= 0) 0 else this
 }

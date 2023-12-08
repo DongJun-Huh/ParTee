@@ -144,7 +144,11 @@ class TeamRepositoryImpl @Inject constructor(
                                             searchingTimes = teamDetail["searchingTimes"] as String,
                                             searchingDays = teamDetail["searchingDays"] as String,
                                             searchingLocations = teamDetail["searchingLocations"] as List<String>,
-                                            openChatUrl = teamDetail["openChatUrl"] as String
+                                            openChatUrl = teamDetail["openChatUrl"] as String,
+                                            totalAge = (teamDetail["totalAge"] as Long).toInt(),
+                                            totalAverage = (teamDetail["totalAverage"] as Long).toInt(),
+                                            totalYearsPlaying = (teamDetail["totalYearsPlaying"] as Long).toInt(),
+                                            priorityScore = 0
                                         )
                                     )
                                 }
@@ -175,6 +179,10 @@ class TeamRepositoryImpl @Inject constructor(
                                 searchingTimes = teamDetail["searchingTimes"] as String,
                                 searchingLocations = teamDetail["searchingLocations"] as List<String>,
                                 openChatUrl = teamDetail["openChatUrl"] as String,
+                                totalAge = (teamDetail["totalAge"] as Long).toInt(),
+                                totalAverage = (teamDetail["totalAverage"] as Long).toInt(),
+                                totalYearsPlaying = (teamDetail["totalYearsPlaying"] as Long).toInt(),
+                                priorityScore = 0
                             )
                         )
                     }

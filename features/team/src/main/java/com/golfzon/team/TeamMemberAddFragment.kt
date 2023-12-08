@@ -77,7 +77,12 @@ class TeamMemberAddFragment : BottomSheetDialogFragment() {
         searchUserResultAdapter?.setOnItemClickListener(object :
             SearchUserResultAdapter.OnItemClickListener {
             override fun onItemClick(v: View, user: User) {
-                teamViewModel.addTeamMember(user.userUId)
+                teamViewModel.addTeamMember(
+                    user.userUId,
+                    user.age ?: 0,
+                    user.yearsPlaying ?: 0,
+                    user.average ?: 0
+                )
                 DefaultToast.createToast(
                     requireContext(),
                     getString(R.string.team_member_add_success_toast_message),
