@@ -112,6 +112,9 @@ class TeamInfoFragment : Fragment() {
             layoutTeamInfoSetImage.toggleHideAndShow()
 
             etTeamInfoSetName.isEnabled = !etTeamInfoSetName.isEnabled
+            btnTeamInfoActionAddUser.isEnabled = !btnTeamInfoActionAddUser.isEnabled
+            btnTeamInfoActionChangeLocation.isEnabled = !btnTeamInfoActionChangeLocation.isEnabled
+            btnTeamInfoActionChangeInfo.isEnabled = !btnTeamInfoActionChangeInfo.isEnabled
         }
     }
 
@@ -193,5 +196,6 @@ class TeamInfoFragment : Fragment() {
 
     private fun View.toggleHideAndShow() {
         visibility = if (visibility == View.VISIBLE) View.GONE else View.VISIBLE
+        isEnabled = visibility == View.VISIBLE
     }
 }
