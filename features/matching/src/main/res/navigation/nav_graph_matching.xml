@@ -35,6 +35,12 @@
         <action
             android:id="@+id/action_matchingFragment_to_matchingSuccessFragment"
             app:destination="@id/MatchingSuccessFragment" />
+
+        <action
+            android:id="@+id/action_matchingFragment_to_matchingFilteringDialogFragment"
+            app:destination="@id/MatchingFilteringDialogFragment"
+            app:popUpTo="@id/MatchingFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <dialog
         android:id="@+id/MatchingSuccessFragment"

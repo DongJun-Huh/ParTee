@@ -38,6 +38,7 @@ class MatchingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setBackClickListener()
+        setFilteringConditionChangeClickListener()
         setSearchUserResultAdapter()
         observeCurrentUserTeam()
         observeCurrentCandidateTeamIsExist()
@@ -61,6 +62,12 @@ class MatchingFragment : Fragment() {
     private fun setBackClickListener() {
         binding.btnMatchingAppbarBack.setOnDebounceClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun setFilteringConditionChangeClickListener() {
+        binding.btnMatchingFilteringChange.setOnDebounceClickListener {
+            findNavController().navigate(MatchingFragmentDirections.actionMatchingFragmentToMatchingFilteringDialogFragment())
         }
     }
 
