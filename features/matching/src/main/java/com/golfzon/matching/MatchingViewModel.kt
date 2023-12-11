@@ -2,6 +2,7 @@ package com.golfzon.matching
 
 import android.widget.RadioGroup
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -69,6 +70,26 @@ class MatchingViewModel @Inject constructor(
     val curSearchingTimesCheckedButtonId = MutableLiveData<Int>()
     val curSearchingDays = MutableLiveData<String>()
     val curSearchingDaysCheckedButtonId = MutableLiveData<Int>()
+    private val _isConditionChecked = MediatorLiveData<Event<Boolean>>().apply {
+        var isTimesChecked = false
+        var isDaysChecked = false
+
+        val checkInitialized: () -> Unit = {
+            if (curSearchingTimes.isInitialized && curSearchingDays.isInitialized) {
+                value = Event(isDaysChecked && isTimesChecked)
+            }
+        }
+
+        addSource(curSearchingTimes) {
+            isTimesChecked = it != ""
+            checkInitialized()
+        }
+        addSource(curSearchingDays) {
+            isDaysChecked = it != ""
+            checkInitialized()
+        }
+    }
+    val isConditionChecked: LiveData<Event<Boolean>> get() = _isConditionChecked
 
     fun getTeamInfo() = viewModelScope.launch {
         getUserTeamInfoDetailUseCase().let { curTeam ->

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.golfzon.core_ui.DefaultToast.createToast
 import com.golfzon.core_ui.DialogUtil
 import com.golfzon.core_ui.DialogUtil.resizeDialogFragment
 import com.golfzon.core_ui.autoCleared
@@ -46,9 +47,18 @@ class MatchingFilteringDialogFragment : DialogFragment() {
     }
 
     private fun setStartClickListener() {
-        binding.btnMatchingFilterStart.setOnDebounceClickListener {
-            // TODO 설정 내용 저장 기능 추가
-            findNavController().navigate(MatchingFilteringDialogFragmentDirections.actionMatchingFilteringDialogFragmentToMatchingFragment())
+        matchingViewModel.isConditionChecked.observe(viewLifecycleOwner) { isConditionChecked ->
+            binding.btnMatchingFilterStart.setOnDebounceClickListener {
+                if (isConditionChecked.getContentIfNotHandled() == true) {
+                    findNavController().navigate(MatchingFilteringDialogFragmentDirections.actionMatchingFilteringDialogFragmentToMatchingFragment())
+                } else {
+                    createToast(
+                        requireContext(),
+                        message = getString(R.string.matching_filtering_condition_set_fail_toast_massage),
+                        isError = true
+                    )?.show()
+                }
+            }
         }
     }
 }
