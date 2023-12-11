@@ -101,10 +101,11 @@ class MatchingViewModel @Inject constructor(
         _teamUsers.clear(true)
     }
 
-    fun getTeamMemberInfo(UId: String, leaderUId: String) = viewModelScope.launch {
-        getUserInfoUseCase(UId).let {
-            _teamUsers.add(Triple(it.first, it.second, leaderUId), true)
-        }
+    fun getTeamMembersInfo(membersUId: List<String>, leaderUId: String) = viewModelScope.launch {
+        _teamUsers.replaceAll(membersUId.map {
+            val curUserInfo = getUserInfoUseCase(it)
+            Triple(curUserInfo.first, curUserInfo.second, leaderUId)
+        }, true)
     }
 
     fun getCandidateTeamMembersInfo(membersUId: List<String>) = viewModelScope.launch {

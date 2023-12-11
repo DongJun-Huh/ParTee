@@ -93,9 +93,7 @@ class MatchingHomeFragment : Fragment() {
         matchingViewModel.teamInfoDetail.observe(viewLifecycleOwner) { teamInfo ->
             matchingViewModel.clearUserInfo()
             if (teamInfo != null) {
-                teamInfo.membersUId.map { UId ->
-                    matchingViewModel.getTeamMemberInfo(UId, teamInfo.leaderUId)
-                }
+                matchingViewModel.getTeamMembersInfo(teamInfo.membersUId, teamInfo.leaderUId)
                 binding.teamDetail = teamInfo
             } else {
                 with(binding) {
