@@ -86,9 +86,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:checkedButton="@{vm.curSearchingDaysCheckedButtonId}"
+                android:onCheckedChanged="@{(group, checkedId) -> vm.changeDays(group, checkedId)}"
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/rb_matching_filtering_days_weekdays"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/selector_background_radius_100"
@@ -100,6 +103,7 @@
                     android:textColor="@drawable/selector_textview_primary_50_to_white" />
 
                 <RadioButton
+                    android:id="@+id/rb_matching_filtering_days_weekend"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -116,9 +120,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:checkedButton="@{vm.curSearchingTimesCheckedButtonId}"
+                android:onCheckedChanged="@{(group, checkedId) -> vm.changeTimes(group, checkedId)}"
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/rb_matching_filtering_times_morning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/selector_background_radius_100"
@@ -130,6 +137,7 @@
                     android:textColor="@drawable/selector_textview_primary_50_to_white" />
 
                 <RadioButton
+                    android:id="@+id/rb_matching_filtering_times_afternoon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -142,6 +150,7 @@
                     android:textColor="@drawable/selector_textview_primary_50_to_white" />
 
                 <RadioButton
+                    android:id="@+id/rb_matching_filtering_times_night"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -154,6 +163,7 @@
                     android:textColor="@drawable/selector_textview_primary_50_to_white" />
 
                 <RadioButton
+                    android:id="@+id/rb_matching_filtering_times_dawn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"

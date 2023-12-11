@@ -493,7 +493,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="17dp"
                 android:fontFamily="@font/pretendard_medium"
-                android:text="@{vm.curSearchingHeadCount + `명 / ` + curUserTeamDetail.searchingDays + ` ` + curUserTeamDetail.searchingTimes + ` / `}"
+                android:text="@{vm.curSearchingHeadCount + `명 / ` + vm.curSearchingDays + ` ` + vm.curSearchingTimes + ` / `}"
                 android:textColor="@color/black"
                 android:textFontWeight="500"
                 android:textSize="14sp"

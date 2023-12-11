@@ -1,5 +1,6 @@
 package com.golfzon.matching
 
+import android.widget.RadioGroup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -61,6 +62,10 @@ class MatchingViewModel @Inject constructor(
     val isCandidateEnd: LiveData<Event<Boolean>> get() = _isCandidateEnd
 
     val curSearchingHeadCount = MutableLiveData<Int>(1)
+    val curSearchingTimes = MutableLiveData<String>()
+    val curSearchingTimesCheckedButtonId = MutableLiveData<Int>()
+    val curSearchingDays = MutableLiveData<String>()
+    val curSearchingDaysCheckedButtonId = MutableLiveData<Int>()
 
     fun getTeamInfo() = viewModelScope.launch {
         getUserTeamInfoDetailUseCase().let { curTeam ->
@@ -95,7 +100,12 @@ class MatchingViewModel @Inject constructor(
     }
 
     private fun getCandidateTeams(reactedTeams: List<String>) = viewModelScope.launch {
-        getCandidateTeamUseCase(curSearchingHeadCount.value ?: 1, reactedTeams)?.let {
+        getCandidateTeamUseCase(
+            curSearchingHeadCount.value ?: 1,
+            curSearchingDays.value ?: "",
+            curSearchingTimes.value ?: "",
+            reactedTeams
+        )?.let {
             val priorityOrderedTeams = it.map { candidateTeam ->
                 val averageScore =
                     (8 - (abs(_teamInfoDetail.value!!.totalAverage - candidateTeam.totalAverage) / 10)).getPreventedMinusScore
@@ -147,6 +157,26 @@ class MatchingViewModel @Inject constructor(
     fun minusCurSearchingHeadCount() {
         curSearchingHeadCount.value?.let { headCount ->
             if (headCount > 1) curSearchingHeadCount.value = headCount.minus(1)
+        }
+    }
+
+    fun changeDays(group: RadioGroup, checkedId: Int) {
+        curSearchingDaysCheckedButtonId.value = checkedId
+        curSearchingDays.value = when (checkedId) {
+            R.id.rb_matching_filtering_days_weekdays -> "주중"
+            R.id.rb_matching_filtering_days_weekend -> "주말"
+            else -> ""
+        }
+    }
+
+    fun changeTimes(group: RadioGroup, checkedId: Int) {
+        curSearchingTimesCheckedButtonId.value = checkedId
+        curSearchingTimes.value = when (checkedId) {
+            R.id.rb_matching_filtering_times_morning -> "오전"
+            R.id.rb_matching_filtering_times_afternoon -> "오후"
+            R.id.rb_matching_filtering_times_night -> "야간"
+            R.id.rb_matching_filtering_times_dawn -> "새벽"
+            else -> ""
         }
     }
 

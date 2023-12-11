@@ -1,9 +1,7 @@
 package com.golfzon.data.repository
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.golfzon.data.extension.readValue
@@ -23,27 +21,19 @@ class MatchRepositoryImpl @Inject constructor(
     private val firebaseStorage: FirebaseStorage,
     private val dataStore: DataStore<Preferences>
 ) : MatchRepository {
-    override suspend fun getCandidateTeams(searchingHeadCount: Int, reactedTeams: List<String>): List<Team> {
+    override suspend fun getCandidateTeams(searchingHeadCount: Int, searchingDays: String, searchingTimes: String, reactedTeams: List<String>): List<Team> {
         return suspendCancellableCoroutine { continuation ->
             var curUserUId = ""
             var curTeamUId = ""
-            var curTeamHeadCount = 0 // 상대방이 몇명 찾고있는지는 조건에 안넣기로..
             var curTeamSearchingLocations = setOf<String>()
-            var curTeamSearchingTimes = ""
-            var curTeamSearchingDays = ""
             val resultTeams = mutableListOf<Team>()
 
             runBlocking {
                 curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
                 curTeamUId = dataStore.readValue(stringPreferencesKey("teamUId"), "") ?: ""
-                curTeamHeadCount = dataStore.readValue(intPreferencesKey("teamHeadCount"), 0) ?: 0
                 curTeamSearchingLocations =
                     dataStore.readValue(stringSetPreferencesKey("searchingLocations"), setOf())
                         ?: setOf()
-                curTeamSearchingTimes =
-                    dataStore.readValue(stringPreferencesKey("searchingTimes"), "") ?: ""
-                curTeamSearchingDays =
-                    dataStore.readValue(stringPreferencesKey("searchingDays"), "") ?: ""
             }
 
             firestore.collection("teams")
@@ -60,8 +50,8 @@ class MatchRepositoryImpl @Inject constructor(
                                     )
                                             || curTeamSearchingLocations.intersect(teamDetail["searchingLocations"]!! as List<String>)
                                         .isNotEmpty())
-                                    && (teamDetail["searchingTimes"] as String) == curTeamSearchingTimes
-                                    && (teamDetail["searchingDays"] as String) == curTeamSearchingDays
+                                    && (teamDetail["searchingTimes"] as String) == searchingTimes
+                                    && (teamDetail["searchingDays"] as String) == searchingDays
                                 ) {
                                     resultTeams.add(
                                         Team(
