@@ -1,7 +1,6 @@
 package com.golfzon.matching
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +29,6 @@ class MatchingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMatchingBinding.inflate(inflater, container, false)
-        matchingViewModel.clearCandidateTeams()
         setDataBindingVariables()
         getCurUserTeam()
         getCandidateTeams()
@@ -42,6 +40,7 @@ class MatchingFragment : Fragment() {
         setBackClickListener()
         setSearchUserResultAdapter()
         observeCurrentUserTeam()
+        observeCurrentCandidateTeamIsExist()
         observeCurrentCandidateTeam()
         observeCurrentCandidateTeamMembers()
         observeMatchingSuccess()
@@ -50,7 +49,6 @@ class MatchingFragment : Fragment() {
 
     private fun onDestroyBindingView() {
         candidateTeamMemberAdapter = null
-        matchingViewModel.clearCandidateTeams()
     }
 
     private fun setDataBindingVariables() {
@@ -80,23 +78,25 @@ class MatchingFragment : Fragment() {
         }
     }
 
+    private fun observeCurrentCandidateTeamIsExist() {
+        matchingViewModel.isCurCandidateTeamExist.observe(viewLifecycleOwner) { isExist ->
+            with(isExist.getContentIfNotHandled()) {
+                displayCandidateTeamIsOver(this == false)
+
+                if (this != null) {
+                    binding.layoutMatchingSearching.visibility = View.GONE
+                }
+            }
+        }
+    }
+
     private fun observeCurrentCandidateTeam() {
         matchingViewModel.curCandidateTeam.observe(viewLifecycleOwner) { curTeam ->
-            if (curTeam != null) {
-                binding.curTeamDetail = curTeam
-                matchingViewModel.getCandidateTeamMembersInfo(curTeam.membersUId)
-
-                binding.btnMatchingReactionsLike.isEnabled = true
-                binding.btnMatchingReactionsDislike.isEnabled = true
+            if (curTeam.getContentIfNotHandled() != null) {
+                binding.curTeamDetail = curTeam.peekContent()
+                matchingViewModel.getCandidateTeamMembersInfo(curTeam.peekContent()!!.membersUId)
             } else {
-                // TODO 매칭 불가 별도 화면으로 표시
-                DefaultToast.createToast(
-                    context = requireContext(),
-                    message = "더이상 매칭될 수 있는 팀이 없어요!",
-                    isError = true
-                )?.show()
-                binding.btnMatchingReactionsLike.isEnabled = false
-                binding.btnMatchingReactionsDislike.isEnabled = false
+                // 최초 로딩 이후 2번째 화면 실행부터 화면 실행하자마자 실행되는 곳
             }
         }
     }
@@ -144,19 +144,27 @@ class MatchingFragment : Fragment() {
 
     private fun observeCandidateTeamIsEnd() {
         matchingViewModel.isCandidateEnd.observe(viewLifecycleOwner) { isEnd ->
-            if (isEnd.getContentIfNotHandled() == true) {
-                // TODO 매칭 불가 별도 화면으로 표시
-                DefaultToast.createToast(
-                    context = requireContext(),
-                    message = "더이상 매칭될 수 있는 팀이 없어요!",
-                    isError = true
-                )?.show()
-                binding.btnMatchingReactionsLike.isEnabled = false
-                binding.btnMatchingReactionsDislike.isEnabled = false
-            } else {
-                binding.btnMatchingReactionsLike.isEnabled = true
-                binding.btnMatchingReactionsDislike.isEnabled = true
-            }
+            displayCandidateTeamIsOver(isEnd.getContentIfNotHandled() ?: false)
+        }
+    }
+
+    private fun displayCandidateTeamIsOver(isEnd: Boolean) {
+        setReactionButtonsEnabled(isEnabled = !isEnd)
+        binding.layoutMatchingNotExist.visibility = if (isEnd) View.VISIBLE else View.GONE
+
+        if (isEnd) {
+            DefaultToast.createToast(
+                context = requireContext(),
+                message = getString(R.string.matching_candidate_team_is_not_exist_toast_message),
+                isError = true
+            )?.show()
+        }
+    }
+
+    private fun setReactionButtonsEnabled(isEnabled: Boolean) {
+        with(binding) {
+            btnMatchingReactionsLike.isEnabled = isEnabled
+            btnMatchingReactionsDislike.isEnabled = isEnabled
         }
     }
 }

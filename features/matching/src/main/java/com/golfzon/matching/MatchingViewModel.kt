@@ -40,8 +40,11 @@ class MatchingViewModel @Inject constructor(
     private val _teamUsers = ListLiveData<Triple<User, Boolean, String>>()
     val teamUsers: ListLiveData<Triple<User, Boolean, String>> get() = _teamUsers
 
-    private val _curCandidateTeam = MutableLiveData<Team?>()
-    val curCandidateTeam: LiveData<Team?> get() = _curCandidateTeam
+    private val _isCurCandidateTeamExist = MutableLiveData<Event<Boolean>>()
+    val isCurCandidateTeamExist: LiveData<Event<Boolean>> get() = _isCurCandidateTeamExist
+
+    private val _curCandidateTeam = MutableLiveData<Event<Team>>()
+    val curCandidateTeam: LiveData<Event<Team>> get() = _curCandidateTeam
 
     private val _curCandidateTeamMembers = ListLiveData<User>()
     val curCandidateTeamMembers: ListLiveData<User> get() = _curCandidateTeamMembers
@@ -109,7 +112,10 @@ class MatchingViewModel @Inject constructor(
 
             _candidateTeams.replaceAll(priorityOrderedTeams, true)
             if (it.isNotEmpty()) {
-                _curCandidateTeam.postValue(priorityOrderedTeams[0])
+                _curCandidateTeam.postValue(Event(priorityOrderedTeams[0]))
+                _isCurCandidateTeamExist.postValue(Event(true))
+            } else {
+                _isCurCandidateTeamExist.postValue(Event(false))
             }
         }
     }
@@ -123,18 +129,13 @@ class MatchingViewModel @Inject constructor(
                 _isSuccessMatching.postValue(Event(it))
                 if (curCandidateTeamIndex.value!! != _candidateTeams.value!!.size - 1) {
                     curCandidateTeamIndex.value = curCandidateTeamIndex.value!! + 1
-                    _curCandidateTeam.postValue(_candidateTeams.value!![curCandidateTeamIndex.value!!])
+                    _curCandidateTeam.postValue(Event(_candidateTeams.value!![curCandidateTeamIndex.value!!]))
+                    _isCandidateEnd.postValue(Event(false))
                 } else {
                     _isCandidateEnd.postValue(Event(true))
                 }
             }
         }
-    }
-
-    fun clearCandidateTeams() {
-        _candidateTeams.clear(true)
-        _curCandidateTeam.postValue(null)
-        _curCandidateTeamMembers.clear(true)
     }
 
     fun addCurSearchingHeadCount() {
