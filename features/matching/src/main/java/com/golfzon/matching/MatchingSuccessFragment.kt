@@ -30,6 +30,7 @@ class MatchingSuccessFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setReservationClickListener()
+        observeSuccessTeamInfo()
     }
 
     override fun onResume() {
@@ -47,6 +48,12 @@ class MatchingSuccessFragment : DialogFragment() {
     private fun setReservationClickListener() {
         binding.btnMatchingSuccessGroupReservation.setOnDebounceClickListener {
             (requireActivity() as MatchingActivity).navigateToScreen()
+        }
+    }
+
+    private fun observeSuccessTeamInfo() {
+        matchingViewModel.successTeamInfo.observe(viewLifecycleOwner) {
+            binding.commonLocation = it.searchingLocations.joinToString(separator = ", ")
         }
     }
 }

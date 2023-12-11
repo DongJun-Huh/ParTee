@@ -53,6 +53,9 @@ class MatchingViewModel @Inject constructor(
     private val _isSuccessMatching = MutableLiveData<Event<Boolean>>()
     val isSuccessMatching: LiveData<Event<Boolean>> get() = _isSuccessMatching
 
+    private val _successTeamInfo = MutableLiveData<Team>()
+    val successTeamInfo: LiveData<Team> get() = _successTeamInfo
+
     private val _candidateTeams = ListLiveData<Team>()
     val candidateTeams: ListLiveData<Team> get() = _candidateTeams
     val curCandidateTeamIndex = MutableLiveData<Int>(0)
@@ -135,8 +138,21 @@ class MatchingViewModel @Inject constructor(
             requestReactionsToCandidateTeamUseCase(
                 candidateTeamUId =
                 _candidateTeams.value!!.get(curCandidateTeamIndex.value!!).teamUId, isLike = isLike
-            )?.let {
-                _isSuccessMatching.postValue(Event(it))
+            )?.let { isSuccess ->
+                _isSuccessMatching.postValue(Event(isSuccess))
+                if (isSuccess) {
+                    _successTeamInfo.postValue(
+                        _curCandidateTeam.value?.peekContent()?.copy(
+                            searchingLocations = _teamInfoDetail.value?.searchingLocations?.toSet()
+                                ?.intersect(
+                                    (_curCandidateTeam.value?.peekContent()?.searchingLocations
+                                        ?: listOf()).toSet()
+                                )
+                                ?.toList() ?: listOf()
+                        )
+                    )
+                }
+
                 if (curCandidateTeamIndex.value!! != _candidateTeams.value!!.size - 1) {
                     curCandidateTeamIndex.value = curCandidateTeamIndex.value!! + 1
                     _curCandidateTeam.postValue(Event(_candidateTeams.value!![curCandidateTeamIndex.value!!]))

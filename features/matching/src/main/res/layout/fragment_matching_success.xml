@@ -9,6 +9,10 @@
         <variable
             name="vm"
             type="com.golfzon.matching.MatchingViewModel" />
+
+        <variable
+            name="commonLocation"
+            type="String" />
     </data>
 
     <LinearLayout
@@ -25,7 +29,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/pretendard_medium"
-            android:text="매칭이 성공했어요!"
+            android:letterSpacing="0.01"
+            android:lineSpacingExtra="3sp"
+            android:text="@string/matching_success_title"
             android:textColor="@color/primary_8B95B3"
             android:textFontWeight="500"
             android:textSize="16sp" />
@@ -43,14 +49,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_matching_success_team_info_first"
+                    imageUId="@{vm.teamInfoDetail.teamImageUrl}"
                     android:layout_width="96dp"
                     android:layout_height="100dp"
                     android:background="#F5F6F9"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/user_sample"
-                    app:shapeAppearance="@style/ShapeAppearance.radius28" />
+                    app:shapeAppearance="@style/ShapeAppearance.radius28"
+                    tools:src="@drawable/user_sample" />
 
                 <TextView
                     android:id="@+id/tv_matching_success_team_info_first_name"
@@ -59,8 +66,14 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="14dp"
                     android:fontFamily="@font/pretendard_medium"
-                    android:text="TEAM\n팀이름"
-                    android:textFontWeight="500" />
+                    android:gravity="center"
+                    android:letterSpacing="-0.01"
+                    android:lineSpacingExtra="3sp"
+                    android:text="@{`TEAM\n`+vm.teamInfoDetail.teamName}"
+                    android:textColor="@color/primary_8B95B3"
+                    android:textFontWeight="500"
+                    android:textSize="14sp"
+                    tools:text="TEAM\n팀이름" />
             </LinearLayout>
 
             <LinearLayout
@@ -70,14 +83,15 @@
                 android:layout_marginStart="18dp"
                 android:orientation="vertical">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_matching_success_team_info_second"
+                    imageUId="@{vm.successTeamInfo.teamImageUrl}"
                     android:layout_width="96dp"
                     android:layout_height="100dp"
                     android:background="#F5F6F9"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/user_sample2"
-                    app:shapeAppearance="@style/ShapeAppearance.radius28" />
+                    app:shapeAppearance="@style/ShapeAppearance.radius28"
+                    tools:src="@drawable/user_sample2" />
 
                 <TextView
                     android:id="@+id/tv_matching_success_team_info_second_name"
@@ -86,8 +100,14 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="14dp"
                     android:fontFamily="@font/pretendard_medium"
-                    android:text="TEAM\n골프존"
-                    android:textFontWeight="500" />
+                    android:gravity="center"
+                    android:letterSpacing="-0.01"
+                    android:lineSpacingExtra="3sp"
+                    android:text="@{`TEAM\n`+vm.successTeamInfo.teamName}"
+                    android:textColor="@color/primary_8B95B3"
+                    android:textFontWeight="500"
+                    android:textSize="14sp"
+                    tools:text="TEAM\n골프존" />
             </LinearLayout>
         </LinearLayout>
 
@@ -95,23 +115,26 @@
             android:id="@+id/tv_matching_success_group_info"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
             android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:autoSizeMaxTextSize="16sp"
+            android:autoSizeMinTextSize="11sp"
+            android:autoSizeStepGranularity="0.5sp"
+            android:autoSizeTextType="uniform"
             android:background="@drawable/background_radius_100"
             android:backgroundTint="#80AFB7CF"
             android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+            android:letterSpacing="0.01"
+            android:lineSpacingExtra="3sp"
             android:maxLines="1"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
-            android:autoSizeTextType="uniform"
-            android:autoSizeStepGranularity="0.5sp"
-            android:autoSizeMinTextSize="11sp"
-            android:autoSizeMaxTextSize="16sp"
             android:singleLine="true"
-            android:text="11월 29일 오후 9시~오후11시"
+            android:text="@{vm.successTeamInfo.searchingDays + ` / ` + vm.successTeamInfo.searchingTimes + ` / ` + commonLocation}"
             android:textColor="@color/primary_8B95B3"
-            android:textFontWeight="600" />
+            android:textFontWeight="600"
+            tools:text="주말 오전 서울" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -128,7 +151,9 @@
                 android:backgroundTint="@color/primary_btn_AFB7CF"
                 android:fontFamily="@font/pretendard_medium"
                 android:gravity="center"
-                android:text="예약"
+                android:letterSpacing="0"
+                android:lineSpacingExtra="5sp"
+                android:text="@string/reservation"
                 android:textColor="@color/white"
                 android:textFontWeight="500"
                 android:textSize="16sp" />
@@ -143,7 +168,9 @@
                 android:backgroundTint="@color/primary_btn_AFB7CF"
                 android:fontFamily="@font/pretendard_medium"
                 android:gravity="center"
-                android:text="채팅"
+                android:letterSpacing="0"
+                android:lineSpacingExtra="5sp"
+                android:text="@string/chat"
                 android:textColor="@color/white"
                 android:textFontWeight="500"
                 android:textSize="16sp" />
