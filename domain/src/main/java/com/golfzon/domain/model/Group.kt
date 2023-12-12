@@ -4,7 +4,7 @@ data class Group(
     val groupUId: String,
     val originalTeamsInfo: List<Team>,
     val headCount: Int,
-    val membersId: List<String>,
+    val membersUId: List<String>,
     val locations: List<String>,
     val days: String,
     val times: String,

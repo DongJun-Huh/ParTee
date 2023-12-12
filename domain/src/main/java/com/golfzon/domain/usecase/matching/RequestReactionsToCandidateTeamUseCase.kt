@@ -28,7 +28,7 @@ class RequestReactionsToCandidateTeamUseCase @Inject constructor(
                             groupUId = "",
                             originalTeamsInfo = listOf(curUserTeam, candidateTeam),
                             headCount = curUserTeam.headCount + candidateTeam.headCount,
-                            membersId = curUserTeam.membersUId + candidateTeam.membersUId,
+                            membersUId = curUserTeam.membersUId + candidateTeam.membersUId,
                             locations = curUserTeam.searchingLocations.toSet()
                                 .intersect(candidateTeam.searchingLocations).toList(),
                             days = candidateTeam.searchingDays,
