@@ -77,18 +77,9 @@ class GroupRepositoryImpl @Inject constructor(
                         val groups = groupsInfo["groupsUId"] as List<String>
                         for (group in groups) {
                             val groupRef = firestore.collection("groups").document(group)
+                            val originalTeamsRef = groupRef.collection("originTeamsInfo")
 
-                            var curGroupInfo: Group = Group(
-                                groupUId = group,
-                                originalTeamsInfo = listOf(),
-                                headCount = 0,
-                                membersUId = listOf(),
-                                locations = listOf(),
-                                days = "",
-                                times = "",
-                                openChatUrl = ""
-                            )
-
+                            // TODO CallBack Hell 해결
                             val getGroupTask = groupRef.get().addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     val data = task.result?.data
@@ -99,7 +90,7 @@ class GroupRepositoryImpl @Inject constructor(
                                         (data?.get("locations") as? List<String>) ?: emptyList()
                                     val membersUId = (data?.get("membersUId") as? List<String>)
                                         ?: emptyList()
-                                    curGroupInfo = curGroupInfo.copy(
+                                    var curGroupInfo = Group(
                                         groupUId = group,
                                         originalTeamsInfo = listOf(),
                                         headCount = headCount,
@@ -109,126 +100,133 @@ class GroupRepositoryImpl @Inject constructor(
                                         times = times,
                                         openChatUrl = ""
                                     )
+
+                                    originalTeamsRef.document("teamFirst").get()
+                                        .addOnCompleteListener { task ->
+                                            if (task.isSuccessful) {
+                                                val data = task.result?.data
+                                                val headCount =
+                                                    (data?.get("headCount") as? Long)?.toInt() ?: 0
+                                                val leaderUId =
+                                                    (data?.get("leaderUId") as? String) ?: ""
+                                                val membersUId =
+                                                    (data?.get("membersUId") as? List<String>)
+                                                        ?: emptyList()
+                                                val teamImageUrl =
+                                                    (data?.get("teamImageUrl") as? String) ?: ""
+                                                val teamName =
+                                                    (data?.get("teamName") as? String) ?: ""
+                                                val totalAge =
+                                                    (data?.get("totalAge") as? Long)?.toInt() ?: 0
+                                                val totalAverage =
+                                                    (data?.get("totalAverage") as? Long)?.toInt()
+                                                        ?: 0
+                                                val totalYearsPlaying =
+                                                    (data?.get("totalYearsPlaying") as? Long)?.toInt()
+                                                        ?: 0
+
+                                                curGroupInfo = curGroupInfo.copy(
+                                                    originalTeamsInfo = curGroupInfo.originalTeamsInfo + listOf(
+                                                        Team(
+                                                            teamUId = "",
+                                                            teamName = teamName,
+                                                            teamImageUrl = teamImageUrl,
+                                                            leaderUId = leaderUId,
+                                                            membersUId = membersUId,
+                                                            headCount = headCount,
+                                                            searchingHeadCount = 0,
+                                                            searchingTimes = "",
+                                                            searchingDays = "",
+                                                            searchingLocations = listOf(),
+                                                            openChatUrl = "",
+                                                            totalAge = totalAge,
+                                                            totalYearsPlaying = totalYearsPlaying,
+                                                            totalAverage = totalAverage,
+                                                            priorityScore = 0
+                                                        )
+                                                    )
+                                                )
+                                                originalTeamsRef.document("teamSecond").get()
+                                                    .addOnCompleteListener { task ->
+                                                        if (task.isSuccessful) {
+                                                            val data = task.result?.data
+                                                            val headCount =
+                                                                (data?.get("headCount") as? Long)?.toInt()
+                                                                    ?: 0
+                                                            val leaderUId =
+                                                                (data?.get("leaderUId") as? String)
+                                                                    ?: ""
+                                                            val membersUId =
+                                                                (data?.get("membersUId") as? List<String>)
+                                                                    ?: emptyList()
+                                                            val teamImageUrl =
+                                                                (data?.get("teamImageUrl") as? String)
+                                                                    ?: ""
+                                                            val teamName =
+                                                                (data?.get("teamName") as? String)
+                                                                    ?: ""
+                                                            val totalAge =
+                                                                (data?.get("totalAge") as? Long)?.toInt()
+                                                                    ?: 0
+                                                            val totalAverage =
+                                                                (data?.get("totalAverage") as? Long)?.toInt()
+                                                                    ?: 0
+                                                            val totalYearsPlaying =
+                                                                (data?.get("totalYearsPlaying") as? Long)?.toInt()
+                                                                    ?: 0
+
+                                                            curGroupInfo = curGroupInfo.copy(
+                                                                originalTeamsInfo = curGroupInfo.originalTeamsInfo + listOf(
+                                                                    Team(
+                                                                        teamUId = "",
+                                                                        teamName = teamName,
+                                                                        teamImageUrl = teamImageUrl,
+                                                                        leaderUId = leaderUId,
+                                                                        membersUId = membersUId,
+                                                                        headCount = headCount,
+                                                                        searchingHeadCount = 0,
+                                                                        searchingTimes = "",
+                                                                        searchingDays = "",
+                                                                        searchingLocations = listOf(),
+                                                                        openChatUrl = "",
+                                                                        totalAge = totalAge,
+                                                                        totalYearsPlaying = totalYearsPlaying,
+                                                                        totalAverage = totalAverage,
+                                                                        priorityScore = 0
+                                                                    )
+                                                                )
+                                                            )
+
+                                                            resultGroups.add(curGroupInfo)
+                                                            if (resultGroups.size == groups.size) {
+                                                                if (continuation.isActive) continuation.resume(
+                                                                    resultGroups
+                                                                )
+                                                            }
+                                                        } else {
+                                                            if (continuation.isActive) continuation.resumeWithException(
+                                                                task.exception
+                                                                    ?: RuntimeException("Unknown error")
+                                                            )
+                                                        }
+                                                    }
+
+                                            } else {
+                                                if (continuation.isActive) continuation.resumeWithException(
+                                                    task.exception
+                                                        ?: RuntimeException("Unknown error")
+                                                )
+                                            }
+                                        }
                                 } else {
                                     if (continuation.isActive) continuation.resumeWithException(
                                         task.exception ?: RuntimeException("Unknown error")
                                     )
                                 }
-                            }.asDeferred()
-
-                            val originalTeamsRef = groupRef.collection("originTeamsInfo")
-                            val getTeamFirstTask = originalTeamsRef.document("teamFirst").get()
-                                .addOnCompleteListener { task ->
-                                    if (task.isSuccessful) {
-                                        val data = task.result?.data
-                                        val headCount =
-                                            (data?.get("headCount") as? Long)?.toInt() ?: 0
-                                        val leaderUId =
-                                            (data?.get("leaderUId") as? String) ?: ""
-                                        val membersUId =
-                                            (data?.get("membersUId") as? List<String>)
-                                                ?: emptyList()
-                                        val teamImageUrl =
-                                            (data?.get("teamImageUrl") as? String) ?: ""
-                                        val teamName = (data?.get("teamName") as? String) ?: ""
-                                        val totalAge =
-                                            (data?.get("totalAge") as? Long)?.toInt() ?: 0
-                                        val totalAverage =
-                                            (data?.get("totalAverage") as? Long)?.toInt() ?: 0
-                                        val totalYearsPlaying =
-                                            (data?.get("totalYearsPlaying") as? Long)?.toInt() ?: 0
-
-                                        curGroupInfo = curGroupInfo.copy(
-                                            originalTeamsInfo = curGroupInfo.originalTeamsInfo + listOf(
-                                                Team(
-                                                    teamUId = "",
-                                                    teamName = teamName,
-                                                    teamImageUrl = teamImageUrl,
-                                                    leaderUId = leaderUId,
-                                                    membersUId = membersUId,
-                                                    headCount = headCount,
-                                                    searchingHeadCount = 0,
-                                                    searchingTimes = "",
-                                                    searchingDays = "",
-                                                    searchingLocations = listOf(),
-                                                    openChatUrl = "",
-                                                    totalAge = totalAge,
-                                                    totalYearsPlaying = totalYearsPlaying,
-                                                    totalAverage = totalAverage,
-                                                    priorityScore = 0
-                                                )
-                                            )
-                                        )
-                                    } else {
-                                        if (continuation.isActive) continuation.resumeWithException(
-                                            task.exception ?: RuntimeException("Unknown error")
-                                        )
-                                    }
-                                }.asDeferred()
-                            val getTeamSecondTask =
-                                originalTeamsRef.document("teamSecond").get()
-                                    .addOnCompleteListener { task ->
-                                        if (task.isSuccessful) {
-                                            val data = task.result?.data
-                                            val headCount =
-                                                (data?.get("headCount") as? Long)?.toInt() ?: 0
-                                            val leaderUId =
-                                                (data?.get("leaderUId") as? String) ?: ""
-                                            val membersUId =
-                                                (data?.get("membersUId") as? List<String>)
-                                                    ?: emptyList()
-                                            val teamImageUrl =
-                                                (data?.get("teamImageUrl") as? String) ?: ""
-                                            val teamName =
-                                                (data?.get("teamName") as? String) ?: ""
-                                            val totalAge =
-                                                (data?.get("totalAge") as? Long)?.toInt() ?: 0
-                                            val totalAverage =
-                                                (data?.get("totalAverage") as? Long)?.toInt() ?: 0
-                                            val totalYearsPlaying =
-                                                (data?.get("totalYearsPlaying") as? Long)?.toInt()
-                                                    ?: 0
-
-                                            curGroupInfo = curGroupInfo.copy(
-                                                originalTeamsInfo = curGroupInfo.originalTeamsInfo + listOf(
-                                                    Team(
-                                                        teamUId = "",
-                                                        teamName = teamName,
-                                                        teamImageUrl = teamImageUrl,
-                                                        leaderUId = leaderUId,
-                                                        membersUId = membersUId,
-                                                        headCount = headCount,
-                                                        searchingHeadCount = 0,
-                                                        searchingTimes = "",
-                                                        searchingDays = "",
-                                                        searchingLocations = listOf(),
-                                                        openChatUrl = "",
-                                                        totalAge = totalAge,
-                                                        totalYearsPlaying = totalYearsPlaying,
-                                                        totalAverage = totalAverage,
-                                                        priorityScore = 0
-                                                    )
-                                                )
-                                            )
-                                        } else {
-                                            if (continuation.isActive) continuation.resumeWithException(
-                                                task.exception
-                                                    ?: RuntimeException("Unknown error")
-                                            )
-                                        }
-                                    }.asDeferred()
-                            CoroutineScope(Dispatchers.IO).launch {
-                                awaitAll(getGroupTask, getTeamFirstTask, getTeamSecondTask)
-                                resultGroups.add(curGroupInfo)
-                                if (resultGroups.size == groups.size) {
-                                    if (continuation.isActive) continuation.resume(resultGroups)
-                                }
                             }
                         }
                     }
                 }
-
-
         }
     }
 

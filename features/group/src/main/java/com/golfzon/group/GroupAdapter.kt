@@ -17,7 +17,7 @@ class GroupAdapter : ListAdapter<Group, GroupAdapter.GroupViewHolder>(diffCallba
                 oldItem: Group,
                 newItem: Group
             ) =
-                oldItem.groupUId == newItem.groupUId
+                oldItem.originalTeamsInfo == newItem.originalTeamsInfo
 
             override fun areContentsTheSame(
                 oldItem: Group,

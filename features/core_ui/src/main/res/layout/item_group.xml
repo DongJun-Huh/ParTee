@@ -62,7 +62,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="4dp"
+                    android:fontFamily="@font/pretendard_semi_bold"
+                    android:gravity="center"
+                    android:letterSpacing="0"
+                    android:lineSpacingExtra="5sp"
                     android:text="@{`TEAM\n` + firstTeam.teamName}"
+                    android:textColor="@color/primary_8B95B3"
+                    android:textFontWeight="600"
+                    android:textSize="16sp"
                     tools:text="TEAM\n골프존" />
             </LinearLayout>
 
@@ -94,7 +101,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="4dp"
+                    android:fontFamily="@font/pretendard_semi_bold"
+                    android:gravity="center"
+                    android:letterSpacing="0"
+                    android:lineSpacingExtra="5sp"
                     android:text="@{`TEAM\n` + secondTeam.teamName}"
+                    android:textColor="@color/primary_8B95B3"
+                    android:textFontWeight="600"
+                    android:textSize="16sp"
                     tools:text="TEAM\n팀이름팀" />
             </LinearLayout>
 
