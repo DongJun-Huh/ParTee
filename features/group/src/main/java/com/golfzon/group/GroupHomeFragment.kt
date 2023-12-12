@@ -5,22 +5,27 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.golfzon.core_ui.GridSpacingItemDecoration
 import com.golfzon.core_ui.autoCleared
-import com.golfzon.core_ui.extension.setOnDebounceClickListener
+import com.golfzon.core_ui.dp
 import com.golfzon.group.databinding.FragmentGroupHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class GroupHomeFragment : Fragment() {
-    private var binding by autoCleared<FragmentGroupHomeBinding>()
+    private var binding by autoCleared<FragmentGroupHomeBinding>{ onDestroyBindingView() }
+    private val groupViewModel by activityViewModels<GroupViewModel>()
+    private var groupAdapter: GroupAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentGroupHomeBinding.inflate(inflater, container, false)
+        getGroups()
         setDataBindingVariables()
         return binding.root
     }
@@ -28,7 +33,12 @@ class GroupHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setBottomNavigationView()
-        tmpNavigate()
+        setGroupsAdapter()
+        observeGroups()
+    }
+
+    private fun onDestroyBindingView() {
+        groupAdapter = null
     }
 
     private fun setDataBindingVariables() {
@@ -54,20 +64,21 @@ class GroupHomeFragment : Fragment() {
             }
         }
     }
+    private fun getGroups() {
+        groupViewModel.getGroups()
+    }
 
-    // TODO 기능 구현 후 삭제
-    private fun tmpNavigate() {
-        binding.tempListComponent1.root.setOnDebounceClickListener {
-            findNavController().navigate(GroupHomeFragmentDirections.actionGroupHomeFragmentToGroupDetailFragment())
+    private fun setGroupsAdapter() {
+        groupAdapter = GroupAdapter()
+        with(binding.rvGroupHomeGroups) {
+            adapter = groupAdapter
+            addItemDecoration(GridSpacingItemDecoration(1, 12.dp))
         }
-        binding.tempListComponent2.root.setOnDebounceClickListener {
-            findNavController().navigate(GroupHomeFragmentDirections.actionGroupHomeFragmentToGroupDetailFragment())
-        }
-        binding.tempListComponent3.root.setOnDebounceClickListener {
-            findNavController().navigate(GroupHomeFragmentDirections.actionGroupHomeFragmentToGroupDetailFragment())
-        }
-        binding.tempListComponent4.root.setOnDebounceClickListener {
-            findNavController().navigate(GroupHomeFragmentDirections.actionGroupHomeFragmentToGroupDetailFragment())
+    }
+
+    private fun observeGroups() {
+        groupViewModel.groups.observe(viewLifecycleOwner) { groups ->
+            groupAdapter?.submitList(groups)
         }
     }
 }
