@@ -112,7 +112,7 @@
             app:destination="@id/ImageCropFragment">
 
             <argument
-                android:name="ImageString"
+                android:name="ImagePath"
                 app:argType="string"/>
         </action>
     </dialog>

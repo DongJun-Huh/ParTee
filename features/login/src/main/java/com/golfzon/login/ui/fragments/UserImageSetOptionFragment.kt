@@ -3,6 +3,7 @@ package com.golfzon.login.ui.fragments
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -17,12 +18,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.golfzon.core_ui.DialogUtil.resizeDialogFragment
 import com.golfzon.core_ui.DialogUtil.setDialogRadius
+import com.golfzon.core_ui.ImageUploadUtil.bitmapToFile
 import com.golfzon.core_ui.ImageUploadUtil.extension
+import com.golfzon.core_ui.ImageUploadUtil.getTempImageFilePath
 import com.golfzon.core_ui.ImageUploadUtil.isPermitExtension
+import com.golfzon.core_ui.ImageUploadUtil.toBitmap
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.core_ui.extension.toast
-import com.golfzon.login.R
 import com.golfzon.login.databinding.FragmentUserImageSetOptionBinding
 import com.golfzon.login.ui.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -92,7 +95,7 @@ class UserImageSetOptionFragment : DialogFragment() {
                 // 이미지 파일과 함께, 파일 확장자도 같이 저장
                 if (uri.extension(requireActivity().applicationContext.contentResolver).isPermitExtension) {
                     setImageInfo(
-                        uri.toString(),
+                        uri.toBitmap(requireContext().contentResolver),
                         uri.extension(requireActivity().applicationContext.contentResolver)
                     )
                 } else {
@@ -159,15 +162,18 @@ class UserImageSetOptionFragment : DialogFragment() {
                             .last()
                             .isNotEmpty()
                     ) currentTakenPhotoPath.split(".").last() else "jpg"
-                setImageInfo(Uri.fromFile(photoFile).toString(), photoFileExtension)
+                setImageInfo(Uri.fromFile(photoFile).toBitmap(requireContext().contentResolver), photoFileExtension)
             }
         }
 
-    private fun setImageInfo(imageString: String, fileExtension: String) {
+    private fun setImageInfo(bitmap: Bitmap, fileExtension: String) {
         loginViewModel.setImageFileExtension(fileExtension)
         findNavController().navigate(
             UserImageSetOptionFragmentDirections.actionUserImageSetOptionFragmentToImageCropFragment(
-                ImageString = imageString
+                ImagePath = bitmapToFile(
+                    bitmap,
+                    getTempImageFilePath(fileExtension, requireContext())
+                )?.absolutePath ?: ""
             )
         )
     }

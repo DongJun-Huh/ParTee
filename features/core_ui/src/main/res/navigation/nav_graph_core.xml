@@ -10,7 +10,7 @@
         android:label="fragment_image_crop"
         tools:layout="@layout/fragment_image_crop">
         <argument
-            android:name="ImageString"
+            android:name="ImagePath"
             app:argType="string"/>
     </fragment>
 </navigation>

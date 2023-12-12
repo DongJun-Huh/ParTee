@@ -6,10 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.golfzon.core_ui.ImageUploadUtil.toBitmap
+import com.golfzon.core_ui.ImageUploadUtil.bitmapToFile
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.databinding.FragmentImageCropBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,7 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class ImageCropFragment : Fragment() {
     private var binding by autoCleared<FragmentImageCropBinding> { onDestroyBindingView() }
     private val args by navArgs<ImageCropFragmentArgs>()
-    private lateinit var editedImage: Bitmap
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,14 +32,21 @@ class ImageCropFragment : Fragment() {
     }
 
     private fun onDestroyBindingView() {
-        editedImage = binding.imageCropView.croppedImage
-        findNavController().currentBackStackEntry?.savedStateHandle?.set("editedImage", editedImage)
+        createEditedImage()
+        findNavController().currentBackStackEntry?.savedStateHandle?.set("editedImagePath", args.ImagePath)
     }
 
     private fun setImageView() {
         with(binding.imageCropView) {
             setAspectRatio(9, 16)
-            setImageBitmap(args.ImageString.toUri().toBitmap(requireContext().contentResolver)) // CustomView 이므로 Glide 사용시 오류
+            setImageFilePath(args.ImagePath)
         }
+    }
+
+    private fun createEditedImage() {
+        bitmapToFile(
+            bitmap = binding.imageCropView.croppedImage.copy(Bitmap.Config.ARGB_8888, true),
+            path = args.ImagePath
+        )
     }
 }

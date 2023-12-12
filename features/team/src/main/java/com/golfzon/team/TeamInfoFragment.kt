@@ -1,6 +1,7 @@
 package com.golfzon.team
 
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.golfzon.core_ui.GridSpacingItemDecoration
 import com.golfzon.core_ui.ImageUploadUtil
+import com.golfzon.core_ui.ImageUploadUtil.toBitmap
 import com.golfzon.core_ui.KeyBoardUtil.showKeyboard
 import com.golfzon.core_ui.adapter.TeamUserAdapter
 import com.golfzon.core_ui.autoCleared
@@ -20,6 +22,7 @@ import com.golfzon.core_ui.dp
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.team.databinding.FragmentTeamInfoBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 
 @AndroidEntryPoint
 class TeamInfoFragment : Fragment() {
@@ -178,12 +181,12 @@ class TeamInfoFragment : Fragment() {
     }
 
     private fun observeTeamImageChange() {
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bitmap>("editedImage")
-            ?.observe(
-                viewLifecycleOwner
-            ) { bitmap ->
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("editedImagePath")
+            ?.observe(viewLifecycleOwner) { editedImagePath ->
+                val curBitmap = Uri.fromFile(File(editedImagePath))
+                    .toBitmap(requireContext().contentResolver)
                 with(teamViewModel) {
-                    newTeamImageBitmap.postValue(bitmap)
+                    newTeamImageBitmap.postValue(curBitmap)
                     newTeamImgPath.postValue(
                         ImageUploadUtil.getTempImageFilePath(
                             newTeamImgExtension.value ?: "jpg",
@@ -193,7 +196,7 @@ class TeamInfoFragment : Fragment() {
                 }
 
                 Glide.with(requireContext())
-                    .load(bitmap.copy(Bitmap.Config.ARGB_8888, true))
+                    .load(curBitmap.copy(Bitmap.Config.ARGB_8888, true))
                     .into(binding.ivTeamInfoImage)
             }
     }
