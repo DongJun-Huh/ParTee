@@ -1,5 +1,6 @@
 package com.golfzon.data.repository
 
+import android.net.Uri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -21,6 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import java.io.File
 import kotlin.coroutines.resume
 import javax.inject.Inject
 
@@ -176,17 +178,31 @@ class TeamRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun requestTeamOrganize(newTeamTemp: Team): String =
+    override suspend fun requestTeamOrganize(newTeamWithNoImage: Team, teamImg: File?): String =
         suspendCancellableCoroutine { continuation ->
             var curUserUId = ""
             runBlocking {
                 curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
             }
+            val tasks = mutableListOf<Task<*>>()
 
-            // TODO 이미지 설정 기능 추가시 제거
-            val newTeam = newTeamTemp.copy(
-                teamImageUrl = "TEMP URL"
-            )
+            val newTeam = if (teamImg != null) {
+                val storageRef = firebaseStorage.reference
+                val teamImageExtension =
+                    if (teamImg.path.split(".").last().isNotEmpty()) teamImg.path.split(".")
+                        .last() else "jpg"
+                val teamImagesRef =
+                    storageRef.child("teams/${newTeamWithNoImage.teamUId}.${teamImageExtension}")
+
+                val uploadTask = teamImagesRef.putFile(Uri.fromFile(teamImg))
+                tasks.add(uploadTask)
+
+                newTeamWithNoImage.copy(
+                    teamImageUrl = "${newTeamWithNoImage.teamUId}.${teamImageExtension}"
+                )
+            } else {
+                newTeamWithNoImage.copy()
+            }
 
             firestore.collection("users")
                 .document(curUserUId)
@@ -206,7 +222,6 @@ class TeamRepositoryImpl @Inject constructor(
                                     "isOrganized" to true
                                 )
 
-                                val tasks = mutableListOf<Task<*>>()
                                 for (addedUser in newTeam.membersUId) {
                                     val memberUserEditTask = firestore.collection("users")
                                         .document(addedUser)
@@ -250,7 +265,6 @@ class TeamRepositoryImpl @Inject constructor(
                                     "isOrganized" to true
                                 )
 
-                                val tasks = mutableListOf<Task<*>>()
                                 for (addedUser in newTeam.membersUId) {
                                     val memberUserEditTask = firestore.collection("users")
                                         .document(addedUser)

@@ -1,4 +1,4 @@
-package com.golfzon.login.ui.fragments
+package com.golfzon.team
 
 import android.Manifest
 import android.app.Activity
@@ -15,16 +15,13 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.golfzon.core_ui.DialogUtil.resizeDialogFragment
-import com.golfzon.core_ui.DialogUtil.setDialogRadius
+import com.golfzon.core_ui.DialogUtil
 import com.golfzon.core_ui.ImageUploadUtil.extension
 import com.golfzon.core_ui.ImageUploadUtil.isPermitExtension
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.core_ui.extension.toast
-import com.golfzon.login.R
-import com.golfzon.login.databinding.FragmentUserImageSetOptionBinding
-import com.golfzon.login.ui.LoginViewModel
+import com.golfzon.team.databinding.FragmentTeamImageSetOptionBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.IOException
@@ -34,16 +31,16 @@ import java.util.Locale
 import java.util.Objects
 
 @AndroidEntryPoint
-class UserImageSetOptionFragment : DialogFragment() {
-    private var binding by autoCleared<FragmentUserImageSetOptionBinding> {}
-    private val loginViewModel by activityViewModels<LoginViewModel>()
+class TeamImageSetOptionFragment : DialogFragment() {
+    private var binding by autoCleared<FragmentTeamImageSetOptionBinding> {}
+    private val teamViewModel by activityViewModels<TeamViewModel>()
     private lateinit var currentTakenPhotoPath: String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentUserImageSetOptionBinding.inflate(inflater, container, false)
-        setDialogRadius(dialog!!)
+        binding = FragmentTeamImageSetOptionBinding.inflate(inflater, container, false)
+        DialogUtil.setDialogRadius(dialog!!)
         return binding.root
     }
 
@@ -55,11 +52,11 @@ class UserImageSetOptionFragment : DialogFragment() {
 
     override fun onResume() {
         super.onResume()
-        resizeDialogFragment(requireContext(), dialog!!)
+        DialogUtil.resizeDialogFragment(requireContext(), dialog!!)
     }
 
     private fun setImageSelectGalleryClickListener() {
-        binding.layoutUserImageSetOptionSelectGallery.setOnDebounceClickListener {
+        binding.layoutTeamImageSetOptionSelectGallery.setOnDebounceClickListener {
             requestOpenGallery.launch(
                 PERMISSIONS_GALLERY
             )
@@ -105,7 +102,7 @@ class UserImageSetOptionFragment : DialogFragment() {
         }
 
     private fun setImageTakePhotoClickListener() {
-        binding.layoutUserImageSetOptionTakePhoto.setOnDebounceClickListener {
+        binding.layoutTeamImageSetOptionTakePhoto.setOnDebounceClickListener {
             requestOpenCamera.launch(
                 PERMISSIONS_CAMERA
             )
@@ -164,9 +161,9 @@ class UserImageSetOptionFragment : DialogFragment() {
         }
 
     private fun setImageInfo(imageString: String, fileExtension: String) {
-        loginViewModel.setImageFileExtension(fileExtension)
+        teamViewModel.setImageFileExtension(fileExtension)
         findNavController().navigate(
-            UserImageSetOptionFragmentDirections.actionUserImageSetOptionFragmentToImageCropFragment(
+            TeamImageSetOptionFragmentDirections.actionTeamImageSetOptionFragmentToImageCropFragment(
                 ImageString = imageString
             )
         )

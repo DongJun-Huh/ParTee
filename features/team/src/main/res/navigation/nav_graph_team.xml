@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_TeamInfoFragment_to_TeamLocationSetFragment"
             app:destination="@id/TeamLocationSetFragment" />
+        <action
+            android:id="@+id/action_teamInfoFragment_to_teamImageSetOptionFragment"
+            app:destination="@id/TeamImageSetOptionFragment" />
     </fragment>
     <dialog
         android:id="@+id/TeamMemberAddFragment"
@@ -26,4 +29,25 @@
         android:name="com.golfzon.team.TeamLocationSetFragment"
         android:label="fragment_team_location_set"
         tools:layout="@layout/fragment_team_location_set" />
+
+    <dialog
+        android:id="@+id/TeamImageSetOptionFragment"
+        android:name="com.golfzon.team.TeamImageSetOptionFragment"
+        android:label="fragment_team_image_set_option"
+        tools:layout="@layout/fragment_team_image_set_option">
+
+        <action
+            android:id="@+id/action_teamImageSetOptionFragment_to_imageCropFragment"
+            app:destination="@id/ImageCropFragment">
+
+            <argument
+                android:name="ImageString"
+                app:argType="string" />
+        </action>
+    </dialog>
+    <fragment
+        android:id="@+id/ImageCropFragment"
+        android:name="com.golfzon.core_ui.image.crop.ImageCropFragment"
+        android:label="fragment_image_crop"
+        tools:layout="@layout/fragment_image_crop"></fragment>
 </navigation>

@@ -54,10 +54,10 @@ fun TextView.displayListsToString(divider: String? = "", lists: List<String>?) {
     }
     this.text = result
 }
-@BindingAdapter(value = ["imageUId"], requireAll = false)
-fun ImageView.loadImage(imageUId: String? = "") {
+@BindingAdapter(value = ["imageUId", "imageType"], requireAll = false)
+fun ImageView.loadImage(imageUId: String? = "", imageType: String? = "") {
     Glide.with(this.context)
-        .load("https://firebasestorage.googleapis.com/v0/b/partee-1ba05.appspot.com/o/users%2F${imageUId}?alt=media")
+        .load("https://firebasestorage.googleapis.com/v0/b/partee-1ba05.appspot.com/o/${imageType}%2F${imageUId}?alt=media")
         .placeholder(R.drawable.background_img_golf)
         .error(R.drawable.background_img_golf)
         .into(this)

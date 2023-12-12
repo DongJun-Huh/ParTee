@@ -51,6 +51,7 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_matching_success_team_info_first"
+                    imageType="@{`teams`}"
                     imageUId="@{vm.teamInfoDetail.teamImageUrl}"
                     android:layout_width="96dp"
                     android:layout_height="100dp"
@@ -85,6 +86,7 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_matching_success_team_info_second"
+                    imageType="@{`teams`}"
                     imageUId="@{vm.successTeamInfo.teamImageUrl}"
                     android:layout_width="96dp"
                     android:layout_height="100dp"

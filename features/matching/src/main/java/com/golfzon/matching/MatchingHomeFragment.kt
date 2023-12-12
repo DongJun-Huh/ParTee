@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.golfzon.core_ui.DefaultToast.createToast
 import com.golfzon.core_ui.GridSpacingItemDecoration
 import com.golfzon.core_ui.adapter.TeamUserAdapter
 import com.golfzon.core_ui.autoCleared
@@ -37,7 +38,6 @@ class MatchingHomeFragment : Fragment() {
         initializeUserInfo()
         initializeTeamInfo()
         navigateToTeamInfo()
-        setStartMatchingClickListener()
         setBottomNavigationView()
     }
 
@@ -101,6 +101,7 @@ class MatchingHomeFragment : Fragment() {
                     tvMatchingHomeTeamNotExist.visibility = View.VISIBLE
                 }
             }
+            setStartMatchingClickListener(isEnable = teamInfo != null)
         }
 
         matchingViewModel.teamUsers.observe(viewLifecycleOwner) { users ->
@@ -114,9 +115,17 @@ class MatchingHomeFragment : Fragment() {
         }
     }
 
-    private fun setStartMatchingClickListener() {
+    private fun setStartMatchingClickListener(isEnable: Boolean) {
         binding.btnMatchingHomeStart.setOnDebounceClickListener {
-            findNavController().navigate(MatchingHomeFragmentDirections.actionMatchingHomeFragmentToMatchingFilteringDialogFragment())
+            if (isEnable) {
+                findNavController().navigate(MatchingHomeFragmentDirections.actionMatchingHomeFragmentToMatchingFilteringDialogFragment())
+            } else {
+                createToast(
+                    requireContext(),
+                    getString(R.string.home_team_matching_start_fail_not_exist_team),
+                    isError = true
+                )
+            }
         }
     }
 }

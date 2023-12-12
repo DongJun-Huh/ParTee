@@ -1,5 +1,6 @@
 package com.golfzon.team
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,7 +9,10 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.golfzon.core_ui.GridSpacingItemDecoration
+import com.golfzon.core_ui.ImageUploadUtil
 import com.golfzon.core_ui.KeyBoardUtil.showKeyboard
 import com.golfzon.core_ui.adapter.TeamUserAdapter
 import com.golfzon.core_ui.autoCleared
@@ -23,13 +27,17 @@ class TeamInfoFragment : Fragment() {
     private val teamViewModel by activityViewModels<TeamViewModel>()
     private var teamUserAdapter: TeamUserAdapter? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        getTeamInfo()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentTeamInfoBinding.inflate(inflater, container, false)
         setDataBindingVariables()
-        getTeamInfo()
         return binding.root
     }
 
@@ -37,15 +45,9 @@ class TeamInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initializeTeamInfo()
         setTeamUserAdapter()
-        setAddMemberClickListener()
-        setTeamLocationSetClickListener()
-        setTeamInfoSetClickListener()
-        setTeamInfoChangeCancelClickListener()
-        setTeamInfoChangeNameClickListener()
-        setTeamInfoChangeImageClickListener()
-        observeTeamInfoSave()
-        setTeamInfoSetImageLayout()
         setBackClickListener()
+        setTopActionClickListeners()
+        observeTeamInfoSave()
         observeDeleteTeamStatus()
     }
 
@@ -61,7 +63,6 @@ class TeamInfoFragment : Fragment() {
         }
     }
 
-
     private fun setDataBindingVariables() {
         binding.apply {
             vm = teamViewModel
@@ -76,14 +77,30 @@ class TeamInfoFragment : Fragment() {
     private fun initializeTeamInfo() {
         teamViewModel.newTeam.observe(viewLifecycleOwner) { teamInfo ->
             teamViewModel.clearUserInfo()
-            teamInfo.membersUId.map { UId ->
-                teamViewModel.getTeamMemberInfo(UId, teamInfo.leaderUId)
+            teamViewModel.getTeamMembersInfo(teamInfo.membersUId, teamInfo.leaderUId)
+            if (teamViewModel.newTeamImageBitmap.value == null) {
+                val currentImage =
+                    binding.ivTeamInfoImage.drawable // Glide가 로딩되는 동안 이전 이미지를 유지하도록 placeholder로 지정
+                Glide.with(requireContext())
+                    .load("https://firebasestorage.googleapis.com/v0/b/partee-1ba05.appspot.com/o/teams%2F${teamInfo.teamImageUrl}?alt=media")
+                    .placeholder(currentImage)
+                    .error(currentImage)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(binding.ivTeamInfoImage)
             }
         }
 
         teamViewModel.teamUsers.observe(viewLifecycleOwner) { users ->
             teamUserAdapter?.submitList(users)
         }
+    }
+
+    private fun setTopActionClickListeners() {
+        setAddMemberClickListener()
+        setTeamLocationSetClickListener()
+        setTeamNameSetClickListener()
+        setTeamImageSetClickListener()
     }
 
     private fun setAddMemberClickListener() {
@@ -100,7 +117,6 @@ class TeamInfoFragment : Fragment() {
 
     private fun setTeamInfoSetLayoutOnAndOff() {
         with(binding) {
-            layoutTeamInfoUsers.toggleHideAndShow()
             btnTeamInfoSave.toggleHideAndShow()
             btnTeamInfoBack.toggleHideAndShow()
             btnTeamInfoBreak.toggleHideAndShow()
@@ -109,7 +125,6 @@ class TeamInfoFragment : Fragment() {
             btnTeamInfoSetSave.toggleHideAndShow()
             tvTeamInfoSetDim.toggleHideAndShow()
             ivTeamInfoSetNickname.toggleHideAndShow()
-            layoutTeamInfoSetImage.toggleHideAndShow()
 
             etTeamInfoSetName.isEnabled = !etTeamInfoSetName.isEnabled
             btnTeamInfoActionAddUser.isEnabled = !btnTeamInfoActionAddUser.isEnabled
@@ -118,27 +133,31 @@ class TeamInfoFragment : Fragment() {
         }
     }
 
-    private fun setTeamInfoSetClickListener() {
+    private fun setTeamNameSetClickListener() {
         binding.btnTeamInfoActionChangeInfo.setOnDebounceClickListener {
             setTeamInfoSetLayoutOnAndOff()
         }
+
+        setTeamNameInputLayoutClickListener()
+        setTeamNameChangeCancelClickListener()
+        setTeamNameChangeSaveClickListener()
     }
 
-    private fun setTeamInfoChangeCancelClickListener() {
+    private fun setTeamNameChangeCancelClickListener() {
         binding.btnTeamInfoSetCancel.setOnDebounceClickListener {
             binding.etTeamInfoSetName.setText(teamViewModel.newTeam.value?.teamName)
             setTeamInfoSetLayoutOnAndOff()
         }
     }
 
-    private fun setTeamInfoChangeNameClickListener() {
+    private fun setTeamNameChangeSaveClickListener() {
         binding.btnTeamInfoSetSave.setOnDebounceClickListener {
             teamViewModel.changeTeamName(binding.etTeamInfoSetName.text.toString())
             setTeamInfoSetLayoutOnAndOff()
         }
     }
 
-    private fun setTeamInfoChangeImageClickListener() {
+    private fun setTeamNameInputLayoutClickListener() {
         with(binding) {
             layoutTeamInfoName.setOnDebounceClickListener {
                 with(etTeamInfoSetName) {
@@ -151,22 +170,39 @@ class TeamInfoFragment : Fragment() {
         }
     }
 
+    private fun setTeamImageSetClickListener() {
+        binding.btnTeamInfoActionChangeImage.setOnDebounceClickListener {
+            findNavController().navigate(TeamInfoFragmentDirections.actionTeamInfoFragmentToTeamImageSetOptionFragment())
+        }
+        observeTeamImageChange()
+    }
+
+    private fun observeTeamImageChange() {
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bitmap>("editedImage")
+            ?.observe(
+                viewLifecycleOwner
+            ) { bitmap ->
+                with(teamViewModel) {
+                    newTeamImageBitmap.postValue(bitmap)
+                    newTeamImgPath.postValue(
+                        ImageUploadUtil.getTempImageFilePath(
+                            newTeamImgExtension.value ?: "jpg",
+                            requireContext()
+                        )
+                    )
+                }
+
+                Glide.with(requireContext())
+                    .load(bitmap.copy(Bitmap.Config.ARGB_8888, true))
+                    .into(binding.ivTeamInfoImage)
+            }
+    }
+
     private fun observeTeamInfoSave() {
         teamViewModel.isTeamOrganizeSuccess.observe(viewLifecycleOwner) { isSuccess ->
             if (isSuccess.getContentIfNotHandled() == true) {
                 (requireActivity() as TeamActivity).navigateToMatching()
             }
-        }
-    }
-
-    private fun setTeamInfoSetImageLayout() {
-        // TODO Image Setting 기능 추가
-//        val flexboxLayoutManager = FlexboxLayoutManager(requireContext())
-//        flexboxLayoutManager.flexWrap = FlexWrap.WRAP
-//        binding.rvTeamInfoSetImages.layoutManager = flexboxLayoutManager
-
-        binding.ivTeamInfoSetImage.setOnDebounceClickListener {
-            // TODO 임시 이미지 설정 기능 추가
         }
     }
 

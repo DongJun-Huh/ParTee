@@ -2,7 +2,8 @@
     <string name="team_break">팀 해체</string>
     <string name="team_add_member">팀원 추가</string>
     <string name="team_change_location">위치 변경</string>
-    <string name="team_change_info">팀 정보</string>
+    <string name="team_change_teamname">팀명 변경</string>
+    <string name="team_change_image">사진 변경</string>
     <string name="team_info_users_title">팀원 정보</string>
     <string name="team_member_add_title">팀원 추가</string>
     <string name="team_member_add_success_toast_message">팀원을 추가했어요</string>

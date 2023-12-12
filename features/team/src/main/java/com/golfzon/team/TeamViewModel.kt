@@ -1,10 +1,12 @@
 package com.golfzon.team
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.golfzon.core_ui.Event
+import com.golfzon.core_ui.ImageUploadUtil
 import com.golfzon.core_ui.ListLiveData
 import com.golfzon.domain.model.Team
 import com.golfzon.domain.model.TeamInfo
@@ -44,6 +46,11 @@ class TeamViewModel @Inject constructor(
 
     private val _newTeam = MutableLiveData<Team>()
     val newTeam: LiveData<Team> get() = _newTeam
+
+    val newTeamImageBitmap = MutableLiveData<Bitmap?>()
+    val newTeamImgPath = MutableLiveData<String>()
+    private val _newTeamImgExtension = MutableLiveData<String>()
+    val newTeamImgExtension: LiveData<String> get() = _newTeamImgExtension
 
     private val _isTeamOrganizeSuccess = MutableLiveData<Event<Boolean>>()
     val isTeamOrganizeSuccess: LiveData<Event<Boolean>> get() = _isTeamOrganizeSuccess
@@ -94,10 +101,11 @@ class TeamViewModel @Inject constructor(
         _teamUsers.clear(true)
     }
 
-    fun getTeamMemberInfo(UId: String, leaderUId: String) = viewModelScope.launch {
-        getUserInfoUseCase(UId).let {
-            _teamUsers.add(Triple(it.first, it.second, leaderUId), true)
-        }
+    fun getTeamMembersInfo(membersUId: List<String>, leaderUId: String) = viewModelScope.launch {
+        _teamUsers.replaceAll(membersUId.map {
+            val curUserInfo = getUserInfoUseCase(it)
+            Triple(curUserInfo.first, curUserInfo.second, leaderUId)
+        }, true)
     }
 
     fun searchUsers(nickname: String) = viewModelScope.launch {
@@ -116,7 +124,8 @@ class TeamViewModel @Inject constructor(
     fun organizeTeam() = viewModelScope.launch {
         requestTeamOrganizedUseCase(
             // TODO teamName, teamImageUrl, leaderUId, membersUId, headCount, searchingTimes, searchingLocations, openChatUrl만 설정
-            newTeam = _newTeam.value!!
+            newTeam = _newTeam.value!!,
+            ImageUploadUtil.bitmapToFile(newTeamImageBitmap.value, newTeamImgPath.value)
         )?.let {
             _isTeamOrganizeSuccess.postValue(Event(true))
         }
@@ -171,5 +180,9 @@ class TeamViewModel @Inject constructor(
                 _isTeamDeleteSuccess.postValue(Event(true))
             }
         }
+    }
+
+    fun setImageFileExtension(extension: String) {
+        _newTeamImgExtension.postValue(extension)
     }
 }

@@ -37,4 +37,9 @@
     <string name="gyeongbuk">경북</string>
     <string name="gyeongnam">경남</string>
     <string name="jeju">제주</string>
+
+    <!-- Select Image  -->
+    <string name="image_option_gallery">앨범에서 선택</string>
+    <string name="image_option_camera">사진 직접촬영</string>
+    <string name="upload_image_fail_file_extension">jpg, jpeg, png, webp 형식의 이미지 파일만 업로드 가능합니다.</string>
 </resources>
