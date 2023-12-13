@@ -7,8 +7,8 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.golfzon.data.extension.readValue
 import com.golfzon.data.extension.storeValue
 import com.golfzon.domain.model.GroupInfo
+import com.golfzon.domain.model.RecruitsInfo
 import com.golfzon.domain.model.TeamInfo
-import com.golfzon.domain.model.ThemeTeamInfo
 import com.golfzon.domain.model.User
 import com.golfzon.domain.model.UserInfo
 import com.golfzon.domain.repository.MemberRepository
@@ -54,7 +54,7 @@ class MemberRepositoryImpl @Inject constructor(
                     val newUserGroupsInfo = hashMapOf(
                         "groupsUId" to listOf<String>()
                     )
-                    val newUserThemeTeamsInfo = hashMapOf(
+                    val newUserRecruitsInfo = hashMapOf(
                         "recruitsUId" to listOf<String>()
                     )
                     val extraInfoCollection = userDocumentReference.collection("extraInfo")
@@ -62,14 +62,14 @@ class MemberRepositoryImpl @Inject constructor(
                         extraInfoCollection.document("teamInfo").set(newUserTeamInfo)
                     val setGroupsInfoTask =
                         extraInfoCollection.document("groupsInfo").set(newUserGroupsInfo)
-                    val setThemeTeamsInfoTask =
-                        extraInfoCollection.document("recruitsInfo").set(newUserThemeTeamsInfo)
+                    val setRecruitsInfoTask =
+                        extraInfoCollection.document("recruitsInfo").set(newUserRecruitsInfo)
 
                     CoroutineScope(Dispatchers.IO).launch {
                         dataStore.storeValue(stringPreferencesKey("userUId"), UId)
                     }
 
-                    Tasks.whenAll(setTeamInfoTask, setGroupsInfoTask, setThemeTeamsInfoTask)
+                    Tasks.whenAll(setTeamInfoTask, setGroupsInfoTask, setRecruitsInfoTask)
                         .addOnSuccessListener {
                             if (continuation.isActive) continuation.resume(true)
                         }
@@ -102,7 +102,7 @@ class MemberRepositoryImpl @Inject constructor(
                         isLeader = false
                     ),
                     groupsInfo = listOf(),
-                    themeTeamsInfo = listOf()
+                    recruitsInfo = listOf()
                 )
             )
             val tasks = mutableListOf<Task<*>>()
@@ -186,24 +186,24 @@ class MemberRepositoryImpl @Inject constructor(
                             }
                         tasks.add(groupsInfoTask)
 
-                        // ThemeTeam 정보 받아옴
-                        val themeTeamsInfo = firestore.collection("users")
+                        // Recruits 정보 받아옴
+                        val recruitsInfo = firestore.collection("users")
                             .document(UId)
                             .collection("extraInfo")
-                            .document("themeTeamInfo")
+                            .document("recruitsInfo")
                             .get()
-                            .addOnSuccessListener { userThemeTeamDetail ->
-                                val themeTeams =
-                                    userThemeTeamDetail.get("themeTeamUId") as List<String>?
-                                themeTeams?.let { themeTeams ->
+                            .addOnSuccessListener { userRecruitDetail ->
+                                val recruits =
+                                    userRecruitDetail.get("recruitsUId") as List<String>?
+                                recruits?.let { recruits ->
                                     curUser = curUser.copy(
                                         userInfo = curUser.userInfo.copy(
-                                            themeTeamsInfo = themeTeams.map { ThemeTeamInfo(it) }
+                                            recruitsInfo = recruits.map { RecruitsInfo(it) }
                                         )
                                     )
                                 }
                             }
-                        tasks.add(themeTeamsInfo)
+                        tasks.add(recruitsInfo)
 
                         Tasks.whenAll(tasks)
                             .addOnSuccessListener {
@@ -303,7 +303,7 @@ class MemberRepositoryImpl @Inject constructor(
                                                             isOrganized = teamInfo["isOrganized"] as Boolean
                                                         ),
                                                         groupsInfo = listOf(),
-                                                        themeTeamsInfo = listOf()
+                                                        recruitsInfo = listOf()
                                                     )
                                                 )
                                                 resultUsers.add(curUser)
@@ -356,7 +356,7 @@ class MemberRepositoryImpl @Inject constructor(
                                                 isOrganized = teamInfo["isOrganized"] as Boolean
                                             ),
                                             groupsInfo = listOf(),
-                                            themeTeamsInfo = listOf()
+                                            recruitsInfo = listOf()
                                         )
                                     )
                                     continuation.resume(Pair(curUser, curUserUId == UId))
