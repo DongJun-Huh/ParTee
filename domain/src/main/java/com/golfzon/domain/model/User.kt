@@ -15,7 +15,7 @@ data class User (
 data class UserInfo (
     val teamInfo: TeamInfo,
     val groupsInfo: List<GroupInfo>,
-    val themeTeamsInfo: List<ThemeTeamInfo>
+    val recruitsInfo: List<RecruitsInfo>
 )
 
 data class TeamInfo (
@@ -28,6 +28,6 @@ data class GroupInfo (
     val groupUId: String?
 )
 
-data class ThemeTeamInfo (
-    val themeTeamUId: String?
+data class RecruitsInfo (
+    val recruitsUId: String?
 )
