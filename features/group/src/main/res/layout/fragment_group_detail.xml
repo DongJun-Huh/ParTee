@@ -338,7 +338,7 @@
                     android:src="@drawable/background_gradation_black_to_transparent" />
 
                 <LinearLayout
-                    android:id="@+id/layout_group_detail_team_second_user_info"
+                    android:id="@+id/layout_group_detail_team_second_member_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="24dp"
@@ -352,7 +352,7 @@
                     app:layout_constraintVertical_bias="1.0">
 
                     <TextView
-                        android:id="@+id/tv_group_detail_team_second_user_info_name"
+                        android:id="@+id/tv_group_detail_team_second_member_info_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
@@ -379,7 +379,7 @@
                             android:tint="@color/white" />
 
                         <TextView
-                            android:id="@+id/tv_group_detail_team_second_user_info_age"
+                            android:id="@+id/tv_group_detail_team_second_member_info_age"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
@@ -404,7 +404,7 @@
                             android:tint="@color/white" />
 
                         <TextView
-                            android:id="@+id/tv_group_detail_team_second_user_info_years_playing"
+                            android:id="@+id/tv_group_detail_team_second_member_info_years_playing"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
@@ -429,7 +429,7 @@
                             android:tint="@color/white" />
 
                         <TextView
-                            android:id="@+id/tv_group_detail_team_second_user_info_average"
+                            android:id="@+id/tv_group_detail_team_second_member_info_average"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"

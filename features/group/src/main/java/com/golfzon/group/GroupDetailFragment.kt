@@ -106,6 +106,8 @@ class GroupDetailFragment : Fragment() {
             override fun onItemClick(imageView: ImageView, user: User) {
                 with(binding) {
                     firstTeamUserDetail = user
+                    layoutGroupDetailTeamFirstInfo.visibility = View.GONE
+                    layoutGroupDetailTeamFirstMemberInfo.visibility = View.VISIBLE
                 }
             }
         })
@@ -127,6 +129,8 @@ class GroupDetailFragment : Fragment() {
             override fun onItemClick(imageView: ImageView, user: User) {
                 with(binding) {
                     secondTeamUserDetail = user
+                    layoutGroupDetailTeamSecondInfo.visibility = View.GONE
+                    layoutGroupDetailTeamSecondMemberInfo.visibility = View.VISIBLE
                 }
             }
         })
