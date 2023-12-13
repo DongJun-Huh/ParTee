@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.golfzon.core_ui.Event
 import com.golfzon.core_ui.ListLiveData
 import com.golfzon.domain.model.Recruit
+import com.golfzon.domain.model.User
+import com.golfzon.domain.usecase.member.GetUserInfoUseCase
 import com.golfzon.domain.usecase.recruit.GetRecruitsUseCase
 import com.golfzon.domain.usecase.recruit.RequestCreateRecruitUseCase
 import com.golfzon.domain.usecase.recruit.RequestParticipateRecruitUseCase
@@ -16,6 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RecruitViewModel @Inject constructor(
+    private val getUserInfoUseCase: GetUserInfoUseCase,
     private val createRecruitUseCase: RequestCreateRecruitUseCase,
     private val getRecruitsUseCase: GetRecruitsUseCase,
     private val participateRecruitUseCase: RequestParticipateRecruitUseCase
@@ -26,8 +29,23 @@ class RecruitViewModel @Inject constructor(
     private val _recruits = ListLiveData<Recruit>()
     val recruits: ListLiveData<Recruit> get() = _recruits
 
+    private val _recruitsMembers = ListLiveData<List<Pair<User, Boolean>>>()
+    val recruitsMembers: ListLiveData<List<Pair<User, Boolean>>> get() = _recruitsMembers
+
     private val _isParticipateSuccess = MutableLiveData<Event<Boolean>>()
     val isParticipateSuccess: LiveData<Event<Boolean>> get() = _isParticipateSuccess
+
+    fun getRecruitsMembersInfo(recruitsMembersUId: List<List<String>>) = viewModelScope.launch {
+        _recruitsMembers.replaceAll(
+            recruitsMembersUId.map { recruitMembers ->
+                recruitMembers.map {
+                    val curUserInfo = getUserInfoUseCase(it)
+                    Pair(curUserInfo.first, curUserInfo.second)
+                }
+            },
+            true
+        )
+    }
 
     fun createRecruit(recruitInfo: Recruit) = viewModelScope.launch {
         createRecruitUseCase(recruitInfo).let { isSuccess ->
