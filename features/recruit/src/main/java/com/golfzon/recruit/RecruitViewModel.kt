@@ -9,6 +9,7 @@ import com.golfzon.core_ui.ListLiveData
 import com.golfzon.domain.model.Recruit
 import com.golfzon.domain.usecase.recruit.GetRecruitsUseCase
 import com.golfzon.domain.usecase.recruit.RequestCreateRecruitUseCase
+import com.golfzon.domain.usecase.recruit.RequestParticipateRecruitUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,13 +17,17 @@ import javax.inject.Inject
 @HiltViewModel
 class RecruitViewModel @Inject constructor(
     private val createRecruitUseCase: RequestCreateRecruitUseCase,
-    private val getRecruitsUseCase: GetRecruitsUseCase
+    private val getRecruitsUseCase: GetRecruitsUseCase,
+    private val participateRecruitUseCase: RequestParticipateRecruitUseCase
 ) : ViewModel() {
     private val _isCreateRecruitSuccess = MutableLiveData<Event<Boolean>>()
     val isCreateRecruitSuccess: LiveData<Event<Boolean>> get() = _isCreateRecruitSuccess
 
     private val _recruits = ListLiveData<Recruit>()
-    val recruits : ListLiveData<Recruit> get() = _recruits
+    val recruits: ListLiveData<Recruit> get() = _recruits
+
+    private val _isParticipateSuccess = MutableLiveData<Event<Boolean>>()
+    val isParticipateSuccess: LiveData<Event<Boolean>> get() = _isParticipateSuccess
 
     fun createRecruit(recruitInfo: Recruit) = viewModelScope.launch {
         createRecruitUseCase(recruitInfo).let { isSuccess ->
@@ -33,6 +38,12 @@ class RecruitViewModel @Inject constructor(
     fun getRecruits() = viewModelScope.launch {
         getRecruitsUseCase().let {
             _recruits.replaceAll(it, true)
+        }
+    }
+
+    fun participateRecruit(recruitUId: String) = viewModelScope.launch {
+        participateRecruitUseCase(recruitUId = recruitUId).let { isSuccess ->
+            _isParticipateSuccess.postValue(Event(isSuccess))
         }
     }
 }

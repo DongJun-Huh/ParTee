@@ -7,6 +7,8 @@ import com.golfzon.data.TimestampDeserializer
 import com.golfzon.data.extension.readValue
 import com.golfzon.domain.model.Recruit
 import com.golfzon.domain.repository.RecruitRepository
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -107,6 +109,57 @@ class RecruitRepositoryImpl @Inject constructor(
                 .addOnFailureListener {
                     if (continuation.isActive) continuation.resumeWithException(it)
                 }
+        }
+    }
+
+    override suspend fun participateRecruit(recruitUId: String): Boolean {
+        return suspendCancellableCoroutine { continuation ->
+            CoroutineScope(Dispatchers.IO).launch {
+                val curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
+                val recruitRef = firestore.collection("recruits").document(recruitUId)
+
+                recruitRef.get()
+                    .addOnSuccessListener {
+                        it.data?.let { recruitInfo ->
+                            // 인원수가 모두 다 찼거나, 모집일자가 지난 경우
+                            if ((recruitInfo["headCount"] as Long).toInt() >= (recruitInfo["searchingHeadCount"] as Long).toInt() ||
+                                (recruitInfo["recruitEndDateTime"] as Timestamp).toDate()
+                                    .toInstant().atZone(
+                                    ZoneId.systemDefault()
+                                ).toLocalDateTime().isBefore(LocalDateTime.now())
+                            ) {
+                                if (continuation.isActive) continuation.resume(false)
+                            } else {
+                                val tasks = mutableListOf<Task<*>>()
+                                val memberAddTask = recruitRef.update(
+                                    "membersUId",
+                                    FieldValue.arrayUnion(curUserUId)
+                                )
+                                val headCountAddTask =
+                                    recruitRef.update("headCount", FieldValue.increment(1L))
+                                val userInfoUpdateTask =
+                                    firestore.collection("users")
+                                        .document(curUserUId)
+                                        .collection("extraInfo")
+                                        .document("recruitsInfo")
+                                        .update("recruitsUId", FieldValue.arrayUnion(recruitUId))
+                                tasks.add(memberAddTask)
+                                tasks.add(headCountAddTask)
+                                tasks.add(userInfoUpdateTask)
+
+                                Tasks.whenAll(tasks)
+                                    .addOnSuccessListener {
+                                        if (continuation.isActive) continuation.resume(true)
+                                    }
+                                    .addOnFailureListener { exception ->
+                                        if (continuation.isActive) continuation.resumeWithException(
+                                            exception
+                                        )
+                                    }
+                            }
+                        }
+                    }
+            }
         }
     }
 }
