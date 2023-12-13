@@ -12,6 +12,7 @@ firebase = "32.6.0"
 firebase-ui = "7.2.0"
 constraintlayout = "2.1.4"
 kotlin-reflect = "1.9.21"
+google-gson = "2.10.1"
 lifecycle = "2.6.2"
 navigation = "2.7.5"
 coroutine = "1.7.3"
@@ -38,6 +39,7 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin-reflect"}
+google-gson = { group = "com.google.code.gson", name = "gson", version.ref = "google-gson"}
 
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase"}
 firebase-analytics = { module = "com.google.firebase:firebase-analytics"}

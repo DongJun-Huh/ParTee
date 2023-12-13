@@ -3,6 +3,7 @@ package com.golfzon.data.repository
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.golfzon.data.TimestampDeserializer
 import com.golfzon.data.extension.readValue
 import com.golfzon.domain.model.Recruit
 import com.golfzon.domain.repository.RecruitRepository
@@ -10,6 +11,9 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,8 +24,6 @@ import java.util.Date
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
-import kotlin.reflect.KVisibility
-import kotlin.reflect.full.memberProperties
 
 class RecruitRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
@@ -32,30 +34,30 @@ class RecruitRepositoryImpl @Inject constructor(
         return suspendCancellableCoroutine { continuation ->
             CoroutineScope(Dispatchers.IO).launch {
                 val curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
-                val convertedRecruitInfo = Recruit::class.memberProperties
-                    .filter { it.visibility == KVisibility.PUBLIC }
-                    .associate {
-                        when (it.name) {
-                            "recruitDateTime", "recruitEndDateTime" -> {
-                                it.name to
-                                        Timestamp(
-                                            Date.from(
-                                                (it.call(recruitInfo) as LocalDateTime).atZone(
-                                                    ZoneId.systemDefault()
-                                                ).toInstant()
-                                            )
-                                        )
-                            }
-
-                            "leaderUId" -> {
-                                it.name to curUserUId
-                            }
-
-                            "membersUId" -> it.name to listOf(curUserUId)
-                            else -> {
-                                it.name to it.call(recruitInfo)
-                            }
-                        }
+                val gson = Gson()
+                val json = gson.toJson(recruitInfo)
+                val convertedRecruitInfo =
+                    gson.fromJson<Map<String, Any>>(json, Map::class.java).toMutableMap().apply {
+                        set(
+                            "recruitDateTime", Timestamp(
+                                Date.from(
+                                    (recruitInfo.recruitDateTime).atZone(
+                                        ZoneId.systemDefault()
+                                    ).toInstant()
+                                )
+                            )
+                        )
+                        set(
+                            "recruitEndDateTime", Timestamp(
+                                Date.from(
+                                    (recruitInfo.recruitEndDateTime).atZone(
+                                        ZoneId.systemDefault()
+                                    ).toInstant()
+                                )
+                            )
+                        )
+                        set("leaderUId", curUserUId)
+                        set("membersUId", listOf(curUserUId))
                     }
 
                 firestore.collection("recruits")
@@ -77,6 +79,34 @@ class RecruitRepositoryImpl @Inject constructor(
                         if (continuation.isActive) continuation.resumeWithException(it)
                     }
             }
+        }
+    }
+
+    override suspend fun getRecruits(): List<Recruit> {
+        return suspendCancellableCoroutine { continuation ->
+            val resultRecruits = mutableListOf<Recruit>()
+            firestore.collection("recruits")
+                .get()
+                .addOnSuccessListener { recruits ->
+                    for (recruit in recruits.documents) {
+                        recruit.data?.let { recruitDetail ->
+                            val gsonBuilder = GsonBuilder()
+                            gsonBuilder.registerTypeAdapter(
+                                LocalDateTime::class.java,
+                                TimestampDeserializer()
+                            )
+                            val gson = gsonBuilder.create()
+                            val json = gson.toJson(recruitDetail)
+                            val recruitType = object : TypeToken<Recruit>() {}.type
+                            val recruitInfo: Recruit = gson.fromJson(json, recruitType)
+                            resultRecruits.add(recruitInfo)
+                        }
+                    }
+                    if (continuation.isActive) continuation.resume(resultRecruits)
+                }
+                .addOnFailureListener {
+                    if (continuation.isActive) continuation.resumeWithException(it)
+                }
         }
     }
 }

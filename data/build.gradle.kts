@@ -48,6 +48,7 @@ dependencies {
     kapt(libs.dagger.hilt.android.compiler)
     implementation(libs.datastore)
     implementation(libs.kotlin.reflect)
+    implementation(libs.google.gson)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
