@@ -6,6 +6,29 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.golfzon.group.GroupViewModel" />
+
+        <variable
+            name="groupDetail"
+            type="com.golfzon.domain.model.Group" />
+
+        <variable
+            name="firstTeamDetail"
+            type="com.golfzon.domain.model.Team" />
+
+        <variable
+            name="secondTeamDetail"
+            type="com.golfzon.domain.model.Team" />
+
+        <variable
+            name="firstTeamUserDetail"
+            type="com.golfzon.domain.model.User" />
+
+        <variable
+            name="secondTeamUserDetail"
+            type="com.golfzon.domain.model.User" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,16 +56,122 @@
 
                 <ImageView
                     android:id="@+id/iv_group_detail_team_first"
+                    imageType="@{`users`}"
+                    imageUId="@{firstTeamUserDetail.profileImg}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:scaleX="1.2"
-                    android:src="@drawable/user_sample" />
+                    tools:src="@drawable/user_sample" />
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/background_gradation_black_to_transparent" />
+
+                <LinearLayout
+                    android:id="@+id/layout_group_detail_team_first_member_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="24dp"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0">
+
+                    <TextView
+                        android:id="@+id/tv_group_detail_team_first_member_info_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/pretendard_semi_bold"
+                        android:letterSpacing="0.01"
+                        android:lineHeight="33sp"
+                        android:lineSpacingExtra="5sp"
+                        android:text="@{firstTeamUserDetail.nickname}"
+                        android:textColor="@color/white"
+                        android:textFontWeight="600"
+                        android:textSize="24sp"
+                        tools:text="허동준" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/transparent"
+                            android:src="@drawable/ic_cake"
+                            android:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/tv_group_detail_team_first_member_info_age"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/pretendard_regular"
+                            android:text="@{firstTeamUserDetail.age +`세`}"
+                            android:textColor="@color/white"
+                            android:textFontWeight="500"
+                            android:textSize="12sp"
+                            tools:text="25세" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/transparent"
+                            android:src="@drawable/ic_flag"
+                            android:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/tv_group_detail_team_first_member_info_years_playing"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/pretendard_regular"
+                            android:text="@{firstTeamUserDetail.yearsPlaying + `년`}"
+                            android:textColor="@color/white"
+                            android:textFontWeight="500"
+                            android:textSize="12sp"
+                            tools:text="8년" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/transparent"
+                            android:src="@drawable/ic_flash"
+                            android:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/tv_group_detail_team_first_member_info_average"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/pretendard_regular"
+                            android:text="@{firstTeamUserDetail.average +`타`}"
+                            android:textColor="@color/white"
+                            android:textFontWeight="500"
+                            android:textSize="12sp"
+                            tools:text="100타" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/layout_group_detail_team_first_info"
@@ -63,11 +192,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:fontFamily="@font/pretendard_semi_bold"
+                        android:letterSpacing="0.01"
                         android:lineHeight="33sp"
-                        android:text="허동준"
+                        android:lineSpacingExtra="5sp"
+                        android:text="@{firstTeamDetail.teamName}"
                         android:textColor="@color/white"
                         android:textFontWeight="600"
-                        android:textSize="24sp" />
+                        android:textSize="24sp"
+                        tools:text="허동준" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -83,14 +215,18 @@
 
                         <TextView
                             android:id="@+id/tv_group_detail_team_first_info_age"
+                            dividend="@{firstTeamDetail.totalAge}"
+                            divisor="@{firstTeamDetail.headCount}"
+                            postfix="@{`세`}"
+                            prefix="@{`평균 `}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:fontFamily="@font/pretendard_regular"
-                            android:text="25세"
                             android:textColor="@color/white"
                             android:textFontWeight="500"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            tools:text="25세" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -107,14 +243,18 @@
 
                         <TextView
                             android:id="@+id/tv_group_detail_team_first_info_years_playing"
+                            dividend="@{firstTeamDetail.totalYearsPlaying}"
+                            divisor="@{firstTeamDetail.headCount}"
+                            postfix="@{`년`}"
+                            prefix="@{`평균 `}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:fontFamily="@font/pretendard_regular"
-                            android:text="8년"
                             android:textColor="@color/white"
                             android:textFontWeight="500"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            tools:text="8년" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -131,55 +271,40 @@
 
                         <TextView
                             android:id="@+id/tv_group_detail_team_first_info_average"
+                            dividend="@{firstTeamDetail.totalAverage}"
+                            divisor="@{firstTeamDetail.headCount}"
+                            postfix="@{`타`}"
+                            prefix="@{`평균 `}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:fontFamily="@font/pretendard_regular"
-                            android:text="100타"
                             android:textColor="@color/white"
                             android:textFontWeight="500"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            tools:text="100타" />
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- TODO Recyclerview로 변경 -->
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_group_detail_first_team_members"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_margin="20dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="36dp"
                     android:orientation="vertical"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toEndOf="@id/layout_group_detail_team_first_info"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0">
-
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="72dp"
-                        android:layout_height="72dp"
-                        android:layout_marginTop="11dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/user_sample2"
-                        app:shapeAppearance="@style/ShapeAppearance.radius28" />
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="72dp"
-                        android:layout_height="72dp"
-                        android:layout_marginTop="11dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/user_sample2"
-                        app:shapeAppearance="@style/ShapeAppearance.radius28" />
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="72dp"
-                        android:layout_height="72dp"
-                        android:layout_marginTop="11dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/user_sample2"
-                        app:shapeAppearance="@style/ShapeAppearance.radius28" />
-                </LinearLayout>
+                    app:reverseLayout="true"
+                    app:stackFromEnd="true"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_candidate_team_member" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.Guideline
@@ -200,16 +325,122 @@
 
                 <ImageView
                     android:id="@+id/iv_group_detail_team_second"
+                    imageType="@{`users`}"
+                    imageUId="@{secondTeamUserDetail.profileImg}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:scaleX="1.2"
                     android:src="@drawable/user_sample2" />
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/background_gradation_black_to_transparent" />
+
+                <LinearLayout
+                    android:id="@+id/layout_group_detail_team_second_user_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="24dp"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0">
+
+                    <TextView
+                        android:id="@+id/tv_group_detail_team_second_user_info_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/pretendard_semi_bold"
+                        android:letterSpacing="0.01"
+                        android:lineHeight="33sp"
+                        android:lineSpacingExtra="5sp"
+                        android:text="@{secondTeamUserDetail.nickname}"
+                        android:textColor="@color/white"
+                        android:textFontWeight="600"
+                        android:textSize="24sp"
+                        tools:text="두번째" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/transparent"
+                            android:src="@drawable/ic_cake"
+                            android:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/tv_group_detail_team_second_user_info_age"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/pretendard_regular"
+                            android:text="@{secondTeamUserDetail.age+`세`}"
+                            android:textColor="@color/white"
+                            android:textFontWeight="500"
+                            android:textSize="12sp"
+                            tools:text="25세" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/transparent"
+                            android:src="@drawable/ic_flag"
+                            android:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/tv_group_detail_team_second_user_info_years_playing"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/pretendard_regular"
+                            android:text="@{secondTeamUserDetail.yearsPlaying+`년`}"
+                            android:textColor="@color/white"
+                            android:textFontWeight="500"
+                            android:textSize="12sp"
+                            tools:text="8년" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@android:color/transparent"
+                            android:src="@drawable/ic_flash"
+                            android:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/tv_group_detail_team_second_user_info_average"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/pretendard_regular"
+                            android:text="@{secondTeamUserDetail.average + `타`}"
+                            android:textColor="@color/white"
+                            android:textFontWeight="500"
+                            android:textSize="12sp"
+                            tools:text="100타" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/layout_group_detail_team_second_info"
@@ -230,11 +461,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:fontFamily="@font/pretendard_semi_bold"
+                        android:letterSpacing="0.01"
                         android:lineHeight="33sp"
-                        android:text="두번째"
+                        android:lineSpacingExtra="5sp"
+                        android:text="@{secondTeamDetail.teamName}"
                         android:textColor="@color/white"
                         android:textFontWeight="600"
-                        android:textSize="24sp" />
+                        android:textSize="24sp"
+                        tools:text="두번째" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -250,14 +484,18 @@
 
                         <TextView
                             android:id="@+id/tv_group_detail_team_second_info_age"
+                            dividend="@{secondTeamDetail.totalAge}"
+                            divisor="@{secondTeamDetail.headCount}"
+                            postfix="@{`세`}"
+                            prefix="@{`평균 `}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:fontFamily="@font/pretendard_regular"
-                            android:text="25세"
                             android:textColor="@color/white"
                             android:textFontWeight="500"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            tools:text="25세" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -274,14 +512,18 @@
 
                         <TextView
                             android:id="@+id/tv_group_detail_team_second_info_years_playing"
+                            dividend="@{secondTeamDetail.totalYearsPlaying}"
+                            divisor="@{secondTeamDetail.headCount}"
+                            postfix="@{`년`}"
+                            prefix="@{`평균 `}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:fontFamily="@font/pretendard_regular"
-                            android:text="8년"
                             android:textColor="@color/white"
                             android:textFontWeight="500"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            tools:text="8년" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -298,55 +540,39 @@
 
                         <TextView
                             android:id="@+id/tv_group_detail_team_second_info_average"
+                            dividend="@{secondTeamDetail.totalAverage}"
+                            divisor="@{secondTeamDetail.headCount}"
+                            postfix="@{`타`}"
+                            prefix="@{`평균 `}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:fontFamily="@font/pretendard_regular"
-                            android:text="100타"
                             android:textColor="@color/white"
                             android:textFontWeight="500"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            tools:text="100타" />
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- TODO Recyclerview로 변경 -->
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_group_detail_second_team_members"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_margin="20dp"
                     android:orientation="vertical"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@id/layout_group_detail_team_first_info"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0">
+                    app:layout_constraintStart_toEndOf="@id/layout_group_detail_team_second_info"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:reverseLayout="true"
+                    app:stackFromEnd="true"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_candidate_team_member" />
 
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="72dp"
-                        android:layout_height="72dp"
-                        android:layout_marginTop="11dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/user_sample"
-                        app:shapeAppearance="@style/ShapeAppearance.radius28" />
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="72dp"
-                        android:layout_height="72dp"
-                        android:layout_marginTop="11dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/user_sample"
-                        app:shapeAppearance="@style/ShapeAppearance.radius28" />
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="72dp"
-                        android:layout_height="72dp"
-                        android:layout_marginTop="11dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/user_sample"
-                        app:shapeAppearance="@style/ShapeAppearance.radius28" />
-                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -386,10 +612,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/pretendard_medium"
-                    android:text="총 4명"
+                    android:text="@{`총 ` + groupDetail.headCount + `명`}"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="500"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:text="총 4명" />
             </LinearLayout>
 
             <LinearLayout
@@ -406,14 +633,22 @@
                     android:tint="@color/primary_8B95B3" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    displayListsToString="@{groupDetail.locations}"
+                    divider="@{`, `}"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
+                    android:autoSizeMaxTextSize="12sp"
+                    android:autoSizeMinTextSize="8sp"
+                    android:autoSizeStepGranularity="0.5sp"
+                    android:autoSizeTextType="uniform"
                     android:fontFamily="@font/pretendard_medium"
-                    android:text="서울"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="500"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:text="서울" />
             </LinearLayout>
 
             <LinearLayout
@@ -433,10 +668,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/pretendard_medium"
-                    android:text="주중 오전"
+                    android:text="@{groupDetail.days + ` ` + groupDetail.times}"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="500"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:text="주중 오전" />
             </LinearLayout>
         </LinearLayout>
 
@@ -464,7 +700,7 @@
                 android:backgroundTint="@color/primary_btn_AFB7CF"
                 android:fontFamily="@font/pretendard_medium"
                 android:gravity="center"
-                android:text="예약"
+                android:text="@string/reservation"
                 android:textColor="@color/white"
                 android:textFontWeight="500"
                 android:textSize="16sp" />
@@ -479,32 +715,10 @@
                 android:backgroundTint="@color/primary_btn_AFB7CF"
                 android:fontFamily="@font/pretendard_medium"
                 android:gravity="center"
-                android:text="채팅"
+                android:text="@string/chat"
                 android:textColor="@color/white"
                 android:textFontWeight="500"
                 android:textSize="16sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_group_detail_appbar"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="#80FFFFFF"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
-
-            <ImageButton
-                android:id="@+id/btn_group_detail_appbar_back"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                android:padding="20dp"
-                android:src="@drawable/ic_back"
-                android:tint="@color/black" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

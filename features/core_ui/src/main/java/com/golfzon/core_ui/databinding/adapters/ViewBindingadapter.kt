@@ -10,6 +10,7 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.golfzon.core_ui.R
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
+import kotlin.math.roundToInt
 
 @BindingAdapter("onDebounceClick")
 fun setOnDebounceClickListener(view: View, clickListener: View.OnClickListener) {
@@ -61,4 +62,18 @@ fun ImageView.loadImage(imageUId: String? = "", imageType: String? = "") {
         .placeholder(R.drawable.background_img_golf)
         .error(R.drawable.background_img_golf)
         .into(this)
+}
+
+@BindingAdapter(value = ["dividend", "divisor", "prefix", "postfix"], requireAll = false)
+fun TextView.calculateAverageToInt(
+    dividend: Int,
+    divisor: Int,
+    prefix: String = "",
+    postfix: String = ""
+) {
+    if (divisor == 0 || dividend == 0) {
+        this.text = "${prefix}0${postfix}"
+        return
+    }
+    this.text = "${prefix}${(dividend.toDouble() / divisor.toDouble()).roundToInt()}${postfix}"
 }

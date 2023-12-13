@@ -8,5 +8,6 @@ data class Group(
     val locations: List<String>,
     val days: String,
     val times: String,
-    val openChatUrl: String
+    val openChatUrl: String,
+    val createdTimeStamp: Long,
 )

@@ -11,6 +11,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.golfzon.core_ui.GridSpacingItemDecoration
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
+import com.golfzon.domain.model.Group
 import com.golfzon.group.databinding.FragmentGroupHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -74,6 +75,13 @@ class GroupHomeFragment : Fragment() {
             adapter = groupAdapter
             addItemDecoration(GridSpacingItemDecoration(1, 12.dp))
         }
+
+        groupAdapter?.setOnItemClickListener(object :
+            GroupAdapter.OnItemClickListener {
+            override fun onItemClick(view: View, group: Group) {
+                findNavController().navigate(GroupHomeFragmentDirections.actionGroupHomeFragmentToGroupDetailFragment(groupUId = group.groupUId))
+            }
+        })
     }
 
     private fun observeGroups() {

@@ -7,6 +7,8 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -59,5 +61,11 @@ object ImageUploadUtil {
             .toString() + "." + fileExtension
         val cacheDir = context.cacheDir.toString()
         return "$cacheDir/$fileName"
+    }
+
+    fun ImageView.loadImageFromFirebaseStorage(imageUId: String, imageType: String) {
+        Glide.with(this.context)
+            .load("https://firebasestorage.googleapis.com/v0/b/partee-1ba05.appspot.com/o/${imageType}%2F${imageUId}?alt=media")
+            .into(this)
     }
 }

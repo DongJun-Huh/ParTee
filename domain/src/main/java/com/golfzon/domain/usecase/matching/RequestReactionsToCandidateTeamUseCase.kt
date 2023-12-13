@@ -33,7 +33,8 @@ class RequestReactionsToCandidateTeamUseCase @Inject constructor(
                                 .intersect(candidateTeam.searchingLocations).toList(),
                             days = candidateTeam.searchingDays,
                             times = candidateTeam.searchingTimes,
-                            openChatUrl = curUserTeam.openChatUrl
+                            openChatUrl = curUserTeam.openChatUrl,
+                            createdTimeStamp = System.currentTimeMillis()
                         )
                     )
                 }

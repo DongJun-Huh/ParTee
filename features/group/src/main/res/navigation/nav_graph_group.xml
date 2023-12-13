@@ -19,5 +19,9 @@
         android:id="@+id/GroupDetailFragment"
         android:name="com.golfzon.group.GroupDetailFragment"
         android:label="fragment_group_detail"
-        tools:layout="@layout/fragment_group_detail" />
+        tools:layout="@layout/fragment_group_detail">
+        <argument
+            android:name="groupUId"
+            app:argType="string" />
+    </fragment>
 </navigation>
