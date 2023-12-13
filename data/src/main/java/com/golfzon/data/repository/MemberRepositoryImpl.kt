@@ -55,7 +55,7 @@ class MemberRepositoryImpl @Inject constructor(
                         "groupsUId" to listOf<String>()
                     )
                     val newUserThemeTeamsInfo = hashMapOf(
-                        "themeTeamUId" to listOf<String>()
+                        "recruitsUId" to listOf<String>()
                     )
                     val extraInfoCollection = userDocumentReference.collection("extraInfo")
                     val setTeamInfoTask =
@@ -63,7 +63,7 @@ class MemberRepositoryImpl @Inject constructor(
                     val setGroupsInfoTask =
                         extraInfoCollection.document("groupsInfo").set(newUserGroupsInfo)
                     val setThemeTeamsInfoTask =
-                        extraInfoCollection.document("themeTeamsInfo").set(newUserThemeTeamsInfo)
+                        extraInfoCollection.document("recruitsInfo").set(newUserThemeTeamsInfo)
 
                     CoroutineScope(Dispatchers.IO).launch {
                         dataStore.storeValue(stringPreferencesKey("userUId"), UId)

@@ -11,6 +11,7 @@ gms-googleServices = "4.4.0"
 firebase = "32.6.0"
 firebase-ui = "7.2.0"
 constraintlayout = "2.1.4"
+kotlin-reflect = "1.9.21"
 lifecycle = "2.6.2"
 navigation = "2.7.5"
 coroutine = "1.7.3"
@@ -36,6 +37,7 @@ espresso-core = { group = "androidx.test.espresso", name = "espresso-core", vers
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin-reflect"}
 
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase"}
 firebase-analytics = { module = "com.google.firebase:firebase-analytics"}
