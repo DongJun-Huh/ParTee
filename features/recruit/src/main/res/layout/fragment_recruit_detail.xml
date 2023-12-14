@@ -86,11 +86,11 @@
                         android:id="@+id/layout_recruit_detail_badge_couple"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
                         android:background="@drawable/background_radius_100_stroke_1"
                         android:orientation="horizontal"
                         android:paddingHorizontal="8dp"
-                        android:paddingVertical="4dp"
-                        >
+                        android:paddingVertical="4dp">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -114,7 +114,7 @@
                         android:id="@+id/layout_recruit_detail_badge_soon_end"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
                         android:background="@drawable/background_radius_100_stroke_1"
                         android:orientation="horizontal"
                         android:paddingHorizontal="8dp"
@@ -143,7 +143,7 @@
                         android:id="@+id/layout_recruit_detail_badge_consecutive"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
                         android:background="@drawable/background_radius_100_stroke_1"
                         android:orientation="horizontal"
                         android:paddingHorizontal="8dp"
@@ -172,7 +172,6 @@
                         android:id="@+id/layout_recruit_detail_badge_money"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
                         android:background="@drawable/background_radius_100_stroke_1"
                         android:orientation="horizontal"
                         android:paddingHorizontal="8dp"

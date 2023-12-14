@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.golfzon.core_ui.HorizontalMarginItemDecoration
 import com.golfzon.core_ui.adapter.CandidateTeamMemberAdapter
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
+import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.recruit.databinding.FragmentRecruitDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.NumberFormat
@@ -45,6 +47,7 @@ class RecruitDetailFragment : Fragment() {
         setRecruitDetailMembersAdapter()
         getRecruitDetailMembers()
         observeRecruitMembers()
+        setBackClickListener()
     }
 
     private fun onDestroyBindingView() {
@@ -55,6 +58,11 @@ class RecruitDetailFragment : Fragment() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             vm = recruitViewModel
+        }
+    }
+    private fun setBackClickListener() {
+        binding.btnRecruitDetailAppbarBack.setOnDebounceClickListener {
+            findNavController().navigateUp()
         }
     }
 
@@ -82,7 +90,10 @@ class RecruitDetailFragment : Fragment() {
                     else "D-"+Period.between(LocalDate.now(), recruitDetail.recruitEndDateTime.toLocalDate()).days
                 tvRecruitDetailFee.text = "${NumberFormat.getCurrencyInstance(Locale.KOREA).format(recruitDetail.fee)}원"
                 tvRecruitDetailConsecutiveStay.text = if (recruitDetail.isConsecutiveStay) "O" else "X"
-                tvRecruitDetailLeftHeadCount.text = "모집 인원이 ${recruitDetail.searchingHeadCount - recruitDetail.headCount}명 남았어요!"
+                tvRecruitDetailLeftHeadCount.text =
+                    if (recruitDetail.searchingHeadCount - recruitDetail.headCount <= 0)
+                        "모집이 마감되었어요!"
+                    else "모집 인원이 ${recruitDetail.searchingHeadCount - recruitDetail.headCount}명 남았어요!"
                 tvRecruitDetailIntroduceMessage.text = recruitDetail.recruitIntroduceMessage
                 tvRecruitDetailPlace.text = recruitDetail.recruitPlace
                 tvRecruitDetailParticipateLeftTime
