@@ -105,7 +105,9 @@ class RecruitRepositoryImpl @Inject constructor(
                             resultRecruits.add(recruitInfo.copy(recruitUId = recruit.id))
                         }
                     }
-                    if (continuation.isActive) continuation.resume(resultRecruits)
+                    if (continuation.isActive) continuation.resume(
+                        resultRecruits.sortedByDescending { it.recruitEndDateTime }
+                    )
                 }
                 .addOnFailureListener {
                     if (continuation.isActive) continuation.resumeWithException(it)
