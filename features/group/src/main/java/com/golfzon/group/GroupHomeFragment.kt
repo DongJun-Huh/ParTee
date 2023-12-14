@@ -94,11 +94,12 @@ class GroupHomeFragment : Fragment() {
         binding.rvGroupHomeGroups.addOnChildAttachStateChangeListener(object :
             RecyclerView.OnChildAttachStateChangeListener {
             override fun onChildViewAttachedToWindow(view: View) {
+                // 최초 RecyclerView 로딩 시 동적 Margin 추가
                 with(binding.rvGroupHomeGroups) {
                     if (getChildAdapterPosition(view) + 1 == adapter?.itemCount) {
-                        getChildAt(getChildAdapterPosition(view)).updateLayoutParams<RecyclerView.LayoutParams> {
-                            bottomMargin = 12.dp + binding.bottomNavigationGroupHome.height + 12.dp
-                        }
+                        view.addRecyclerViewLastItemMarginBottom(
+                            12.dp + binding.bottomNavigationGroupHome.height + 12.dp
+                        )
                     }
                 }
             }
@@ -110,6 +111,20 @@ class GroupHomeFragment : Fragment() {
     private fun observeGroups() {
         groupViewModel.groups.observe(viewLifecycleOwner) { groups ->
             groupAdapter?.submitList(groups)
+            // 이미 한번 Attach 되었던 경우 동적 Margin 추가
+            with(binding.rvGroupHomeGroups) {
+                if (childCount > 0) {
+                    getChildAt(childCount - 1).addRecyclerViewLastItemMarginBottom(
+                        12.dp + binding.bottomNavigationGroupHome.height + 12.dp
+                    )
+                }
+            }
+        }
+    }
+
+    private fun View.addRecyclerViewLastItemMarginBottom(bottomMargin: Int) {
+        this.updateLayoutParams<RecyclerView.LayoutParams> {
+            this.bottomMargin = bottomMargin
         }
     }
 }

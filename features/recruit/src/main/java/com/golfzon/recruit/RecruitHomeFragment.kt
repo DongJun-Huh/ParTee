@@ -80,6 +80,12 @@ class RecruitHomeFragment : Fragment() {
                 }.toMutableList()
 
             recruitPostAdapter?.submitList(recruitsDisplayInfo)
+            // 이미 한번 Attach 되었던 경우 동적 Margin 추가
+            with(binding.rvRecruitPosts) {
+                if (childCount > 0) {
+                    getChildAt(childCount - 1).addRecyclerViewLastItemMarginBottom(12.dp + binding.bottomNavigationRecruitHome.height + 12.dp)
+                }
+            }
         }
     }
 
@@ -106,9 +112,7 @@ class RecruitHomeFragment : Fragment() {
             override fun onChildViewAttachedToWindow(view: View) {
                 with(binding.rvRecruitPosts) {
                     if (getChildAdapterPosition(view) + 1 == adapter?.itemCount) {
-                        getChildAt(getChildAdapterPosition(view)).updateLayoutParams<RecyclerView.LayoutParams> {
-                            bottomMargin = 20.dp + binding.bottomNavigationRecruitHome.height + 20.dp
-                        }
+                        view.addRecyclerViewLastItemMarginBottom(20.dp + binding.bottomNavigationRecruitHome.height + 20.dp)
                     }
                 }
             }
@@ -132,6 +136,12 @@ class RecruitHomeFragment : Fragment() {
                 (requireActivity() as RecruitActivity).navigateToGroup()
                 true
             }
+        }
+    }
+
+    private fun View.addRecyclerViewLastItemMarginBottom(bottomMargin: Int) {
+        this.updateLayoutParams<RecyclerView.LayoutParams> {
+            this.bottomMargin = bottomMargin
         }
     }
 }
