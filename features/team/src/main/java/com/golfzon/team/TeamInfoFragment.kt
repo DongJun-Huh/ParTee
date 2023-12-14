@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.golfzon.core_ui.DefaultToast.createToast
 import com.golfzon.core_ui.GridSpacingItemDecoration
 import com.golfzon.core_ui.ImageUploadUtil
 import com.golfzon.core_ui.ImageUploadUtil.toBitmap
@@ -133,6 +134,7 @@ class TeamInfoFragment : Fragment() {
             btnTeamInfoActionAddUser.isEnabled = !btnTeamInfoActionAddUser.isEnabled
             btnTeamInfoActionChangeLocation.isEnabled = !btnTeamInfoActionChangeLocation.isEnabled
             btnTeamInfoActionChangeInfo.isEnabled = !btnTeamInfoActionChangeInfo.isEnabled
+            btnTeamInfoActionChangeImage.isEnabled = !btnTeamInfoActionChangeImage.isEnabled
         }
     }
 
@@ -203,8 +205,12 @@ class TeamInfoFragment : Fragment() {
 
     private fun observeTeamInfoSave() {
         teamViewModel.isTeamOrganizeSuccess.observe(viewLifecycleOwner) { isSuccess ->
-            if (isSuccess.getContentIfNotHandled() == true) {
-                (requireActivity() as TeamActivity).navigateToMatching()
+            with(isSuccess.getContentIfNotHandled()) {
+                if (this == true) {
+                    (requireActivity() as TeamActivity).navigateToMatching()
+                } else if (this == false) {
+                    createToast(requireContext(), getString(R.string.team_organize_team_fail_not_checked_all), isError = true)?.show()
+                }
             }
         }
     }

@@ -122,12 +122,24 @@ class TeamViewModel @Inject constructor(
     }
 
     fun organizeTeam() = viewModelScope.launch {
-        requestTeamOrganizedUseCase(
-            // TODO teamName, teamImageUrl, leaderUId, membersUId, headCount, searchingTimes, searchingLocations, openChatUrl만 설정
-            newTeam = _newTeam.value!!,
-            ImageUploadUtil.bitmapToFile(newTeamImageBitmap.value, newTeamImgPath.value)
-        )?.let {
-            _isTeamOrganizeSuccess.postValue(Event(true))
+        _newTeam.value?.let { organizeDetail ->
+            if (organizeDetail.searchingLocations.isEmpty()
+            // TODO 시간및 위치 설정 추가시 체크 조건 설정
+//                || organizeDetail.searchingDays.isEmpty() || organizeDetail.searchingTimes.isEmpty()
+            ) {
+                _isTeamOrganizeSuccess.postValue(Event(false))
+                return@let
+            } else {
+                requestTeamOrganizedUseCase(
+                    // teamName, teamImageUrl, leaderUId, membersUId, headCount, searchingTimes, searchingLocations, openChatUrl만 설정
+                    newTeam = _newTeam.value!!.copy(
+                        teamImageUrl = _newTeam.value!!.teamImageUrl.ifEmpty { "teams_default.png" },
+                    ),
+                    ImageUploadUtil.bitmapToFile(newTeamImageBitmap.value, newTeamImgPath.value)
+                )?.let {
+                    _isTeamOrganizeSuccess.postValue(Event(true))
+                }
+            }
         }
     }
 
