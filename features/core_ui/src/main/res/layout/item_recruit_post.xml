@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <variable
             name="recruitDetail"
             type="com.golfzon.domain.model.Recruit" />
+
+        <import type="java.time.format.TextStyle" />
+
+        <import type="java.util.Locale" />
+
+        <import type="java.time.format.DateTimeFormatter" />
+
+        <import type="java.time.LocalDateTime" />
+
+        <import type="java.time.temporal.ChronoUnit" />
+
+        <import type="java.text.NumberFormat" />
+
+        <import type="android.view.View" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -40,7 +57,8 @@
                     android:background="@drawable/background_radius_100_stroke_1"
                     android:orientation="horizontal"
                     android:paddingHorizontal="8dp"
-                    android:paddingVertical="4dp">
+                    android:paddingVertical="4dp"
+                    android:visibility="@{recruitDetail.isCouple == true ? View.VISIBLE : View.GONE}">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -68,7 +86,8 @@
                     android:background="@drawable/background_radius_100_stroke_1"
                     android:orientation="horizontal"
                     android:paddingHorizontal="8dp"
-                    android:paddingVertical="4dp">
+                    android:paddingVertical="4dp"
+                    android:visibility="@{LocalDateTime.now().until(recruitDetail.recruitDateTime, ChronoUnit.DAYS) &lt; 5 ? View.VISIBLE : View.GONE}">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -96,7 +115,8 @@
                     android:background="@drawable/background_radius_100_stroke_1"
                     android:orientation="horizontal"
                     android:paddingHorizontal="8dp"
-                    android:paddingVertical="4dp">
+                    android:paddingVertical="4dp"
+                    android:visibility="@{recruitDetail.isConsecutiveStay ? View.VISIBLE : View.GONE}">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -124,7 +144,8 @@
                     android:background="@drawable/background_radius_100_stroke_1"
                     android:orientation="horizontal"
                     android:paddingHorizontal="8dp"
-                    android:paddingVertical="4dp">
+                    android:paddingVertical="4dp"
+                    android:visibility="@{recruitDetail.fee == 0 ? View.VISIBLE : View.GONE}">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -145,7 +166,6 @@
                 </LinearLayout>
             </LinearLayout>
         </HorizontalScrollView>
-
 
         <LinearLayout
             android:id="@+id/layout_recruit_post_info_top"
@@ -176,9 +196,10 @@
                     android:fontFamily="@font/pretendard_semi_bold"
                     android:fontFeatureSettings="600"
                     android:letterSpacing="0"
-                    android:text="수요일"
+                    android:text="@{recruitDetail.recruitDateTime.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.KOREAN)}"
                     android:textColor="@color/primary_8B95B3"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:text="수요일" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -187,9 +208,10 @@
                     android:fontFamily="@font/pretendard_medium"
                     android:fontFeatureSettings="500"
                     android:letterSpacing="0"
-                    android:text="12"
+                    android:text="@{String.valueOf(recruitDetail.recruitDateTime.dayOfMonth)}"
                     android:textColor="@color/primary_8B95B3"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    tools:text="12" />
             </LinearLayout>
 
             <LinearLayout
@@ -218,9 +240,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:fontFamily="@font/pretendard_medium"
-                        android:text="AM 11:50"
+                        android:text="@{recruitDetail.recruitDateTime.format(DateTimeFormatter.ofPattern(`a hh:mm`))}"
                         android:textColor="@color/primary_8B95B3"
-                        android:textFontWeight="500" />
+                        android:textFontWeight="500"
+                        tools:text="오전 11:50" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -243,14 +266,12 @@
                         android:layout_marginStart="4dp"
                         android:fontFamily="@font/pretendard_medium"
                         android:text="@{recruitDetail.recruitPlace}"
-                        tools:text="한강이북점"
                         android:textColor="@color/primary_8B95B3"
-                        android:textFontWeight="500" />
+                        android:textFontWeight="500"
+                        tools:text="한강이북점" />
                 </LinearLayout>
             </LinearLayout>
 
-
-            <!-- TODO 현재 참여중인 팀원 이미지 출력 -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_recruit_post_users"
                 android:layout_width="wrap_content"
@@ -259,50 +280,7 @@
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="4"
-                tools:visibility="gone" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <!-- TODO 삭제 예정 -->
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/iv_recruit_post_users1"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginTop="11dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/user_sample"
-                    app:shapeAppearance="@style/ShapeAppearance.circle" />
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/iv_recruit_post_users2"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginTop="11dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/user_sample"
-                    app:shapeAppearance="@style/ShapeAppearance.circle" />
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/iv_recruit_post_users3"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginTop="11dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/user_sample"
-                    app:shapeAppearance="@style/ShapeAppearance.circle" />
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/iv_recruit_post_users4"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginTop="11dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/user_sample"
-                    app:shapeAppearance="@style/ShapeAppearance.circle" />
-            </LinearLayout>
+                tools:listitem="@layout/item_candidate_team_member" />
         </LinearLayout>
 
         <LinearLayout
@@ -336,10 +314,11 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/pretendard_medium"
-                    android:text="~ 12월 1일"
+                    android:text="@{`~ ` + recruitDetail.recruitDateTime.plusDays(1).format(DateTimeFormatter.ofPattern(`MM월 dd일`))}"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="500"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:text="~ 12월 1일" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -353,10 +332,11 @@
                     android:letterSpacing="0"
                     android:lineSpacingExtra="3sp"
                     android:paddingHorizontal="4dp"
-                    android:text="D-1"
+                    android:text="@{`D-`+LocalDateTime.now().until(recruitDetail.recruitDateTime, ChronoUnit.DAYS)}"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="600"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+                    tools:text="D-1" />
             </LinearLayout>
 
             <LinearLayout
@@ -378,10 +358,11 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/pretendard_medium"
-                    android:text="130,000원"
+                    android:text="@{NumberFormat.getCurrencyInstance(Locale.KOREA).format(recruitDetail.fee) + `원`}"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="500"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:text="130,000원" />
             </LinearLayout>
 
             <LinearLayout
@@ -401,10 +382,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:fontFamily="@font/pretendard_medium"
-                    android:text="연박 X"
+                    android:text="@{recruitDetail.isConsecutiveStay ? `연박 O` : `연박 X`}"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="500"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:text="연박 X" />
             </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,11 @@
 package com.golfzon.core_ui
 
 import android.graphics.Canvas
-import android.graphics.Paint
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class HorizontalMarginItemDecoration(private val spacing: Int) : RecyclerView.ItemDecoration() {
+class HorizontalMarginItemDecoration(private val spacing: Int, private val isLeftSpacing: Boolean = false) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -18,8 +17,8 @@ class HorizontalMarginItemDecoration(private val spacing: Int) : RecyclerView.It
 
         outRect.top = 0
         outRect.bottom = 0
-        outRect.left = 0
-        outRect.right = spacing
+        outRect.left = if(isLeftSpacing) spacing else 0
+        outRect.right = if(isLeftSpacing) 0 else spacing
     }
 
 

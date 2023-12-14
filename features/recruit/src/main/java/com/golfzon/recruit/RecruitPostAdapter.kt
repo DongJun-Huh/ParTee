@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.golfzon.core_ui.adapter.CandidateTeamMemberAdapter
 import com.golfzon.core_ui.databinding.ItemRecruitPostBinding
+import com.golfzon.core_ui.dp
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.domain.model.Recruit
 import com.golfzon.domain.model.User
@@ -58,12 +60,15 @@ class RecruitPostAdapter :
     inner class RecruitPostViewHolder(private val binding: ItemRecruitPostBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(recruitInfo: Pair<Recruit, List<User>>) {
+            val recruitMemberAdapter = CandidateTeamMemberAdapter(32.dp, isCircleImage = true)
             with(binding) {
                 root.setOnDebounceClickListener {
                     listener?.onItemClick(it, recruitInfo)
                 }
 
-                binding.recruitDetail = recruitInfo.first
+                recruitDetail = recruitInfo.first
+                rvRecruitPostUsers.adapter = recruitMemberAdapter
+                recruitMemberAdapter.submitList(recruitInfo.second.toMutableList())
             }
         }
     }
