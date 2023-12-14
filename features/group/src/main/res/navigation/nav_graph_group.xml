@@ -12,7 +12,11 @@
 
         <action
             android:id="@+id/action_groupHomeFragment_to_groupDetailFragment"
-            app:destination="@id/GroupDetailFragment" />
+            app:destination="@id/GroupDetailFragment"
+            app:enterAnim="@anim/translate_from_right_in"
+            app:exitAnim="@anim/translate_to_left_out"
+            app:popEnterAnim="@anim/translate_from_left_in"
+            app:popExitAnim="@anim/translate_to_right_out" />
 
     </fragment>
     <fragment
