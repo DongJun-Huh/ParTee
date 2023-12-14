@@ -21,7 +21,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/golfzon_gray_706F73">
+        android:background="@drawable/background_img_golf">
 
         <LinearLayout
             android:id="@+id/layout_matching_home_appbar"
@@ -96,9 +96,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="58dp"
-            android:background="#EBEDF3"
+            android:background="#E0EBEDF3"
             android:orientation="vertical"
-            android:paddingTop="22dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -107,17 +106,18 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="24dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginStart="24dp"
                     android:fontFamily="@font/pretendard_semi_bold"
                     android:letterSpacing="0"
                     android:lineSpacingExtra="4sp"
-                    android:text="@{`TEAM ` + teamDetail.teamName}"
+                    android:text="@{teamDetail.teamName == null ? `` : teamDetail.teamName}"
+                    android:layout_marginTop="22dp"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="600"
                     android:textSize="14sp"
@@ -133,6 +133,7 @@
                     android:lineSpacingExtra="3sp"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="2dp"
+                    android:layout_marginTop="22dp"
                     android:text="@{String.valueOf(teamDetail.headCount)+`/3`}"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="500"
@@ -143,7 +144,9 @@
                     android:id="@+id/btn_matching_home_team_setting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
+                    android:paddingHorizontal="22dp"
+                    android:paddingTop="22dp"
+                    android:paddingBottom="20dp"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_setting" />
             </LinearLayout>
