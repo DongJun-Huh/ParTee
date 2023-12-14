@@ -15,7 +15,9 @@ import com.golfzon.core_ui.dp
 import com.golfzon.recruit.databinding.FragmentRecruitDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.NumberFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit
@@ -74,9 +76,10 @@ class RecruitDetailFragment : Fragment() {
                 tvRecruitDetailTime.text = recruitDetail.recruitDateTime.format(DateTimeFormatter.ofPattern("a hh:mm"))
                 tvRecruitDetailPlace.text = recruitDetail.recruitPlace
                 tvRecruitDetailEndDate.text =
-                    recruitDetail.recruitEndDateTime.plusDays(1).format(DateTimeFormatter.ofPattern("MM월 dd일"))
+                    recruitDetail.recruitEndDateTime.format(DateTimeFormatter.ofPattern("MM월 dd일"))
                 tvRecruitDetailEndDateDDay.text =
-                    "D-${LocalDateTime.now().until(recruitDetail.recruitEndDateTime, ChronoUnit.DAYS)}"
+                    if (Period.between(LocalDate.now(), recruitDetail.recruitEndDateTime.toLocalDate()).days < 0) "모집마감"
+                    else "D-"+Period.between(LocalDate.now(), recruitDetail.recruitEndDateTime.toLocalDate()).days
                 tvRecruitDetailFee.text = "${NumberFormat.getCurrencyInstance(Locale.KOREA).format(recruitDetail.fee)}원"
                 tvRecruitDetailConsecutiveStay.text = if (recruitDetail.isConsecutiveStay) "O" else "X"
                 tvRecruitDetailLeftHeadCount.text = "모집 인원이 ${recruitDetail.searchingHeadCount - recruitDetail.headCount}명 남았어요!"

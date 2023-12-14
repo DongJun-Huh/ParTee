@@ -15,6 +15,10 @@
 
         <import type="java.time.LocalDateTime" />
 
+        <import type="java.time.LocalDate" />
+
+        <import type="java.time.Period" />
+
         <import type="java.time.temporal.ChronoUnit" />
 
         <import type="java.text.NumberFormat" />
@@ -54,6 +58,7 @@
                     android:id="@+id/layout_recruit_post_badge_couple"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
                     android:background="@drawable/background_radius_100_stroke_1"
                     android:orientation="horizontal"
                     android:paddingHorizontal="8dp"
@@ -82,7 +87,7 @@
                     android:id="@+id/layout_recruit_post_badge_soon_end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:background="@drawable/background_radius_100_stroke_1"
                     android:orientation="horizontal"
                     android:paddingHorizontal="8dp"
@@ -111,7 +116,7 @@
                     android:id="@+id/layout_recruit_post_badge_consecutive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:background="@drawable/background_radius_100_stroke_1"
                     android:orientation="horizontal"
                     android:paddingHorizontal="8dp"
@@ -140,7 +145,6 @@
                     android:id="@+id/layout_recruit_post_badge_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:background="@drawable/background_radius_100_stroke_1"
                     android:orientation="horizontal"
                     android:paddingHorizontal="8dp"
@@ -300,6 +304,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -314,7 +319,7 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/pretendard_medium"
-                    android:text="@{`~ ` + recruitDetail.recruitDateTime.plusDays(1).format(DateTimeFormatter.ofPattern(`MM월 dd일`))}"
+                    android:text="@{`~ ` + recruitDetail.recruitDateTime.format(DateTimeFormatter.ofPattern(`MM월 dd일`))}"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="500"
                     android:textSize="12sp"
@@ -332,7 +337,7 @@
                     android:letterSpacing="0"
                     android:lineSpacingExtra="3sp"
                     android:paddingHorizontal="4dp"
-                    android:text="@{`D-`+LocalDateTime.now().until(recruitDetail.recruitDateTime, ChronoUnit.DAYS)}"
+                    android:text="@{Period.between(LocalDate.now(), recruitDetail.recruitEndDateTime.toLocalDate()).days &lt; 0 ? `모집마감` : `D-`+Period.between(LocalDate.now(), recruitDetail.recruitEndDateTime.toLocalDate()).days}"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="600"
                     android:textSize="10sp"
@@ -343,6 +348,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:gravity="end"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -369,6 +376,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <ImageView
