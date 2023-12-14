@@ -31,8 +31,8 @@ class RecruitViewModel @Inject constructor(
     private val _recruits = ListLiveData<Recruit>()
     val recruits: ListLiveData<Recruit> get() = _recruits
 
-    private val _curRecruitDetail = MutableLiveData<Recruit>()
-    val curRecruitDetail: LiveData<Recruit> get() = _curRecruitDetail
+    private val _curRecruitDetail = MutableLiveData<Event<Recruit>>()
+    val curRecruitDetail: LiveData<Event<Recruit>> get() = _curRecruitDetail
 
     private val _recruitsMembers = ListLiveData<List<Pair<User, Boolean>>>()
     val recruitsMembers: ListLiveData<List<Pair<User, Boolean>>> get() = _recruitsMembers
@@ -79,7 +79,7 @@ class RecruitViewModel @Inject constructor(
 
     fun getRecruitDetail(recruitUId: String) = viewModelScope.launch {
         getRecruitDetailUseCase(recruitUId).let {
-            _curRecruitDetail.postValue(it)
+            _curRecruitDetail.postValue(Event(it))
         }
     }
 
