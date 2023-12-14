@@ -11,7 +11,11 @@
         tools:layout="@layout/fragment_recruit_home">
         <action
             android:id="@+id/action_recruitHomeFragment_to_recruitDetailFragment"
-            app:destination="@id/RecruitDetailFragment" />
+            app:destination="@id/RecruitDetailFragment"
+            app:enterAnim="@anim/translate_from_right_in"
+            app:exitAnim="@anim/translate_to_left_out"
+            app:popEnterAnim="@anim/translate_from_left_in"
+            app:popExitAnim="@anim/translate_to_right_out"/>
 
     </fragment>
     <fragment
