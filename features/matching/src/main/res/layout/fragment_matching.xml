@@ -41,6 +41,7 @@
         android:animateLayoutChanges="true">
 
         <ImageView
+            android:id="@+id/iv_matching_background"
             imageType="@{`users`}"
             imageUId="@{curUserDetail.profileImg}"
             android:layout_width="match_parent"
@@ -419,8 +420,8 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_matching_candidate_team_is_not_exist"
-                imageType="@{`users`}"
-                imageUId="@{curUserDetail.profileImg}"
+                imageType="@{`teams`}"
+                imageUId="@{curUserTeamDetail.teamImageUrl}"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
