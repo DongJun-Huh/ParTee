@@ -91,7 +91,11 @@ class RecruitHomeFragment : Fragment() {
         recruitPostAdapter?.setOnItemClickListener(object :
             RecruitPostAdapter.OnItemClickListener {
             override fun onItemClick(view: View, recruitInfo: Pair<Recruit, List<User>>) {
-//                findNavController().navigate(  )
+                findNavController().navigate(
+                    RecruitHomeFragmentDirections.actionRecruitHomeFragmentToRecruitDetailFragment(
+                        recruitInfo.first.recruitUId
+                    )
+                )
             }
         })
     }

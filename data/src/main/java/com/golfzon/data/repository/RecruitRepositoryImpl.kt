@@ -100,11 +100,38 @@ class RecruitRepositoryImpl @Inject constructor(
                             val gson = gsonBuilder.create()
                             val json = gson.toJson(recruitDetail)
                             val recruitType = object : TypeToken<Recruit>() {}.type
-                            val recruitInfo: Recruit = gson.fromJson(json, recruitType)
-                            resultRecruits.add(recruitInfo)
+                            var recruitInfo: Recruit = gson.fromJson(json, recruitType)
+                            recruitInfo = recruitInfo.copy(recruitUId = recruit.id)
+                            resultRecruits.add(recruitInfo.copy(recruitUId = recruit.id))
                         }
                     }
                     if (continuation.isActive) continuation.resume(resultRecruits)
+                }
+                .addOnFailureListener {
+                    if (continuation.isActive) continuation.resumeWithException(it)
+                }
+        }
+    }
+
+    override suspend fun getRecruitDetail(recruitUId: String): Recruit {
+        return suspendCancellableCoroutine { continuation ->
+            firestore.collection("recruits")
+                .document(recruitUId)
+                .get()
+                .addOnSuccessListener { recruitInfo ->
+                    recruitInfo.data?.let { recruitDetail ->
+                        val gsonBuilder = GsonBuilder()
+                        gsonBuilder.registerTypeAdapter(
+                            LocalDateTime::class.java,
+                            TimestampDeserializer()
+                        )
+                        val gson = gsonBuilder.create()
+                        val json = gson.toJson(recruitDetail)
+                        val recruitType = object : TypeToken<Recruit>() {}.type
+                        var recruitDetailToDisplay: Recruit = gson.fromJson(json, recruitType)
+                        recruitDetailToDisplay = recruitDetailToDisplay.copy(recruitUId = recruitUId)
+                        if (continuation.isActive) continuation.resume(recruitDetailToDisplay)
+                    }
                 }
                 .addOnFailureListener {
                     if (continuation.isActive) continuation.resumeWithException(it)

@@ -15,5 +15,5 @@ data class Recruit(
     val fee: Int,
     val isConsecutiveStay: Boolean,
     val isCouple: Boolean,
-    var recruitIntroduceMessage: String,
+    val recruitIntroduceMessage: String,
 )

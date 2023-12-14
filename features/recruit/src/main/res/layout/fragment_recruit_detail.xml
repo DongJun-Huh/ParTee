@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".RecruitDetailFragment">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.golfzon.recruit.RecruitViewModel" />
+
+        <variable
+            name="recruitDetail"
+            type="com.golfzon.domain.model.Recruit" />
+
+        <import type="java.time.format.TextStyle" />
+
+        <import type="java.util.Locale" />
+
+        <import type="java.time.format.DateTimeFormatter" />
+
+        <import type="java.time.LocalDateTime" />
+
+        <import type="java.time.temporal.ChronoUnit" />
+
+        <import type="java.text.NumberFormat" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:id="@+id/layout_recruit_detail_appbar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <ImageButton
+                android:id="@+id/btn_recruit_detail_appbar_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:padding="20dp"
+                android:src="@drawable/ic_back" />
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nsv_recruit_detail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            app:layout_constraintBottom_toTopOf="@id/layout_recruit_detail_participate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_recruit_detail_appbar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/layout_recruit_detail_badges"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <LinearLayout
+                        android:id="@+id/layout_recruit_detail_badge_couple"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/background_radius_100_stroke_1"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_hearts"
+                            app:tint="@color/primary_8B95B3" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:fontFamily="@font/pretendard_medium"
+                            android:text="부부/커플"
+                            android:textColor="@color/primary_8B95B3"
+                            android:textFontWeight="500" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_recruit_detail_badge_soon_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/background_radius_100_stroke_1"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_timer"
+                            app:tint="@color/primary_8B95B3" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:fontFamily="@font/pretendard_medium"
+                            android:text="마감 임박"
+                            android:textColor="@color/primary_8B95B3"
+                            android:textFontWeight="500" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_recruit_detail_badge_consecutive"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/background_radius_100_stroke_1"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_moon"
+                            app:tint="@color/primary_8B95B3" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:fontFamily="@font/pretendard_medium"
+                            android:text="연박"
+                            android:textColor="@color/primary_8B95B3"
+                            android:textFontWeight="500" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_recruit_detail_badge_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/background_radius_100_stroke_1"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_money"
+                            app:tint="@color/primary_8B95B3" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:fontFamily="@font/pretendard_medium"
+                            android:text="추가비용 없음"
+                            android:textColor="@color/primary_8B95B3"
+                            android:textFontWeight="500" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_recruit_detail_time_and_place"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_recruit_detail_badges"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <LinearLayout
+                        android:layout_width="82dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/btn_background_radius_12"
+                        android:backgroundTint="#80EBEDF3"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingVertical="3dp">
+
+                        <TextView
+                            android:id="@+id/tv_recruit_detail_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/pretendard_semi_bold"
+                            android:fontFeatureSettings="600"
+                            android:letterSpacing="0"
+                            android:lineHeight="18sp"
+                            android:textColor="@color/primary_8B95B3"
+                            android:textSize="12sp"
+                            tools:text="수요일" />
+
+                        <TextView
+                            android:id="@+id/tv_recruit_detail_day"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/pretendard_medium"
+                            android:fontFeatureSettings="500"
+                            android:letterSpacing="0"
+                            android:lineHeight="34dp"
+                            android:textColor="@color/primary_8B95B3"
+                            android:textSize="34sp"
+                            tools:text="12" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_background_radius_12"
+                        android:backgroundTint="#80EBEDF3"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="18dp"
+                        android:paddingVertical="12dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center"
+                                android:background="@android:color/transparent"
+                                android:src="@drawable/ic_clock"
+                                app:tint="@color/primary_8B95B3" />
+
+                            <TextView
+                                android:id="@+id/tv_recruit_detail_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:fontFamily="@font/pretendard_medium"
+                                android:lineHeight="24sp"
+                                android:textColor="@color/primary_8B95B3"
+                                android:textSize="16sp"
+                                tools:text="오전 11:50" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center"
+                                android:background="@android:color/transparent"
+                                android:src="@drawable/ic_location"
+                                android:tint="@color/primary_8B95B3" />
+
+                            <TextView
+                                android:id="@+id/tv_recruit_detail_place"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:fontFamily="@font/pretendard_medium"
+                                android:lineHeight="24sp"
+                                android:textColor="@color/primary_8B95B3"
+                                android:textFontWeight="500"
+                                android:textSize="16sp"
+                                tools:text="한강이북점" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_recruit_detail_reservation_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="24dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_recruit_detail_time_and_place"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_calendar" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="2dp"
+                            android:fontFamily="@font/pretendard_medium"
+                            android:lineHeight="21sp"
+                            android:text="모집 마감"
+                            android:textColor="@color/primary_8B95B3"
+                            android:textFontWeight="500"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_recruit_detail_end_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/pretendard_semi_bold"
+                            android:lineHeight="21sp"
+                            android:textColor="@color/primary_8B95B3"
+                            android:textFontWeight="500"
+                            android:textSize="14sp"
+                            tools:text="~ 12월 1일" />
+
+                        <TextView
+                            android:id="@+id/tv_recruit_detail_end_date_d_day"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="4dp"
+                            android:background="@drawable/background_radius_100"
+                            android:backgroundTint="#AFB7CF"
+                            android:fontFamily="@font/pretendard_semi_bold"
+                            android:gravity="center"
+                            android:letterSpacing="0"
+                            android:lineSpacingExtra="3sp"
+                            android:paddingHorizontal="8dp"
+                            android:textColor="@color/primary_8B95B3"
+                            android:textFontWeight="600"
+                            android:textSize="14sp"
+                            tools:text="D-1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_moneys"
+                            android:tint="@color/primary_8B95B3" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="2dp"
+                            android:fontFamily="@font/pretendard_medium"
+                            android:lineHeight="21sp"
+                            android:text="참가 비용"
+                            android:textColor="@color/primary_8B95B3"
+                            android:textFontWeight="500"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_recruit_detail_fee"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/pretendard_semi_bold"
+                            android:lineHeight="21sp"
+                            android:textColor="@color/primary_8B95B3"
+                            android:textFontWeight="500"
+                            android:textSize="14sp"
+                            tools:text="130,000원" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_moon_empty" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="2dp"
+                            android:fontFamily="@font/pretendard_medium"
+                            android:lineHeight="21sp"
+                            android:text="연박 여부"
+                            android:textColor="@color/primary_8B95B3"
+                            android:textFontWeight="500"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_recruit_detail_consecutive_stay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/pretendard_semi_bold"
+                            android:lineHeight="21sp"
+                            android:textColor="@color/primary_8B95B3"
+                            android:textFontWeight="500"
+                            android:textSize="14sp"
+                            tools:text="X" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_people" />
+
+                        <TextView
+                            android:id="@+id/tv_recruit_detail_left_head_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="2dp"
+                            android:fontFamily="@font/pretendard_medium"
+                            android:lineHeight="21sp"
+                            android:textColor="@color/primary_8B95B3"
+                            android:textFontWeight="500"
+                            android:textSize="14sp"
+                            tools:text="모집 인원이 2명 남았어요!" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_recruit_detail_participants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_recruit_detail_reservation_info"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_candidate_team_member" />
+
+                <View
+                    android:id="@+id/view_recruit_detail_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#F5F6F9"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rv_recruit_detail_participants" />
+
+                <TextView
+                    android:id="@+id/tv_recruit_detail_introduce_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:lineHeight="21sp"
+                    android:textColor="@color/primary_8B95B3"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view_recruit_detail_divider"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:text="안녕하세요~ 같이 골프쳐요~ 안녕하세요~ 같이 골프쳐요~ 안녕하세요~ 같이 골프쳐요~ 안녕하세요~ 같이 골프쳐요~ 안녕하세요~ 같이 골프쳐요~ " />
+
+                <LinearLayout
+                    android:id="@+id/layout_recruit_detail_place_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_recruit_detail_introduce_message"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <TextView
+                        android:id="@+id/tv_recruit_detail_place_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:lineHeight="18sp"
+                        android:textColor="@color/primary_8B95B3"
+                        android:textSize="12sp"
+                        tools:text="골프존 한강이북점" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_recruit_detail_participate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="28dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+            <TextView
+                android:id="@+id/tv_recruit_detail_participate_left_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_semi_bold"
+                android:gravity="center"
+                android:lineHeight="21sp"
+                android:paddingVertical="8dp"
+                android:textColor="@color/primary_8B95B3"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="모집 마감까지 00분 00초 남았어요" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_recruit_detail_participate"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:animateLayoutChanges="true"
+                android:background="@drawable/btn_background_radius_12"
+                android:fontFamily="@font/pretendard_semi_bold"
+                android:gravity="center"
+                android:lineHeight="20sp"
+                android:padding="10dp"
+                android:stateListAnimator="@null"
+                android:text="참여하기"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_recruit_detail_participate_left_time"
+                app:layout_constraintVertical_bias="1.0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

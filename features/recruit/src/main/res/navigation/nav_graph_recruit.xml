@@ -8,5 +8,19 @@
         android:id="@+id/RecruitHomeFragment"
         android:name="com.golfzon.recruit.RecruitHomeFragment"
         android:label="fragment_recruit_home"
-        tools:layout="@layout/fragment_recruit_home"/>
+        tools:layout="@layout/fragment_recruit_home">
+        <action
+            android:id="@+id/action_recruitHomeFragment_to_recruitDetailFragment"
+            app:destination="@id/RecruitDetailFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/RecruitDetailFragment"
+        android:name="com.golfzon.recruit.RecruitDetailFragment"
+        android:label="fragment_recruit_detail"
+        tools:layout="@layout/fragment_recruit_detail">
+        <argument
+            android:name="recruitUId"
+            app:argType="string" />
+    </fragment>
 </navigation>

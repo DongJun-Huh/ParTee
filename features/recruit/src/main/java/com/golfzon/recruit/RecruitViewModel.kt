@@ -9,6 +9,7 @@ import com.golfzon.core_ui.ListLiveData
 import com.golfzon.domain.model.Recruit
 import com.golfzon.domain.model.User
 import com.golfzon.domain.usecase.member.GetUserInfoUseCase
+import com.golfzon.domain.usecase.recruit.GetRecruitDetailUseCase
 import com.golfzon.domain.usecase.recruit.GetRecruitsUseCase
 import com.golfzon.domain.usecase.recruit.RequestCreateRecruitUseCase
 import com.golfzon.domain.usecase.recruit.RequestParticipateRecruitUseCase
@@ -21,6 +22,7 @@ class RecruitViewModel @Inject constructor(
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val createRecruitUseCase: RequestCreateRecruitUseCase,
     private val getRecruitsUseCase: GetRecruitsUseCase,
+    private val getRecruitDetailUseCase: GetRecruitDetailUseCase,
     private val participateRecruitUseCase: RequestParticipateRecruitUseCase
 ) : ViewModel() {
     private val _isCreateRecruitSuccess = MutableLiveData<Event<Boolean>>()
@@ -29,8 +31,14 @@ class RecruitViewModel @Inject constructor(
     private val _recruits = ListLiveData<Recruit>()
     val recruits: ListLiveData<Recruit> get() = _recruits
 
+    private val _curRecruitDetail = MutableLiveData<Recruit>()
+    val curRecruitDetail: LiveData<Recruit> get() = _curRecruitDetail
+
     private val _recruitsMembers = ListLiveData<List<Pair<User, Boolean>>>()
     val recruitsMembers: ListLiveData<List<Pair<User, Boolean>>> get() = _recruitsMembers
+
+    private val _recruitMembers = ListLiveData<User>()
+    val recruitMembers: ListLiveData<User> get() = _recruitMembers
 
     private val _isParticipateSuccess = MutableLiveData<Event<Boolean>>()
     val isParticipateSuccess: LiveData<Event<Boolean>> get() = _isParticipateSuccess
@@ -47,6 +55,16 @@ class RecruitViewModel @Inject constructor(
         )
     }
 
+    fun getRecruitMembersInfo(recruitMembersUId: List<String>) = viewModelScope.launch {
+        _recruitMembers.replaceAll(
+            recruitMembersUId.map {
+                val curUserInfo = getUserInfoUseCase(it)
+                curUserInfo.first
+            },
+            true
+        )
+    }
+
     fun createRecruit(recruitInfo: Recruit) = viewModelScope.launch {
         createRecruitUseCase(recruitInfo).let { isSuccess ->
             _isCreateRecruitSuccess.postValue(Event(isSuccess))
@@ -56,6 +74,12 @@ class RecruitViewModel @Inject constructor(
     fun getRecruits() = viewModelScope.launch {
         getRecruitsUseCase().let {
             _recruits.replaceAll(it, true)
+        }
+    }
+
+    fun getRecruitDetail(recruitUId: String) = viewModelScope.launch {
+        getRecruitDetailUseCase(recruitUId).let {
+            _curRecruitDetail.postValue(it)
         }
     }
 
