@@ -48,6 +48,8 @@ class RecruitDetailFragment : Fragment() {
         getRecruitDetailMembers()
         observeRecruitMembers()
         setBackClickListener()
+        setParticipateClickListener()
+        observeParticipateSuccess()
     }
 
     private fun onDestroyBindingView() {
@@ -107,12 +109,15 @@ class RecruitDetailFragment : Fragment() {
                                 .text = "모집 마감까지 ${LocalDateTime.now().until(recruitDetail.recruitEndDateTime, ChronoUnit.MINUTES)}:${LocalDateTime.now().until(recruitDetail.recruitEndDateTime, ChronoUnit.SECONDS)} 남았어요"
                             tvRecruitDetailPlaceTitle.text = recruitDetail.recruitPlace
                         }
-
-                        recruitViewModel.getRecruitMembersInfo(recruitDetail.membersUId)
+                        getRecruitMembers(recruitDetail.membersUId)
                     }
                 }
             }
         }
+    }
+
+    private fun getRecruitMembers(membersUId: List<String>) {
+        recruitViewModel.getRecruitMembersInfo(membersUId)
     }
 
     private fun setRecruitDetailMembersAdapter() {
@@ -126,6 +131,20 @@ class RecruitDetailFragment : Fragment() {
     private fun observeRecruitMembers() {
         recruitViewModel.recruitMembers.observe(viewLifecycleOwner) { recruitMembers ->
             recruitDetailMembersAdapter?.submitList(recruitMembers)
+        }
+    }
+
+    private fun setParticipateClickListener() {
+        binding.btnRecruitDetailParticipate.setOnDebounceClickListener {
+            recruitViewModel.participateRecruit(recruitUId = args.recruitUId)
+        }
+    }
+
+    private fun observeParticipateSuccess() {
+        recruitViewModel.isParticipateSuccess.observe(viewLifecycleOwner) { isSuccess ->
+            if (isSuccess.getContentIfNotHandled() == true) {
+                getRecruitDetail()
+            }
         }
     }
 }
