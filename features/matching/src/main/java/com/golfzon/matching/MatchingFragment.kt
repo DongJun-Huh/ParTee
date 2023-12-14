@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.golfzon.core_ui.DefaultToast
 import com.golfzon.core_ui.HorizontalMarginItemDecoration
+import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
 import com.golfzon.core_ui.adapter.CandidateTeamMemberAdapter
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
@@ -89,7 +90,7 @@ class MatchingFragment : Fragment() {
         matchingViewModel.isCurCandidateTeamExist.observe(viewLifecycleOwner) { isExist ->
             with(isExist.getContentIfNotHandled()) {
                 displayCandidateTeamIsOver(this == false)
-
+                matchingViewModel.curCandidateTeamIndex.value = 0
                 if (this != null) {
                     binding.layoutMatchingSearching.visibility = View.GONE
                 }
@@ -99,11 +100,16 @@ class MatchingFragment : Fragment() {
 
     private fun observeCurrentCandidateTeam() {
         matchingViewModel.curCandidateTeam.observe(viewLifecycleOwner) { curTeam ->
-            if (curTeam.getContentIfNotHandled() != null) {
-                binding.curTeamDetail = curTeam.peekContent()
-                matchingViewModel.getCandidateTeamMembersInfo(curTeam.peekContent()!!.membersUId)
-            } else {
-                // 최초 로딩 이후 2번째 화면 실행부터 화면 실행하자마자 실행되는 곳
+            with(curTeam.getContentIfNotHandled()) {
+                if (this != null) {
+                    binding.let {
+                        it.curTeamDetail = this
+                        it.ivMatchingBackground.loadImageFromFirebaseStorage(imageUId = this.teamImageUrl, imageType = "teams")
+                    }
+                    matchingViewModel.getCandidateTeamMembersInfo(this.membersUId)
+                } else {
+                    // 최초 로딩 이후 2번째 화면 실행부터 화면 실행하자마자 실행되는 곳
+                }
             }
         }
     }
