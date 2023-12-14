@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.golfzon.core_ui.VerticalMarginItemDecoration
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
@@ -97,6 +99,21 @@ class RecruitHomeFragment : Fragment() {
                     )
                 )
             }
+        })
+
+        binding.rvRecruitPosts.addOnChildAttachStateChangeListener(object :
+            RecyclerView.OnChildAttachStateChangeListener {
+            override fun onChildViewAttachedToWindow(view: View) {
+                with(binding.rvRecruitPosts) {
+                    if (getChildAdapterPosition(view) + 1 == adapter?.itemCount) {
+                        getChildAt(getChildAdapterPosition(view)).updateLayoutParams<RecyclerView.LayoutParams> {
+                            bottomMargin = 20.dp + binding.bottomNavigationRecruitHome.height + 20.dp
+                        }
+                    }
+                }
+            }
+
+            override fun onChildViewDetachedFromWindow(view: View) {}
         })
     }
 

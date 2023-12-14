@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.golfzon.core_ui.GridSpacingItemDecoration
+import androidx.recyclerview.widget.RecyclerView
+import com.golfzon.core_ui.VerticalMarginItemDecoration
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
 import com.golfzon.domain.model.Group
@@ -17,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class GroupHomeFragment : Fragment() {
-    private var binding by autoCleared<FragmentGroupHomeBinding>{ onDestroyBindingView() }
+    private var binding by autoCleared<FragmentGroupHomeBinding> { onDestroyBindingView() }
     private val groupViewModel by activityViewModels<GroupViewModel>()
     private var groupAdapter: GroupAdapter? = null
 
@@ -65,6 +67,7 @@ class GroupHomeFragment : Fragment() {
             }
         }
     }
+
     private fun getGroups() {
         groupViewModel.getGroups()
     }
@@ -73,14 +76,34 @@ class GroupHomeFragment : Fragment() {
         groupAdapter = GroupAdapter()
         with(binding.rvGroupHomeGroups) {
             adapter = groupAdapter
-            addItemDecoration(GridSpacingItemDecoration(1, 12.dp))
+            addItemDecoration(VerticalMarginItemDecoration(12.dp))
         }
 
         groupAdapter?.setOnItemClickListener(object :
             GroupAdapter.OnItemClickListener {
             override fun onItemClick(view: View, group: Group) {
-                findNavController().navigate(GroupHomeFragmentDirections.actionGroupHomeFragmentToGroupDetailFragment(groupUId = group.groupUId))
+                findNavController().navigate(
+                    GroupHomeFragmentDirections.actionGroupHomeFragmentToGroupDetailFragment(
+                        groupUId = group.groupUId
+                    )
+                )
             }
+        })
+
+
+        binding.rvGroupHomeGroups.addOnChildAttachStateChangeListener(object :
+            RecyclerView.OnChildAttachStateChangeListener {
+            override fun onChildViewAttachedToWindow(view: View) {
+                with(binding.rvGroupHomeGroups) {
+                    if (getChildAdapterPosition(view) + 1 == adapter?.itemCount) {
+                        getChildAt(getChildAdapterPosition(view)).updateLayoutParams<RecyclerView.LayoutParams> {
+                            bottomMargin = 12.dp + binding.bottomNavigationGroupHome.height + 12.dp
+                        }
+                    }
+                }
+            }
+
+            override fun onChildViewDetachedFromWindow(view: View) {}
         })
     }
 
