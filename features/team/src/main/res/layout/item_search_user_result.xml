@@ -109,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:fontFamily="@font/pretendard_regular"
-                        android:text="@{@string/info_years_playint(user.yearsPlaying)}"
+                        android:text="@{@string/info_years_playing(user.yearsPlaying)}"
                         android:textColor="@color/primary_8B95B3"
                         android:textFontWeight="500"
                         android:textSize="12sp"

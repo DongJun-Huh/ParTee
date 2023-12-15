@@ -27,7 +27,9 @@
     <string name="place">지점</string>
     <string name="consecutive_stay">연박</string>
     <string name="couple">부부/커플</string>
+    <string name="soon_end">마감 임박</string>
     <string name="free_fee">비용 없음</string>
+    <string name="money_unit_korean">원</string>
 
     <!-- 메뉴 -->
     <string name="home">홈</string>

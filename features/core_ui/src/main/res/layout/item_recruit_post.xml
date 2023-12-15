@@ -164,7 +164,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="2dp"
                         android:fontFamily="@font/pretendard_medium"
-                        android:text="추가비용 없음"
+                        android:text="@string/free_fee"
                         android:textColor="@color/primary_8B95B3"
                         android:textFontWeight="500" />
                 </LinearLayout>
