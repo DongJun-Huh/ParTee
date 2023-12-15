@@ -36,16 +36,16 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideMatchRepository(firestore: FirebaseFirestore, firebaseStorage: FirebaseStorage, dataStore: DataStore<Preferences>) : MatchRepository =
-        MatchRepositoryImpl(firestore = firestore, firebaseStorage = firebaseStorage, dataStore = dataStore)
+    fun provideMatchRepository(firestore: FirebaseFirestore, dataStore: DataStore<Preferences>) : MatchRepository =
+        MatchRepositoryImpl(firestore = firestore, dataStore = dataStore)
 
     @Singleton
     @Provides
-    fun provideGroupRepository(firestore: FirebaseFirestore, firebaseStorage: FirebaseStorage, dataStore: DataStore<Preferences>) : GroupRepository =
-        GroupRepositoryImpl(firestore = firestore, firebaseStorage = firebaseStorage, dataStore = dataStore)
+    fun provideGroupRepository(firestore: FirebaseFirestore, dataStore: DataStore<Preferences>) : GroupRepository =
+        GroupRepositoryImpl(firestore = firestore, dataStore = dataStore)
 
     @Singleton
     @Provides
-    fun provideRecruitRepository(firestore: FirebaseFirestore, firebaseStorage: FirebaseStorage, dataStore: DataStore<Preferences>) : RecruitRepository =
-        RecruitRepositoryImpl(firestore = firestore, firebaseStorage = firebaseStorage, dataStore = dataStore)
+    fun provideRecruitRepository(firestore: FirebaseFirestore, dataStore: DataStore<Preferences>) : RecruitRepository =
+        RecruitRepositoryImpl(firestore = firestore, dataStore = dataStore)
 }

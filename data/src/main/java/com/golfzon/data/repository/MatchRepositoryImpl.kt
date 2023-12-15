@@ -23,7 +23,6 @@ import javax.inject.Inject
 
 class MatchRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
-    private val firebaseStorage: FirebaseStorage,
     private val dataStore: DataStore<Preferences>
 ) : MatchRepository {
     override suspend fun getCandidateTeams(

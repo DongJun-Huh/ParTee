@@ -27,7 +27,6 @@ import javax.inject.Inject
 
 class RecruitRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
-    private val firebaseStorage: FirebaseStorage,
     private val dataStore: DataStore<Preferences>
 ) : RecruitRepository {
     override suspend fun createRecruitPost(recruitInfo: Recruit): Boolean =

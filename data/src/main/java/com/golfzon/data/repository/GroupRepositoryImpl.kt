@@ -13,7 +13,6 @@ import com.golfzon.domain.model.Group
 import com.golfzon.domain.repository.GroupRepository
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -21,7 +20,6 @@ import javax.inject.Inject
 
 class GroupRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
-    private val firebaseStorage: FirebaseStorage,
     private val dataStore: DataStore<Preferences>
 ) : GroupRepository {
     override suspend fun requestCreateGroup(newGroup: Group): String = withContext(Dispatchers.IO) {

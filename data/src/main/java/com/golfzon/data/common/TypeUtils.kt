@@ -1,4 +1,4 @@
-package com.golfzon.data.extension
+package com.golfzon.data.common
 
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type

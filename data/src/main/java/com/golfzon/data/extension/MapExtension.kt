@@ -1,6 +1,7 @@
 package com.golfzon.data.extension
 
 import com.golfzon.data.common.TimestampDeserializer
+import com.golfzon.data.common.getTypeToken
 import com.golfzon.domain.model.Recruit
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
