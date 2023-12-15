@@ -20,23 +20,31 @@ class RequestReactionsToCandidateTeamUseCase @Inject constructor(
             isLike = isLike
         ).let { isMatched ->
             if (isMatched) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val curUserTeam = teamRepository.getUserTeamInfoDetail()!!
-                    val candidateTeam = teamRepository.getTeamInfoDetail(candidateTeamUId)
-                    groupRepository.requestCreateGroup(
-                        Group(
-                            groupUId = "",
-                            originalTeamsInfo = listOf(curUserTeam, candidateTeam),
-                            headCount = curUserTeam.headCount + candidateTeam.headCount,
-                            membersUId = curUserTeam.membersUId + candidateTeam.membersUId,
-                            locations = curUserTeam.searchingLocations.toSet()
-                                .intersect(candidateTeam.searchingLocations).toList(),
-                            days = candidateTeam.searchingDays,
-                            times = candidateTeam.searchingTimes,
-                            openChatUrl = curUserTeam.openChatUrl,
-                            createdTimeStamp = System.currentTimeMillis()
+                try {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val curUserTeam = teamRepository.getUserTeamInfoDetail() ?: throw Exception(
+                            "GET current user team information failed"
                         )
-                    )
+                        val candidateTeam = teamRepository.getTeamInfoDetail(candidateTeamUId)
+
+                        groupRepository.requestCreateGroup(
+                            Group(
+                                groupUId = "",
+                                originalTeamsInfo = listOf(curUserTeam, candidateTeam),
+                                headCount = curUserTeam.headCount + candidateTeam.headCount,
+                                membersUId = curUserTeam.membersUId + candidateTeam.membersUId,
+                                locations = curUserTeam.searchingLocations.toSet()
+                                    .intersect(candidateTeam.searchingLocations.toSet())
+                                    .toList(),
+                                days = candidateTeam.searchingDays,
+                                times = candidateTeam.searchingTimes,
+                                openChatUrl = curUserTeam.openChatUrl,
+                                createdTimeStamp = System.currentTimeMillis()
+                            )
+                        )
+                    }
+                } catch (e: Exception) {
+                    return@let false
                 }
             }
             return@let isMatched
