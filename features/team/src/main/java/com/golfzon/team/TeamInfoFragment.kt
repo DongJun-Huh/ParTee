@@ -12,10 +12,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.golfzon.core_ui.GridSpacingItemDecoration
 import com.golfzon.core_ui.ImageUploadUtil
 import com.golfzon.core_ui.ImageUploadUtil.toBitmap
 import com.golfzon.core_ui.KeyBoardUtil.showKeyboard
+import com.golfzon.core_ui.adapter.itemDecoration.VerticalMarginItemDecoration
 import com.golfzon.core_ui.adapter.TeamUserAdapter
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
@@ -63,7 +63,7 @@ class TeamInfoFragment : Fragment() {
         teamUserAdapter = TeamUserAdapter()
         with(binding.rvTeamInfoUsers) {
             adapter = teamUserAdapter
-            addItemDecoration(GridSpacingItemDecoration(1, 12.dp))
+            addItemDecoration(VerticalMarginItemDecoration(12.dp))
         }
     }
 

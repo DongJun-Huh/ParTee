@@ -9,7 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.golfzon.core_ui.HorizontalMarginItemDecoration
+import com.golfzon.core_ui.adapter.itemDecoration.HorizontalMarginItemDecoration
 import com.golfzon.core_ui.adapter.CandidateTeamMemberAdapter
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp

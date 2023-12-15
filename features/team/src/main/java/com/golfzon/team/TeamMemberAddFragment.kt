@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.golfzon.core_ui.DialogUtil.setDialogRadius
-import com.golfzon.core_ui.GridSpacingItemDecoration
+import com.golfzon.core_ui.adapter.itemDecoration.VerticalMarginItemDecoration
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
 import com.golfzon.core_ui.extension.toast
@@ -69,7 +69,7 @@ class TeamMemberAddFragment : BottomSheetDialogFragment() {
         searchUserResultAdapter = SearchUserResultAdapter()
         with(binding.rvTeamMembersAddSearchResult) {
             adapter = searchUserResultAdapter
-            addItemDecoration(GridSpacingItemDecoration(1, 8.dp))
+            addItemDecoration(VerticalMarginItemDecoration(12.dp))
         }
     }
 

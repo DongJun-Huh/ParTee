@@ -1,4 +1,4 @@
-package com.golfzon.core_ui
+package com.golfzon.core_ui.adapter.itemDecoration
 
 import android.graphics.Canvas
 import android.graphics.Rect

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.golfzon.core_ui.GridSpacingItemDecoration
+import com.golfzon.core_ui.adapter.itemDecoration.VerticalMarginItemDecoration
 import com.golfzon.core_ui.adapter.TeamUserAdapter
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
@@ -73,7 +73,7 @@ class MatchingHomeFragment : Fragment() {
         teamUserAdapter = TeamUserAdapter(true)
         with(binding.rvMatchingHomeTeamUsers) {
             adapter = teamUserAdapter
-            addItemDecoration(GridSpacingItemDecoration(1, 12.dp))
+            addItemDecoration(VerticalMarginItemDecoration(12.dp))
         }
     }
 
