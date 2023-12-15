@@ -12,6 +12,18 @@ data class User (
     val userInfo: UserInfo
 )
 
+fun User.toMap(): Map<String, Any?> {
+    return mapOf(
+        "email" to this.email,
+        "nickname" to this.nickname,
+        "age" to this.age,
+        "yearsPlaying" to this.yearsPlaying,
+        "average" to this.average,
+        "introduceMessage" to this.introduceMessage,
+        "profileImg" to this.profileImg,
+    )
+}
+
 data class UserInfo (
     val teamInfo: TeamInfo,
     val groupsInfo: List<GroupInfo>,

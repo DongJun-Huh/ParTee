@@ -4,378 +4,208 @@ import android.net.Uri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.golfzon.data.common.FireStoreHelper.getUserCollection
+import com.golfzon.data.common.FireStoreHelper.getUserDocument
+import com.golfzon.data.common.FireStoreHelper.getUserGroupInfoDocument
+import com.golfzon.data.common.FireStoreHelper.getUserRecruitInfoDocument
+import com.golfzon.data.common.FireStoreHelper.getUserTeamInfoDocument
+import com.golfzon.data.common.Lg
 import com.golfzon.data.extension.readValue
 import com.golfzon.data.extension.storeValue
+import com.golfzon.data.extension.toDataClass
 import com.golfzon.domain.model.GroupInfo
 import com.golfzon.domain.model.RecruitsInfo
 import com.golfzon.domain.model.TeamInfo
 import com.golfzon.domain.model.User
 import com.golfzon.domain.model.UserInfo
+import com.golfzon.domain.model.toMap
 import com.golfzon.domain.repository.MemberRepository
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
-import kotlin.coroutines.resume
 
 class MemberRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val firebaseStorage: FirebaseStorage,
     private val dataStore: DataStore<Preferences>
 ) : MemberRepository {
-    override suspend fun requestRegisterUser(UId: String, email: String): Boolean {
-        return suspendCancellableCoroutine { continuation ->
-            val newUser = hashMapOf(
-                "email" to email,
-                "nickname" to null,
-                "age" to null,
-                "yearsPlaying" to null,
-                "average" to null,
-                "introduceMessage" to null,
-                "profileImg" to null
-            )
-            val userDocumentReference = firestore.collection("users")
-                .document(UId)
-            val setUserTask: Task<Void> = userDocumentReference.set(newUser)
-            setUserTask
-                .addOnSuccessListener {
-                    val newUserTeamInfo = hashMapOf(
-                        "teamUId" to null,
-                        "isLeader" to false,
-                        "isOrganized" to false
-                    )
-                    val newUserGroupsInfo = hashMapOf(
-                        "groupsUId" to listOf<String>()
-                    )
-                    val newUserRecruitsInfo = hashMapOf(
-                        "recruitsUId" to listOf<String>()
-                    )
-                    val extraInfoCollection = userDocumentReference.collection("extraInfo")
-                    val setTeamInfoTask =
-                        extraInfoCollection.document("teamInfo").set(newUserTeamInfo)
-                    val setGroupsInfoTask =
-                        extraInfoCollection.document("groupsInfo").set(newUserGroupsInfo)
-                    val setRecruitsInfoTask =
-                        extraInfoCollection.document("recruitsInfo").set(newUserRecruitsInfo)
+    override suspend fun requestRegisterUser(UId: String, email: String): Boolean =
+        withContext(Dispatchers.IO) {
+            dataStore.storeValue(stringPreferencesKey("userUId"), UId)
 
-                    CoroutineScope(Dispatchers.IO).launch {
-                        dataStore.storeValue(stringPreferencesKey("userUId"), UId)
-                    }
+            try {
+                val newUser = hashMapOf(
+                    "email" to email,
+                    "nickname" to null,
+                    "age" to null,
+                    "yearsPlaying" to null,
+                    "average" to null,
+                    "introduceMessage" to null,
+                    "profileImg" to null
+                )
+                getUserDocument(firestore, UId).set(newUser).await()
 
-                    Tasks.whenAll(setTeamInfoTask, setGroupsInfoTask, setRecruitsInfoTask)
-                        .addOnSuccessListener {
-                            if (continuation.isActive) continuation.resume(true)
-                        }
-                        .addOnFailureListener {
-                            if (continuation.isActive) continuation.resume(false)
+                val newUserTeamInfo = hashMapOf(
+                    "teamUId" to null,
+                    "isLeader" to false,
+                    "isOrganized" to false
+                )
+                val newUserGroupsInfo = hashMapOf("groupsUId" to listOf<String>())
+                val newUserRecruitsInfo = hashMapOf("recruitsUId" to listOf<String>())
+
+                Tasks.whenAll(
+                    getUserTeamInfoDocument(firestore, UId).set(newUserTeamInfo),
+                    getUserGroupInfoDocument(firestore, UId).set(newUserGroupsInfo),
+                    getUserRecruitInfoDocument(firestore, UId).set(newUserRecruitsInfo)
+                ).await()
+                true
+            } catch (e: Exception) {
+                Lg.e(e)
+                false
+            }
+        }
+
+    override suspend fun requestLogin(UId: String, email: String): Pair<Boolean, User?> =
+        // Return Value: (최초가입여부, 유저정보)
+        withContext(Dispatchers.IO) {
+            with(dataStore) {
+                storeValue(stringPreferencesKey("userUId"), UId)
+                storeValue(stringPreferencesKey("userEmail"), email)
+            }
+
+            try {
+                val userDocument = getUserDocument(firestore, UId).get().await()
+                val userDetail = userDocument.data
+                    ?: return@withContext Pair(false, null) // 1. 미 가입 상태
+                if (userDetail.values.any { it == null }) return@withContext Pair(
+                    true,
+                    null
+                ) // 2. 최초 가입 후, 유저정보 미입력 상태
+                Pair(true, userDetail.toDataClass<User>() as User) // 3. 최초 가입 후, 유저정보 입력 상태
+            } catch (e: Exception) {
+                Lg.e(e)
+                Pair(false, null)
+            }
+        }
+
+    override suspend fun requestSetUserInfo(user: User, userImg: File): Boolean =
+        withContext(Dispatchers.IO) {
+            val curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
+            val curUserEmail = dataStore.readValue(stringPreferencesKey("userEmail"), "") ?: ""
+
+            val userImageExtension = userImg.path.split(".").last().ifEmpty { "jpg" }
+            val userImagesRef = firebaseStorage.reference
+                .child("users/${curUserUId}.${userImageExtension}")
+
+            try {
+                val setUserTask: Task<Void> = getUserDocument(firestore, curUserUId)
+                    .set(user.copy(email = curUserEmail).toMap())
+                val uploadTask = userImagesRef.putFile(Uri.fromFile(userImg))
+
+                Tasks.whenAll(uploadTask, setUserTask).await()
+                true
+            } catch (e: Exception) {
+                Lg.e(e)
+                false
+            }
+        }
+
+    override suspend fun getUsersInfo(nickname: String): List<User> = withContext(Dispatchers.IO) {
+        val resultUsers = mutableListOf<User>()
+        val curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
+
+        try {
+            val users = getUserCollection(firestore)
+                .whereEqualTo("nickname", nickname)
+                .get()
+                .await()
+
+            users.documents
+                .filter { user -> user.id != curUserUId}
+                .map { userInfo ->
+                    val userTeamInfo = getUserTeamInfoDocument(firestore, userInfo.id).get().await()
+                    getUserDocument(firestore, userInfo.id).get().await()
+                        .data?.let { curUserInfo ->
+                            resultUsers.add(
+                                (curUserInfo.toDataClass<User>() as User).copy(
+                                    userUId = userInfo.id,
+                                    userInfo = UserInfo(
+                                        teamInfo = userTeamInfo.data?.toDataClass<TeamInfo>() as TeamInfo,
+                                        groupsInfo = listOf<GroupInfo>(),
+                                        recruitsInfo = listOf<RecruitsInfo>()
+                                    )
+                                )
+                            )
                         }
                 }
-                .addOnFailureListener {
-                    if (continuation.isActive) continuation.resume(false)
-                }
+
+            resultUsers
+        } catch (e: Exception) {
+            Lg.e(e)
+            emptyList<User>()
         }
     }
 
-    // Return Value: (최초가입여부, 유저정보)
-    override suspend fun requestLogin(UId: String, email: String): Pair<Boolean, User?> {
-        return suspendCancellableCoroutine { continuation ->
-            var curUser = User(
-                userUId = UId,
-                email = email,
-                nickname = null,
-                age = null,
-                yearsPlaying = null,
-                average = null,
-                introduceMessage = null,
-                profileImg = null,
-                UserInfo(
+    override suspend fun getUserInfo(UId: String): Pair<User, Boolean> =
+        // Return value: (유저정보, 현재유저여부)
+        withContext(Dispatchers.IO) {
+            val curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
+            val emptyUser = User(
+                userUId = "",
+                email = "",
+                nickname = "",
+                age = 0,
+                yearsPlaying = 0,
+                average = 0,
+                introduceMessage = "",
+                profileImg = "",
+                userInfo = UserInfo(
                     teamInfo = TeamInfo(
-                        teamUId = null,
-                        isOrganized = false,
-                        isLeader = false
+                        teamUId = "",
+                        isLeader = false,
+                        isOrganized = false
                     ),
                     groupsInfo = listOf(),
                     recruitsInfo = listOf()
                 )
             )
-            val tasks = mutableListOf<Task<*>>()
 
-            // 최초 회원가입 여부 확인 및 정보 입력여부 확인 후 2가지 조건 통과시, User 정보 받아옴
-            firestore.collection("users")
-                .document(UId)
-                .get()
-                .addOnSuccessListener {
-                    if (it.data == null) {
-                        // 1. 가입되어 있지 않은 경우
-                        if (continuation.isActive) continuation.resume(Pair(false, null))
-                    } else {
-                        it.data?.let { userBasicInfo ->
-                            if (userBasicInfo["email"] != null &&
-                                userBasicInfo["nickname"] != null &&
-                                userBasicInfo["age"] != null &&
-                                userBasicInfo["yearsPlaying"] != null &&
-                                userBasicInfo["average"] != null &&
-                                userBasicInfo["introduceMessage"] != null &&
-                                userBasicInfo["profileImg"] != null
-                            ) {
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    dataStore.storeValue(stringPreferencesKey("userUId"), UId)
-                                    dataStore.storeValue(stringPreferencesKey("userEmail"), email)
-                                    dataStore.storeValue(stringPreferencesKey("userNickname"), userBasicInfo["nickname"] as String)
-                                }
+            try {
+                val userDetail = getUserDocument(firestore, UId).get().await().data
+                    ?: return@withContext Pair(emptyUser, false)
+                val teamDetail = getUserTeamInfoDocument(firestore, UId).get().await().data
+                    ?: return@withContext Pair(emptyUser, false)
 
-                                curUser = curUser.copy(
-                                    userUId = curUser.userUId,
-                                    email = userBasicInfo["email"] as String,
-                                    nickname = userBasicInfo["nickname"] as String,
-                                    age = (userBasicInfo["age"] as Long).toInt(),
-                                    yearsPlaying = (userBasicInfo["yearsPlaying"] as Long).toInt(),
-                                    average = (userBasicInfo["average"] as Long).toInt(),
-                                    introduceMessage = userBasicInfo["introduceMessage"] as String,
-                                    profileImg = userBasicInfo["profileImg"] as String,
-                                )
-                            } else {
-                                // 2. 기본 정보가 입력되어 있지 않은 경우
-                                if (continuation.isActive) continuation.resume(Pair(true, null))
-                            }
-                        }
+                val curUser = (userDetail.toDataClass<User>() as User).copy(
+                    userUId = UId,
+                    userInfo = UserInfo(
+                        teamInfo = teamDetail.toDataClass<TeamInfo>() as TeamInfo,
+                        groupsInfo = listOf(),
+                        recruitsInfo = listOf()
+                    )
+                )
 
-                        // Team 정보 받아옴
-                        val teamInfoTask = firestore.collection("users")
-                            .document(UId)
-                            .collection("extraInfo")
-                            .document("teamInfo")
-                            .get()
-                            .addOnSuccessListener { userTeamDetails ->
-                                userTeamDetails?.let { userTeamDetail ->
-                                    curUser = curUser.copy(
-                                        userInfo = curUser.userInfo.copy(
-                                            teamInfo = TeamInfo(
-                                                teamUId = userTeamDetail.get("teamUId") as String?,
-                                                isLeader = userTeamDetail.get("isLeader") as Boolean,
-                                                isOrganized = userTeamDetail.get("isOrganized") as Boolean
-                                            )
-                                        )
-                                    )
-                                }
-                            }
-                        tasks.add(teamInfoTask)
-
-                        // Group 정보 받아옴
-                        val groupsInfoTask = firestore.collection("users")
-                            .document(UId)
-                            .collection("extraInfo")
-                            .document("groupsInfo")
-                            .get()
-                            .addOnSuccessListener { userGroupDetail ->
-                                val groups = userGroupDetail.get("groupsUId") as List<String>?
-                                groups?.let { groups ->
-                                    curUser = curUser.copy(
-                                        userInfo = curUser.userInfo.copy(
-                                            groupsInfo = groups.map { GroupInfo(it) }
-                                        )
-                                    )
-                                }
-                            }
-                        tasks.add(groupsInfoTask)
-
-                        // Recruits 정보 받아옴
-                        val recruitsInfo = firestore.collection("users")
-                            .document(UId)
-                            .collection("extraInfo")
-                            .document("recruitsInfo")
-                            .get()
-                            .addOnSuccessListener { userRecruitDetail ->
-                                val recruits =
-                                    userRecruitDetail.get("recruitsUId") as List<String>?
-                                recruits?.let { recruits ->
-                                    curUser = curUser.copy(
-                                        userInfo = curUser.userInfo.copy(
-                                            recruitsInfo = recruits.map { RecruitsInfo(it) }
-                                        )
-                                    )
-                                }
-                            }
-                        tasks.add(recruitsInfo)
-
-                        Tasks.whenAll(tasks)
-                            .addOnSuccessListener {
-                                // 3. 가입되어 있고, 모든 정보가 입력되어 있는 상태인 경우 정보를 돌려줌
-                                if (continuation.isActive) continuation.resume(Pair(true, curUser))
-                            }
-                            .addOnFailureListener {
-                                // TODO 실패시 별도 처리
-                                if (continuation.isActive) continuation.resume(Pair(false, null))
-                            }
-                    }
-                }
-                .addOnFailureListener {
-                    // TODO 실패시 별도 처리
-                    if (continuation.isActive) continuation.resume(Pair(false, null))
-                }
-        }
-    }
-
-    override suspend fun requestSetUserInfo(user: User, userImg: File): Boolean {
-        return suspendCancellableCoroutine { continuation ->
-            var curUserUId = ""
-            var curUserEmail = ""
-            runBlocking {
-                curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
-                curUserEmail = dataStore.readValue(stringPreferencesKey("userEmail"), "") ?: ""
+                Pair(curUser, curUserUId == UId)
+            } catch (e: Exception) {
+                Lg.e(e)
+                Pair(emptyUser, false)
             }
-
-            val storageRef = firebaseStorage.reference
-            val userImageExtension =
-                if (userImg.path.split(".").last().isNotEmpty()) userImg.path.split(".")
-                    .last() else "jpg"
-            val userImagesRef = storageRef.child("users/${curUserUId}.${userImageExtension}")
-            val newUser = hashMapOf(
-                "nickname" to user.nickname,
-                "email" to curUserEmail,
-                "age" to user.age,
-                "yearsPlaying" to user.yearsPlaying,
-                "average" to user.average,
-                "introduceMessage" to user.introduceMessage,
-                "profileImg" to "${curUserUId}.${userImageExtension}"
-            )
-            val userDocumentReference = firestore.collection("users")
-                .document(curUserUId)
-
-            val tasks = mutableListOf<Task<*>>()
-            val setUserTask: Task<Void> = userDocumentReference.set(newUser)
-            val uploadTask = userImagesRef.putFile(Uri.fromFile(userImg))
-            tasks.add(setUserTask)
-            tasks.add(uploadTask)
-
-            Tasks.whenAll(tasks)
-                .addOnSuccessListener {
-                    if (continuation.isActive) continuation.resume(true)
-                }
-                .addOnFailureListener {
-                    if (continuation.isActive) continuation.resume(false)
-                }
         }
-    }
 
-    override suspend fun getUsersInfo(nickname: String): List<User> =
-        suspendCancellableCoroutine { continuation ->
-            val resultUsers = mutableListOf<User>()
-            var curUserUId = ""
-            runBlocking {
-                curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
+    override suspend fun getCurUserInfo(): Triple<String, String, String> =
+        withContext(Dispatchers.IO) {
+            with(dataStore) {
+                Triple(
+                    readValue(stringPreferencesKey("userUId"), "") ?: "",
+                    readValue(stringPreferencesKey("userEmail"), "") ?: "",
+                    readValue(stringPreferencesKey("userNickname"), "") ?: ""
+                )
             }
-
-            firestore.collection("users")
-                .get()
-                .addOnSuccessListener { users ->
-                    val searchTasks = mutableListOf<Task<*>>()
-                    for (user in users.documents) {
-                        if (user.id != curUserUId) {
-                            user.data?.let { userDetail ->
-                                if (userDetail["nickname"] == nickname) {
-                                    val searchTask = user.reference
-                                        .collection("extraInfo")
-                                        .document("teamInfo")
-                                        .get()
-                                        .addOnSuccessListener {
-                                            it.data?.let { teamInfo ->
-                                                val curUser = User(
-                                                    userUId = user.id,
-                                                    email = userDetail["email"] as String,
-                                                    nickname = userDetail["nickname"] as String?,
-                                                    age = (userDetail["age"] as Long?)?.toInt(),
-                                                    yearsPlaying = (userDetail["yearsPlaying"] as Long?)?.toInt(),
-                                                    average = (userDetail["average"] as Long?)?.toInt(),
-                                                    introduceMessage = userDetail["introduceMessage"] as String?,
-                                                    profileImg = userDetail["profileImg"] as String?,
-                                                    userInfo = UserInfo(
-                                                        teamInfo = TeamInfo(
-                                                            teamUId = teamInfo["teamUId"] as String?,
-                                                            isLeader = teamInfo["isLeader"] as Boolean,
-                                                            isOrganized = teamInfo["isOrganized"] as Boolean
-                                                        ),
-                                                        groupsInfo = listOf(),
-                                                        recruitsInfo = listOf()
-                                                    )
-                                                )
-                                                resultUsers.add(curUser)
-                                            }
-                                        }
-                                    searchTasks.add(searchTask)
-                                }
-                            }
-                        }
-                    }
-
-                    // 모든 검색이 끝나면 resume 처리
-                    Tasks.whenAll(searchTasks).addOnSuccessListener {
-                        continuation.resume(resultUsers)
-                    }
-                }
         }
-
-    override suspend fun getUserInfo(UId: String): Pair<User, Boolean> =
-        suspendCancellableCoroutine { continuation ->
-            var curUserUId = ""
-            runBlocking {
-                curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
-            }
-
-            firestore.collection("users")
-                .document(UId)
-                .get()
-                .addOnSuccessListener { user ->
-                    user.data?.let { userDetail ->
-                        user.reference
-                            .collection("extraInfo")
-                            .document("teamInfo")
-                            .get()
-                            .addOnSuccessListener {
-                                it.data?.let { teamInfo ->
-                                    val curUser = User(
-                                        userUId = user.id,
-                                        email = userDetail["email"] as String,
-                                        nickname = userDetail["nickname"] as String?,
-                                        age = (userDetail["age"] as Long?)?.toInt(),
-                                        yearsPlaying = (userDetail["yearsPlaying"] as Long?)?.toInt(),
-                                        average = (userDetail["average"] as Long?)?.toInt(),
-                                        introduceMessage = userDetail["introduceMessage"] as String?,
-                                        profileImg = userDetail["profileImg"] as String?,
-                                        userInfo = UserInfo(
-                                            teamInfo = TeamInfo(
-                                                teamUId = teamInfo["teamUId"] as String?,
-                                                isLeader = teamInfo["isLeader"] as Boolean,
-                                                isOrganized = teamInfo["isOrganized"] as Boolean
-                                            ),
-                                            groupsInfo = listOf(),
-                                            recruitsInfo = listOf()
-                                        )
-                                    )
-                                    continuation.resume(Pair(curUser, curUserUId == UId))
-                                }
-                            }
-                    }
-                }
-        }
-
-    override suspend fun getCurUserInfo(): Triple<String, String, String> {
-        var curUserBasicInfo = Triple("", "", "")
-        runBlocking {
-            curUserBasicInfo = curUserBasicInfo.copy(
-                dataStore.readValue(stringPreferencesKey("userUId"), "") ?: "",
-                dataStore.readValue(stringPreferencesKey("userEmail"), "") ?: "",
-                dataStore.readValue(stringPreferencesKey("userNickname"), "") ?: ""
-            )
-        }
-
-        return curUserBasicInfo
-    }
 }

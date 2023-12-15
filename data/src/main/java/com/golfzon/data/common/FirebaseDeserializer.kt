@@ -1,4 +1,4 @@
-package com.golfzon.data
+package com.golfzon.data.common
 
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
