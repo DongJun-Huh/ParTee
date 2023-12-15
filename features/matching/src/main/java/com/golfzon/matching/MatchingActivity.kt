@@ -60,23 +60,27 @@ class MatchingActivity : AppCompatActivity() {
     fun navigateToTeam() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/team"))
         startActivity(intent)
+        finishAffinity()
     }
 
     fun navigateToGroup() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/group"))
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         startActivity(intent)
+        finishAffinity()
     }
 
     fun navigateToRecruit() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/recruit"))
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         startActivity(intent)
+        finishAffinity()
     }
 
     fun navigateToScreen() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/screen"))
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         startActivity(intent)
+        finishAffinity()
     }
 }

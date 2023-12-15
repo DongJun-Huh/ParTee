@@ -30,7 +30,7 @@ class TeamActivity : AppCompatActivity() {
     fun navigateToMatching() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/matching}"))
         startActivity(intent)
-        this@TeamActivity.finish()
+        finishAffinity()
     }
 
     // ImageCrop이 보이는 경우에만 확인 버튼이 보이도록 처리

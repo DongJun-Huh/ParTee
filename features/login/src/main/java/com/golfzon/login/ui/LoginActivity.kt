@@ -124,6 +124,6 @@ class LoginActivity : AppCompatActivity() {
     fun navigateToMatching() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/matching}"))
         startActivity(intent)
-        this@LoginActivity.finish()
+        finishAffinity()
     }
 }
