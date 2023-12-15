@@ -23,8 +23,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_radius_16"
-        android:backgroundTint="@color/white"
+        android:background="@drawable/selector_background_radius_16_pressed"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp"
         android:paddingTop="3dp"
