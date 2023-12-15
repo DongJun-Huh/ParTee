@@ -210,15 +210,14 @@
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginTop="36dp"
-            android:background="@drawable/btn_background_radius_12"
-            android:backgroundTint="@color/primary_btn_AFB7CF"
+            android:background="@drawable/selector_button_background_radius_12_enabled"
             android:fontFamily="@font/pretendard_medium"
             android:gravity="center"
             android:letterSpacing="0"
             android:lineSpacingExtra="5sp"
             android:stateListAnimator="@null"
             android:text="@string/matching_start_2"
-            android:textColor="@color/white"
+            android:textColor="@drawable/selector_textview_enabled"
             android:textFontWeight="500"
             android:textSize="16sp" />
     </LinearLayout>

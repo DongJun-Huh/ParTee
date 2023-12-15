@@ -70,7 +70,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="52dp"
-            android:background="@drawable/btn_background_radius_12"
+            android:background="@drawable/background_radius_12"
             android:backgroundTint="@color/white_F5F6F9"
             android:fontFamily="@font/pretendard_regular"
             android:gravity="center"

@@ -108,6 +108,9 @@ class RecruitDetailFragment : Fragment() {
                             tvRecruitDetailParticipateLeftTime
                                 .text = "모집 마감까지 ${LocalDateTime.now().until(recruitDetail.recruitEndDateTime, ChronoUnit.MINUTES)}:${LocalDateTime.now().until(recruitDetail.recruitEndDateTime, ChronoUnit.SECONDS)} 남았어요"
                             tvRecruitDetailPlaceTitle.text = recruitDetail.recruitPlace
+
+                            if (recruitDetail.searchingHeadCount - recruitDetail.headCount <= 0)
+                                btnRecruitDetailParticipate.isEnabled = false
                         }
                         getRecruitMembers(recruitDetail.membersUId)
                     }
