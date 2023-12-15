@@ -10,7 +10,9 @@ import com.golfzon.data.common.FireStoreHelper.getTeamLikeDocument
 import com.golfzon.data.common.Lg
 import com.golfzon.data.extension.readValue
 import com.golfzon.data.extension.toDataClass
+import com.golfzon.domain.model.Days
 import com.golfzon.domain.model.Team
+import com.golfzon.domain.model.Times
 import com.golfzon.domain.repository.MatchRepository
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
@@ -27,8 +29,8 @@ class MatchRepositoryImpl @Inject constructor(
 ) : MatchRepository {
     override suspend fun getCandidateTeams(
         searchingHeadCount: Int,
-        searchingDays: String,
-        searchingTimes: String,
+        searchingDays: Days,
+        searchingTimes: Times,
         reactedTeams: List<String>
     ): List<Team> = withContext(Dispatchers.IO) {
         val curTeamUId = dataStore.readValue(stringPreferencesKey("teamUId"), "") ?: ""
@@ -37,8 +39,8 @@ class MatchRepositoryImpl @Inject constructor(
 
         try {
             val filteredCandidateTeams = getTeamCollection(firestore)
-                .whereEqualTo("searchingDays", searchingDays)
-                .whereEqualTo("searchingTimes", searchingTimes)
+                .whereEqualTo("searchingDays", searchingDays.koreanName)
+                .whereEqualTo("searchingTimes", searchingTimes.koreanName)
                 .whereEqualTo("headCount", searchingHeadCount.toLong())
                 .get()
                 .await()

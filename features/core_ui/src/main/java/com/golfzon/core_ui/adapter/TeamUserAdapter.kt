@@ -5,8 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.golfzon.core_ui.ImageUploadUtil
 import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
 import com.golfzon.core_ui.databinding.ItemTeamInfoUserBinding
 import com.golfzon.domain.model.User
@@ -51,7 +50,10 @@ class TeamUserAdapter(private val isWhiteTheme: Boolean = false) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(user: Triple<User, Boolean, String>) {
             setBindingSetVariable(user)
-            binding.ivTeamInfoUser.loadImageFromFirebaseStorage(imageUId = user.first.profileImg?: "", imageType = "users")
+            binding.ivTeamInfoUser.loadImageFromFirebaseStorage(
+                imageUId = user.first.profileImg ?: "",
+                imageType = ImageUploadUtil.ImageType.USER
+            )
         }
 
         private fun setBindingSetVariable(user: Triple<User, Boolean, String>) {

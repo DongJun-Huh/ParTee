@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.golfzon.core_ui.ImageUploadUtil
 import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.domain.model.User
@@ -52,7 +53,10 @@ class SearchUserResultAdapter() : ListAdapter<User, SearchUserResultAdapter.Sear
         RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User) {
             setBindingSetVariable(user)
-            binding.ivSearchUserResult.loadImageFromFirebaseStorage(imageUId = user.profileImg?: "", imageType = "users")
+            binding.ivSearchUserResult.loadImageFromFirebaseStorage(
+                imageUId = user.profileImg?: "",
+                imageType = ImageUploadUtil.ImageType.USER
+            )
 
             binding.root.setOnDebounceClickListener {
                 listener?.onItemClick(it, user)

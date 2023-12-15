@@ -88,7 +88,7 @@ class TeamInfoFragment : Fragment() {
                     binding.ivTeamInfoImage.drawable // Glide가 로딩되는 동안 이전 이미지를 유지하도록 placeholder로 지정
                 binding.ivTeamInfoImage.loadImageFromFirebaseStorage(
                     imageUId = teamInfo.teamImageUrl ?: "",
-                    imageType = "teams",
+                    imageType = ImageUploadUtil.ImageType.TEAM,
                     placeholder = currentImage,
                 )
             }

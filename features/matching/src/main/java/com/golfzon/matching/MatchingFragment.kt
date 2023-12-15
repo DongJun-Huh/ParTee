@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.golfzon.core_ui.ImageUploadUtil
 import com.golfzon.core_ui.adapter.itemDecoration.HorizontalMarginItemDecoration
 import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
 import com.golfzon.core_ui.adapter.CandidateTeamMemberAdapter
@@ -104,7 +105,10 @@ class MatchingFragment : Fragment() {
                 if (this != null) {
                     binding.let {
                         it.curTeamDetail = this
-                        it.ivMatchingBackground.loadImageFromFirebaseStorage(imageUId = this.teamImageUrl, imageType = "teams")
+                        it.ivMatchingBackground.loadImageFromFirebaseStorage(
+                            imageUId = this.teamImageUrl,
+                            imageType = ImageUploadUtil.ImageType.TEAM
+                        )
                     }
                     matchingViewModel.getCandidateTeamMembersInfo(this.membersUId)
                 } else {

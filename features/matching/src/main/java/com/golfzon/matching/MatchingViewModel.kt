@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.golfzon.core_ui.Event
 import com.golfzon.core_ui.ListLiveData
+import com.golfzon.domain.model.Days
 import com.golfzon.domain.model.Team
+import com.golfzon.domain.model.Times
 import com.golfzon.domain.model.User
 import com.golfzon.domain.usecase.matching.GetCandidateTeamUseCase
 import com.golfzon.domain.usecase.matching.GetReactedTeamUseCase
@@ -61,14 +63,13 @@ class MatchingViewModel @Inject constructor(
     val candidateTeams: ListLiveData<Team> get() = _candidateTeams
     val curCandidateTeamIndex = MutableLiveData<Int>(0)
 
-    // TODO candidateTeams의 사이즈 == curCandidateTeamIndex -1 이 되면 MatchingFragment에서 더이상 후보가 존재하지 않음 노출 구현 및 리액션 기능 비활성화 처리
     private val _isCandidateEnd = MutableLiveData<Event<Boolean>>()
     val isCandidateEnd: LiveData<Event<Boolean>> get() = _isCandidateEnd
 
     val curSearchingHeadCount = MutableLiveData<Int>(1)
-    val curSearchingTimes = MutableLiveData<String>()
+    val curSearchingTimes = MutableLiveData<Times>(Times.NONE)
     val curSearchingTimesCheckedButtonId = MutableLiveData<Int>()
-    val curSearchingDays = MutableLiveData<String>()
+    val curSearchingDays = MutableLiveData<Days>(Days.NONE)
     val curSearchingDaysCheckedButtonId = MutableLiveData<Int>()
     private val _isConditionChecked = MediatorLiveData<Event<Boolean>>().apply {
         var isTimesChecked = false
@@ -81,11 +82,11 @@ class MatchingViewModel @Inject constructor(
         }
 
         addSource(curSearchingTimes) {
-            isTimesChecked = it != ""
+            isTimesChecked = it != Times.NONE
             checkInitialized()
         }
         addSource(curSearchingDays) {
-            isDaysChecked = it != ""
+            isDaysChecked = it != Days.NONE
             checkInitialized()
         }
     }
@@ -127,8 +128,8 @@ class MatchingViewModel @Inject constructor(
     private fun getCandidateTeams(reactedTeams: List<String>) = viewModelScope.launch {
         getCandidateTeamUseCase(
             curSearchingHeadCount.value ?: 1,
-            curSearchingDays.value ?: "",
-            curSearchingTimes.value ?: "",
+            curSearchingDays.value ?: Days.NONE,
+            curSearchingTimes.value ?: Times.NONE,
             reactedTeams
         )?.let {
             val priorityOrderedTeams = it.map { candidateTeam ->
@@ -201,20 +202,20 @@ class MatchingViewModel @Inject constructor(
     fun changeDays(group: RadioGroup, checkedId: Int) {
         curSearchingDaysCheckedButtonId.value = checkedId
         curSearchingDays.value = when (checkedId) {
-            R.id.rb_matching_filtering_days_weekdays -> "주중"
-            R.id.rb_matching_filtering_days_weekend -> "주말"
-            else -> ""
+            R.id.rb_matching_filtering_days_weekdays -> Days.WEEKDAY
+            R.id.rb_matching_filtering_days_weekend -> Days.WEEKEND
+            else -> Days.NONE
         }
     }
 
     fun changeTimes(group: RadioGroup, checkedId: Int) {
         curSearchingTimesCheckedButtonId.value = checkedId
         curSearchingTimes.value = when (checkedId) {
-            R.id.rb_matching_filtering_times_morning -> "오전"
-            R.id.rb_matching_filtering_times_afternoon -> "오후"
-            R.id.rb_matching_filtering_times_night -> "야간"
-            R.id.rb_matching_filtering_times_dawn -> "새벽"
-            else -> ""
+            R.id.rb_matching_filtering_times_morning -> Times.MORNING
+            R.id.rb_matching_filtering_times_afternoon -> Times.AFTERNOON
+            R.id.rb_matching_filtering_times_night -> Times.NIGHT
+            R.id.rb_matching_filtering_times_dawn -> Times.DAWN
+            else -> Times.NONE
         }
     }
 

@@ -65,12 +65,16 @@ object ImageUploadUtil {
         return "$cacheDir/$fileName"
     }
 
-    fun ImageView.loadImageFromFirebaseStorage(imageUId: String, imageType: String, placeholder: Drawable?= null) {
+    fun ImageView.loadImageFromFirebaseStorage(imageUId: String, imageType: ImageType, placeholder: Drawable?= null) {
         Glide.with(this.context)
-            .load("https://firebasestorage.googleapis.com/v0/b/partee-1ba05.appspot.com/o/${imageType}%2F${imageUId}?alt=media")
+            .load("https://firebasestorage.googleapis.com/v0/b/partee-1ba05.appspot.com/o/${imageType.imageUrlPrefix}%2F${imageUId}?alt=media")
             .placeholder(placeholder)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
             .into(this)
+    }
+    enum class ImageType(val imageUrlPrefix: String) {
+        USER("users"),
+        TEAM("teams"),
     }
 }

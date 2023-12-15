@@ -8,6 +8,7 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import com.golfzon.core_ui.ImageUploadUtil
 import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
 import com.golfzon.core_ui.adapter.itemDecoration.VerticalMarginItemDecoration
 import com.golfzon.core_ui.adapter.CandidateTeamMemberAdapter
@@ -71,11 +72,11 @@ class GroupDetailFragment : Fragment() {
 
                         it.ivGroupDetailTeamFirst.loadImageFromFirebaseStorage(
                             imageUId = this.originalTeamsInfo[0].teamImageUrl,
-                            imageType = "teams"
+                            imageType = ImageUploadUtil.ImageType.TEAM
                         )
                         it.ivGroupDetailTeamSecond.loadImageFromFirebaseStorage(
                             imageUId = this.originalTeamsInfo[1].teamImageUrl,
-                            imageType = "teams"
+                            imageType = ImageUploadUtil.ImageType.TEAM
                         )
                     }
 

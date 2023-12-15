@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.golfzon.core_ui.ImageUploadUtil
 import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
 import com.golfzon.core_ui.databinding.ItemCandidateTeamMemberBinding
 import com.golfzon.core_ui.dp
@@ -70,7 +71,10 @@ class CandidateTeamMemberAdapter(
         fun bind(user: User) {
             with(binding.ivCandidateTeamMember) {
                 layoutParams.width = itemHeight
-                this.loadImageFromFirebaseStorage(imageUId = user.profileImg?: "", imageType = "users")
+                this.loadImageFromFirebaseStorage(
+                    imageUId = user.profileImg?: "",
+                    imageType = ImageUploadUtil.ImageType.USER
+                )
                 if (isCircleImage) {
                     shapeAppearanceModel =
                         ShapeAppearanceModel.builder()
