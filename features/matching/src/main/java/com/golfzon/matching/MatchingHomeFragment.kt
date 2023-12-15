@@ -1,7 +1,6 @@
 package com.golfzon.matching
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -36,7 +35,6 @@ class MatchingHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTeamUserAdapter()
-        initializeUserInfo()
         initializeTeamInfo()
         navigateToTeamInfo()
         setBottomNavigationView()
@@ -49,6 +47,7 @@ class MatchingHomeFragment : Fragment() {
     private fun setDataBindingVariables() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
+            vm = matchingViewModel
         }
     }
 
@@ -83,30 +82,16 @@ class MatchingHomeFragment : Fragment() {
         matchingViewModel.getTeamInfo()
     }
 
-    private fun initializeUserInfo() {
-        matchingViewModel.currentUserBasicInfo.observe(viewLifecycleOwner) { userDetail ->
-            binding.userDetail = userDetail
-
-        }
-    }
-
     private fun initializeTeamInfo() {
         matchingViewModel.teamInfoDetail.observe(viewLifecycleOwner) { teamInfo ->
             matchingViewModel.clearUserInfo()
             if (teamInfo != null) {
                 matchingViewModel.getTeamMembersInfo(teamInfo.membersUId, teamInfo.leaderUId)
-                binding.teamDetail = teamInfo
-            } else {
-                with(binding) {
-                    rvMatchingHomeTeamUsers.visibility = View.INVISIBLE
-                    tvMatchingHomeTeamNotExist.visibility = View.VISIBLE
-                }
             }
             setStartMatchingClickListener(isEnable = teamInfo != null)
         }
 
         matchingViewModel.teamUsers.observe(viewLifecycleOwner) { users ->
-            Log.e("teamUsers", users.toString())
             teamUserAdapter?.submitList(users)
         }
     }

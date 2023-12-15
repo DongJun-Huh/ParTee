@@ -493,7 +493,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="17dp"
                 android:fontFamily="@font/pretendard_medium"
-                android:text="@{vm.curSearchingHeadCount + ` ` +@string/head_count_unit_korean + vm.curSearchingDays + ` ` + vm.curSearchingTimes + ` / `}"
+                android:text="@{vm.curSearchingHeadCount + @string/head_count_unit_korean +  ` / ` + vm.curSearchingDays.koreanName + ` ` + vm.curSearchingTimes.koreanName + ` / `}"
                 android:textColor="@color/black"
                 android:textFontWeight="500"
                 android:textSize="14sp"

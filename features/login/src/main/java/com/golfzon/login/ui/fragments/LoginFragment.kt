@@ -19,7 +19,7 @@ import com.golfzon.login.ui.LoginViewModel
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
-    private var binding by autoCleared<FragmentLoginBinding> { onDestroyBindingView() }
+    private var binding by autoCleared<FragmentLoginBinding>()
     private val loginViewModel by activityViewModels<LoginViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,9 +76,5 @@ class LoginFragment : Fragment() {
                 // 새로 회원가입한 유저 or 유저 정보는 있지만, 정보설정은 안된 유저인지 체크 후, 체크가 안되면 정보설정 화면으로 이동
             }
         }
-    }
-
-    private fun onDestroyBindingView() {
-
     }
 }

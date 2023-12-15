@@ -85,7 +85,6 @@ class UserImageSetFragment : Fragment() {
                 Glide.with(requireContext())
                     .load(curBitmap.copy(Bitmap.Config.ARGB_8888, true))
                     // Cannot create a mutable Bitmap with config: HARDWARE 오류로 COPY해 mutable가능하도록 한 뒤 사용
-
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(binding.ivUserImageSet)

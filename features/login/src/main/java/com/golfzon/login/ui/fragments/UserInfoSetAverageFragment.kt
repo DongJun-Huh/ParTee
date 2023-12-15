@@ -50,14 +50,14 @@ class UserInfoSetAverageFragment : Fragment() {
         with(binding) {
             etUserInfoSetAverageInputDigitHundred.addTextChangedListener(
                 GenericTextWatcher(
-                    binding.etUserInfoSetAverageInputDigitHundred,
-                    binding.etUserInfoSetAverageInputDigitTen
+                    etUserInfoSetAverageInputDigitHundred,
+                    etUserInfoSetAverageInputDigitTen
                 )
             )
             etUserInfoSetAverageInputDigitTen.addTextChangedListener(
                 GenericTextWatcher(
-                    binding.etUserInfoSetAverageInputDigitTen,
-                    binding.etUserInfoSetAverageInputDigitOne
+                    etUserInfoSetAverageInputDigitTen,
+                    etUserInfoSetAverageInputDigitOne
                 )
             )
             etUserInfoSetAverageInputDigitOne.addTextChangedListener(

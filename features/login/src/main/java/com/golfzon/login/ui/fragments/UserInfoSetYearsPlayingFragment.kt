@@ -50,29 +50,29 @@ class UserInfoSetYearsPlayingFragment : Fragment() {
         with(binding) {
             etUserInfoSetYearsPlayingInputDigitTen.addTextChangedListener(
                 GenericTextWatcher(
-                    binding.etUserInfoSetYearsPlayingInputDigitTen,
-                    binding.etUserInfoSetYearsPlayingInputDigitOne
+                    etUserInfoSetYearsPlayingInputDigitTen,
+                    etUserInfoSetYearsPlayingInputDigitOne
                 )
             )
             etUserInfoSetYearsPlayingInputDigitOne.addTextChangedListener(
                 GenericTextWatcher(
-                    binding.etUserInfoSetYearsPlayingInputDigitOne,
+                    etUserInfoSetYearsPlayingInputDigitOne,
                     null
                 )
             )
 
             etUserInfoSetYearsPlayingInputDigitTen.setOnKeyListener(
                 GenericKeyEvent(
-                    binding.etUserInfoSetYearsPlayingInputDigitTen,
+                    etUserInfoSetYearsPlayingInputDigitTen,
                     null,
-                    binding.etUserInfoSetYearsPlayingInputDigitTen.id
+                    etUserInfoSetYearsPlayingInputDigitTen.id
                 )
             )
             etUserInfoSetYearsPlayingInputDigitOne.setOnKeyListener(
                 GenericKeyEvent(
-                    binding.etUserInfoSetYearsPlayingInputDigitOne,
-                    binding.etUserInfoSetYearsPlayingInputDigitTen,
-                    binding.etUserInfoSetYearsPlayingInputDigitTen.id
+                    etUserInfoSetYearsPlayingInputDigitOne,
+                    etUserInfoSetYearsPlayingInputDigitTen,
+                    etUserInfoSetYearsPlayingInputDigitTen.id
                 )
             )
         }

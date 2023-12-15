@@ -76,41 +76,14 @@ class RecruitDetailFragment : Fragment() {
         recruitViewModel.curRecruitDetail.observe(viewLifecycleOwner) { curRecruitDetailValue ->
             with(curRecruitDetailValue.getContentIfNotHandled()) {
                 if (this != null) {
-                    this?.let { recruitDetail ->
-//                        binding.recruitDetail = recruitDetail
+                    this?.let        { recruitDetail ->
                         with(binding) {
-                            layoutRecruitDetailBadgeCouple.isVisible = recruitDetail.isCouple
-                            layoutRecruitDetailBadgeSoonEnd.isVisible = LocalDateTime.now().until(recruitDetail.recruitDateTime, ChronoUnit.DAYS) < 5
-                            layoutRecruitDetailBadgeConsecutive.isVisible = recruitDetail.isConsecutiveStay
-                            layoutRecruitDetailBadgeMoney.isVisible = recruitDetail.fee == 0
-                            tvRecruitDetailDate.text = recruitDetail.recruitDateTime.getDayOfWeek().getDisplayName(
-                                TextStyle.FULL, Locale.KOREAN)
-                            tvRecruitDetailDay.text = recruitDetail.recruitDateTime.dayOfMonth.toString()
-                            tvRecruitDetailTime.text = recruitDetail.recruitDateTime.format(DateTimeFormatter.ofPattern("a hh:mm"))
-                            tvRecruitDetailPlace.text = recruitDetail.recruitPlace
-                            tvRecruitDetailEndDate.text =
-                                recruitDetail.recruitEndDateTime.format(DateTimeFormatter.ofPattern("MM월 dd일"))
+                            this.recruitDetail = recruitDetail
                             tvRecruitDetailEndDateDDay.text =
-                                if (Period.between(LocalDate.now(), recruitDetail.recruitEndDateTime.toLocalDate()).days < 0) "모집마감"
+                                if (Period.between(LocalDate.now(), recruitDetail.recruitEndDateTime.toLocalDate()).days < 0 ||
+                                    recruitDetail.searchingHeadCount - recruitDetail.headCount <= 0
+                                    ) getString(R.string.participate_end)
                                 else "D-"+Period.between(LocalDate.now(), recruitDetail.recruitEndDateTime.toLocalDate()).days
-                            tvRecruitDetailFee.text = "${NumberFormat.getCurrencyInstance(Locale.KOREA).format(recruitDetail.fee)}원"
-                            tvRecruitDetailConsecutiveStay.text = if (recruitDetail.isConsecutiveStay) "O" else "X"
-                            tvRecruitDetailLeftHeadCount.text =
-                                if (recruitDetail.searchingHeadCount - recruitDetail.headCount <= 0)
-                                    "모집이 마감되었어요!"
-                                else "모집 인원이 ${recruitDetail.searchingHeadCount - recruitDetail.headCount}명 남았어요!"
-                            tvRecruitDetailIntroduceMessage.text = recruitDetail.recruitIntroduceMessage
-                            tvRecruitDetailPlace.text = recruitDetail.recruitPlace
-                            tvRecruitDetailParticipateLeftTime
-                                .visibility = if (LocalDateTime.now().until(recruitDetail.recruitEndDateTime, ChronoUnit.HOURS) < 1 &&
-                                recruitDetail.recruitEndDateTime.isAfter(LocalDateTime.now())
-                            ) View.VISIBLE else View.GONE
-                            tvRecruitDetailParticipateLeftTime
-                                .text = "모집 마감까지 ${LocalDateTime.now().until(recruitDetail.recruitEndDateTime, ChronoUnit.MINUTES)}:${LocalDateTime.now().until(recruitDetail.recruitEndDateTime, ChronoUnit.SECONDS)} 남았어요"
-                            tvRecruitDetailPlaceTitle.text = recruitDetail.recruitPlace
-
-                            if (recruitDetail.searchingHeadCount - recruitDetail.headCount <= 0)
-                                btnRecruitDetailParticipate.isEnabled = false
                         }
                         getRecruitMembers(recruitDetail.membersUId)
                     }

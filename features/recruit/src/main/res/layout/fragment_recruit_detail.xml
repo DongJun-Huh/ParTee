@@ -22,7 +22,11 @@
 
         <import type="java.time.LocalDateTime" />
 
+        <import type="java.time.LocalDate" />
+
         <import type="java.time.temporal.ChronoUnit" />
+
+        <import type="java.time.Period" />
 
         <import type="java.text.NumberFormat" />
 
@@ -90,7 +94,8 @@
                         android:background="@drawable/background_radius_100_stroke_1"
                         android:orientation="horizontal"
                         android:paddingHorizontal="8dp"
-                        android:paddingVertical="4dp">
+                        android:paddingVertical="4dp"
+                        android:visibility="@{recruitDetail.isCouple == true ? View.VISIBLE : View.GONE}">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -105,7 +110,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="2dp"
                             android:fontFamily="@font/pretendard_medium"
-                            android:text="부부/커플"
+                            android:text="@string/couple"
                             android:textColor="@color/primary_8B95B3"
                             android:textFontWeight="500" />
                     </LinearLayout>
@@ -118,7 +123,8 @@
                         android:background="@drawable/background_radius_100_stroke_1"
                         android:orientation="horizontal"
                         android:paddingHorizontal="8dp"
-                        android:paddingVertical="4dp">
+                        android:paddingVertical="4dp"
+                        android:visibility="@{recruitDetail.recruitDateTime != null &amp;&amp; (LocalDateTime.now().until(recruitDetail.recruitDateTime, ChronoUnit.DAYS) &lt; 5) ? View.VISIBLE : View.GONE}">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -133,7 +139,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="2dp"
                             android:fontFamily="@font/pretendard_medium"
-                            android:text="마감 임박"
+                            android:text="@string/soon_end"
                             android:textColor="@color/primary_8B95B3"
                             android:textFontWeight="500" />
                     </LinearLayout>
@@ -146,7 +152,8 @@
                         android:background="@drawable/background_radius_100_stroke_1"
                         android:orientation="horizontal"
                         android:paddingHorizontal="8dp"
-                        android:paddingVertical="4dp">
+                        android:paddingVertical="4dp"
+                        android:visibility="@{recruitDetail.isConsecutiveStay ? View.VISIBLE : View.GONE}">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -161,7 +168,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="2dp"
                             android:fontFamily="@font/pretendard_medium"
-                            android:text="연박"
+                            android:text="@string/consecutive_stay"
                             android:textColor="@color/primary_8B95B3"
                             android:textFontWeight="500" />
                     </LinearLayout>
@@ -173,7 +180,8 @@
                         android:background="@drawable/background_radius_100_stroke_1"
                         android:orientation="horizontal"
                         android:paddingHorizontal="8dp"
-                        android:paddingVertical="4dp">
+                        android:paddingVertical="4dp"
+                        android:visibility="@{recruitDetail.fee == 0 ? View.VISIBLE : View.GONE}">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -188,7 +196,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="2dp"
                             android:fontFamily="@font/pretendard_medium"
-                            android:text="추가비용 없음"
+                            android:text="@string/free_fee"
                             android:textColor="@color/primary_8B95B3"
                             android:textFontWeight="500" />
                     </LinearLayout>
@@ -226,6 +234,7 @@
                             android:fontFeatureSettings="600"
                             android:letterSpacing="0"
                             android:lineHeight="18sp"
+                            android:text="@{recruitDetail.recruitDateTime != null? recruitDetail.recruitDateTime.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.KOREAN) : ``}"
                             android:textColor="@color/primary_8B95B3"
                             android:textSize="12sp"
                             tools:text="수요일" />
@@ -239,6 +248,7 @@
                             android:fontFeatureSettings="500"
                             android:letterSpacing="0"
                             android:lineHeight="34dp"
+                            android:text="@{recruitDetail.recruitDateTime != null ? String.valueOf(recruitDetail.recruitDateTime.dayOfMonth) : ``}"
                             android:textColor="@color/primary_8B95B3"
                             android:textSize="34sp"
                             tools:text="12" />
@@ -276,6 +286,7 @@
                                 android:layout_marginStart="4dp"
                                 android:fontFamily="@font/pretendard_medium"
                                 android:lineHeight="24sp"
+                                android:text="@{recruitDetail.recruitDateTime != null ? recruitDetail.recruitDateTime.format(DateTimeFormatter.ofPattern(`a hh:mm`)): ``}"
                                 android:textColor="@color/primary_8B95B3"
                                 android:textSize="16sp"
                                 tools:text="오전 11:50" />
@@ -302,6 +313,7 @@
                                 android:layout_marginStart="4dp"
                                 android:fontFamily="@font/pretendard_medium"
                                 android:lineHeight="24sp"
+                                android:text="@{recruitDetail.recruitPlace}"
                                 android:textColor="@color/primary_8B95B3"
                                 android:textFontWeight="500"
                                 android:textSize="16sp"
@@ -355,6 +367,7 @@
                             android:layout_marginStart="20dp"
                             android:fontFamily="@font/pretendard_semi_bold"
                             android:lineHeight="21sp"
+                            android:text="@{recruitDetail.recruitDateTime != null ? `~ ` + recruitDetail.recruitDateTime.format(DateTimeFormatter.ofPattern(`MM월 dd일`)) : ``}"
                             android:textColor="@color/primary_8B95B3"
                             android:textFontWeight="500"
                             android:textSize="14sp"
@@ -412,6 +425,7 @@
                             android:layout_marginStart="20dp"
                             android:fontFamily="@font/pretendard_semi_bold"
                             android:lineHeight="21sp"
+                            android:text="@{NumberFormat.getCurrencyInstance(Locale.KOREA).format(recruitDetail.fee) + @string/money_unit_korean}"
                             android:textColor="@color/primary_8B95B3"
                             android:textFontWeight="500"
                             android:textSize="14sp"
@@ -450,6 +464,7 @@
                             android:layout_marginStart="20dp"
                             android:fontFamily="@font/pretendard_semi_bold"
                             android:lineHeight="21sp"
+                            android:text="@{recruitDetail.isConsecutiveStay ? `O` : `X`}"
                             android:textColor="@color/primary_8B95B3"
                             android:textFontWeight="500"
                             android:textSize="14sp"
@@ -476,6 +491,7 @@
                             android:layout_marginStart="2dp"
                             android:fontFamily="@font/pretendard_medium"
                             android:lineHeight="21sp"
+                            android:text="@{recruitDetail.searchingHeadCount - recruitDetail.headCount &lt;= 0 ? @string/recruit_left_head_count_no : @string/recruit_left_head_count(recruitDetail.searchingHeadCount - recruitDetail.headCount)}"
                             android:textColor="@color/primary_8B95B3"
                             android:textFontWeight="500"
                             android:textSize="14sp"
@@ -520,6 +536,7 @@
                     android:lineHeight="21sp"
                     android:textColor="@color/primary_8B95B3"
                     android:textSize="14sp"
+                    android:text="@{recruitDetail.recruitIntroduceMessage}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -549,6 +566,7 @@
                         android:layout_marginTop="8dp"
                         android:fontFamily="@font/pretendard_medium"
                         android:lineHeight="18sp"
+                        android:text="@{recruitDetail.recruitPlace}"
                         android:textColor="@color/primary_8B95B3"
                         android:textSize="12sp"
                         tools:text="골프존 한강이북점" />
@@ -579,6 +597,8 @@
                 android:paddingVertical="8dp"
                 android:textColor="@color/primary_8B95B3"
                 android:textSize="14sp"
+                android:text="@{recruitDetail.recruitEndDateTime != null? @string/recruit_left_time(LocalDateTime.now().until(recruitDetail.recruitEndDateTime, ChronoUnit.MINUTES), LocalDateTime.now().until(recruitDetail.recruitEndDateTime, ChronoUnit.SECONDS)): ``}"
+                android:visibility="@{recruitDetail.recruitEndDateTime != null &amp;&amp; LocalDateTime.now().until(recruitDetail.recruitEndDateTime, ChronoUnit.HOURS) &lt; 1 &amp;&amp; recruitDetail.recruitEndDateTime.isAfter(LocalDateTime.now()) ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -597,6 +617,7 @@
                 android:lineHeight="20sp"
                 android:padding="10dp"
                 android:stateListAnimator="@null"
+                android:enabled="@{recruitDetail.searchingHeadCount - recruitDetail.headCount &lt;= 0 ? false : true}"
                 android:text="@string/participate"
                 android:textColor="@drawable/selector_textview_enabled"
                 android:textSize="16sp"
