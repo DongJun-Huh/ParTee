@@ -1,6 +1,8 @@
 package com.golfzon.core_ui.extension
 
 import android.view.View
+import androidx.core.view.updateLayoutParams
+import androidx.recyclerview.widget.RecyclerView
 
 fun View.setOnDebounceClickListener(interval: Long = 1000L, action: (View) -> Unit) {
     val debounceClickListener = object : View.OnClickListener {
@@ -16,4 +18,10 @@ fun View.setOnDebounceClickListener(interval: Long = 1000L, action: (View) -> Un
         }
     }
     setOnClickListener(debounceClickListener)
+}
+
+fun View.addRecyclerViewLastItemMarginBottom(bottomMargin: Int) {
+    this.updateLayoutParams<RecyclerView.LayoutParams> {
+        this.bottomMargin = bottomMargin
+    }
 }

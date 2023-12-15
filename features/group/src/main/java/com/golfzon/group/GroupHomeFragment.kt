@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.golfzon.core_ui.adapter.itemDecoration.VerticalMarginItemDecoration
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
+import com.golfzon.core_ui.extension.addRecyclerViewLastItemMarginBottom
 import com.golfzon.domain.model.Group
 import com.golfzon.group.databinding.FragmentGroupHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -119,12 +120,6 @@ class GroupHomeFragment : Fragment() {
                     )
                 }
             }
-        }
-    }
-
-    private fun View.addRecyclerViewLastItemMarginBottom(bottomMargin: Int) {
-        this.updateLayoutParams<RecyclerView.LayoutParams> {
-            this.bottomMargin = bottomMargin
         }
     }
 }
