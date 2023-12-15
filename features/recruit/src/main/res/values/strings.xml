@@ -1,3 +1,6 @@
 <resources>
-
+    <string name="recruit_left_time">모집 마감까지 %2d분 %2d초 남았어요</string>
+    <string name="is_consecutive_stay">연박 여부</string>
+    <string name="participate_fee">참가 비용</string>
+    <string name="participate_end">모집 마감</string>
 </resources>

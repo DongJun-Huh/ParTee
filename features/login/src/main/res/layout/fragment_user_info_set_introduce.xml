@@ -38,7 +38,7 @@
                 android:letterSpacing="0.01"
                 android:lineHeight="27sp"
                 android:text="@string/register_user_info_set_introduce_title"
-                android:textColor="#313131"
+                android:textColor="@color/gray_313131"
                 android:textFontWeight="600"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="144dp"
             android:background="@drawable/background_radius_8"
-            android:backgroundTint="#F6F6F7"
+            android:backgroundTint="@color/white_F6F6F7"
             android:fontFamily="@font/pretendard_regular"
             android:gravity="start"
             android:hint="@string/register_user_info_set_introduce_description"
@@ -61,7 +61,7 @@
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
             android:text="@{vm.introduceMessage}"
-            android:textColor="#767B83"
+            android:textColor="@color/gray_767B83"
             android:textFontWeight="500"
             android:textSize="14sp" />
 
@@ -95,7 +95,7 @@
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="8dp"
                 android:text="@string/save"
-                android:textColor="#767B83"
+                android:textColor="@color/gray_767B83"
                 android:textFontWeight="500"
                 android:textSize="14sp" />
         </LinearLayout>

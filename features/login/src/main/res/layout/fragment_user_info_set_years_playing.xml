@@ -44,7 +44,7 @@
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/pretendard_semi_bold"
                     android:text="@string/years_playing"
-                    android:textColor="@color/primary_btn_AFB7CF"
+                    android:textColor="@color/blue_AFB7CF"
                     android:textFontWeight="500"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -81,7 +81,7 @@
                 android:layout_height="56dp"
                 android:layout_marginStart="12dp"
                 android:background="@drawable/btn_background_radius_12"
-                android:backgroundTint="#F5F6F9"
+                android:backgroundTint="@color/white_F5F6F9"
                 android:fontFamily="@font/pretendard_regular"
                 android:gravity="center"
                 android:hint="1"
@@ -89,7 +89,7 @@
                 android:lineHeight="20sp"
                 android:maxLength="1"
                 android:text="@={vm.yearsPlayingTen}"
-                android:textColorHint="#CCD1E0"
+                android:textColorHint="@color/blue_CCD1E0"
                 android:textFontWeight="500"
                 android:textSize="16sp" />
 
@@ -99,7 +99,7 @@
                 android:layout_height="56dp"
                 android:layout_marginStart="12dp"
                 android:background="@drawable/btn_background_radius_12"
-                android:backgroundTint="#F5F6F9"
+                android:backgroundTint="@color/white_F5F6F9"
                 android:fontFamily="@font/pretendard_regular"
                 android:gravity="center"
                 android:hint="3"
@@ -107,7 +107,7 @@
                 android:lineHeight="20sp"
                 android:maxLength="1"
                 android:text="@={vm.yearsPlayingOne}"
-                android:textColorHint="#CCD1E0"
+                android:textColorHint="@color/blue_CCD1E0"
                 android:textFontWeight="500"
                 android:textSize="16sp" />
 
@@ -116,31 +116,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:fontFamily="@font/pretendard_regular"
-                android:text="년"
-                android:textColor="#CCD1E0"
+                android:text="@string/year_unit_korean"
+                android:textColor="@color/blue_CCD1E0"
                 android:textFontWeight="500"
                 android:textSize="16sp" />
         </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_user_info_set_years_playing_next"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/btn_background_radius_12"
-            android:fontFamily="@font/pretendard_semi_bold"
-            android:gravity="center"
-            android:lineHeight="20sp"
-            android:padding="10dp"
-            android:stateListAnimator="@null"
-            android:text="@string/next"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_user_info_set_years_playing_input"
-            app:layout_constraintVertical_bias="1.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

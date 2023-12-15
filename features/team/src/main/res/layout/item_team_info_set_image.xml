@@ -19,7 +19,7 @@ w
         android:id="@+id/tv_team_info_set_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#4D000000"
+        android:background="@color/black_opacity_30"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="9:16"

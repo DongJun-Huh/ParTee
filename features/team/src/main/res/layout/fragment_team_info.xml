@@ -21,8 +21,8 @@
             android:id="@+id/iv_team_info_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/background_img_golf"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/background_img_golf" />
 
         <LinearLayout
             android:id="@+id/layout_team_info_locations"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:background="@drawable/background_radius_8"
-            android:backgroundTint="#33FFFFFF"
+            android:backgroundTint="@color/white_opacity_20"
             android:paddingHorizontal="12dp"
             android:paddingVertical="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -85,7 +85,7 @@
                 android:textColor="@color/white"
                 android:textFontWeight="500"
                 android:textSize="10sp"
-                app:backgroundTint="#99AFB7CF"
+                app:backgroundTint="@color/blue_AFB7CF_opacity_60"
                 app:backgroundTintMode="src_atop"
                 app:icon="@drawable/ic_user_add"
                 app:iconGravity="textTop"
@@ -113,7 +113,7 @@
                 android:textColor="@color/white"
                 android:textFontWeight="500"
                 android:textSize="10sp"
-                app:backgroundTint="#99AFB7CF"
+                app:backgroundTint="@color/blue_AFB7CF_opacity_60"
                 app:backgroundTintMode="src_atop"
                 app:icon="@drawable/ic_location"
                 app:iconGravity="textTop"
@@ -142,7 +142,7 @@
                 android:textColor="@color/white"
                 android:textFontWeight="500"
                 android:textSize="10sp"
-                app:backgroundTint="#99AFB7CF"
+                app:backgroundTint="@color/blue_AFB7CF_opacity_60"
                 app:backgroundTintMode="src_atop"
                 app:icon="@drawable/ic_gallery"
                 app:iconGravity="textTop"
@@ -170,7 +170,7 @@
                 android:textColor="@color/white"
                 android:textFontWeight="500"
                 android:textSize="10sp"
-                app:backgroundTint="#99AFB7CF"
+                app:backgroundTint="@color/blue_AFB7CF_opacity_60"
                 app:backgroundTintMode="src_atop"
                 app:icon="@drawable/ic_gallery"
                 app:iconGravity="textTop"
@@ -222,7 +222,7 @@
                     android:fontFamily="@font/montserrat_medium"
                     android:letterSpacing="0"
                     android:lineSpacingExtra="3sp"
-                    android:text="@{String.valueOf(vm.newTeam.headCount)+`/3`}"
+                    android:text="@{@string/info_team_head_count(vm.newTeam.headCount)}"
                     android:textColor="@color/white"
                     android:textFontWeight="500"
                     android:textSize="12sp"
@@ -272,7 +272,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
-            android:src="#9F3D3D3D"
+            android:src="@color/gray_252020_opacity_40"
             android:visibility="invisible"
             tools:visibility="visible" />
 

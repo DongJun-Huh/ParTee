@@ -118,8 +118,7 @@
                         android:background="@drawable/background_radius_100_stroke_1"
                         android:orientation="horizontal"
                         android:paddingHorizontal="8dp"
-                        android:paddingVertical="4dp"
-                        >
+                        android:paddingVertical="4dp">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -147,8 +146,7 @@
                         android:background="@drawable/background_radius_100_stroke_1"
                         android:orientation="horizontal"
                         android:paddingHorizontal="8dp"
-                        android:paddingVertical="4dp"
-                        >
+                        android:paddingVertical="4dp">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -175,8 +173,7 @@
                         android:background="@drawable/background_radius_100_stroke_1"
                         android:orientation="horizontal"
                         android:paddingHorizontal="8dp"
-                        android:paddingVertical="4dp"
-                        >
+                        android:paddingVertical="4dp">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -215,7 +212,7 @@
                         android:layout_width="82dp"
                         android:layout_height="80dp"
                         android:background="@drawable/btn_background_radius_12"
-                        android:backgroundTint="#80EBEDF3"
+                        android:backgroundTint="@color/white_EBEDF3_opacity_50"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:paddingVertical="3dp">
@@ -253,7 +250,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_background_radius_12"
-                        android:backgroundTint="#80EBEDF3"
+                        android:backgroundTint="@color/white_EBEDF3_opacity_50"
                         android:gravity="center_vertical"
                         android:orientation="vertical"
                         android:paddingHorizontal="18dp"
@@ -345,7 +342,7 @@
                             android:layout_marginStart="2dp"
                             android:fontFamily="@font/pretendard_medium"
                             android:lineHeight="21sp"
-                            android:text="모집 마감"
+                            android:text="@string/participate_end"
                             android:textColor="@color/primary_8B95B3"
                             android:textFontWeight="500"
                             android:textSize="14sp" />
@@ -370,7 +367,7 @@
                             android:layout_gravity="center"
                             android:layout_marginStart="4dp"
                             android:background="@drawable/background_radius_100"
-                            android:backgroundTint="#AFB7CF"
+                            android:backgroundTint="@color/blue_AFB7CF"
                             android:fontFamily="@font/pretendard_semi_bold"
                             android:gravity="center"
                             android:letterSpacing="0"
@@ -402,7 +399,7 @@
                             android:layout_marginStart="2dp"
                             android:fontFamily="@font/pretendard_medium"
                             android:lineHeight="21sp"
-                            android:text="참가 비용"
+                            android:text="@string/participate_fee"
                             android:textColor="@color/primary_8B95B3"
                             android:textFontWeight="500"
                             android:textSize="14sp" />
@@ -440,7 +437,7 @@
                             android:layout_marginStart="2dp"
                             android:fontFamily="@font/pretendard_medium"
                             android:lineHeight="21sp"
-                            android:text="연박 여부"
+                            android:text="@string/is_consecutive_stay"
                             android:textColor="@color/primary_8B95B3"
                             android:textFontWeight="500"
                             android:textSize="14sp" />
@@ -508,7 +505,7 @@
                     android:layout_height="1dp"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="16dp"
-                    android:background="#F5F6F9"
+                    android:background="@color/white_F5F6F9"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rv_recruit_detail_participants" />
@@ -600,7 +597,7 @@
                 android:lineHeight="20sp"
                 android:padding="10dp"
                 android:stateListAnimator="@null"
-                android:text="참여하기"
+                android:text="@string/participate"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"

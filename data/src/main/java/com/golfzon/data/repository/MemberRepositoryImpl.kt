@@ -110,7 +110,7 @@ class MemberRepositoryImpl @Inject constructor(
 
             try {
                 val setUserTask: Task<Void> = getUserDocument(firestore, curUserUId)
-                    .set(user.copy(email = curUserEmail).toMap())
+                    .set(user.copy(email = curUserEmail, profileImg = "${curUserUId}.${userImageExtension}").toMap())
                 val uploadTask = userImagesRef.putFile(Uri.fromFile(userImg))
 
                 Tasks.whenAll(uploadTask, setUserTask).await()

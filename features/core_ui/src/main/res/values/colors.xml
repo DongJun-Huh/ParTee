@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary_8B95B3">#FF8B95B3</color>
+    <color name="white_F6F6F7">#FFF6F6F7</color>
+    <color name="white_F5F6F9">#FFF5F6F9</color>
+    <color name="white_EBEDF3">#FFEBEDF3</color>
+    <color name="white_EBEDF3_opacity_50">#80EBEDF3</color>
+    <color name="white_EBEDF3_opacity_80">#CCEBEDF3</color>
+    <color name="white_DEE2F0">#FFDEE2F0</color>
+    <color name="gray_D9D9D9">#FFD9D9D9</color>
+    <color name="blue_D8DCE7">#FFD8DCE7</color>
+    <color name="blue_CCD1E0">#FFCCD1E0</color>
+    <color name="blue_AFB7CF">#FFAFB7CF</color>
+    <color name="blue_AFB7CF_opacity_50">#80AFB7CF</color>
+    <color name="blue_AFB7CF_opacity_60">#99AFB7CF</color>
     <color name="primary_btn_AFB7CF">#FFAFB7CF</color>
+    <color name="primary_8B95B3">#FF8B95B3</color>
+    <color name="gray_767B83">#FF767B83</color>
+    <color name="gray_313131">#FF313131</color>
+    <color name="gray_252020_opacity_40">#66252020</color>
+    <color name="black_1C1D22">#FF1C1D22</color>
 
     <color name="golfzon_indigo_002B4F">#FF002B4F</color>
     <color name="golfzon_blue_0C1A6F">#FF0C1A6F</color>
@@ -20,6 +36,10 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="black_opacity_30">#4D000000</color>
+    <color name="black_opacity_60">#99000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="white_opacity_20">#33FFFFFF</color>
+    <color name="white_opacity_40">#66FFFFFF</color>
     <color name="white_opacity50">#80FFFFFF</color>
 </resources>

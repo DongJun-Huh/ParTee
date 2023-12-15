@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.golfzon.core_ui.ImageUploadUtil
+import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
 import com.golfzon.core_ui.ImageUploadUtil.toBitmap
 import com.golfzon.core_ui.KeyBoardUtil.showKeyboard
 import com.golfzon.core_ui.adapter.itemDecoration.VerticalMarginItemDecoration
@@ -85,13 +86,11 @@ class TeamInfoFragment : Fragment() {
             if (teamViewModel.newTeamImageBitmap.value == null) {
                 val currentImage =
                     binding.ivTeamInfoImage.drawable // Glide가 로딩되는 동안 이전 이미지를 유지하도록 placeholder로 지정
-                Glide.with(requireContext())
-                    .load("https://firebasestorage.googleapis.com/v0/b/partee-1ba05.appspot.com/o/teams%2F${teamInfo.teamImageUrl}?alt=media")
-                    .placeholder(currentImage)
-                    .error(currentImage)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(binding.ivTeamInfoImage)
+                binding.ivTeamInfoImage.loadImageFromFirebaseStorage(
+                    imageUId = teamInfo.teamImageUrl ?: "",
+                    imageType = "teams",
+                    placeholder = currentImage,
+                )
             }
         }
 

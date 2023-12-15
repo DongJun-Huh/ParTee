@@ -35,7 +35,7 @@
                 android:gravity="center"
                 android:letterSpacing="0"
                 android:lineSpacingExtra="6sp"
-                android:text="모임 찾기"
+                android:text="@string/recruit"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -63,7 +63,7 @@
                     android:fontFamily="@font/pretendard_medium"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="4dp"
-                    android:text="날짜"
+                    android:text="@string/date"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="500" />
 
@@ -75,7 +75,7 @@
                     android:fontFamily="@font/pretendard_medium"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="4dp"
-                    android:text="시간"
+                    android:text="@string/time"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="500" />
 
@@ -87,7 +87,7 @@
                     android:fontFamily="@font/pretendard_medium"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="4dp"
-                    android:text="지역"
+                    android:text="@string/location"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="500" />
 
@@ -99,7 +99,7 @@
                     android:fontFamily="@font/pretendard_medium"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="4dp"
-                    android:text="지점"
+                    android:text="@string/place"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="500" />
 
@@ -113,7 +113,7 @@
                     android:fontFamily="@font/pretendard_medium"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="4dp"
-                    android:text="연박"
+                    android:text="@string/consecutive_stay"
                     android:textFontWeight="500" />
 
                 <CheckBox
@@ -126,7 +126,7 @@
                     android:fontFamily="@font/pretendard_medium"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="4dp"
-                    android:text="부부/커플"
+                    android:text="@string/couple"
                     android:textFontWeight="500" />
 
                 <CheckBox
@@ -139,7 +139,7 @@
                     android:fontFamily="@font/pretendard_medium"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="4dp"
-                    android:text="비용 없음"
+                    android:text="@string/free_fee"
                     android:textFontWeight="500" />
             </LinearLayout>
         </HorizontalScrollView>

@@ -57,13 +57,10 @@ class LoginViewModel @Inject constructor(
     val isSetUserInfoSuccess: LiveData<Event<Boolean>> get() = _isSetUserInfoSuccess
 
     val nickname = MutableLiveData<String>()
-    val age = MutableLiveData<Int>(0) // TODO 삭제
     val ageTen = MutableLiveData<String>()
     val ageOne = MutableLiveData<String>()
-    val yearsPlaying = MutableLiveData<Int>(0) // TODO 삭제
     val yearsPlayingTen = MutableLiveData<String>()
     val yearsPlayingOne = MutableLiveData<String>()
-    val average = MutableLiveData<Int>(0) // TODO 삭제
     val averageHundred = MutableLiveData<String>()
     val averageTen = MutableLiveData<String>()
     val averageOne = MutableLiveData<String>()

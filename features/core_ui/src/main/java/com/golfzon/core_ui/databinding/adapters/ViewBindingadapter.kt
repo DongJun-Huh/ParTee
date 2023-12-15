@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.golfzon.core_ui.R
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import kotlin.math.roundToInt
@@ -61,6 +62,8 @@ fun ImageView.loadImage(imageUId: String? = "", imageType: String? = "") {
         .load("https://firebasestorage.googleapis.com/v0/b/partee-1ba05.appspot.com/o/${imageType}%2F${imageUId}?alt=media")
         .placeholder(R.drawable.background_img_golf)
         .error(R.drawable.background_img_golf)
+        .diskCacheStrategy(DiskCacheStrategy.NONE)
+        .skipMemoryCache(true)
         .into(this)
 }
 

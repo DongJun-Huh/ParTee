@@ -15,18 +15,6 @@
             type="com.golfzon.domain.model.Team" />
 
         <variable
-            name="curTeamAvgAge"
-            type="Integer" />
-
-        <variable
-            name="curTeamAvgYearsPlaying"
-            type="Integer" />
-
-        <variable
-            name="curTeamAvgAverage"
-            type="Integer" />
-
-        <variable
             name="curTeamDetail"
             type="com.golfzon.domain.model.Team" />
 
@@ -69,7 +57,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TEAM"
+                android:text="@string/team"
                 android:textColor="@color/white" />
 
             <TextView
@@ -127,11 +115,14 @@
 
                     <TextView
                         android:id="@+id/tv_matching_candidate_team_info_avg_age"
+                        dividend="@{curTeamDetail.totalAge}"
+                        divisor="@{curTeamDetail.headCount}"
+                        postfix="@{@string/age_unit_korean}"
+                        prefix="@{@string/average_korean}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:gravity="center"
-                        android:text="@{`평균 `+curTeamAvgAge+`세`}"
                         android:textColor="@color/white"
                         tools:text="평균 25세" />
                 </LinearLayout>
@@ -151,11 +142,14 @@
 
                     <TextView
                         android:id="@+id/tv_matching_candidate_team_info_avg_years_playing"
+                        dividend="@{curTeamDetail.totalAge}"
+                        divisor="@{curTeamDetail.headCount}"
+                        postfix="@{@string/year_unit_korean}"
+                        prefix="@{@string/average_korean}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:gravity="center"
-                        android:text="@{`평균 `+curTeamAvgYearsPlaying+`년`}"
                         android:textColor="@color/white"
                         tools:text="평균 7년" />
                 </LinearLayout>
@@ -175,11 +169,14 @@
 
                     <TextView
                         android:id="@+id/tv_matching_candidate_team_info_avg_average"
+                        dividend="@{curTeamDetail.totalAverage}"
+                        divisor="@{curTeamDetail.headCount}"
+                        postfix="@{@string/average_unit_korean}"
+                        prefix="@{@string/average_korean}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:gravity="center"
-                        android:text="@{`평균 `+curTeamAvgAverage+`타`}"
                         android:textColor="@color/white"
                         tools:text="평균 120타" />
                 </LinearLayout>
@@ -268,7 +265,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:gravity="center"
-                        android:text="@{curUserDetail.age+`세`}"
+                        android:text="@{@string/info_age(curUserDetail.age)}"
                         android:textColor="@color/white"
                         tools:text="25세" />
                 </LinearLayout>
@@ -292,7 +289,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:gravity="center"
-                        android:text="@{curUserDetail.yearsPlaying+`년`}"
+                        android:text="@{@string/info_years_playing(curUserDetail.yearsPlaying)}"
                         android:textColor="@color/white"
                         tools:text="3년" />
                 </LinearLayout>
@@ -316,7 +313,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:gravity="center"
-                        android:text="@{curUserDetail.average+`타`}"
+                        android:text="@{@string/info_average(curUserDetail.average)}"
                         android:textColor="@color/white"
                         tools:text="100타" />
                 </LinearLayout>
@@ -336,7 +333,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
-                android:text="팀 이름의 팀원들"
+                android:text="@{@string/matching_candidate_team_members_title(curTeamDetail.teamName)}"
                 android:textColor="@color/white" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -442,7 +439,7 @@
                 android:letterSpacing="0"
                 android:lineSpacingExtra="4sp"
                 android:text="@string/matching_candidate_team_is_not_exist_view_message"
-                android:textColor="#FF767B83"
+                android:textColor="@color/gray_767B83"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -483,7 +480,7 @@
             android:layout_height="41dp"
             android:layout_marginHorizontal="18dp"
             android:background="@drawable/btn_background_radius_12"
-            android:backgroundTint="#D9D9D9"
+            android:backgroundTint="@color/gray_D9D9D9"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -496,7 +493,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="17dp"
                 android:fontFamily="@font/pretendard_medium"
-                android:text="@{vm.curSearchingHeadCount + `명 / ` + vm.curSearchingDays + ` ` + vm.curSearchingTimes + ` / `}"
+                android:text="@{vm.curSearchingHeadCount + ` ` +@string/head_count_unit_korean + vm.curSearchingDays + ` ` + vm.curSearchingTimes + ` / `}"
                 android:textColor="@color/black"
                 android:textFontWeight="500"
                 android:textSize="14sp"
@@ -538,11 +535,11 @@
                 android:layout_height="28dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/btn_background_radius_12"
-                android:backgroundTint="#F5F6F9"
+                android:backgroundTint="@color/white_F5F6F9"
                 android:fontFamily="@font/pretendard_medium"
                 android:gravity="center"
                 android:paddingHorizontal="16dp"
-                android:text="변경"
+                android:text="@string/change"
                 android:textColor="@color/primary_8B95B3"
                 android:textFontWeight="500"
                 android:textSize="14sp"

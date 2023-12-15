@@ -55,7 +55,7 @@
                     imageUId="@{vm.teamInfoDetail.teamImageUrl}"
                     android:layout_width="96dp"
                     android:layout_height="100dp"
-                    android:background="#F5F6F9"
+                    android:background="@color/white_F5F6F9"
                     android:scaleType="centerCrop"
                     app:shapeAppearance="@style/ShapeAppearance.radius28"
                     tools:src="@drawable/user_sample" />
@@ -90,7 +90,7 @@
                     imageUId="@{vm.successTeamInfo.teamImageUrl}"
                     android:layout_width="96dp"
                     android:layout_height="100dp"
-                    android:background="#F5F6F9"
+                    android:background="@color/white_F5F6F9"
                     android:scaleType="centerCrop"
                     app:shapeAppearance="@style/ShapeAppearance.radius28"
                     tools:src="@drawable/user_sample2" />
@@ -124,7 +124,7 @@
             android:autoSizeStepGranularity="0.5sp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/background_radius_100"
-            android:backgroundTint="#80AFB7CF"
+            android:backgroundTint="@color/blue_AFB7CF_opacity_50"
             android:fontFamily="@font/pretendard_medium"
             android:gravity="center"
             android:letterSpacing="0.01"

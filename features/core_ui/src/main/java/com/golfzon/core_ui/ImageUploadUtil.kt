@@ -4,11 +4,13 @@ import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -63,9 +65,12 @@ object ImageUploadUtil {
         return "$cacheDir/$fileName"
     }
 
-    fun ImageView.loadImageFromFirebaseStorage(imageUId: String, imageType: String) {
+    fun ImageView.loadImageFromFirebaseStorage(imageUId: String, imageType: String, placeholder: Drawable?= null) {
         Glide.with(this.context)
             .load("https://firebasestorage.googleapis.com/v0/b/partee-1ba05.appspot.com/o/${imageType}%2F${imageUId}?alt=media")
+            .placeholder(placeholder)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
             .into(this)
     }
 }

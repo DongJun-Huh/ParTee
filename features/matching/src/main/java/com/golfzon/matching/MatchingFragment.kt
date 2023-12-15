@@ -116,14 +116,6 @@ class MatchingFragment : Fragment() {
 
     private fun observeCurrentCandidateTeamMembers() {
         matchingViewModel.curCandidateTeamMembers.observe(viewLifecycleOwner) { curMembers ->
-            if (curMembers.isNotEmpty()) {
-                with(binding) {
-                    curTeamAvgAge = curMembers.map { it.age ?: 0 }.average().roundToInt()
-                    curTeamAvgYearsPlaying =
-                        curMembers.map { it.yearsPlaying ?: 0 }.average().roundToInt()
-                    curTeamAvgAverage = curMembers.map { it.average ?: 0 }.average().roundToInt()
-                }
-            }
             candidateTeamMemberAdapter?.submitList(curMembers)
         }
     }

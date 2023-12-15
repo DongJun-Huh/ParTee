@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_gravity="center"
-            app:cardBackgroundColor="#DEE2F0"
+            app:cardBackgroundColor="@color/white_DEE2F0"
             app:cardCornerRadius="100dp"
             app:cardElevation="0dp">
 

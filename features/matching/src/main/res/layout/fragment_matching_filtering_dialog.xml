@@ -29,7 +29,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="몇 명으로 구성된 팀을 찾고 있나요?" />
+                android:fontFamily="@font/pretendard_medium"
+                android:includeFontPadding="false"
+                android:letterSpacing="0"
+                android:text="@string/matching_filtering_head_count_title"
+                android:textColor="@color/primary_8B95B3"
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,7 +47,7 @@
                     android:layout_width="46dp"
                     android:layout_height="46dp"
                     android:background="@drawable/btn_background_radius_12"
-                    android:backgroundTint="#D8DCE7"
+                    android:backgroundTint="@color/blue_D8DCE7"
                     android:gravity="center"
                     android:src="@drawable/ic_minus" />
 
@@ -55,7 +60,7 @@
                     android:letterSpacing="0"
                     android:lineSpacingExtra="4sp"
                     android:text="@={``+vm.curSearchingHeadCount}"
-                    android:textColor="#1C1D22"
+                    android:textColor="@color/black_1C1D22"
                     android:textFontWeight="500"
                     android:textSize="16sp"
                     tools:text="1" />
@@ -80,7 +85,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="어느 시간대에 함께하고 싶나요?" />
+                android:fontFamily="@font/pretendard_medium"
+                android:includeFontPadding="false"
+                android:letterSpacing="0"
+                android:text="@string/matching_filtering_day_and_time_title"
+                android:textColor="@color/primary_8B95B3"
+                android:textSize="14sp" />
 
             <RadioGroup
                 android:layout_width="match_parent"
@@ -96,11 +106,14 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
+                    android:fontFamily="@font/pretendard_medium"
                     android:gravity="center"
+                    android:letterSpacing="0"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="4dp"
-                    android:text="주중"
-                    android:textColor="@drawable/selector_textview_primary_50_to_white" />
+                    android:text="@string/weekday"
+                    android:textColor="@drawable/selector_textview_primary_50_to_white"
+                    android:textSize="14sp" />
 
                 <RadioButton
                     android:id="@+id/rb_matching_filtering_days_weekend"
@@ -109,11 +122,14 @@
                     android:layout_marginStart="8dp"
                     android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
+                    android:fontFamily="@font/pretendard_medium"
                     android:gravity="center"
+                    android:letterSpacing="0"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="4dp"
-                    android:text="주말"
-                    android:textColor="@drawable/selector_textview_primary_50_to_white" />
+                    android:text="@string/weekend"
+                    android:textColor="@drawable/selector_textview_primary_50_to_white"
+                    android:textSize="14sp" />
             </RadioGroup>
 
             <RadioGroup
@@ -130,11 +146,14 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
+                    android:fontFamily="@font/pretendard_medium"
                     android:gravity="center"
+                    android:letterSpacing="0"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="4dp"
-                    android:text="오전"
-                    android:textColor="@drawable/selector_textview_primary_50_to_white" />
+                    android:text="@string/morning"
+                    android:textColor="@drawable/selector_textview_primary_50_to_white"
+                    android:textSize="14sp" />
 
                 <RadioButton
                     android:id="@+id/rb_matching_filtering_times_afternoon"
@@ -143,11 +162,14 @@
                     android:layout_marginStart="8dp"
                     android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
+                    android:fontFamily="@font/pretendard_medium"
                     android:gravity="center"
+                    android:letterSpacing="0"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="4dp"
-                    android:text="오후"
-                    android:textColor="@drawable/selector_textview_primary_50_to_white" />
+                    android:text="@string/afternoon"
+                    android:textColor="@drawable/selector_textview_primary_50_to_white"
+                    android:textSize="14sp" />
 
                 <RadioButton
                     android:id="@+id/rb_matching_filtering_times_night"
@@ -156,11 +178,14 @@
                     android:layout_marginStart="8dp"
                     android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
+                    android:fontFamily="@font/pretendard_medium"
                     android:gravity="center"
+                    android:letterSpacing="0"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="4dp"
-                    android:text="야간"
-                    android:textColor="@drawable/selector_textview_primary_50_to_white" />
+                    android:text="@string/night"
+                    android:textColor="@drawable/selector_textview_primary_50_to_white"
+                    android:textSize="14sp" />
 
                 <RadioButton
                     android:id="@+id/rb_matching_filtering_times_dawn"
@@ -169,11 +194,14 @@
                     android:layout_marginStart="8dp"
                     android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
+                    android:fontFamily="@font/pretendard_medium"
                     android:gravity="center"
+                    android:letterSpacing="0"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="4dp"
-                    android:text="새벽"
-                    android:textColor="@drawable/selector_textview_primary_50_to_white" />
+                    android:text="@string/dawn"
+                    android:textColor="@drawable/selector_textview_primary_50_to_white"
+                    android:textSize="14sp" />
             </RadioGroup>
         </LinearLayout>
 
@@ -189,7 +217,7 @@
             android:letterSpacing="0"
             android:lineSpacingExtra="5sp"
             android:stateListAnimator="@null"
-            android:text="팀 찾기"
+            android:text="@string/matching_start_2"
             android:textColor="@color/white"
             android:textFontWeight="500"
             android:textSize="16sp" />

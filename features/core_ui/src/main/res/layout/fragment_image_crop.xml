@@ -12,11 +12,11 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="28dp"
         android:visibility="visible"
-        app:gridInnerColor="#66ffffff"
+        app:gridInnerColor="@color/white_opacity_40"
         app:gridInnerStroke="1dp"
-        app:gridOuterColor="#ffffff"
+        app:gridOuterColor="@color/white"
         app:gridOuterStroke="1dp"
-        app:outsideLayerColor="#99000000"
+        app:outsideLayerColor="@color/black_opacity_60"
         app:setInnerGridMode="on"
         app:setOuterGridMode="on" />
 

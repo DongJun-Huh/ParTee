@@ -1,9 +1,15 @@
 <resources>
+    <string name="matching_start">매칭 시작</string>
+    <string name="matching_start_2">팀 찾기</string>
     <string name="matching_filtering_condition_set_fail_toast_massage">검색 조건을 설정해주세요</string>
     <string name="home_team_not_exist_message">현재 팀이 존재하지 않습니다.\n새로운 팀을 구성해보세요</string>
     <string name="home_team_matching_start_fail_not_exist_team">팀을 구성한 뒤에 매칭을 시작할 수 있어요!</string>
     <string name="matching_candidate_team_is_not_exist_toast_message">더이상 매칭될 수 있는 팀이 없어요!</string>
     <string name="matching_candidate_team_is_not_exist_view_message">현재 조건에 맞는 팀이 존재하지 않습니다\n더 많은 팀을 찾기위해 조건을 변경해보세요</string>
 
+    <string name="matching_home_title">%s님,\n골프치기 딱 좋은\n날씨에요</string>
+    <string name="matching_candidate_team_members_title">%s의 팀원들</string>
+    <string name="matching_filtering_head_count_title">몇 명으로 구성된 팀을 찾고 있나요?</string>
+    <string name="matching_filtering_day_and_time_title">어느 시간대에 함께하고 싶나요?</string>
     <string name="matching_success_title">매칭이 성공했어요!</string>
 </resources>

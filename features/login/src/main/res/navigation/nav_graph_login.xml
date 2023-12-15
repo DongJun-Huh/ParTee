@@ -77,19 +77,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/UserInfoSetFragment"
-        android:name="com.golfzon.login.ui.fragments.UserInfoSetFragment"
-        android:label="fragment_user_info_set"
-        tools:layout="@layout/fragment_user_info_set">
-        <action
-            android:id="@+id/action_UserInfoSetFragment_to_UserImageSetFragment"
-            app:destination="@id/UserImageSetFragment"
-            app:enterAnim="@anim/translate_from_right_in"
-            app:exitAnim="@anim/translate_to_left_out"
-            app:popEnterAnim="@anim/translate_from_left_in"
-            app:popExitAnim="@anim/translate_to_right_out" />
-    </fragment>
-    <fragment
         android:id="@+id/UserImageSetFragment"
         android:name="com.golfzon.login.ui.fragments.UserImageSetFragment"
         android:label="fragment_user_image_set"
