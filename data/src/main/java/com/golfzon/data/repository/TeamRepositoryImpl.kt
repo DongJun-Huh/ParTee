@@ -3,27 +3,28 @@ package com.golfzon.data.repository
 import android.net.Uri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
+import com.golfzon.data.common.FireStoreHelper.getTeamCollection
+import com.golfzon.data.common.FireStoreHelper.getTeamDocument
+import com.golfzon.data.common.FireStoreHelper.getTeamLikeDocument
+import com.golfzon.data.common.FireStoreHelper.getUserTeamInfoDocument
+import com.golfzon.data.common.Lg
 import com.golfzon.data.extension.readValue
 import com.golfzon.data.extension.storeValue
+import com.golfzon.data.extension.toDataClass
 import com.golfzon.domain.model.Team
 import com.golfzon.domain.model.TeamInfo
+import com.golfzon.domain.model.toMap
 import com.golfzon.domain.repository.TeamRepository
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.io.File
-import kotlin.coroutines.resume
 import javax.inject.Inject
 
 class TeamRepositoryImpl @Inject constructor(
@@ -32,307 +33,173 @@ class TeamRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : TeamRepository {
 
-    override suspend fun getUserTeamInfoBrief(): TeamInfo {
-        return suspendCancellableCoroutine { continuation ->
-            var curUserUId = ""
+    override suspend fun getUserTeamInfoBrief(): TeamInfo = withContext(Dispatchers.IO) {
+        val curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
+        val emptyTeamInfo = TeamInfo(
+            teamUId = null,
+            isOrganized = false,
+            isLeader = false
+        )
 
-            CoroutineScope(Dispatchers.IO).launch {
-                curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
-
-                firestore.collection("users")
-                    .document(curUserUId)
-                    .collection("extraInfo")
-                    .document("teamInfo")
-                    .get()
-                    .addOnSuccessListener { teamBrief ->
-                        teamBrief.data?.let {
-                            val curTeamBrief = TeamInfo(
-                                teamUId = it["teamUId"] as String?,
-                                isLeader = it["isLeader"] as Boolean,
-                                isOrganized = it["isOrganized"] as Boolean
-                            )
-
-                            // 데이터 저장을 바로 진행
-                            CoroutineScope(Dispatchers.IO).launch {
-                                withContext(Dispatchers.Main) {
-                                    with(dataStore) {
-                                        storeValue(
-                                            stringPreferencesKey("teamUId"),
-                                            curTeamBrief.teamUId
-                                        )
-                                        storeValue(
-                                            booleanPreferencesKey("isLeader"),
-                                            curTeamBrief.isLeader
-                                        )
-                                        storeValue(
-                                            booleanPreferencesKey("isOrganized"),
-                                            curTeamBrief.isOrganized
-                                        )
-                                    }
-                                    if (continuation.isActive) continuation.resume(curTeamBrief)
-                                }
-                            }
-                        }
-                    }
-            }
+        try {
+            val userTeamInfoSnapshot = getUserTeamInfoDocument(firestore, curUserUId).get().await()
+            val userTeamInfoBrief = userTeamInfoSnapshot.data?.toDataClass<TeamInfo>() as TeamInfo
+            userTeamInfoBrief
+        } catch (e: Exception) {
+            Lg.e(e)
+            emptyTeamInfo
         }
     }
 
-    override suspend fun getUserTeamInfoDetail(): Team? {
-        return suspendCancellableCoroutine { continuation ->
-            CoroutineScope(Dispatchers.IO).launch {
-                val curUserUId =
-                    dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
-                getUserTeamInfoBrief().let {
-                    if (it.teamUId == null) {
-                        if (continuation.isActive) {
-                            continuation.resume(null)
-                        }
-                    } else {
-
-                        firestore.collection("teams")
-                            .document(it.teamUId!!)
-                            .get()
-                            .addOnSuccessListener { teamDetail ->
-                                if (continuation.isActive) {
-                                    CoroutineScope(Dispatchers.IO).launch {
-                                        with(dataStore) {
-                                            storeValue(
-                                                intPreferencesKey("teamHeadCount"),
-                                                (teamDetail["headCount"] as Long).toInt()
-                                            )
-                                            storeValue(
-                                                stringSetPreferencesKey("searchingLocations"),
-                                                (teamDetail["searchingLocations"] as List<String>).toSet()
-                                            )
-                                            storeValue(
-                                                stringPreferencesKey("searchingTimes"),
-                                                (teamDetail["searchingTimes"] as String)
-                                            )
-                                            storeValue(
-                                                stringPreferencesKey("searchingDays"),
-                                                (teamDetail["searchingDays"] as String)
-                                            )
-                                            storeValue(
-                                                stringPreferencesKey("teamUId"),
-                                                (it.teamUId)
-                                            )
-                                        }
-                                    }
-
-                                    continuation.resume(
-                                        Team(
-                                            teamUId = it.teamUId!!,
-                                            teamName = teamDetail["teamName"] as String,
-                                            teamImageUrl = teamDetail["teamImageUrl"] as String,
-                                            leaderUId = teamDetail["leaderUId"] as String,
-                                            membersUId = teamDetail["membersUId"] as List<String>,
-                                            headCount = (teamDetail["headCount"] as Long).toInt(),
-                                            searchingHeadCount = (teamDetail["searchingHeadCount"] as Long).toInt(),
-                                            searchingTimes = teamDetail["searchingTimes"] as String,
-                                            searchingDays = teamDetail["searchingDays"] as String,
-                                            searchingLocations = teamDetail["searchingLocations"] as List<String>,
-                                            openChatUrl = teamDetail["openChatUrl"] as String,
-                                            totalAge = (teamDetail["totalAge"] as Long).toInt(),
-                                            totalAverage = (teamDetail["totalAverage"] as Long).toInt(),
-                                            totalYearsPlaying = (teamDetail["totalYearsPlaying"] as Long).toInt(),
-                                            priorityScore = 0
-                                        )
-                                    )
-                                }
-                            }
-                    }
+    override suspend fun getUserTeamInfoDetail(): Team? = withContext(Dispatchers.IO) {
+        try {
+            getUserTeamInfoBrief().let { teamInfoBrief ->
+                Lg.e(teamInfoBrief.toString())
+                val curTeamUId = teamInfoBrief.teamUId ?: return@withContext null
+                val teamDetail =
+                    getTeamDocument(firestore, curTeamUId).get().await().data?.toDataClass<Team>()
+                        ?.copy(teamUId = curTeamUId, priorityScore = 0)
+                        ?: return@withContext null
+                Lg.e(teamDetail.toString())
+                with(dataStore) {
+                    storeValue(stringPreferencesKey("teamUId"), curTeamUId)
+                    storeValue(
+                        stringSetPreferencesKey("searchingLocations"),
+                        teamDetail.searchingLocations.toSet()
+                    )
                 }
+                teamDetail
             }
+        } catch (e: Exception) {
+            Lg.e(e)
+            null
         }
     }
 
-    override suspend fun getTeamInfoDetail(teamUId: String): Team {
-        return suspendCancellableCoroutine { continuation ->
-            firestore.collection("teams")
-                .document(teamUId)
-                .get()
-                .addOnSuccessListener {
-                    it.data?.let { teamDetail ->
-                        continuation.resume(
-                            Team(
-                                teamUId = teamUId,
-                                teamName = teamDetail["teamName"] as String,
-                                teamImageUrl = teamDetail["teamImageUrl"] as String,
-                                leaderUId = teamDetail["leaderUId"] as String,
-                                membersUId = teamDetail["membersUId"] as List<String>,
-                                headCount = (teamDetail["headCount"] as Long).toInt(),
-                                searchingHeadCount = (teamDetail["searchingHeadCount"] as Long).toInt(),
-                                searchingDays = teamDetail["searchingDays"] as String,
-                                searchingTimes = teamDetail["searchingTimes"] as String,
-                                searchingLocations = teamDetail["searchingLocations"] as List<String>,
-                                openChatUrl = teamDetail["openChatUrl"] as String,
-                                totalAge = (teamDetail["totalAge"] as Long).toInt(),
-                                totalAverage = (teamDetail["totalAverage"] as Long).toInt(),
-                                totalYearsPlaying = (teamDetail["totalYearsPlaying"] as Long).toInt(),
-                                priorityScore = 0
-                            )
-                        )
-                    }
-                }
+    override suspend fun getTeamInfoDetail(teamUId: String): Team = withContext(Dispatchers.IO) {
+        val emptyTeam = Team(
+            teamUId = "",
+            teamName = "",
+            teamImageUrl = "",
+            leaderUId = "",
+            membersUId = listOf(),
+            headCount = 0,
+            searchingHeadCount = 0,
+            searchingTimes = "",
+            searchingDays = "",
+            searchingLocations = listOf(),
+            openChatUrl = "",
+            totalAge = 0,
+            totalYearsPlaying = 0,
+            totalAverage = 0,
+            priorityScore = 0
+        )
+
+        try {
+            val teamDetail = getTeamDocument(firestore, teamUId).get().await().data
+                ?.toDataClass<Team>()
+                ?.copy(teamUId = teamUId, priorityScore = 0) ?: return@withContext emptyTeam
+            teamDetail
+        } catch (e: Exception) {
+            Lg.e(e)
+            emptyTeam
         }
     }
 
     override suspend fun requestTeamOrganize(newTeamWithNoImage: Team, teamImg: File?): String =
-        suspendCancellableCoroutine { continuation ->
-            var curUserUId = ""
-            runBlocking {
-                curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
-            }
+        withContext(Dispatchers.IO) {
+            val curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
             val tasks = mutableListOf<Task<*>>()
+            try {
+                val curUserTeamInfoBrief =
+                    getUserTeamInfoDocument(firestore, curUserUId).get().await().data
+                        ?.toDataClass<TeamInfo>()
+                        ?: return@withContext ""
 
-            val newTeam = if (teamImg != null) {
-                val storageRef = firebaseStorage.reference
-                val teamImageExtension =
-                    if (teamImg.path.split(".").last().isNotEmpty()) teamImg.path.split(".")
-                        .last() else "jpg"
-                val teamImagesRef =
-                    storageRef.child("teams/${newTeamWithNoImage.teamUId}.${teamImageExtension}")
+                val requestTeamUId =
+                    if (curUserTeamInfoBrief.isOrganized) curUserTeamInfoBrief.teamUId
+                    else getTeamCollection(firestore)
+                        .add(newTeamWithNoImage.copy(leaderUId = curUserUId))
+                        .await().id
 
-                val uploadTask = teamImagesRef.putFile(Uri.fromFile(teamImg))
-                tasks.add(uploadTask)
-
-                newTeamWithNoImage.copy(
-                    teamImageUrl = "${newTeamWithNoImage.teamUId}.${teamImageExtension}"
+                val requestTeamInfoBrief = TeamInfo(
+                    teamUId = requestTeamUId,
+                    isOrganized = true,
+                    isLeader = false
                 )
-            } else {
-                newTeamWithNoImage.copy()
-            }
 
-            firestore.collection("users")
-                .document(curUserUId)
-                .collection("extraInfo")
-                .document("teamInfo")
-                .get()
-                .addOnSuccessListener { curUserTeamInfo ->
-                    if (curUserTeamInfo.data!!["isOrganized"] as Boolean) {
-                        firestore.collection("teams")
-                            .document(curUserTeamInfo.data!!["teamUId"] as String)
-                            .set(newTeam)
-                            .addOnSuccessListener {
-                                // TODO 하단과 동일한 Boilerplate Code 제거
-                                val newTeamInfo = hashMapOf(
-                                    "teamUId" to curUserTeamInfo.data!!["teamUId"] as String,
-                                    "isLeader" to false,
-                                    "isOrganized" to true
-                                )
+                val newTeam = if (teamImg != null) {
+                    val teamImageExtension = teamImg.path?.split(".")?.last()?.ifEmpty { "jpg" }
+                    val teamImagesRef = firebaseStorage.reference
+                        .child("teams/${requestTeamUId}.${teamImageExtension}")
 
-                                for (addedUser in newTeam.membersUId) {
-                                    val memberUserEditTask = firestore.collection("users")
-                                        .document(addedUser)
-                                        .collection("extraInfo")
-                                        .document("teamInfo")
-                                        .set(newTeamInfo)
-                                    tasks.add(memberUserEditTask)
-                                }
-                                newTeamInfo["isLeader"] = true
+                    val uploadTeamImageTask = teamImagesRef.putFile(Uri.fromFile(teamImg))
+                    tasks.add(uploadTeamImageTask)
+                    Lg.e("${requestTeamUId}.${teamImageExtension}")
 
-                                val leaderUserEditTask = firestore.collection("users")
-                                    .document(newTeam.leaderUId)
-                                    .collection("extraInfo")
-                                    .document("teamInfo")
-                                    .set(newTeamInfo.apply { "isLeader" to true })
-                                tasks.add(leaderUserEditTask)
-                                Tasks.whenAll(tasks)
-                                    .addOnSuccessListener {
-                                        if (continuation.isActive) continuation.resume(
-                                            curUserTeamInfo.data!!["teamUId"] as String
-                                        )
-                                    }
-                            }
-                    } else {
-                        firestore.collection("teams")
-                            .add(newTeam.copy(leaderUId = curUserUId))
-                            .addOnSuccessListener { newTeamDocument ->
-
-                                firestore.collection("likes")
-                                    .document(newTeamDocument.id)
-                                    .set(
-                                        hashMapOf(
-                                            "likes" to listOf<String>(),
-                                            "dislikes" to listOf<String>()
-                                        )
-                                    )
-
-                                val newTeamInfo = hashMapOf(
-                                    "teamUId" to newTeamDocument.id,
-                                    "isLeader" to false,
-                                    "isOrganized" to true
-                                )
-
-                                for (addedUser in newTeam.membersUId) {
-                                    val memberUserEditTask = firestore.collection("users")
-                                        .document(addedUser)
-                                        .collection("extraInfo")
-                                        .document("teamInfo")
-                                        .set(newTeamInfo)
-                                    tasks.add(memberUserEditTask)
-                                }
-                                newTeamInfo["isLeader"] = true
-
-                                val leaderUserEditTask = firestore.collection("users")
-                                    .document(newTeam.leaderUId)
-                                    .collection("extraInfo")
-                                    .document("teamInfo")
-                                    .set(newTeamInfo.apply { "isLeader" to true })
-                                tasks.add(leaderUserEditTask)
-                                Tasks.whenAll(tasks)
-                                    .addOnSuccessListener {
-                                        if (continuation.isActive) continuation.resume(
-                                            newTeamDocument.id
-                                        )
-                                    }
-                            }
-                    }
+                    newTeamWithNoImage.copy(teamImageUrl = "${requestTeamUId}.${teamImageExtension}")
+                } else {
+                    newTeamWithNoImage
                 }
+
+                // TODO Exception 정의하고 새로 팀 만드는 부분으로 넘겨주기
+                val requestTeamInfoSetTask = getTeamDocument(
+                    firestore,
+                    requestTeamUId
+                        ?: throw Exception("Team is organized. But, Team UID is not initialized")
+                ).set(newTeam)
+
+                val requestTeamLikeSetTask = getTeamLikeDocument(firestore, requestTeamUId)
+                    .set(
+                        hashMapOf(
+                            "likes" to listOf<String>(),
+                            "dislikes" to listOf<String>()
+                        )
+                    )
+
+                val userTeamMemberInfoSetTasks = newTeam.membersUId.map { memberUId ->
+                    getUserTeamInfoDocument(firestore, memberUId)
+                        .set(
+                            if (memberUId != curUserUId) requestTeamInfoBrief.toMap()
+                            else requestTeamInfoBrief.copy(isLeader = true).toMap()
+                        )
+                }
+
+                tasks.add(requestTeamInfoSetTask)
+                tasks.add(requestTeamLikeSetTask)
+                tasks.addAll(userTeamMemberInfoSetTasks)
+
+                Tasks.whenAll(tasks).await()
+                requestTeamUId
+            } catch (e: Exception) {
+                Lg.e(e)
+                ""
+            }
         }
 
-    override suspend fun deleteTeam(teamUId: String): Boolean {
-        return suspendCancellableCoroutine { continuation ->
-            CoroutineScope(Dispatchers.IO).launch {
-                firestore.collection("likes")
-                    .document(teamUId)
-                    .delete()
+    override suspend fun deleteTeam(teamUId: String): Boolean = withContext(Dispatchers.IO) {
+        try {
+            val teamInfo = getTeamDocument(firestore, teamUId).get().await().data
+                ?.toDataClass<Team>()
+                ?: return@withContext false
+
+            val teamLikeInfoDeleteTask = getTeamLikeDocument(firestore, teamUId).delete()
+            val userTeamInfoDeleteTasks = teamInfo.membersUId.map { memberUId ->
+                getUserTeamInfoDocument(firestore, memberUId)
+                    .update(TeamInfo(null, false, false).toMap())
             }
+            val teamDeleteTask = getTeamDocument(firestore, teamUId).delete()
+            val tasks = mutableListOf<Task<*>>()
 
-            firestore.collection("teams")
-                .document(teamUId)
-                .get()
-                .addOnSuccessListener { teamDocument ->
-                    teamDocument.data?.let {
-                        val teamMembers = (it["membersUId"] as List<String>)
-                        val deleteTasks = mutableListOf<Task<*>>()
-                        for (teamMember in teamMembers) {
-                            val deleteTask = firestore.collection("users")
-                                .document(teamMember)
-                                .collection("extraInfo")
-                                .document("teamInfo")
-                                .update(
-                                    mapOf(
-                                        "isLeader" to false,
-                                        "isOrganized" to false,
-                                        "teamUId" to null
-                                    )
-                                )
-                            deleteTasks.add(deleteTask)
-                        }
+            tasks.add(teamLikeInfoDeleteTask)
+            tasks.add(teamDeleteTask)
+            tasks.addAll(userTeamInfoDeleteTasks)
 
-                        Tasks.whenAll(deleteTasks)
-                            .addOnSuccessListener {
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    firestore.collection("teams")
-                                        .document(teamUId)
-                                        .delete()
-                                }
-                                if (continuation.isActive) continuation.resume(true)
-                            }
-                    }
-                }
+            Tasks.whenAll(tasks).await()
+            true
+        } catch (e: Exception) {
+            Lg.e(e)
+            false
         }
     }
 }

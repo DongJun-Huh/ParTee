@@ -36,6 +36,14 @@ data class TeamInfo (
     val isLeader: Boolean
 )
 
+fun TeamInfo.toMap(): Map<String, Any?> {
+    return mapOf(
+        "isLeader" to this.isLeader,
+        "isOrganized" to this.isOrganized,
+        "teamUId" to this.teamUId
+    )
+}
+
 data class GroupInfo (
     val groupUId: String?
 )

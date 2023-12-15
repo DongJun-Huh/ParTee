@@ -38,6 +38,7 @@ class MemberRepositoryImpl @Inject constructor(
     override suspend fun requestRegisterUser(UId: String, email: String): Boolean =
         withContext(Dispatchers.IO) {
             dataStore.storeValue(stringPreferencesKey("userUId"), UId)
+            dataStore.storeValue(stringPreferencesKey("userEmail"), email)
 
             try {
                 val newUser = hashMapOf(
@@ -74,20 +75,24 @@ class MemberRepositoryImpl @Inject constructor(
     override suspend fun requestLogin(UId: String, email: String): Pair<Boolean, User?> =
         // Return Value: (최초가입여부, 유저정보)
         withContext(Dispatchers.IO) {
-            with(dataStore) {
-                storeValue(stringPreferencesKey("userUId"), UId)
-                storeValue(stringPreferencesKey("userEmail"), email)
-            }
-
             try {
                 val userDocument = getUserDocument(firestore, UId).get().await()
-                val userDetail = userDocument.data
+                val userDocumentData = userDocument.data
                     ?: return@withContext Pair(false, null) // 1. 미 가입 상태
-                if (userDetail.values.any { it == null }) return@withContext Pair(
+                if (userDocumentData.values.any { it == null }) return@withContext Pair(
                     true,
                     null
                 ) // 2. 최초 가입 후, 유저정보 미입력 상태
-                Pair(true, userDetail.toDataClass<User>() as User) // 3. 최초 가입 후, 유저정보 입력 상태
+
+                val userDetail = (userDocumentData.toDataClass<User>() as User)
+
+                with(dataStore) {
+                    storeValue(stringPreferencesKey("userUId"), UId)
+                    storeValue(stringPreferencesKey("userEmail"), email)
+                    storeValue(stringPreferencesKey("userNickname"), userDetail.nickname)
+                }
+
+                Pair(true, userDetail) // 3. 최초 가입 후, 유저정보 입력 상태
             } catch (e: Exception) {
                 Lg.e(e)
                 Pair(false, null)

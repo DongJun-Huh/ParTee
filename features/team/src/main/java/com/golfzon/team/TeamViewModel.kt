@@ -133,7 +133,7 @@ class TeamViewModel @Inject constructor(
                 requestTeamOrganizedUseCase(
                     // teamName, teamImageUrl, leaderUId, membersUId, headCount, searchingTimes, searchingLocations, openChatUrl만 설정
                     newTeam = _newTeam.value!!.copy(
-                        teamImageUrl = _newTeam.value!!.teamImageUrl.ifEmpty { "teams_default.png" },
+                        teamImageUrl = organizeDetail.teamImageUrl.ifEmpty { "teams_default.png" },
                     ),
                     ImageUploadUtil.bitmapToFile(newTeamImageBitmap.value, newTeamImgPath.value)
                 )?.let {

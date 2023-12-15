@@ -23,6 +23,7 @@ object FireStoreHelper {
         getGroupCollection(firestore).document(groupUId)
 
     fun getTeamCollection(firestore: FirebaseFirestore) = firestore.collection("teams")
+    fun getTeamDocument(firestore: FirebaseFirestore, teamUId: String) = getTeamCollection(firestore).document(teamUId)
     fun getTeamLikeDocument(firestore: FirebaseFirestore, teamUId: String) =
         firestore.collection("likes").document(teamUId)
     fun getTeamDisLikeDocument(firestore: FirebaseFirestore, teamUId: String) =
