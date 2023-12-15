@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.golfzon.core_ui.DefaultToast
 import com.golfzon.core_ui.DialogUtil.setDialogRadius
 import com.golfzon.core_ui.GridSpacingItemDecoration
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
+import com.golfzon.core_ui.extension.toast
 import com.golfzon.domain.model.User
 import com.golfzon.team.databinding.FragmentTeamMemberAddBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -83,11 +83,8 @@ class TeamMemberAddFragment : BottomSheetDialogFragment() {
                     user.yearsPlaying ?: 0,
                     user.average ?: 0
                 )
-                DefaultToast.createToast(
-                    requireContext(),
-                    getString(R.string.team_member_add_success_toast_message),
-                    44
-                )?.show()
+                this@TeamMemberAddFragment
+                    .toast(message = getString(R.string.team_member_add_success_toast_message))
                 findNavController().navigateUp()
             }
         })

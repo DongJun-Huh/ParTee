@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.golfzon.core_ui.DefaultToast
 import com.golfzon.core_ui.HorizontalMarginItemDecoration
 import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
 import com.golfzon.core_ui.adapter.CandidateTeamMemberAdapter
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
+import com.golfzon.core_ui.extension.toast
 import com.golfzon.domain.model.User
 import com.golfzon.matching.databinding.FragmentMatchingBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -166,11 +166,10 @@ class MatchingFragment : Fragment() {
         binding.layoutMatchingNotExist.visibility = if (isEnd) View.VISIBLE else View.GONE
 
         if (isEnd) {
-            DefaultToast.createToast(
-                context = requireContext(),
+            this@MatchingFragment.toast(
                 message = getString(R.string.matching_candidate_team_is_not_exist_toast_message),
                 isError = true
-            )?.show()
+            )
         }
     }
 

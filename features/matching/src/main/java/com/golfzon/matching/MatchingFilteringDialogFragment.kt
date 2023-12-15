@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.golfzon.core_ui.DefaultToast.createToast
 import com.golfzon.core_ui.DialogUtil
 import com.golfzon.core_ui.DialogUtil.resizeDialogFragment
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
+import com.golfzon.core_ui.extension.toast
 import com.golfzon.matching.databinding.FragmentMatchingFilteringDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -52,11 +52,10 @@ class MatchingFilteringDialogFragment : DialogFragment() {
                 if (isConditionChecked.getContentIfNotHandled() == true) {
                     findNavController().navigate(MatchingFilteringDialogFragmentDirections.actionMatchingFilteringDialogFragmentToMatchingFragment())
                 } else {
-                    createToast(
-                        requireContext(),
+                    this@MatchingFilteringDialogFragment.toast(
                         message = getString(R.string.matching_filtering_condition_set_fail_toast_massage),
                         isError = true
-                    )?.show()
+                    )
                 }
             }
         }

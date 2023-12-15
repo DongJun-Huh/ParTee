@@ -9,11 +9,11 @@ import androidx.core.view.children
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.golfzon.core_ui.DefaultToast.createToast
 import com.golfzon.core_ui.DialogUtil.resizeDialogFragment
 import com.golfzon.core_ui.DialogUtil.setDialogRadius
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
+import com.golfzon.core_ui.extension.toast
 import com.golfzon.team.databinding.FragmentTeamLocationSetBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -70,9 +70,15 @@ class TeamLocationSetFragment : DialogFragment() {
                 }
 
                 if (curSearchingPlaces.isEmpty()) {
-                    createToast(requireContext(), getString(R.string.team_location_change_fail_not_select))?.show()
+                    this@TeamLocationSetFragment.toast(
+                        message = getString(R.string.team_location_change_fail_not_select),
+                        isError = true
+                    )
                 } else if (curSearchingPlaces.size > 8) {
-                    createToast(requireContext(), getString(R.string.team_location_change_fail_limit))?.show()
+                    this@TeamLocationSetFragment.toast(
+                        message = getString(R.string.team_location_change_fail_limit),
+                        isError = true
+                    )
                 } else {
                     teamViewModel.setLocation(curSearchingPlaces)
                     findNavController().navigateUp()

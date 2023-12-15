@@ -8,12 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.golfzon.core_ui.DefaultToast.createToast
 import com.golfzon.core_ui.GridSpacingItemDecoration
 import com.golfzon.core_ui.adapter.TeamUserAdapter
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
+import com.golfzon.core_ui.extension.toast
 import com.golfzon.matching.databinding.FragmentMatchingHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -120,9 +120,8 @@ class MatchingHomeFragment : Fragment() {
             if (isEnable) {
                 findNavController().navigate(MatchingHomeFragmentDirections.actionMatchingHomeFragmentToMatchingFilteringDialogFragment())
             } else {
-                createToast(
-                    requireContext(),
-                    getString(R.string.home_team_matching_start_fail_not_exist_team),
+                this@MatchingHomeFragment.toast(
+                    message = getString(R.string.home_team_matching_start_fail_not_exist_team),
                     isError = true
                 )
             }

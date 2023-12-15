@@ -12,7 +12,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.golfzon.core_ui.DefaultToast.createToast
 import com.golfzon.core_ui.GridSpacingItemDecoration
 import com.golfzon.core_ui.ImageUploadUtil
 import com.golfzon.core_ui.ImageUploadUtil.toBitmap
@@ -21,6 +20,7 @@ import com.golfzon.core_ui.adapter.TeamUserAdapter
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
+import com.golfzon.core_ui.extension.toast
 import com.golfzon.team.databinding.FragmentTeamInfoBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -209,7 +209,10 @@ class TeamInfoFragment : Fragment() {
                 if (this == true) {
                     (requireActivity() as TeamActivity).navigateToMatching()
                 } else if (this == false) {
-                    createToast(requireContext(), getString(R.string.team_organize_team_fail_not_checked_all), isError = true)?.show()
+                    this@TeamInfoFragment.toast(
+                        message = getString(R.string.team_organize_team_fail_not_checked_all),
+                        isError = true
+                    )
                 }
             }
         }
