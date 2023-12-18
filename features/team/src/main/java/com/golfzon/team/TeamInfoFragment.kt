@@ -197,7 +197,7 @@ class TeamInfoFragment : Fragment() {
                 }
 
                 Glide.with(requireContext())
-                    .load(curBitmap)
+                    .load(curBitmap.copy(Bitmap.Config.ARGB_8888, true))
                     .into(binding.ivTeamInfoImage)
             }
     }
