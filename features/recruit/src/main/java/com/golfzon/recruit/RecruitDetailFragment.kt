@@ -70,7 +70,7 @@ class RecruitDetailFragment : Fragment() {
         recruitViewModel.curRecruitDetail.observe(viewLifecycleOwner) { curRecruitDetailValue ->
             with(curRecruitDetailValue.getContentIfNotHandled()) {
                 if (this != null) {
-                    this?.let        { recruitDetail ->
+                    this?.let { recruitDetail ->
                         with(binding) {
                             this.recruitDetail = recruitDetail
                             tvRecruitDetailEndDateDDay.text =
