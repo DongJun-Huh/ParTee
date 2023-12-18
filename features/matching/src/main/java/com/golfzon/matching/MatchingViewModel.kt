@@ -1,6 +1,5 @@
 package com.golfzon.matching
 
-import android.widget.RadioGroup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,7 +16,6 @@ import com.golfzon.domain.usecase.matching.GetReactedTeamUseCase
 import com.golfzon.domain.usecase.matching.RequestReactionsToCandidateTeamUseCase
 import com.golfzon.domain.usecase.member.GetCurUserInfoUseCase
 import com.golfzon.domain.usecase.member.GetUserInfoUseCase
-import com.golfzon.domain.usecase.team.GetTeamInfoDetailUseCase
 import com.golfzon.domain.usecase.team.GetUserTeamInfoDetailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -27,7 +25,6 @@ import kotlin.math.abs
 @HiltViewModel
 class MatchingViewModel @Inject constructor(
     private val getUserTeamInfoDetailUseCase: GetUserTeamInfoDetailUseCase,
-    private val getTeamInfoDetailUseCase: GetTeamInfoDetailUseCase,
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val getCurUserInfoUseCase: GetCurUserInfoUseCase,
     private val getReactedTeamUseCase: GetReactedTeamUseCase,
@@ -60,7 +57,6 @@ class MatchingViewModel @Inject constructor(
     val successTeamInfo: LiveData<Team> get() = _successTeamInfo
 
     private val _candidateTeams = ListLiveData<Team>()
-    val candidateTeams: ListLiveData<Team> get() = _candidateTeams
     val curCandidateTeamIndex = MutableLiveData<Int>(0)
 
     private val _isCandidateEnd = MutableLiveData<Event<Boolean>>()
@@ -121,30 +117,18 @@ class MatchingViewModel @Inject constructor(
 
     fun getFilteredCandidateTeams() = viewModelScope.launch {
         getReactedTeamUseCase()?.let {
-            getCandidateTeams(it)
+            filteringCandidateTeams(it)
         }
     }
 
-    private fun getCandidateTeams(reactedTeams: List<String>) = viewModelScope.launch {
+    private fun filteringCandidateTeams(reactedTeams: List<String>) = viewModelScope.launch {
         getCandidateTeamUseCase(
             curSearchingHeadCount.value ?: 1,
             curSearchingDays.value ?: Days.NONE,
             curSearchingTimes.value ?: Times.NONE,
             reactedTeams
         )?.let {
-            val priorityOrderedTeams = it.map { candidateTeam ->
-                val averageScore =
-                    (8 - (abs(_teamInfoDetail.value!!.totalAverage - candidateTeam.totalAverage) / 10)).getPreventedMinusScore
-                val yearsPlayingScore =
-                    (8 - (abs(_teamInfoDetail.value!!.totalYearsPlaying - candidateTeam.totalYearsPlaying) / 3)).getPreventedMinusScore
-                val locationScore = candidateTeam.searchingLocations.toSet()
-                    .intersect(_teamInfoDetail.value!!.searchingLocations.toSet()).size
-                val ageScore =
-                    (8 - (abs(_teamInfoDetail.value!!.totalAge - candidateTeam.totalAge) / 5)).getPreventedMinusScore
-                candidateTeam.copy(
-                    priorityScore = ageScore + yearsPlayingScore + averageScore + locationScore
-                )
-            }.toMutableList().sortedByDescending { it.priorityScore }
+            val priorityOrderedTeams = it.calculatePriorityScores
 
             _candidateTeams.replaceAll(priorityOrderedTeams, true)
             if (it.isNotEmpty()) {
@@ -156,50 +140,77 @@ class MatchingViewModel @Inject constructor(
         }
     }
 
+    private val List<Team>.calculatePriorityScores
+        get() = this.map { candidateTeam ->
+            candidateTeam.calculatePriorityScore(_teamInfoDetail.value!!)
+        }.toMutableList().sortedByDescending { it.priorityScore }
+
+    private fun Team.calculatePriorityScore(candidateTeam: Team): Team {
+        val averageScore = calculateScore(candidateTeam.totalAverage, this.totalAverage, 10)
+        val yearsPlayingScore =
+            calculateScore(candidateTeam.totalYearsPlaying, this.totalYearsPlaying, 3)
+        val locationScore = candidateTeam.searchingLocations.toSet()
+            .intersect(this.searchingLocations.toSet()).size
+        val ageScore = calculateScore(candidateTeam.totalAge, this.totalAge, 5)
+
+        return this.copy(
+            priorityScore = ageScore
+                    + yearsPlayingScore
+                    + averageScore
+                    + locationScore
+        )
+    }
+
+    private fun calculateScore(teamDetailValue: Int, candidateTeamValue: Int, divisor: Int): Int =
+        (8 - (abs(teamDetailValue - candidateTeamValue) / divisor)).getPreventedMinusScore
+
+
     fun reactionsToCandidateTeam(isLike: Boolean) = viewModelScope.launch {
-        if (curCandidateTeamIndex.value!! < _candidateTeams.value!!.size) {
-            requestReactionsToCandidateTeamUseCase(
-                candidateTeamUId =
-                _candidateTeams.value!!.get(curCandidateTeamIndex.value!!).teamUId, isLike = isLike
-            )?.let { isSuccess ->
-                _isSuccessMatching.postValue(Event(isSuccess))
-                if (isSuccess) {
-                    _successTeamInfo.postValue(
-                        _curCandidateTeam.value?.peekContent()?.copy(
-                            searchingLocations = _teamInfoDetail.value?.searchingLocations?.toSet()
-                                ?.intersect(
-                                    (_curCandidateTeam.value?.peekContent()?.searchingLocations
-                                        ?: listOf()).toSet()
-                                )
-                                ?.toList() ?: listOf()
-                        )
-                    )
-                }
+        val teamIndex = curCandidateTeamIndex.value ?: return@launch
+        val teams = _candidateTeams.value ?: return@launch
+        if (teamIndex >= teams.size) return@launch
 
-                if (curCandidateTeamIndex.value!! != _candidateTeams.value!!.size - 1) {
-                    curCandidateTeamIndex.value = curCandidateTeamIndex.value!! + 1
-                    _curCandidateTeam.postValue(Event(_candidateTeams.value!![curCandidateTeamIndex.value!!]))
-                    _isCandidateEnd.postValue(Event(false))
-                } else {
-                    _isCandidateEnd.postValue(Event(true))
-                }
-            }
+        val currentTeam = teams[teamIndex]
+        requestReactionsToCandidateTeamUseCase(currentTeam.teamUId, isLike)?.let { isSuccess ->
+            handleReactionResult(isSuccess, currentTeam)
+            updateCandidateTeamIndex(teamIndex, teams)
         }
     }
 
-    fun addCurSearchingHeadCount() {
+    private fun handleReactionResult(isSuccess: Boolean, currentCandidateTeam: Team) {
+        _isSuccessMatching.postValue(Event(isSuccess))
+        if (isSuccess) {
+            setSuccessTeamInfo(currentCandidateTeam)
+        }
+    }
+
+    private fun setSuccessTeamInfo(currentTeam: Team) {
+        val intersectedLocations = _teamInfoDetail.value?.searchingLocations.orEmpty()
+            .toSet()
+            .intersect(currentTeam.searchingLocations.toSet())
+        _successTeamInfo.postValue(
+            currentTeam.copy(searchingLocations = intersectedLocations.toList())
+        )
+    }
+
+    private fun updateCandidateTeamIndex(teamIndex: Int, teams: List<Team>) {
+        if (teamIndex < teams.size - 1) {
+            curCandidateTeamIndex.value = teamIndex + 1
+            _curCandidateTeam.postValue(Event(teams[teamIndex + 1]))
+            _isCandidateEnd.postValue(Event(false))
+        } else {
+            _isCandidateEnd.postValue(Event(true))
+        }
+    }
+
+    fun updateHeadCount(delta: Int) {
         curSearchingHeadCount.value?.let { headCount ->
-            if (headCount < 3) curSearchingHeadCount.value = headCount.plus(1)
+            val newCount = (headCount + delta).coerceIn(1, 3)
+            curSearchingHeadCount.value = newCount
         }
     }
 
-    fun minusCurSearchingHeadCount() {
-        curSearchingHeadCount.value?.let { headCount ->
-            if (headCount > 1) curSearchingHeadCount.value = headCount.minus(1)
-        }
-    }
-
-    fun changeDays(group: RadioGroup, checkedId: Int) {
+    fun changeDays(checkedId: Int) {
         curSearchingDaysCheckedButtonId.value = checkedId
         curSearchingDays.value = when (checkedId) {
             R.id.rb_matching_filtering_days_weekdays -> Days.WEEKDAY
@@ -208,7 +219,7 @@ class MatchingViewModel @Inject constructor(
         }
     }
 
-    fun changeTimes(group: RadioGroup, checkedId: Int) {
+    fun changeTimes(checkedId: Int) {
         curSearchingTimesCheckedButtonId.value = checkedId
         curSearchingTimes.value = when (checkedId) {
             R.id.rb_matching_filtering_times_morning -> Times.MORNING

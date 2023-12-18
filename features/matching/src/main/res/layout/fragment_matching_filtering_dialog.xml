@@ -43,7 +43,7 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    onDebounceClick="@{() -> vm.minusCurSearchingHeadCount()}"
+                    onDebounceClick="@{() -> vm.updateHeadCount(-1)}"
                     android:layout_width="46dp"
                     android:layout_height="46dp"
                     android:background="@drawable/btn_background_radius_12"
@@ -66,7 +66,7 @@
                     tools:text="1" />
 
                 <ImageButton
-                    onDebounceClick="@{() -> vm.addCurSearchingHeadCount()}"
+                    onDebounceClick="@{() -> vm.updateHeadCount(1)}"
                     android:layout_width="46dp"
                     android:layout_height="46dp"
                     android:background="@drawable/btn_background_radius_12"
@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:checkedButton="@{vm.curSearchingDaysCheckedButtonId}"
-                android:onCheckedChanged="@{(group, checkedId) -> vm.changeDays(group, checkedId)}"
+                android:onCheckedChanged="@{(group, checkedId) -> vm.changeDays(checkedId)}"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -137,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:checkedButton="@{vm.curSearchingTimesCheckedButtonId}"
-                android:onCheckedChanged="@{(group, checkedId) -> vm.changeTimes(group, checkedId)}"
+                android:onCheckedChanged="@{(group, checkedId) -> vm.changeTimes(checkedId)}"
                 android:orientation="horizontal">
 
                 <RadioButton

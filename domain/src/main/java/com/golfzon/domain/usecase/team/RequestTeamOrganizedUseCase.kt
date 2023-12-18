@@ -6,6 +6,6 @@ import java.io.File
 import javax.inject.Inject
 
 class RequestTeamOrganizedUseCase @Inject constructor(private val teamRepository: TeamRepository) {
-    suspend operator fun invoke(newTeam: Team, teamImg: File?) =
-        teamRepository.requestTeamOrganize(newTeam, teamImg)
+    suspend operator fun invoke(newTeamWithNoImage: Team, teamImg: File?) =
+        teamRepository.requestTeamOrganize(newTeamWithNoImage, teamImg)
 }

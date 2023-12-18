@@ -8,6 +8,6 @@ interface TeamRepository {
     suspend fun getUserTeamInfoBrief(): TeamInfo
     suspend fun getUserTeamInfoDetail(): Team?
     suspend fun getTeamInfoDetail(teamUId: String): Team
-    suspend fun requestTeamOrganize(newTeam: Team, teamImg: File? = null): String
+    suspend fun requestTeamOrganize(newTeamWithNoImage: Team, teamImg: File? = null): String
     suspend fun deleteTeam(teamUId: String): Boolean
 }

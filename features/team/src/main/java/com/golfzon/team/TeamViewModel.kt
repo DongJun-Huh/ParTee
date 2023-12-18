@@ -9,13 +9,11 @@ import com.golfzon.core_ui.Event
 import com.golfzon.core_ui.ImageUploadUtil
 import com.golfzon.core_ui.ListLiveData
 import com.golfzon.domain.model.Team
-import com.golfzon.domain.model.TeamInfo
 import com.golfzon.domain.model.User
 import com.golfzon.domain.usecase.member.GetCurUserInfoUseCase
 import com.golfzon.domain.usecase.member.GetSearchedUsersUseCase
 import com.golfzon.domain.usecase.member.GetUserInfoUseCase
 import com.golfzon.domain.usecase.team.DeleteTeamUseCase
-import com.golfzon.domain.usecase.team.GetUserTeamInfoBriefUseCase
 import com.golfzon.domain.usecase.team.GetUserTeamInfoDetailUseCase
 import com.golfzon.domain.usecase.team.RequestTeamOrganizedUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,19 +23,12 @@ import javax.inject.Inject
 @HiltViewModel
 class TeamViewModel @Inject constructor(
     private val getCurUserInfoUseCase: GetCurUserInfoUseCase,
-    private val getUserTeamInfoBriefUseCase: GetUserTeamInfoBriefUseCase,
     private val getUserTeamInfoDetailUseCase: GetUserTeamInfoDetailUseCase,
     private val getSearchedUsersUseCase: GetSearchedUsersUseCase,
     private val requestTeamOrganizedUseCase: RequestTeamOrganizedUseCase,
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val deleteTeamUseCase: DeleteTeamUseCase
 ) : ViewModel() {
-    private val _teamInfoBrief = MutableLiveData<TeamInfo>()
-    val teamInfoBrief: LiveData<TeamInfo> get() = _teamInfoBrief
-
-    private val _teamInfoDetail = MutableLiveData<Team?>()
-    val teamInfoDetail: LiveData<Team?> get() = _teamInfoDetail
-
     private val _searchedUsers = ListLiveData<User>()
     val searchedUsers: ListLiveData<User> get() = _searchedUsers
 
@@ -59,42 +50,34 @@ class TeamViewModel @Inject constructor(
     val isTeamDeleteSuccess: LiveData<Event<Boolean>> get() = _isTeamDeleteSuccess
 
     fun getNewTeamInfo() = viewModelScope.launch {
-        getUserTeamInfoDetailUseCase().let {
-            if (it != null) _newTeam.postValue(it)
-            else {
-                var curUserUId = ""
-                var curUserAge = 0
-                var curUserYearsPlaying = 0
-                var curUserAverage = 0
-
-                curUserUId = getCurUserInfoUseCase().first
-                getUserInfoUseCase(curUserUId).first.let {
-                    curUserAge = it.age ?: 0
-                    curUserYearsPlaying = it.yearsPlaying ?: 0
-                    curUserAverage = it.average ?: 0
-                }
-
-                _newTeam.postValue(
-                    Team(
-                        teamUId = "",
-                        teamName = "팀 이름",
-                        teamImageUrl = "",
-                        leaderUId = curUserUId,
-                        membersUId = listOf(curUserUId),
-                        headCount = 1,
-                        searchingTimes = "",
-                        searchingDays = "",
-                        searchingLocations = listOf(),
-                        openChatUrl = "",
-                        searchingHeadCount = 0,
-                        totalAge = curUserAge,
-                        totalYearsPlaying = curUserYearsPlaying,
-                        totalAverage = curUserAverage,
-                        priorityScore = 0
-                    )
-                )
-            }
+        val teamInfo = getUserTeamInfoDetailUseCase()
+        teamInfo?.let {
+            _newTeam.postValue(it)
+            return@launch
         }
+
+        val curUserUId = getCurUserInfoUseCase().first
+        val curUserInfo = getUserInfoUseCase(curUserUId).first
+
+        val newTeam = Team(
+            teamUId = "",
+            teamName = "팀 이름",
+            teamImageUrl = "",
+            leaderUId = curUserUId,
+            membersUId = listOf(curUserUId),
+            headCount = 1,
+            searchingTimes = "",
+            searchingDays = "",
+            searchingLocations = listOf(),
+            openChatUrl = "",
+            searchingHeadCount = 0,
+            totalAge = curUserInfo.age ?: 0,
+            totalYearsPlaying = curUserInfo.yearsPlaying ?: 0,
+            totalAverage = curUserInfo.average ?: 0,
+            priorityScore = 0
+        )
+
+        _newTeam.postValue(newTeam)
     }
 
     fun clearUserInfo() {
@@ -132,7 +115,7 @@ class TeamViewModel @Inject constructor(
             } else {
                 requestTeamOrganizedUseCase(
                     // teamName, teamImageUrl, leaderUId, membersUId, headCount, searchingTimes, searchingLocations, openChatUrl만 설정
-                    newTeam = _newTeam.value!!.copy(
+                    newTeamWithNoImage = _newTeam.value!!.copy(
                         teamImageUrl = organizeDetail.teamImageUrl.ifEmpty { "teams_default.png" },
                     ),
                     ImageUploadUtil.bitmapToFile(newTeamImageBitmap.value, newTeamImgPath.value)
@@ -183,14 +166,21 @@ class TeamViewModel @Inject constructor(
     }
 
     fun deleteTeam() = viewModelScope.launch {
-        _newTeam.value?.let {
-            if (it.teamUId.isNotEmpty()) {
-                deleteTeamUseCase(it.teamUId).let {
-                    _isTeamDeleteSuccess.postValue(Event(it))
+        val teamToDelete = _newTeam.value
+        teamToDelete?.let { team ->
+            if (team.teamUId.isNotEmpty()) {
+                try {
+                    val isDeleted = deleteTeamUseCase(team.teamUId)
+                    _isTeamDeleteSuccess.postValue(Event(isDeleted))
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    _isTeamDeleteSuccess.postValue(Event(false))
                 }
             } else {
                 _isTeamDeleteSuccess.postValue(Event(true))
             }
+        } ?: run {
+            _isTeamDeleteSuccess.postValue(Event(true))
         }
     }
 
