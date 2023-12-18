@@ -54,13 +54,11 @@ class TeamRepositoryImpl @Inject constructor(
     override suspend fun getUserTeamInfoDetail(): Team? = withContext(Dispatchers.IO) {
         try {
             getUserTeamInfoBrief().let { teamInfoBrief ->
-                Lg.e(teamInfoBrief.toString())
                 val curTeamUId = teamInfoBrief.teamUId ?: return@withContext null
                 val teamDetail =
                     getTeamDocument(firestore, curTeamUId).get().await().data?.toDataClass<Team>()
                         ?.copy(teamUId = curTeamUId, priorityScore = 0)
                         ?: return@withContext null
-                Lg.e(teamDetail.toString())
                 with(dataStore) {
                     storeValue(stringPreferencesKey("teamUId"), curTeamUId)
                     storeValue(
