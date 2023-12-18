@@ -1,6 +1,7 @@
 package com.golfzon.recruit
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -36,6 +37,12 @@ class RecruitViewModel @Inject constructor(
 
     private val _recruitsMembers = ListLiveData<List<Pair<User, Boolean>>>()
     val recruitsMembers: ListLiveData<List<Pair<User, Boolean>>> get() = _recruitsMembers
+    private val _recruitsDisplayInfo =
+        MediatorLiveData<List<Pair<Recruit, List<User>>>>().apply {
+            addSource(_recruits) { updateRecruitsDisplayInfo() }
+            addSource(_recruitsMembers) { updateRecruitsDisplayInfo() }
+        }
+    val recruitsDisplayInfo: MediatorLiveData<List<Pair<Recruit, List<User>>>> get() = _recruitsDisplayInfo
 
     private val _recruitMembers = ListLiveData<User>()
     val recruitMembers: ListLiveData<User> get() = _recruitMembers
@@ -87,5 +94,18 @@ class RecruitViewModel @Inject constructor(
         participateRecruitUseCase(recruitUId = recruitUId).let { isSuccess ->
             _isParticipateSuccess.postValue(Event(isSuccess))
         }
+    }
+
+    private fun updateRecruitsDisplayInfo() {
+        val recruitsList = _recruits.value ?: return
+        val membersList = _recruitsMembers.value ?: return
+
+        val updatedDisplayInfo = recruitsList.mapIndexed { index, recruit ->
+            Pair(recruit, membersList.getOrNull(index)
+                ?.map { it.first }
+                ?: emptyList()
+            )
+        }
+        _recruitsDisplayInfo.value = updatedDisplayInfo
     }
 }

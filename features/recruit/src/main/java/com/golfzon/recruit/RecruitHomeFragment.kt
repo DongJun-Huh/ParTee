@@ -68,19 +68,8 @@ class RecruitHomeFragment : Fragment() {
     }
 
     private fun observeRecruitsMembers() {
-        recruitViewModel.recruitsMembers.observe(viewLifecycleOwner) { recruitsMembers ->
-            // TODO 값을 받아온 후, 다시 재가공하는 부분 ViewModel로 이동
-            val recruitsDisplayInfo =
-                recruitViewModel.recruits.value!!.mapIndexed { recruitIndex, recruit ->
-                    Pair(
-                        recruit,
-                        recruitsMembers[recruitIndex].mapIndexed { index, pair ->
-                            pair.first
-                        }
-                    )
-                }.toMutableList()
-
-            recruitPostAdapter?.submitList(recruitsDisplayInfo)
+        recruitViewModel.recruitsDisplayInfo.observe(viewLifecycleOwner) { recruits ->
+            recruitPostAdapter?.submitList(recruits.toMutableList())
             // 이미 한번 Attach 되었던 경우 동적 Margin 추가
             with(binding.rvRecruitPosts) {
                 if (childCount > 0) {
