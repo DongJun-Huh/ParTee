@@ -21,6 +21,10 @@
         <variable
             name="curUserDetail"
             type="com.golfzon.domain.model.User" />
+
+        <import type="android.view.View" />
+
+        <import type="androidx.navigation.Navigation" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -467,6 +471,7 @@
 
             <ImageButton
                 android:id="@+id/btn_matching_appbar_back"
+                onDebounceClick="@{view -> Navigation.findNavController(view).navigateUp()}"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"

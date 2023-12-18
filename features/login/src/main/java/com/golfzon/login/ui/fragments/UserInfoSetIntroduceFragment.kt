@@ -31,7 +31,6 @@ class UserInfoSetIntroduceFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setSaveClickListener()
-        setCancelClickListener()
     }
 
     override fun onResume() {
@@ -43,12 +42,6 @@ class UserInfoSetIntroduceFragment : DialogFragment() {
         binding.apply {
             vm = loginViewModel
             lifecycleOwner = viewLifecycleOwner
-        }
-    }
-
-    private fun setCancelClickListener() {
-        binding.tvUserInfoSetIntroduceCancel.setOnDebounceClickListener {
-            findNavController().navigateUp()
         }
     }
 

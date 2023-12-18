@@ -47,7 +47,6 @@ class RecruitDetailFragment : Fragment() {
         setRecruitDetailMembersAdapter()
         getRecruitDetailMembers()
         observeRecruitMembers()
-        setBackClickListener()
         setParticipateClickListener()
         observeParticipateSuccess()
     }
@@ -60,11 +59,6 @@ class RecruitDetailFragment : Fragment() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             vm = recruitViewModel
-        }
-    }
-    private fun setBackClickListener() {
-        binding.btnRecruitDetailAppbarBack.setOnDebounceClickListener {
-            findNavController().navigateUp()
         }
     }
 

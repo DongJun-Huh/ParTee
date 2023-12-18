@@ -39,7 +39,6 @@ class MatchingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setBackClickListener()
         setFilteringConditionChangeClickListener()
         setSearchUserResultAdapter()
         observeCurrentUserTeam()
@@ -58,12 +57,6 @@ class MatchingFragment : Fragment() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             vm = matchingViewModel
-        }
-    }
-
-    private fun setBackClickListener() {
-        binding.btnMatchingAppbarBack.setOnDebounceClickListener {
-            findNavController().navigateUp()
         }
     }
 

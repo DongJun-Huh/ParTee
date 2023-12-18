@@ -29,14 +29,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setRegisterMenuVisibility()
-        setAppbarAction()
         setNavigation()
-    }
-
-    private fun setAppbarAction() {
-        binding.btnLoginAppbarBack.setOnDebounceClickListener {
-            findNavController().navigateUp()
-        }
     }
 
     fun setNextClickListener(directions: NavDirections? = null) {

@@ -31,6 +31,8 @@
         <import type="java.text.NumberFormat" />
 
         <import type="android.view.View" />
+
+        <import type="androidx.navigation.Navigation" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,6 +53,7 @@
 
             <ImageButton
                 android:id="@+id/btn_recruit_detail_appbar_back"
+                onDebounceClick="@{view -> Navigation.findNavController(view).navigateUp()}"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
@@ -534,9 +537,9 @@
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/pretendard_medium"
                     android:lineHeight="21sp"
+                    android:text="@{recruitDetail.recruitIntroduceMessage}"
                     android:textColor="@color/primary_8B95B3"
                     android:textSize="14sp"
-                    android:text="@{recruitDetail.recruitIntroduceMessage}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -595,9 +598,9 @@
                 android:gravity="center"
                 android:lineHeight="21sp"
                 android:paddingVertical="8dp"
+                android:text="@{recruitDetail.recruitEndDateTime != null? @string/recruit_left_time(LocalDateTime.now().until(recruitDetail.recruitEndDateTime, ChronoUnit.MINUTES), LocalDateTime.now().until(recruitDetail.recruitEndDateTime, ChronoUnit.SECONDS)): ``}"
                 android:textColor="@color/primary_8B95B3"
                 android:textSize="14sp"
-                android:text="@{recruitDetail.recruitEndDateTime != null? @string/recruit_left_time(LocalDateTime.now().until(recruitDetail.recruitEndDateTime, ChronoUnit.MINUTES), LocalDateTime.now().until(recruitDetail.recruitEndDateTime, ChronoUnit.SECONDS)): ``}"
                 android:visibility="@{recruitDetail.recruitEndDateTime != null &amp;&amp; LocalDateTime.now().until(recruitDetail.recruitEndDateTime, ChronoUnit.HOURS) &lt; 1 &amp;&amp; recruitDetail.recruitEndDateTime.isAfter(LocalDateTime.now()) ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -612,12 +615,12 @@
                 android:layout_height="56dp"
                 android:animateLayoutChanges="true"
                 android:background="@drawable/selector_button_background_radius_12_enabled"
+                android:enabled="@{recruitDetail.searchingHeadCount - recruitDetail.headCount &lt;= 0 ? false : true}"
                 android:fontFamily="@font/pretendard_semi_bold"
                 android:gravity="center"
                 android:lineHeight="20sp"
                 android:padding="10dp"
                 android:stateListAnimator="@null"
-                android:enabled="@{recruitDetail.searchingHeadCount - recruitDetail.headCount &lt;= 0 ? false : true}"
                 android:text="@string/participate"
                 android:textColor="@drawable/selector_textview_enabled"
                 android:textSize="16sp"

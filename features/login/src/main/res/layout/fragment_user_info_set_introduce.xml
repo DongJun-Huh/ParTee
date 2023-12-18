@@ -9,6 +9,10 @@
         <variable
             name="vm"
             type="com.golfzon.login.ui.LoginViewModel" />
+
+        <import type="android.view.View" />
+
+        <import type="androidx.navigation.Navigation" />
     </data>
 
     <LinearLayout
@@ -73,29 +77,32 @@
             android:paddingTop="16dp"
             android:paddingBottom="24dp">
 
-            <TextView
+            <Button
                 android:id="@+id/tv_user_info_set_introduce_cancel"
+                onDebounceClick="@{view -> Navigation.findNavController(view).navigateUp()}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:fontFamily="@font/pretendard_regular"
                 android:lineHeight="21sp"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="8dp"
                 android:text="@string/cancel"
+                android:textColor="@color/gray_767B83"
                 android:textFontWeight="500"
                 android:textSize="14sp" />
 
-            <TextView
+            <Button
                 android:id="@+id/tv_user_info_set_introduce_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:background="@android:color/transparent"
                 android:fontFamily="@font/pretendard_regular"
                 android:lineHeight="21sp"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="8dp"
                 android:text="@string/save"
-                android:textColor="@color/gray_767B83"
                 android:textFontWeight="500"
                 android:textSize="14sp" />
         </LinearLayout>
