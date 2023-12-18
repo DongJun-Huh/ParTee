@@ -64,7 +64,7 @@ class TeamInfoFragment : Fragment() {
         teamUserAdapter = TeamUserAdapter()
         with(binding.rvTeamInfoUsers) {
             adapter = teamUserAdapter
-            addItemDecoration(VerticalMarginItemDecoration(12.dp))
+            addItemDecoration(VerticalMarginItemDecoration(12))
         }
     }
 

@@ -99,7 +99,7 @@ class GroupDetailFragment : Fragment() {
         firstTeamMemberAdapter = CandidateTeamMemberAdapter(72.dp)
         with(binding.rvGroupDetailFirstTeamMembers) {
             adapter = firstTeamMemberAdapter
-            addItemDecoration(VerticalMarginItemDecoration(8.dp))
+            addItemDecoration(VerticalMarginItemDecoration(8))
         }
 
         firstTeamMemberAdapter?.setOnItemClickListener(object :
@@ -122,7 +122,7 @@ class GroupDetailFragment : Fragment() {
         secondTeamMemberAdapter = CandidateTeamMemberAdapter(72.dp)
         with(binding.rvGroupDetailSecondTeamMembers) {
             adapter = secondTeamMemberAdapter
-            addItemDecoration(VerticalMarginItemDecoration(8.dp))
+            addItemDecoration(VerticalMarginItemDecoration(8))
         }
 
         secondTeamMemberAdapter?.setOnItemClickListener(object :

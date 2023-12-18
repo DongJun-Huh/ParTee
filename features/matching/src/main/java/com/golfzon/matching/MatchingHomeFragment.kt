@@ -73,7 +73,7 @@ class MatchingHomeFragment : Fragment() {
         teamUserAdapter = TeamUserAdapter(true)
         with(binding.rvMatchingHomeTeamUsers) {
             adapter = teamUserAdapter
-            addItemDecoration(VerticalMarginItemDecoration(12.dp))
+            addItemDecoration(VerticalMarginItemDecoration(12))
         }
     }
 

@@ -94,7 +94,7 @@ class RecruitHomeFragment : Fragment() {
         recruitPostAdapter = RecruitPostAdapter()
         with(binding.rvRecruitPosts) {
             adapter = recruitPostAdapter
-            addItemDecoration(VerticalMarginItemDecoration(20.dp))
+            addItemDecoration(VerticalMarginItemDecoration(20))
         }
 
         recruitPostAdapter?.setOnItemClickListener(object :

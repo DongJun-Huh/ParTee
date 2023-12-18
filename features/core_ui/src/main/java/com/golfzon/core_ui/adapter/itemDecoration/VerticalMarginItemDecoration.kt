@@ -4,6 +4,7 @@ import android.graphics.Canvas
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.golfzon.core_ui.dp
 
 class VerticalMarginItemDecoration(private val spacing: Int) : RecyclerView.ItemDecoration() {
 
@@ -16,7 +17,7 @@ class VerticalMarginItemDecoration(private val spacing: Int) : RecyclerView.Item
         super.getItemOffsets(outRect, view, parent, state)
 
         outRect.top = 0
-        outRect.bottom = spacing
+        outRect.bottom = spacing.dp
         outRect.left = 0
         outRect.right = 0
     }

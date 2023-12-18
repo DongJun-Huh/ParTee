@@ -77,7 +77,7 @@ class GroupHomeFragment : Fragment() {
         groupAdapter = GroupAdapter()
         with(binding.rvGroupHomeGroups) {
             adapter = groupAdapter
-            addItemDecoration(VerticalMarginItemDecoration(12.dp))
+            addItemDecoration(VerticalMarginItemDecoration(12))
         }
 
         groupAdapter?.setOnItemClickListener(object :

@@ -69,7 +69,7 @@ class TeamMemberAddFragment : BottomSheetDialogFragment() {
         searchUserResultAdapter = SearchUserResultAdapter()
         with(binding.rvTeamMembersAddSearchResult) {
             adapter = searchUserResultAdapter
-            addItemDecoration(VerticalMarginItemDecoration(12.dp))
+            addItemDecoration(VerticalMarginItemDecoration(12))
         }
     }
 
