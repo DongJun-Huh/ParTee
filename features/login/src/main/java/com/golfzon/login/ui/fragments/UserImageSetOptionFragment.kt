@@ -30,11 +30,9 @@ import com.golfzon.login.databinding.FragmentUserImageSetOptionBinding
 import com.golfzon.login.ui.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import java.util.Objects
 
 @AndroidEntryPoint
 class UserImageSetOptionFragment : DialogFragment() {
@@ -71,102 +69,105 @@ class UserImageSetOptionFragment : DialogFragment() {
 
     private val requestOpenGallery =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            permissions.entries.forEach {
-                if (it.value == false) {
-                    return@registerForActivityResult
-                }
-            }
-            openGallery()
+            if (permissions.all { it.value }) openGallery()
         }
 
     private fun openGallery() {
         // ACTION PICK 사용시, intent type에서 설정한 종류의 데이터를 MediaStore에서 불러와서 목록으로 나열 후 선택할 수 있는 앱 실행
         val intent = Intent(Intent.ACTION_PICK)
-        intent.type = MediaStore.Images.Media.CONTENT_TYPE
+            .apply { type = MediaStore.Images.Media.CONTENT_TYPE }
         navigateGallaryActivity.launch(intent)
     }
 
     val navigateGallaryActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
             if (activityResult.resultCode == Activity.RESULT_OK) {
-                val data: Intent? = activityResult.data
-                // 호출된 갤러리에서 이미지 선택시, data의 data속성으로 해당 이미지의 Uri 전달
-                val uri = data?.data!!
-                // 이미지 파일과 함께, 파일 확장자도 같이 저장
-                if (uri.extension(requireActivity().applicationContext.contentResolver).isPermitExtension) {
-                    setImageInfo(
-                        uri.toBitmap(requireContext().contentResolver),
-                        uri.extension(requireActivity().applicationContext.contentResolver)
-                    )
-                } else {
-                    this.toast(msg = getString(com.golfzon.core_ui.R.string.upload_image_fail_file_extension))
-                    findNavController().popBackStack()
-                }
+                handleGalleryResult(intent = activityResult.data)
             } else {
                 findNavController().popBackStack()
             }
         }
 
+    private fun handleGalleryResult(intent: Intent?) {
+        intent?.data?.let { uri ->
+            val contentResolver = requireActivity().applicationContext.contentResolver
+            if (uri.extension(contentResolver).isPermitExtension) {
+                setImageInfo(
+                    uri.toBitmap(requireContext().contentResolver),
+                    uri.extension(requireActivity().applicationContext.contentResolver)
+                )
+            } else {
+                this@UserImageSetOptionFragment.toast(
+                    message = getString(com.golfzon.core_ui.R.string.upload_image_fail_file_extension),
+                    isError = true
+                )
+                findNavController().popBackStack()
+            }
+        } ?: run {
+            this@UserImageSetOptionFragment.toast(
+                message = getString(com.golfzon.core_ui.R.string.upload_image_fail_unknown),
+                isError = true
+            )
+            findNavController().popBackStack()
+        }
+    }
+
     private fun setImageTakePhotoClickListener() {
         binding.layoutUserImageSetOptionTakePhoto.setOnDebounceClickListener {
-            requestOpenCamera.launch(
-                PERMISSIONS_CAMERA
-            )
+            requestOpenCamera.launch(PERMISSIONS_CAMERA)
         }
     }
 
     val requestOpenCamera =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            permissions.entries.forEach {
-                if (it.value == false) {
-                    return@registerForActivityResult
-                }
-            }
-            openCamera()
+            if (permissions.all { it.value }) openCamera()
         }
 
     private fun openCamera() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if (intent.resolveActivity(requireContext().packageManager) != null) {
-            var photoFile: File? = null
-            val tmpDir: File? = requireContext().cacheDir
-            val timeStamp: String =
-                SimpleDateFormat("yyyy-MM-d-HH-mm-ss", Locale.KOREA).format(Date())
-            val photoFileName = "Capture_${timeStamp}_"
-            try {
-                val tmpPhoto = File.createTempFile(photoFileName, ".jpg", tmpDir)
-                currentTakenPhotoPath = tmpPhoto.absolutePath
-                photoFile = tmpPhoto
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-            if (photoFile != null) {
-                val photoURI = FileProvider.getUriForFile(
-                    Objects.requireNonNull(requireContext().applicationContext),
-                    "ParTee" + ".fileprovider",
-                    photoFile
-                )
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                navigateCameraActivity.launch(intent)
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+            if (resolveActivity(requireContext().packageManager) != null) {
+                createImageFile()?.let { photoFile ->
+                    val photoURI = FileProvider.getUriForFile(
+                        requireContext(),
+                        "ParTee" + ".fileprovider",
+                        photoFile
+                    )
+                    putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    navigateCameraActivity.launch(this)
+                }
             }
         }
     }
+
+    private fun createImageFile(): File? =
+        try {
+            val timeStamp = SimpleDateFormat("yyyy-MM-d-HH-mm-ss", Locale.KOREA).format(Date())
+            val photoFileName = "Capture_${timeStamp}_"
+            val tmpDir: File? = requireContext().cacheDir
+            File.createTempFile(photoFileName, ".jpg", tmpDir).apply {
+                currentTakenPhotoPath = absolutePath
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
 
     val navigateCameraActivity =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
             if (activityResult.resultCode == Activity.RESULT_OK) {
                 val photoFile = File(currentTakenPhotoPath)
-                val photoFileExtension =
-                    if (currentTakenPhotoPath
-                            .split(".")
-                            .last()
-                            .isNotEmpty()
-                    ) currentTakenPhotoPath.split(".").last() else "jpg"
-                setImageInfo(Uri.fromFile(photoFile).toBitmap(requireContext().contentResolver), photoFileExtension)
+                val photoFileExtension = currentTakenPhotoPath
+                    .split(".")
+                    .last().ifEmpty { "jpg" }
+                setImageInfo(
+                    Uri.fromFile(photoFile).toBitmap(requireContext().contentResolver),
+                    photoFileExtension
+                )
             }
         }
 
     private fun setImageInfo(bitmap: Bitmap, fileExtension: String) {
+        // 이미지 파일과 함께, 파일 확장자도 같이 저장
         loginViewModel.setImageFileExtension(fileExtension)
         findNavController().navigate(
             UserImageSetOptionFragmentDirections.actionUserImageSetOptionFragmentToImageCropFragment(
