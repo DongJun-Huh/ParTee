@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.golfzon.core_ui.adapter.itemDecoration.HorizontalMarginItemDecoration
 import com.golfzon.core_ui.adapter.CandidateTeamMemberAdapter
@@ -16,14 +16,8 @@ import com.golfzon.core_ui.dp
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.recruit.databinding.FragmentRecruitDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.NumberFormat
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.Period
-import java.time.format.DateTimeFormatter
-import java.time.format.TextStyle
-import java.time.temporal.ChronoUnit
-import java.util.Locale
 
 @AndroidEntryPoint
 class RecruitDetailFragment : Fragment() {
@@ -74,12 +68,19 @@ class RecruitDetailFragment : Fragment() {
                         with(binding) {
                             this.recruitDetail = recruitDetail
                             tvRecruitDetailEndDateDDay.text =
-                                if (Period.between(LocalDate.now(), recruitDetail.recruitEndDateTime.toLocalDate()).days < 0 ||
+                                if (Period.between(
+                                        LocalDate.now(),
+                                        recruitDetail.recruitEndDateTime.toLocalDate()
+                                    ).days < 0 ||
                                     recruitDetail.searchingHeadCount - recruitDetail.headCount <= 0
-                                    ) getString(R.string.participate_end)
-                                else "D-"+Period.between(LocalDate.now(), recruitDetail.recruitEndDateTime.toLocalDate()).days
+                                ) getString(R.string.participate_end)
+                                else "D-" + Period.between(
+                                    LocalDate.now(),
+                                    recruitDetail.recruitEndDateTime.toLocalDate()
+                                ).days
                         }
                         getRecruitMembers(recruitDetail.membersUId)
+                        setMap(this.recruitPlaceUId)
                     }
                 }
             }
@@ -91,7 +92,8 @@ class RecruitDetailFragment : Fragment() {
     }
 
     private fun setRecruitDetailMembersAdapter() {
-        recruitDetailMembersAdapter = CandidateTeamMemberAdapter(itemHeight = 52.dp,isCircleImage = true)
+        recruitDetailMembersAdapter =
+            CandidateTeamMemberAdapter(itemHeight = 52.dp, isCircleImage = true)
         binding.rvRecruitDetailParticipants.apply {
             adapter = recruitDetailMembersAdapter
             addItemDecoration(HorizontalMarginItemDecoration(8.dp))
@@ -115,6 +117,36 @@ class RecruitDetailFragment : Fragment() {
             if (isSuccess.getContentIfNotHandled() == true) {
                 getRecruitDetail()
             }
+        }
+    }
+
+    private fun setMap(placeUId: String) {
+        val golfzonWebViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                // 기존 페이지의 Back button element 제거
+                view?.evaluateJavascript(
+                    "javascript:(function() { " +
+                            "var target = document.querySelector('.forweb');" +
+                            "var observer = new MutationObserver(function(mutations) { " +
+                            "   mutations.forEach(function(mutation) { " +
+                            "       document.querySelector('.btn_back').classList.remove('btn_back')" +
+                            "   });" +
+                            "});" +
+                            "observer.observe(target, { childList: true, subtree: true });" +
+                            "})();", null
+                )
+                super.onPageFinished(view, url)
+            }
+        }
+
+        with(binding.recruitDetailPlaceMap) {
+            isEnabled = false
+            setBackgroundColor(0)
+            setOnTouchListener { v, event -> true }
+
+            webViewClient = golfzonWebViewClient
+            settings.javaScriptEnabled = true
+            loadUrl("https://m.golfzon.com/booking/#/booking/map/view/${placeUId}")
         }
     }
 }

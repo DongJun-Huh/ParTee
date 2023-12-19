@@ -28,7 +28,7 @@ class RecruitRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val dataStore: DataStore<Preferences>
 ) : RecruitRepository {
-    override suspend fun createRecruitPost(recruitInfo: Recruit): Boolean =
+    override suspend fun createRecruitPost(recruitInfo: Recruit): String =
         withContext(Dispatchers.IO) {
             val curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
 
@@ -51,10 +51,10 @@ class RecruitRepositoryImpl @Inject constructor(
                 )
 
                 Tasks.whenAll(userUpdateTask).await()
-                true
+                newRecruitInfo.id
             } catch (e: Exception) {
                 Lg.e(e)
-                false
+                ""
             }
         }
 
@@ -66,6 +66,7 @@ class RecruitRepositoryImpl @Inject constructor(
                 recruitDocument.data?.let {
                     resultRecruits.add(
                         it.toDataClass<Recruit, LocalDateTime>(jsonDeserializer = TimestampDeserializer())
+                            .copy(recruitUId = recruitDocument.id)
                     )
                 }
             }

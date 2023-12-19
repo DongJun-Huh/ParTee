@@ -18,6 +18,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,8 +29,8 @@ class RecruitViewModel @Inject constructor(
     private val getRecruitDetailUseCase: GetRecruitDetailUseCase,
     private val participateRecruitUseCase: RequestParticipateRecruitUseCase
 ) : ViewModel() {
-    private val _isCreateRecruitSuccess = MutableLiveData<Event<Boolean>>()
-    val isCreateRecruitSuccess: LiveData<Event<Boolean>> get() = _isCreateRecruitSuccess
+    private val _createdRecruitId = MutableLiveData<Event<String>>()
+    val createdRecruitId: LiveData<Event<String>> get() = _createdRecruitId
 
     private val _recruits = ListLiveData<Recruit>()
     val recruits: ListLiveData<Recruit> get() = _recruits
@@ -52,13 +53,13 @@ class RecruitViewModel @Inject constructor(
     private val _isParticipateSuccess = MutableLiveData<Event<Boolean>>()
     val isParticipateSuccess: LiveData<Event<Boolean>> get() = _isParticipateSuccess
 
-    var createRecruitDateTime = MutableLiveData<LocalDateTime>(LocalDateTime.now())
-    var createRecruitEndDate = MutableLiveData<LocalDate>(LocalDate.now())
+    var createRecruitDateTime = MutableLiveData<LocalDateTime>(LocalDateTime.now().plusDays(7L))
+    var createRecruitEndDate = MutableLiveData<LocalDate>(LocalDate.now().plusDays(6L))
     var createRecruitPlaceName = MutableLiveData<String>()
     var createRecruitPlaceUId = MutableLiveData<String>()
     var createRecruitPlaceRoadAddress = MutableLiveData<String>()
     var createRecruitPlacePastAddress = MutableLiveData<String>()
-    var createRecruitFee = MutableLiveData<Int>(0)
+    var createRecruitFee = MutableLiveData<String>()
     val createRecruitHeadCount = MutableLiveData<Int>()
     val createRecruitHeadCountCheckedButtonId = MutableLiveData<Int>()
     val createRecruitIsConsecutiveStay = MutableLiveData<Boolean>()
@@ -89,9 +90,31 @@ class RecruitViewModel @Inject constructor(
         )
     }
 
-    fun createRecruit(recruitInfo: Recruit) = viewModelScope.launch {
-        createRecruitUseCase(recruitInfo).let { isSuccess ->
-            _isCreateRecruitSuccess.postValue(Event(isSuccess))
+    fun createRecruit() = viewModelScope.launch {
+        createRecruitUseCase(
+            Recruit(
+                recruitUId = "",
+                leaderUId = "",
+                membersUId = emptyList(),
+                headCount = 1,
+                searchingHeadCount = createRecruitHeadCount.value ?: 0,
+                recruitDateTime = createRecruitDateTime.value ?: LocalDateTime.now(),
+                recruitPlaceName = createRecruitPlaceName.value ?: "",
+                recruitPlaceUId = createRecruitPlaceUId.value ?: "",
+                recruitPlaceRoadAddress = createRecruitPlaceRoadAddress.value ?: "",
+                recruitPlacePastAddress = createRecruitPlacePastAddress.value ?: "",
+                recruitEndDateTime = LocalDateTime.of(
+                    createRecruitEndDate.value,
+                    LocalTime.of(0, 0)
+                ) ?: LocalDateTime.now(),
+                openChatUrl = "",
+                fee = createRecruitFee.value?.toInt() ?: 0,
+                isConsecutiveStay = createRecruitIsConsecutiveStay.value ?: false,
+                isCouple = createRecruitIsCouple.value ?: false,
+                recruitIntroduceMessage = creteRecruitIntroduceMessage.value ?: "",
+            )
+        ).let { recruitId ->
+            _createdRecruitId.postValue(Event(recruitId))
         }
     }
 

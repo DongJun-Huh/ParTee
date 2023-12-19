@@ -47,9 +47,18 @@
             app:popExitAnim="@anim/translate_to_right_out">
             <argument
                 android:name="recruitPlaceUId"
-                app:argType="string"
-                android:defaultValue=""/>
+                android:defaultValue=""
+                app:argType="string" />
         </action>
+        <action
+            android:id="@+id/action_recruitCreateFragment_to_recruitDetailFragment"
+            app:destination="@id/RecruitDetailFragment"
+            app:enterAnim="@anim/translate_bottom_up"
+            app:exitAnim="@anim/translate_nothing"
+            app:popEnterAnim="@anim/translate_nothing"
+            app:popExitAnim="@anim/translate_top_down"
+            app:popUpTo="@id/RecruitCreateFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment

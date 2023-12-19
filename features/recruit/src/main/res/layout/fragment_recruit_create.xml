@@ -293,12 +293,15 @@
                         app:layout_constraintVertical_bias="0.0" />
 
                     <EditText
+                        android:id="@+id/et_recruit_create_fee_input"
+                        moneyFormattedText="@={vm.createRecruitFee}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/background_radius_8"
                         android:backgroundTint="@color/blue_AFB7CF_opacity_20"
                         android:fontFamily="@font/pretendard_medium"
+                        android:imeOptions="actionDone"
                         android:inputType="numberDecimal"
                         android:letterSpacing="0"
                         android:lineSpacingExtra="5sp"
@@ -306,7 +309,6 @@
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="12dp"
                         android:singleLine="true"
-                        android:text="@={``+vm.createRecruitFee}"
                         android:textColor="@color/primary_8B95B3"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -625,6 +627,7 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_recruit_create_upload"
+                onDebounceClick="@{() -> vm.createRecruit()}"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:animateLayoutChanges="true"

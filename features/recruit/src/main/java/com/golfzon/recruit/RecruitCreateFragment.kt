@@ -12,8 +12,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.golfzon.core_ui.KeyBoardUtil.hideKeyboard
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
+import com.golfzon.core_ui.extension.toast
 import com.golfzon.recruit.databinding.FragmentRecruitCreateBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
@@ -41,6 +43,7 @@ class RecruitCreateFragment : Fragment() {
         setEndDateClickListener()
         setMapClickListener()
         observePlaceInfo()
+        observeCreatedRecruitId()
     }
 
     private fun setDataBindingVariables() {
@@ -48,6 +51,14 @@ class RecruitCreateFragment : Fragment() {
             vm = recruitViewModel
             lifecycleOwner = viewLifecycleOwner
         }
+    }
+
+    override fun onStop() {
+        with(binding) {
+            etRecruitCreateFeeInput.hideKeyboard(requireContext())
+            etRecruitCreateIntroduceMessage.hideKeyboard(requireContext())
+        }
+        super.onStop()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -71,15 +82,49 @@ class RecruitCreateFragment : Fragment() {
             val datePickerDialog = DatePickerDialog(
                 requireContext(),
                 { _, selectedYear, selectedMonth, selectedDayOfMonth ->
-                    recruitViewModel.createRecruitDateTime.postValue(
-                        LocalDateTime.of(
-                            selectedYear,
-                            selectedMonth + 1,
-                            selectedDayOfMonth,
-                            recruitViewModel.createRecruitDateTime.value!!.hour,
-                            recruitViewModel.createRecruitDateTime.value!!.minute,
+                    val selectedDate =
+                        LocalDate.of(selectedYear, selectedMonth + 1, selectedDayOfMonth)
+                    val currentDate = LocalDate.now()
+
+                    if (selectedDate.minusDays(2).isBefore(currentDate)) {
+                        // 0. 현재날짜보다 이전날짜를 선택한경우
+                        this@RecruitCreateFragment.toast(
+                            message = getString(R.string.recruit_select_date_fail),
+                            isError = true
                         )
-                    )
+                    } else {
+                        if (selectedDate.isBefore(recruitViewModel.createRecruitEndDate.value!!)) {
+                            if (selectedDate.minusDays(1).isAfter(LocalDate.now())) {
+                                // 1. 선택한 날짜가 모집 마감날짜보다 이전이면서, 선택날짜 - 1이 지나지 않은경우
+                                // 선택날짜 적용 + 마감날짜는 선택날짜-1 적용
+                                recruitViewModel.createRecruitEndDate.postValue(
+                                    selectedDate.minusDays(1)
+                                )
+                                recruitViewModel.createRecruitDateTime.postValue(
+                                    LocalDateTime.of(
+                                        selectedDate,
+                                        recruitViewModel.createRecruitDateTime.value!!.toLocalTime()
+                                    )
+                                )
+                            } else {
+                                // 2. 선택한 날짜가 모집 마감날짜보다 이전이면서, 선택날짜 - 1이 지난 경우
+                                // 선택불가
+                                this@RecruitCreateFragment.toast(
+                                    message = getString(R.string.recruit_select_date_fail),
+                                    isError = true
+                                )
+                            }
+                        } else {
+                            // 3. 선택한 날짜가 모집 마감날짜보다 이후인 경우
+                            recruitViewModel.createRecruitDateTime.postValue(
+                                LocalDateTime.of(
+                                    selectedDate,
+                                    recruitViewModel.createRecruitDateTime.value!!.toLocalTime()
+                                )
+                            )
+                        }
+                    }
+
                 }, recruitViewModel.createRecruitDateTime.value!!.year,
                 recruitViewModel.createRecruitDateTime.value!!.monthValue - 1,
                 recruitViewModel.createRecruitDateTime.value!!.dayOfMonth
@@ -115,13 +160,32 @@ class RecruitCreateFragment : Fragment() {
             val datePickerDialog = DatePickerDialog(
                 requireContext(),
                 { _, selectedYear, selectedMonth, selectedDayOfMonth ->
-                    recruitViewModel.createRecruitEndDate.postValue(
-                        LocalDate.of(
-                            selectedYear,
-                            selectedMonth + 1,
-                            selectedDayOfMonth
-                        )
+                    val selectedDate = LocalDate.of(
+                        selectedYear,
+                        selectedMonth + 1,
+                        selectedDayOfMonth
                     )
+                    if (selectedDate.minusDays(1).isBefore(LocalDate.now())) {
+                        // 0. 현재날짜보다 이전날짜를 선택한경우
+                        this@RecruitCreateFragment.toast(
+                            message = getString(R.string.recruit_select_end_date_fail),
+                            isError = true
+                        )
+                    } else {
+                        if (selectedDate.minusDays(1L)
+                                .isBefore(recruitViewModel.createRecruitDateTime.value!!.toLocalDate())
+                            && selectedDate.until(recruitViewModel.createRecruitDateTime.value!!.toLocalDate()).days >= 1
+                        ) {
+                            // 1. 모집 마감날짜가 모집 시작날짜보다 이전인 경우
+                            recruitViewModel.createRecruitEndDate.postValue(selectedDate)
+                        } else {
+                            // 2. 모집 마감날짜가 모집 시작날짜와 같거나 이후인 경우
+                            this@RecruitCreateFragment.toast(
+                                message = getString(R.string.recruit_end_date_guide),
+                                isError = true
+                            )
+                        }
+                    }
                 }, recruitViewModel.createRecruitEndDate.value!!.year,
                 recruitViewModel.createRecruitEndDate.value!!.monthValue - 1,
                 recruitViewModel.createRecruitEndDate.value!!.dayOfMonth
@@ -132,7 +196,8 @@ class RecruitCreateFragment : Fragment() {
 
     private fun setMapClickListener() {
         binding.tvRecruitCreatePlace.setOnDebounceClickListener {
-            val action = RecruitCreateFragmentDirections.actionRecruitCreateFragmentToMapFinderFragment()
+            val action =
+                RecruitCreateFragmentDirections.actionRecruitCreateFragmentToMapFinderFragment()
             findNavController().navigate(action)
         }
     }
@@ -154,5 +219,24 @@ class RecruitCreateFragment : Fragment() {
             ?.observe(viewLifecycleOwner) { pastAddress ->
                 recruitViewModel.createRecruitPlacePastAddress.postValue(pastAddress)
             }
+    }
+
+    private fun observeCreatedRecruitId() {
+        recruitViewModel.createdRecruitId.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { recruitId ->
+                if (recruitId.isEmpty()) {
+                    this@RecruitCreateFragment.toast(
+                        message = getString(R.string.recruit_create_fail),
+                        isError = true
+                    )
+                } else {
+                    findNavController().navigate(
+                        RecruitCreateFragmentDirections.actionRecruitCreateFragmentToRecruitDetailFragment(
+                            recruitId
+                        )
+                    )
+                }
+            }
+        }
     }
 }

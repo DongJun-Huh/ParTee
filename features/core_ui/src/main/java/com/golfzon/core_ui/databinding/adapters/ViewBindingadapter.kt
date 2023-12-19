@@ -1,5 +1,7 @@
 package com.golfzon.core_ui.databinding.adapters
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -7,9 +9,13 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.InverseBindingListener
 import com.golfzon.core_ui.ImageUploadUtil
 import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
+import java.text.NumberFormat
+import java.util.Locale
 import kotlin.math.roundToInt
 
 @BindingAdapter("onDebounceClick")
@@ -55,10 +61,11 @@ fun TextView.displayListsToString(divider: String? = "", lists: List<String>?) {
     }
     this.text = result
 }
+
 @BindingAdapter(value = ["imageUId", "imageType"], requireAll = false)
 fun ImageView.loadImage(imageUId: String? = "", imageType: ImageUploadUtil.ImageType) {
     this.loadImageFromFirebaseStorage(
-        imageUId = imageUId?: "",
+        imageUId = imageUId ?: "",
         imageType = imageType
     )
 }
@@ -75,4 +82,31 @@ fun TextView.calculateAverageToInt(
         return
     }
     this.text = "${prefix}${(dividend.toDouble() / divisor.toDouble()).roundToInt()}${postfix}"
+}
+@BindingAdapter("moneyFormattedText")
+fun setMoneyFormattedText(view: EditText, value: String?) {
+    val cleanString = value?.replace("[,]".toRegex(), "") ?: ""
+    val formatted = if (cleanString.isNotEmpty()) {
+        val parsed = cleanString.toDouble()
+        NumberFormat.getNumberInstance(Locale.KOREA).format(parsed)
+    } else { "" }
+
+    if (view.text.toString() != formatted) {
+        view.setText(formatted)
+        view.setSelection(formatted.length)
+    }
+}
+
+@InverseBindingAdapter(attribute = "moneyFormattedText", event = "moneyFormattedTextAttrChanged")
+fun getMoneyFormattedText(view: EditText): String {
+    return view.text.toString().replace("[,]".toRegex(), "")
+}
+
+@BindingAdapter("moneyFormattedTextAttrChanged")
+fun setMoneyFormattedTextWatcher(view: EditText, attrChange: InverseBindingListener) {
+    view.addTextChangedListener(object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        override fun afterTextChanged(s: Editable) { attrChange.onChange() }
+    })
 }
