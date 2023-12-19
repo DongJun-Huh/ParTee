@@ -13,4 +13,10 @@
             android:name="ImagePath"
             app:argType="string"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/MapFinderFragment"
+        android:name="com.golfzon.core_ui.map.MapFinderFragment"
+        android:label="fragment_map_finder"
+        tools:layout="@layout/fragment_map_finder" />
 </navigation>

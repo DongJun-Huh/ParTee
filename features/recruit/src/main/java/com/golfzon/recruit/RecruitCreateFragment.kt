@@ -39,6 +39,7 @@ class RecruitCreateFragment : Fragment() {
         setDateClickListener()
         setTimeClickListener()
         setEndDateClickListener()
+        setMapClickListener()
     }
 
     private fun setDataBindingVariables() {
@@ -125,6 +126,13 @@ class RecruitCreateFragment : Fragment() {
                 recruitViewModel.createRecruitEndDate.value!!.dayOfMonth
             )
             datePickerDialog.show()
+        }
+    }
+
+    private fun setMapClickListener() {
+        binding.tvRecruitCreatePlace.setOnDebounceClickListener {
+            val action = RecruitCreateFragmentDirections.actionRecruitCreateFragmentToMapFinderFragment()
+            findNavController().navigate(action)
         }
     }
 }

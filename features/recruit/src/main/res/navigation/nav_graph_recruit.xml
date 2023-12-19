@@ -39,5 +39,14 @@
         android:name="com.golfzon.recruit.RecruitCreateFragment"
         android:label="fragment_recruit_create"
         tools:layout="@layout/fragment_recruit_create">
+        <action
+            android:id="@+id/action_recruitCreateFragment_to_mapFinderFragment"
+            app:destination="@id/MapFinderFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/MapFinderFragment"
+        android:name="com.golfzon.core_ui.map.MapFinderFragment"
+        android:label="fragment_map_finder"
+        tools:layout="@layout/fragment_map_finder" />
 </navigation>
