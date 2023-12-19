@@ -54,7 +54,10 @@ class RecruitViewModel @Inject constructor(
 
     var createRecruitDateTime = MutableLiveData<LocalDateTime>(LocalDateTime.now())
     var createRecruitEndDate = MutableLiveData<LocalDate>(LocalDate.now())
-    var createRecruitPlace = MutableLiveData<String>()
+    var createRecruitPlaceName = MutableLiveData<String>()
+    var createRecruitPlaceUId = MutableLiveData<String>()
+    var createRecruitPlaceRoadAddress = MutableLiveData<String>()
+    var createRecruitPlacePastAddress = MutableLiveData<String>()
     var createRecruitFee = MutableLiveData<Int>(0)
     val createRecruitHeadCount = MutableLiveData<Int>()
     val createRecruitHeadCountCheckedButtonId = MutableLiveData<Int>()

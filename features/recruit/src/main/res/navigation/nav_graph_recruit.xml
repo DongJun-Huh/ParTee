@@ -41,7 +41,15 @@
         tools:layout="@layout/fragment_recruit_create">
         <action
             android:id="@+id/action_recruitCreateFragment_to_mapFinderFragment"
-            app:destination="@id/MapFinderFragment" />
+            app:destination="@id/MapFinderFragment"
+            app:enterAnim="@anim/translate_from_right_in"
+            app:exitAnim="@anim/translate_to_left_out"
+            app:popExitAnim="@anim/translate_to_right_out">
+            <argument
+                android:name="recruitPlaceUId"
+                app:argType="string"
+                android:defaultValue=""/>
+        </action>
     </fragment>
 
     <fragment

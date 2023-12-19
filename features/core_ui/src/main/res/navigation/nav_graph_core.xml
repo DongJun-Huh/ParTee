@@ -11,12 +11,18 @@
         tools:layout="@layout/fragment_image_crop">
         <argument
             android:name="ImagePath"
-            app:argType="string"/>
+            app:argType="string" />
     </fragment>
 
     <fragment
         android:id="@+id/MapFinderFragment"
         android:name="com.golfzon.core_ui.map.MapFinderFragment"
         android:label="fragment_map_finder"
-        tools:layout="@layout/fragment_map_finder" />
+        tools:layout="@layout/fragment_map_finder">
+
+        <argument
+            android:name="recruitPlaceUId"
+            android:defaultValue=""
+            app:argType="string" />
+    </fragment>
 </navigation>

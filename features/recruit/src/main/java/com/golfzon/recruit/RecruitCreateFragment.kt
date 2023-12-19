@@ -40,6 +40,7 @@ class RecruitCreateFragment : Fragment() {
         setTimeClickListener()
         setEndDateClickListener()
         setMapClickListener()
+        observePlaceInfo()
     }
 
     private fun setDataBindingVariables() {
@@ -134,5 +135,24 @@ class RecruitCreateFragment : Fragment() {
             val action = RecruitCreateFragmentDirections.actionRecruitCreateFragmentToMapFinderFragment()
             findNavController().navigate(action)
         }
+    }
+
+    private fun observePlaceInfo() {
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("recruitPlaceName")
+            ?.observe(viewLifecycleOwner) { placeName ->
+                recruitViewModel.createRecruitPlaceName.postValue(placeName)
+            }
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("recruitPlaceUId")
+            ?.observe(viewLifecycleOwner) { placeUId ->
+                recruitViewModel.createRecruitPlaceUId.postValue(placeUId)
+            }
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("recruitPlaceRoadAddress")
+            ?.observe(viewLifecycleOwner) { roadAddress ->
+                recruitViewModel.createRecruitPlaceRoadAddress.postValue(roadAddress)
+            }
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("recruitPlacePastAddress")
+            ?.observe(viewLifecycleOwner) { pastAddress ->
+                recruitViewModel.createRecruitPlacePastAddress.postValue(pastAddress)
+            }
     }
 }

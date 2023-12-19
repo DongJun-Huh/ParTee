@@ -17,7 +17,6 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -87,7 +86,10 @@ class RecruitRepositoryImpl @Inject constructor(
                 headCount = 0,
                 searchingHeadCount = 0,
                 recruitDateTime = LocalDateTime.now(),
-                recruitPlace = "",
+                recruitPlaceName = "",
+                recruitPlaceUId = "",
+                recruitPlaceRoadAddress = "",
+                recruitPlacePastAddress = "",
                 recruitEndDateTime = LocalDateTime.now(),
                 openChatUrl = "",
                 fee = 0,

@@ -269,7 +269,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:fontFamily="@font/pretendard_medium"
-                        android:text="@{recruitDetail.recruitPlace}"
+                        android:text="@{recruitDetail.recruitPlaceName}"
                         android:textColor="@color/primary_8B95B3"
                         android:textFontWeight="500"
                         tools:text="한강이북점" />
