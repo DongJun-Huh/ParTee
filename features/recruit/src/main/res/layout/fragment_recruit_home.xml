@@ -13,7 +13,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <LinearLayout
             android:id="@+id/layout_recruit_appbar"
@@ -31,31 +32,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
-                android:fontFamily="@font/montserrat_semi_bold"
+                android:fontFamily="@font/pretendard_medium"
                 android:gravity="center"
                 android:letterSpacing="0"
                 android:lineSpacingExtra="6sp"
                 android:text="@string/recruit"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <Button
-                android:background="@android:color/transparent"
                 android:id="@+id/btn_recruit_appbar_create"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
-                android:fontFamily="@font/montserrat_semi_bold"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/pretendard_medium"
                 android:gravity="center"
                 android:letterSpacing="0"
                 android:lineSpacingExtra="6sp"
-                android:text="글 작성"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:paddingHorizontal="20dp"
+                android:text="@string/create_recruit"
+                android:textColor="@color/primary_8B95B3"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <HorizontalScrollView
@@ -72,7 +74,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp">
                 <!-- TODO 해당 레이아웃 내 뷰들은 모두 수정 대상-->
                 <TextView
                     android:layout_width="wrap_content"
@@ -126,12 +129,12 @@
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
                     android:background="@drawable/selector_background_radius_100_stroke_1"
-                    android:textColor="@drawable/selector_textview_primary_to_white"
                     android:button="@null"
                     android:fontFamily="@font/pretendard_medium"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="4dp"
                     android:text="@string/consecutive_stay"
+                    android:textColor="@drawable/selector_textview_primary_to_white"
                     android:textFontWeight="500" />
 
                 <CheckBox
@@ -139,12 +142,12 @@
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
                     android:background="@drawable/selector_background_radius_100_stroke_1"
-                    android:textColor="@drawable/selector_textview_primary_to_white"
                     android:button="@null"
                     android:fontFamily="@font/pretendard_medium"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="4dp"
                     android:text="@string/couple"
+                    android:textColor="@drawable/selector_textview_primary_to_white"
                     android:textFontWeight="500" />
 
                 <CheckBox
@@ -152,12 +155,12 @@
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
                     android:background="@drawable/selector_background_radius_100_stroke_1"
-                    android:textColor="@drawable/selector_textview_primary_to_white"
                     android:button="@null"
                     android:fontFamily="@font/pretendard_medium"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="4dp"
                     android:text="@string/free_fee"
+                    android:textColor="@drawable/selector_textview_primary_to_white"
                     android:textFontWeight="500" />
             </LinearLayout>
         </HorizontalScrollView>

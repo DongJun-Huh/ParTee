@@ -319,7 +319,7 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/pretendard_medium"
-                    android:text="@{`~ ` + recruitDetail.recruitDateTime.format(DateTimeFormatter.ofPattern(`MM월 dd일`))}"
+                    android:text="@{`~ ` + recruitDetail.recruitEndDateTime.format(DateTimeFormatter.ofPattern(`MM월 dd일`))}"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="500"
                     android:textSize="12sp"

@@ -71,7 +71,6 @@ class MapFinderFragment : Fragment() {
                                 "   mutations.forEach(function(mutation) { " +
                                 "       var elementsToRemove = [" +
                                 "           target.querySelector('.shop_find_wrap.sitefinder_home')," +
-                                "           target.querySelector('.shop_find_wrap.sitefinder_home')," +
                                 "           target.querySelector('.gpsbtn')," +
                                 "           target.lastElementChild];" +
                                 "       elementsToRemove.forEach(function(element) {" +

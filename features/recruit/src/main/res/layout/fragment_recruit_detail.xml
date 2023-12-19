@@ -370,7 +370,7 @@
                             android:layout_marginStart="20dp"
                             android:fontFamily="@font/pretendard_semi_bold"
                             android:lineHeight="21sp"
-                            android:text="@{recruitDetail.recruitDateTime != null ? `~ ` + recruitDetail.recruitDateTime.format(DateTimeFormatter.ofPattern(`MM월 dd일`)) : ``}"
+                            android:text="@{recruitDetail.recruitEndDateTime != null ? `~ ` + recruitDetail.recruitEndDateTime.format(DateTimeFormatter.ofPattern(`MM월 dd일`)) : ``}"
                             android:textColor="@color/primary_8B95B3"
                             android:textFontWeight="500"
                             android:textSize="14sp"
@@ -551,7 +551,7 @@
                 <LinearLayout
                     android:id="@+id/layout_recruit_detail_place_information"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="20dp"
                     android:orientation="vertical"
@@ -562,17 +562,17 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_recruit_detail_introduce_message"
                     app:layout_constraintVertical_bias="0.0">
 
-                    <TextView
-                        android:id="@+id/tv_recruit_detail_place_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/pretendard_medium"
-                        android:lineHeight="18sp"
-                        android:text="@{recruitDetail.recruitPlaceName}"
-                        android:textColor="@color/primary_8B95B3"
-                        android:textSize="12sp"
-                        tools:text="골프존 한강이북점" />
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginBottom="8dp"
+                        app:cardCornerRadius="24dp">
+
+                        <WebView
+                            android:id="@+id/recruit_detail_place_map"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </androidx.cardview.widget.CardView>
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
