@@ -6,6 +6,8 @@
 
     <data>
 
+        <import type="com.golfzon.core_ui.ImageUploadUtil" />
+
         <variable
             name="vm"
             type="com.golfzon.matching.MatchingViewModel" />
@@ -51,7 +53,7 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_matching_success_team_info_first"
-                    imageType="@{`teams`}"
+                    imageType="@{ImageUploadUtil.ImageType.TEAM}"
                     imageUId="@{vm.teamInfoDetail.teamImageUrl}"
                     android:layout_width="96dp"
                     android:layout_height="100dp"
@@ -86,7 +88,7 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_matching_success_team_info_second"
-                    imageType="@{`teams`}"
+                    imageType="@{ImageUploadUtil.ImageType.TEAM}"
                     imageUId="@{vm.successTeamInfo.teamImageUrl}"
                     android:layout_width="96dp"
                     android:layout_height="100dp"

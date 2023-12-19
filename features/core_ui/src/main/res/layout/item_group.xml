@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.golfzon.core_ui.ImageUploadUtil" />
+
         <variable
             name="group"
             type="com.golfzon.domain.model.Group" />
@@ -47,7 +49,7 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_group_team_first"
-                    imageType="@{`teams`}"
+                    imageType="@{ImageUploadUtil.ImageType.TEAM}"
                     imageUId="@{firstTeam.teamImageUrl}"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
@@ -86,7 +88,7 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_group_team_second"
-                    imageType="@{`teams`}"
+                    imageType="@{ImageUploadUtil.ImageType.TEAM}"
                     imageUId="@{secondTeam.teamImageUrl}"
                     android:layout_width="72dp"
                     android:layout_height="72dp"

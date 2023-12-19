@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.dagger.hilt.android)
     implementation(libs.constraintlayout)
     implementation(libs.image.cropview)
+    implementation(libs.bundles.firebase)
     kapt(libs.dagger.hilt.android.compiler)
     implementation(libs.bundles.jetpack.navigation)
     implementation(libs.glide)

@@ -11,6 +11,8 @@ import android.provider.MediaStore
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageException
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -66,12 +68,18 @@ object ImageUploadUtil {
     }
 
     fun ImageView.loadImageFromFirebaseStorage(imageUId: String, imageType: ImageType, placeholder: Drawable?= null) {
-        Glide.with(this.context)
-            .load("https://firebasestorage.googleapis.com/v0/b/partee-1ba05.appspot.com/o/${imageType.imageUrlPrefix}%2F${imageUId}?alt=media")
-            .placeholder(placeholder)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .skipMemoryCache(true)
-            .into(this)
+        try {
+            FirebaseStorage.getInstance().reference.child("${imageType.imageUrlPrefix}/${imageUId}").downloadUrl.addOnSuccessListener {
+                Glide.with(this.context)
+                    .load(it)
+                    .placeholder(placeholder)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(this)
+            }
+        } catch (e: StorageException) {
+            e.printStackTrace()
+        }
     }
     enum class ImageType(val imageUrlPrefix: String) {
         USER("users"),

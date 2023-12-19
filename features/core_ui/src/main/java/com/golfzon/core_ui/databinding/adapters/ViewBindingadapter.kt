@@ -7,9 +7,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.golfzon.core_ui.R
+import com.golfzon.core_ui.ImageUploadUtil
+import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import kotlin.math.roundToInt
 
@@ -57,14 +56,11 @@ fun TextView.displayListsToString(divider: String? = "", lists: List<String>?) {
     this.text = result
 }
 @BindingAdapter(value = ["imageUId", "imageType"], requireAll = false)
-fun ImageView.loadImage(imageUId: String? = "", imageType: String? = "") {
-    Glide.with(this.context)
-        .load("https://firebasestorage.googleapis.com/v0/b/partee-1ba05.appspot.com/o/${imageType}%2F${imageUId}?alt=media")
-        .placeholder(R.drawable.background_img_golf)
-        .error(R.drawable.background_img_golf)
-        .diskCacheStrategy(DiskCacheStrategy.NONE)
-        .skipMemoryCache(true)
-        .into(this)
+fun ImageView.loadImage(imageUId: String? = "", imageType: ImageUploadUtil.ImageType) {
+    this.loadImageFromFirebaseStorage(
+        imageUId = imageUId?: "",
+        imageType = imageType
+    )
 }
 
 @BindingAdapter(value = ["dividend", "divisor", "prefix", "postfix"], requireAll = false)
