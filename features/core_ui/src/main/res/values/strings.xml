@@ -20,6 +20,7 @@
     <string name="average_korean">평균</string>
     <string name="head_count_unit_korean">명</string>
     <string name="participate">참여하기</string>
+    <string name="upload">올리기</string>
     <string name="date">날짜</string>
     <string name="time">시간</string>
     <string name="location">지역</string>
@@ -74,5 +75,7 @@
     <string name="info_age">%d세</string>
     <string name="info_years_playing">%d년</string>
     <string name="info_average">%d타</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

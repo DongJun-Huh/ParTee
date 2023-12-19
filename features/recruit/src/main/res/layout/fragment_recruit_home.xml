@@ -38,6 +38,24 @@
                 android:text="@string/recruit"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <Button
+                android:background="@android:color/transparent"
+                android:id="@+id/btn_recruit_appbar_create"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/montserrat_semi_bold"
+                android:gravity="center"
+                android:letterSpacing="0"
+                android:lineSpacingExtra="6sp"
+                android:text="글 작성"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
         </LinearLayout>
 
         <HorizontalScrollView

@@ -16,6 +16,8 @@ import com.golfzon.domain.usecase.recruit.RequestCreateRecruitUseCase
 import com.golfzon.domain.usecase.recruit.RequestParticipateRecruitUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -49,6 +51,18 @@ class RecruitViewModel @Inject constructor(
 
     private val _isParticipateSuccess = MutableLiveData<Event<Boolean>>()
     val isParticipateSuccess: LiveData<Event<Boolean>> get() = _isParticipateSuccess
+
+    var createRecruitDateTime = MutableLiveData<LocalDateTime>(LocalDateTime.now())
+    var createRecruitEndDate = MutableLiveData<LocalDate>(LocalDate.now())
+    var createRecruitPlace = MutableLiveData<String>()
+    var createRecruitFee = MutableLiveData<Int>(0)
+    val createRecruitHeadCount = MutableLiveData<Int>()
+    val createRecruitHeadCountCheckedButtonId = MutableLiveData<Int>()
+    val createRecruitIsConsecutiveStay = MutableLiveData<Boolean>()
+    val createRecruitIsConsecutiveStayCheckedButtonId = MutableLiveData<Int>()
+    val createRecruitIsCouple = MutableLiveData<Boolean>()
+    val createRecruitIsCoupleCheckedButtonId = MutableLiveData<Int>()
+    val creteRecruitIntroduceMessage = MutableLiveData<String>()
 
     fun getRecruitsMembersInfo(recruitsMembersUId: List<List<String>>) = viewModelScope.launch {
         _recruitsMembers.replaceAll(
@@ -107,5 +121,33 @@ class RecruitViewModel @Inject constructor(
             )
         }
         _recruitsDisplayInfo.value = updatedDisplayInfo
+    }
+
+    fun updateConsecutiveStay(checkedId: Int) {
+        createRecruitIsConsecutiveStayCheckedButtonId.value = checkedId
+        createRecruitIsConsecutiveStay.value = when (checkedId) {
+            R.id.rb_recruit_create_consecutive_stay_true -> true
+            R.id.rb_recruit_create_consecutive_stay_false -> false
+            else -> null
+        }
+    }
+
+    fun updateHeadcount(checkedId: Int) {
+        createRecruitHeadCountCheckedButtonId.value = checkedId
+        createRecruitHeadCount.value = when (checkedId) {
+            R.id.rb_recruit_create_searching_head_count_1 -> 1
+            R.id.rb_recruit_create_searching_head_count_2 -> 2
+            R.id.rb_recruit_create_searching_head_count_3 -> 3
+            else -> null
+        }
+    }
+
+    fun updateCouple(checkedId: Int) {
+        createRecruitIsCoupleCheckedButtonId.value = checkedId
+        createRecruitIsCouple.value = when (checkedId) {
+            R.id.rb_recruit_create_couple_true -> true
+            R.id.rb_recruit_create_couple_false -> false
+            else -> null
+        }
     }
 }

@@ -14,6 +14,7 @@ import com.golfzon.core_ui.adapter.itemDecoration.VerticalMarginItemDecoration
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
 import com.golfzon.core_ui.extension.addRecyclerViewLastItemMarginBottom
+import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.domain.model.Recruit
 import com.golfzon.domain.model.User
 import com.golfzon.recruit.databinding.FragmentRecruitHomeBinding
@@ -40,6 +41,7 @@ class RecruitHomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setRecruitPostAdapter()
         setBottomNavigationView()
+        setCreateRecruitClickListener()
         observeRecruitsMembers()
     }
 
@@ -126,6 +128,12 @@ class RecruitHomeFragment : Fragment() {
                 (requireActivity() as RecruitActivity).navigateToGroup()
                 true
             }
+        }
+    }
+
+    private fun setCreateRecruitClickListener() {
+        binding.btnRecruitAppbarCreate.setOnDebounceClickListener {
+            findNavController().navigate(RecruitHomeFragmentDirections.actionRecruitHomeFragmentToRecruitCreateFragment())
         }
     }
 }

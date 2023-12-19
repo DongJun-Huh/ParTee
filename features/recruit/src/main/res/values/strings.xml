@@ -5,4 +5,9 @@
     <string name="participate_end">모집 마감</string>
     <string name="recruit_left_head_count">모집 인원이 %d명 남았어요!</string>
     <string name="recruit_left_head_count_no">모집이 마감되었어요!</string>
+    <string name="recruit_time">모임 시간</string>
+    <string name="recruit_end_date">모집 마감 날짜</string>
+    <string name="recruit_end_date_guide">모임 날짜 하루 전 까지만 모집할 수 있어요</string>
+    <string name="recruit_head_count">모집 인원</string>
+    <string name="recruit_introduce">모임 소개</string>
 </resources>

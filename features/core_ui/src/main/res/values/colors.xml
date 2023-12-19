@@ -12,10 +12,12 @@
     <color name="blue_D8DCE7">#FFD8DCE7</color>
     <color name="blue_CCD1E0">#FFCCD1E0</color>
     <color name="blue_AFB7CF">#FFAFB7CF</color>
+    <color name="blue_AFB7CF_opacity_20">#33AFB7CF</color>
     <color name="blue_AFB7CF_opacity_50">#80AFB7CF</color>
     <color name="blue_AFB7CF_opacity_60">#99AFB7CF</color>
     <color name="primary_btn_AFB7CF">#FFAFB7CF</color>
     <color name="primary_8B95B3">#FF8B95B3</color>
+    <color name="primary_8B95B3_opacity_50">#808B95B3</color>
     <color name="gray_767B83">#FF767B83</color>
     <color name="gray_313131">#FF313131</color>
     <color name="gray_252020_opacity_40">#66252020</color>

@@ -15,7 +15,14 @@
             app:enterAnim="@anim/translate_from_right_in"
             app:exitAnim="@anim/translate_to_left_out"
             app:popEnterAnim="@anim/translate_from_left_in"
-            app:popExitAnim="@anim/translate_to_right_out"/>
+            app:popExitAnim="@anim/translate_to_right_out" />
+        <action
+            android:id="@+id/action_recruitHomeFragment_to_recruitCreateFragment"
+            app:destination="@id/RecruitCreateFragment"
+            app:enterAnim="@anim/translate_from_right_in"
+            app:exitAnim="@anim/translate_to_left_out"
+            app:popEnterAnim="@anim/translate_from_left_in"
+            app:popExitAnim="@anim/translate_to_right_out" />
 
     </fragment>
     <fragment
@@ -26,5 +33,11 @@
         <argument
             android:name="recruitUId"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/RecruitCreateFragment"
+        android:name="com.golfzon.recruit.RecruitCreateFragment"
+        android:label="fragment_recruit_create"
+        tools:layout="@layout/fragment_recruit_create">
     </fragment>
 </navigation>
