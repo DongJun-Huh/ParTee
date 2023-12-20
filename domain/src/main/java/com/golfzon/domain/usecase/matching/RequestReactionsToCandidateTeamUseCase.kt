@@ -1,12 +1,14 @@
 package com.golfzon.domain.usecase.matching
 
 import com.golfzon.domain.model.Group
+import com.golfzon.domain.model.GroupScreenRoomInfo
 import com.golfzon.domain.repository.GroupRepository
 import com.golfzon.domain.repository.MatchRepository
 import com.golfzon.domain.repository.TeamRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class RequestReactionsToCandidateTeamUseCase @Inject constructor(
@@ -39,7 +41,15 @@ class RequestReactionsToCandidateTeamUseCase @Inject constructor(
                                 days = candidateTeam.searchingDays,
                                 times = candidateTeam.searchingTimes,
                                 openChatUrl = curUserTeam.openChatUrl,
-                                createdTimeStamp = System.currentTimeMillis()
+                                createdTimeStamp = System.currentTimeMillis(),
+                                screenRoomInfo = GroupScreenRoomInfo(
+                                    screenRoomUId = "",
+                                    screenRoomPlaceName = "",
+                                    screenRoomPlaceUId = "",
+                                    screenRoomPlaceRoadAddress = "",
+                                    screenRoomPlacePastAddress = "",
+                                    screenRoomDateTime = LocalDateTime.now()
+                                )
                             )
                         )
                     }

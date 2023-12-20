@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.golfzon.core_ui.Event
 import com.golfzon.core_ui.ListLiveData
 import com.golfzon.domain.model.Group
+import com.golfzon.domain.model.GroupScreenRoomInfo
 import com.golfzon.domain.model.User
+import com.golfzon.domain.usecase.group.CreateScreenRoomUseCase
 import com.golfzon.domain.usecase.group.GetGroupDetailUseCase
 import com.golfzon.domain.usecase.group.GetGroupsUseCase
 import com.golfzon.domain.usecase.member.GetUserInfoUseCase
@@ -19,7 +21,8 @@ import javax.inject.Inject
 class GroupViewModel @Inject constructor(
     private val getGroupsUseCase: GetGroupsUseCase,
     private val getGroupDetailUseCase: GetGroupDetailUseCase,
-    private val getUserInfoUseCase: GetUserInfoUseCase
+    private val getUserInfoUseCase: GetUserInfoUseCase,
+    private val createScreenRoomUseCase: CreateScreenRoomUseCase
 ) : ViewModel() {
     private val _groups = ListLiveData<Group>()
     val groups: ListLiveData<Group> get() = _groups
@@ -32,6 +35,9 @@ class GroupViewModel @Inject constructor(
 
     private val _curSecondTeamMembers = ListLiveData<User>()
     val curSecondTeamMembers: ListLiveData<User> get() = _curSecondTeamMembers
+
+    private val _isCreateScreenRoomSuccess = MutableLiveData<Event<Boolean>>()
+    val isCreateScreenRoomSuccess get() : LiveData<Event<Boolean>> = _isCreateScreenRoomSuccess
 
     fun getGroups() = viewModelScope.launch {
         getGroupsUseCase()?.let {
@@ -56,4 +62,10 @@ class GroupViewModel @Inject constructor(
                 true
             )
         }
+
+    fun createScreenRoom(groupUId: String, groupInfo: GroupScreenRoomInfo) = viewModelScope.launch {
+        createScreenRoomUseCase(groupUId, groupInfo).let {
+            _isCreateScreenRoomSuccess.postValue(Event(it))
+        }
+    }
 }
