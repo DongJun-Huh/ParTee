@@ -8,5 +8,9 @@
         android:id="@+id/ScreenCreateRoomFragment"
         android:name="com.golfzon.screen.ScreenCreateRoomFragment"
         android:label="fragment_screen_create_room"
-        tools:layout="@layout/fragment_screen_create_room"/>
+        tools:layout="@layout/fragment_screen_create_room">
+        <argument
+            android:name="groupUId"
+            app:argType="string" />
+    </fragment>
 </navigation>

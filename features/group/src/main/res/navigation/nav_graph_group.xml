@@ -27,5 +27,22 @@
         <argument
             android:name="groupUId"
             app:argType="string" />
+
+        <action
+            android:id="@+id/action_groupDetailFragment_to_groupCreateRoomScreenFragment"
+            app:destination="@id/GroupCreateRoomScreenFragment"
+            app:enterAnim="@anim/translate_from_right_in"
+            app:exitAnim="@anim/translate_to_left_out"
+            app:popEnterAnim="@anim/translate_from_left_in"
+            app:popExitAnim="@anim/translate_to_right_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/GroupCreateRoomScreenFragment"
+        android:name="com.golfzon.group.GroupCreateRoomScreenFragment"
+        android:label="fragment_group_create_room_screen"
+        tools:layout="@layout/fragment_group_create_room_screen">
+        <argument
+            android:name="groupUId"
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.golfzon.core_ui.ImageUploadUtil
 import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
@@ -91,7 +92,9 @@ class GroupDetailFragment : Fragment() {
 
     private fun setReservationClickListener() {
         binding.btnGroupDetailReservation.setOnDebounceClickListener {
-            (requireActivity() as GroupActivity).navigateToScreen()
+            findNavController().navigate(GroupDetailFragmentDirections.actionGroupDetailFragmentToGroupCreateRoomScreenFragment(
+                args.groupUId
+            ))
         }
     }
 

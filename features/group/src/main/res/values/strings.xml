@@ -1,3 +1,4 @@
 <resources>
     <string name="group_home_title">매칭 모임</string>
+    <string name="group_create_room">방 만들기</string>
 </resources>
