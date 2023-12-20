@@ -47,7 +47,7 @@ class MatchingSuccessFragment : DialogFragment() {
 
     private fun setReservationClickListener() {
         binding.btnMatchingSuccessGroupReservation.setOnDebounceClickListener {
-            (requireActivity() as MatchingActivity).navigateToScreen()
+            // TODO
         }
     }
 

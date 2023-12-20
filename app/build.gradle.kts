@@ -53,7 +53,6 @@ dependencies {
     implementation(project(":features:matching"))
     implementation(project(":features:recruit"))
     implementation(project(":features:group"))
-    implementation(project(":features:screen"))
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
