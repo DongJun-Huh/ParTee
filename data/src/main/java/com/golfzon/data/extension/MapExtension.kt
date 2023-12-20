@@ -17,5 +17,5 @@ inline fun <reified T, reified V> Map<String, Any>.toDataClass(jsonDeserializer:
     gsonBuilder.registerTypeAdapter(V::class.java, jsonDeserializer)
     val gson = gsonBuilder.create()
     val json = gson.toJson(this)
-    return gson.fromJson(json, getTypeToken<Recruit>())
+    return gson.fromJson(json, getTypeToken<T>())
 }
