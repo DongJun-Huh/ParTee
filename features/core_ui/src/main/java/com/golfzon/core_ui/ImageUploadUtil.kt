@@ -13,12 +13,22 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageException
+import dagger.hilt.EntryPoint
+import dagger.hilt.EntryPoints
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
+@EntryPoint
+@InstallIn(SingletonComponent::class)
+interface StorageComponent{
+    fun getFirebaseStorage(): FirebaseStorage
+}
 
 object ImageUploadUtil {
     private val PERMIT_IMAGE_EXTENSIONS = listOf("jpg", "jpeg", "png", "webp")
@@ -69,7 +79,12 @@ object ImageUploadUtil {
 
     fun ImageView.loadImageFromFirebaseStorage(imageUId: String, imageType: ImageType, placeholder: Drawable?= null) {
         try {
-            FirebaseStorage.getInstance().reference.child("${imageType.imageUrlPrefix}/${imageUId}").downloadUrl.addOnSuccessListener {
+            val firebaseStorage: FirebaseStorage by lazy {
+                val hiltEntryPoint = EntryPoints.get(this.context.applicationContext, StorageComponent::class.java)
+                hiltEntryPoint.getFirebaseStorage()
+            }
+
+            firebaseStorage.reference.child("${imageType.imageUrlPrefix}/${imageUId}").downloadUrl.addOnSuccessListener {
                 Glide.with(this.context)
                     .load(it)
                     .placeholder(placeholder)
