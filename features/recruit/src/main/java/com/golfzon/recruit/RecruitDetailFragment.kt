@@ -1,19 +1,22 @@
 package com.golfzon.recruit
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.golfzon.core_ui.adapter.itemDecoration.HorizontalMarginItemDecoration
 import com.golfzon.core_ui.adapter.CandidateTeamMemberAdapter
+import com.golfzon.core_ui.adapter.itemDecoration.HorizontalMarginItemDecoration
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
+import com.golfzon.core_ui.map.WebViewTouchEventCallback
 import com.golfzon.recruit.databinding.FragmentRecruitDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
@@ -142,11 +145,18 @@ class RecruitDetailFragment : Fragment() {
         with(binding.recruitDetailPlaceMap) {
             isEnabled = false
             setBackgroundColor(0)
-            setOnTouchListener { v, event -> true }
-
             webViewClient = golfzonWebViewClient
             settings.javaScriptEnabled = true
             loadUrl("https://m.golfzon.com/booking/#/booking/map/view/${placeUId}")
         }
+
+        binding.cardviewRecruitDetailPlaceMap.setTouchEventCallback(object :
+            WebViewTouchEventCallback {
+            override fun onEvent(event: MotionEvent?) {
+                findNavController().navigate(RecruitDetailFragmentDirections.actionRecruitDetailFragmentToMapFinderFragment(
+                    recruitPlaceUId = placeUId
+                ))
+            }
+        })
     }
 }

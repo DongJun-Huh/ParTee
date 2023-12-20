@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.JavascriptInterface
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
@@ -43,8 +44,19 @@ class MapFinderFragment : Fragment() {
     private fun setWebView() {
         val regexBase = "^https://m\\.golfzon\\.com/mapfinder/#/map/$".toRegex()
         val regexExtended = "^https://m\\.golfzon\\.com/mapfinder/#/map/.+".toRegex()
+        val regexExtendedShop = "^https://m\\.golfzon\\.com/shop/#/main/.+".toRegex()
 
         val mWebViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): Boolean {
+                if (request?.url?.toString()?.matches(regexExtendedShop) == true && args.recruitPlaceUId != "") {
+                    return true
+                }
+                return super.shouldOverrideUrlLoading(view, request)
+            }
+
             override fun onPageFinished(view: WebView?, url: String?) {
                 if (url?.startsWith("https://m.golfzon.com/shop/#/main/") == true) {
                     view?.visibility = View.INVISIBLE // 되돌아갈때 보이지 않도록 처리
@@ -78,6 +90,16 @@ class MapFinderFragment : Fragment() {
                                 "               target.removeChild(element);" +
                                 "           }" +
                                 "       });" +
+                                "       if (document.querySelector('.shop_list_btn') != null) {" +
+                                "           document.querySelector('.shop_list_cont').removeChild(document.querySelector('.shop_list_btn'))" +
+                                "       }" +
+                                "       if (document.querySelector('.shop_list_cont.bottom_line') != null) {" +
+                                "           document.querySelectorAll('.shop_list_cont.bottom_line').forEach(function(element) {" +
+                                "              if(element.querySelector('.shop_list_btn') != null) {" +
+                                "                  element.removeChild(element.querySelector('.shop_list_btn'));" +
+                                "              }" +
+                                "          });" +
+                                "       }" +
                                 "   });" +
                                 "});" +
                                 "observer.observe(target, { childList: true, subtree: true });" +
@@ -99,6 +121,16 @@ class MapFinderFragment : Fragment() {
                                 "               target.removeChild(element);" +
                                 "           }" +
                                 "       });" +
+                                "       if (document.querySelector('.shop_list_btn') != null) {" +
+                                "           document.querySelector('.shop_list_cont').removeChild(document.querySelector('.shop_list_btn'))" +
+                                "       }" +
+                                "       if (document.querySelector('.shop_list_cont.bottom_line') != null) {" +
+                                "           document.querySelectorAll('.shop_list_cont.bottom_line').forEach(function(element) {" +
+                                "              if(element.querySelector('.shop_list_btn') != null) {" +
+                                "                  element.removeChild(element.querySelector('.shop_list_btn'));" +
+                                "              }" +
+                                "          });" +
+                                "       }" +
                                 "   });" +
                                 "});" +
                                 "observer.observe(target, { childList: true, subtree: true });" +
