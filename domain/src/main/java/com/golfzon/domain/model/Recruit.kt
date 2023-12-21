@@ -19,4 +19,5 @@ data class Recruit(
     val isConsecutiveStay: Boolean,
     val isCouple: Boolean,
     val recruitIntroduceMessage: String,
+    val createdTimeStamp: Long
 )

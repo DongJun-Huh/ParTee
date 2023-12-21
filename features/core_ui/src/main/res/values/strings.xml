@@ -75,7 +75,10 @@
     <string name="info_age">%d세</string>
     <string name="info_years_playing">%d년</string>
     <string name="info_average">%d타</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- 정렬 -->
+    <string name="sort_latest">최근 업로드순</string>
+    <string name="sort_recruit_end_deadline">모집 마감 임박순</string>
+    <string name="sort_recruit_real_date">실제 일정 임박순</string>
 
 </resources>

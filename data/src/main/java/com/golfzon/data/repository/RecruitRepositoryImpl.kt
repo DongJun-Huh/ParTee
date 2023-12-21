@@ -12,6 +12,7 @@ import com.golfzon.data.extension.readValue
 import com.golfzon.data.extension.toDataClass
 import com.golfzon.data.extension.toTimestamp
 import com.golfzon.domain.model.Recruit
+import com.golfzon.domain.model.Times
 import com.golfzon.domain.repository.RecruitRepository
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
@@ -22,6 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import javax.inject.Inject
 
 class RecruitRepositoryImpl @Inject constructor(
@@ -58,7 +60,14 @@ class RecruitRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getRecruits(): List<Recruit> = withContext(Dispatchers.IO) {
+    override suspend fun getRecruits(
+        sortDates: String,
+        filterTimes: Times,
+//        filterLocation: String = "", // TODO 지점을 받아올 때 위치를 받아올 수 있다면, location으로 필터링 가능
+        isConsecutiveStay: Boolean ?,
+        isCouple: Boolean ?,
+        isFreeFee: Boolean ?
+    ): List<Recruit> = withContext(Dispatchers.IO) {
         val resultRecruits = mutableListOf<Recruit>()
         try {
             val recruits = getRecruitCollection(firestore).get().await()
@@ -70,8 +79,44 @@ class RecruitRepositoryImpl @Inject constructor(
                     )
                 }
             }
+            var filteredRecruits = resultRecruits
+            if (filterTimes != Times.NONE) {
+                filteredRecruits = resultRecruits.filter { recruit ->
+                    when (filterTimes) {
+                        Times.MORNING -> recruit.recruitDateTime.hour in 6..11
+                        Times.AFTERNOON -> recruit.recruitDateTime.hour in 12..17
+                        Times.NIGHT -> recruit.recruitDateTime.hour in 18..23
+                        Times.DAWN -> recruit.recruitDateTime.hour in 0..5
+                        else -> false
+                    }
+                }.toMutableList()
+            }
 
-            resultRecruits
+            if (isConsecutiveStay == true) {
+                filteredRecruits = filteredRecruits.filter { recruit ->
+                    recruit.isConsecutiveStay == isConsecutiveStay
+                }.toMutableList()
+            }
+            if (isCouple == true) {
+                filteredRecruits = filteredRecruits.filter { recruit ->
+                    recruit.isCouple == isCouple
+                }.toMutableList()
+            }
+
+            if (isFreeFee == true) {
+                filteredRecruits = filteredRecruits.filter { recruit ->
+                    recruit.fee == 0
+                }.toMutableList()
+            }
+
+            filteredRecruits.sortedBy {
+                when (sortDates) {
+                    "latest" -> it.createdTimeStamp
+                    "recruitEndDeadline" -> it.recruitEndDateTime.toEpochSecond(ZoneOffset.UTC)
+                    "recruitReal" -> it.recruitDateTime.toEpochSecond(ZoneOffset.UTC)
+                    else -> it.recruitDateTime.toEpochSecond(ZoneOffset.UTC)
+                }
+            }
         } catch (e: Exception) {
             Lg.e(e)
             emptyList()
@@ -96,7 +141,8 @@ class RecruitRepositoryImpl @Inject constructor(
                 fee = 0,
                 isConsecutiveStay = false,
                 isCouple = false,
-                recruitIntroduceMessage = ""
+                recruitIntroduceMessage = "",
+                createdTimeStamp = System.currentTimeMillis()
             )
 
             try {

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.golfzon.core_ui.Event
 import com.golfzon.core_ui.ListLiveData
 import com.golfzon.domain.model.Recruit
+import com.golfzon.domain.model.Times
 import com.golfzon.domain.model.User
 import com.golfzon.domain.usecase.member.GetUserInfoUseCase
 import com.golfzon.domain.usecase.recruit.GetRecruitDetailUseCase
@@ -68,6 +69,23 @@ class RecruitViewModel @Inject constructor(
     val createRecruitIsCoupleCheckedButtonId = MutableLiveData<Int>()
     val creteRecruitIntroduceMessage = MutableLiveData<String>()
 
+    var sortConditionDate = MutableLiveData<String>("latest")
+    var filterConditionTime = MutableLiveData<Times>(Times.MORNING)
+//    var filterConditionLocation = MutableLiveData<String>()
+    var filterConditionConsecutiveStay = MutableLiveData<Boolean>(false)
+    var filterConditionCouple = MutableLiveData<Boolean>(false)
+    var filterConditionFreeFee = MutableLiveData<Boolean>(false)
+    val recruitTrigger = MediatorLiveData<Any>()
+
+    init {
+        recruitTrigger.addSource(sortConditionDate) { getRecruits() }
+        recruitTrigger.addSource(filterConditionTime) { getRecruits() }
+//        recruitTrigger.addSource(filterConditionLocation) { getRecruits() }
+        recruitTrigger.addSource(filterConditionConsecutiveStay) { getRecruits() }
+        recruitTrigger.addSource(filterConditionCouple) { getRecruits() }
+        recruitTrigger.addSource(filterConditionFreeFee) { getRecruits() }
+    }
+
     fun getRecruitsMembersInfo(recruitsMembersUId: List<List<String>>) = viewModelScope.launch {
         _recruitsMembers.replaceAll(
             recruitsMembersUId.map { recruitMembers ->
@@ -112,6 +130,7 @@ class RecruitViewModel @Inject constructor(
                 isConsecutiveStay = createRecruitIsConsecutiveStay.value ?: false,
                 isCouple = createRecruitIsCouple.value ?: false,
                 recruitIntroduceMessage = creteRecruitIntroduceMessage.value ?: "",
+                createdTimeStamp = System.currentTimeMillis()
             )
         ).let { recruitId ->
             _createdRecruitId.postValue(Event(recruitId))
@@ -119,7 +138,13 @@ class RecruitViewModel @Inject constructor(
     }
 
     fun getRecruits() = viewModelScope.launch {
-        getRecruitsUseCase().let {
+        getRecruitsUseCase(
+            sortDates = sortConditionDate.value ?: "latest",
+            filterTimes = filterConditionTime.value ?: Times.NONE,
+            isConsecutiveStay = filterConditionConsecutiveStay.value,
+            isCouple = filterConditionCouple.value,
+            isFreeFee = filterConditionFreeFee.value
+        ).let {
             _recruits.replaceAll(it, true)
         }
     }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="recruit_sort_date">
+        <item>최신순</item>
+        <item>실제 일정순</item>
+        <item>모집 마감 임박순</item>
+    </string-array>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="recruit_sort_time">
+        <item>오전</item>
+        <item>오후</item>
+        <item>야간</item>
+        <item>새벽</item>
+    </string-array>
+</resources>

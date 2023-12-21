@@ -76,55 +76,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp">
-                <!-- TODO 해당 레이아웃 내 뷰들은 모두 수정 대상-->
-                <TextView
+
+                <Spinner
+                    android:id="@+id/spinner_recruit_sort_date"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:background="@drawable/background_radius_100_stroke_1"
+                    android:elevation="0dp"
                     android:fontFamily="@font/pretendard_medium"
-                    android:paddingHorizontal="12dp"
                     android:paddingVertical="4dp"
-                    android:text="@string/date"
-                    android:textColor="@color/primary_8B95B3"
-                    android:textFontWeight="500" />
+                    android:popupBackground="@drawable/background_radius_8_stroke_1_primary_background_white"
+                    android:stateListAnimator="@null"
+                    android:text="@string/date" />
 
-                <TextView
+                <Spinner
+                    android:id="@+id/spinner_recruit_sort_time"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
                     android:background="@drawable/background_radius_100_stroke_1"
+                    android:elevation="0dp"
                     android:fontFamily="@font/pretendard_medium"
-                    android:paddingHorizontal="12dp"
                     android:paddingVertical="4dp"
-                    android:text="@string/time"
-                    android:textColor="@color/primary_8B95B3"
-                    android:textFontWeight="500" />
+                    android:popupBackground="@drawable/background_radius_8_stroke_1_primary_background_white"
+                    android:stateListAnimator="@null"
+                    android:text="@string/time" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/background_radius_100_stroke_1"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="4dp"
-                    android:text="@string/location"
-                    android:textColor="@color/primary_8B95B3"
-                    android:textFontWeight="500" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/background_radius_100_stroke_1"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="4dp"
-                    android:text="@string/place"
-                    android:textColor="@color/primary_8B95B3"
-                    android:textFontWeight="500" />
+                <!--                <Spinner-->
+                <!--                    android:id="@+id/spinner_recruit_sort_location"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="30dp"-->
+                <!--                    android:layout_marginStart="8dp"-->
+                <!--                    android:background="@drawable/background_radius_100_stroke_1"-->
+                <!--                    android:elevation="0dp"-->
+                <!--                    android:fontFamily="@font/pretendard_medium"-->
+                <!--                    android:paddingVertical="4dp"-->
+                <!--                    android:popupBackground="@drawable/background_radius_8_stroke_1_primary_background_white"-->
+                <!--                    android:stateListAnimator="@null"-->
+                <!--                    android:text="@string/location" />-->
 
                 <CheckBox
+                    android:id="@+id/cb_recruit_sort_consecutive_stay"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
@@ -138,6 +130,7 @@
                     android:textFontWeight="500" />
 
                 <CheckBox
+                    android:id="@+id/cb_recruit_sort_couple"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
@@ -151,6 +144,7 @@
                     android:textFontWeight="500" />
 
                 <CheckBox
+                    android:id="@+id/cb_recruit_sort_free_fee"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
