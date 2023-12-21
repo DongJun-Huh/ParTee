@@ -63,8 +63,11 @@ class MatchingActivity : AppCompatActivity() {
         finishAffinity()
     }
 
-    fun navigateToGroup() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/group"))
+    fun navigateToGroup(destination: String = "", groupUId: String = "") {
+        val intent = if (groupUId.isNotEmpty())
+            Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/group${destination}/${groupUId}"))
+        else
+            Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/group${destination}"))
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         startActivity(intent)
         finishAffinity()

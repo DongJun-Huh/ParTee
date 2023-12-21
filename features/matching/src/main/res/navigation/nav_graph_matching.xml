@@ -40,11 +40,15 @@
             android:id="@+id/action_matchingFragment_to_matchingFilteringDialogFragment"
             app:destination="@id/MatchingFilteringDialogFragment"
             app:popUpTo="@id/MatchingFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
     <dialog
         android:id="@+id/MatchingSuccessFragment"
         android:name="com.golfzon.matching.MatchingSuccessFragment"
         android:label="fragment_matching_success"
-        tools:layout="@layout/fragment_matching_success"></dialog>
+        tools:layout="@layout/fragment_matching_success">
+        <argument
+            android:name="groupUId"
+            app:argType="string" />
+    </dialog>
 </navigation>

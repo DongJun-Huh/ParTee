@@ -17,6 +17,15 @@ class GroupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityGroupBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        when (intent.getStringExtra("destination")) {
+            "reservation" -> {
+                findNavController().navigate(
+                    GroupHomeFragmentDirections.actionGroupHomeFragmentToGroupCreateRoomScreenFragment(
+                        intent.extras?.getString("groupUId") ?: ""
+                    )
+                )
+            }
+        }
     }
 
     override fun onPause() {

@@ -4,6 +4,7 @@
     <string name="team_deeplink_url">/team</string>
     <string name="matching_deeplink_url">/matching</string>
     <string name="group_deeplink_url">/group</string>
+    <string name="group_reservation_deeplink_url">/reservation</string>
     <string name="recruit_deeplink_url">/recruit</string>
     <string name="screen_deeplink_url">/screen</string>
 </resources>

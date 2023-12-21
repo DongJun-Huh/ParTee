@@ -18,6 +18,13 @@ class GroupDeeplinkProcessor @Inject constructor(
     override fun execute(deeplink: String) {
         val intent = Intent(context, GroupActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        when {
+            deeplink.contains(context.getString(com.golfzon.core_ui.R.string.group_reservation_deeplink_url)) -> {
+                val groupUId = deeplink.split("${context.getString(com.golfzon.core_ui.R.string.group_reservation_deeplink_url)}/").getOrNull(1)
+                intent.putExtra("destination", "reservation")
+                intent.putExtra("groupUId", groupUId)
+            }
+        }
         context.startActivity(intent)
     }
 }

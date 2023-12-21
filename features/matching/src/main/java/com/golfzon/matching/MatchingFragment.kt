@@ -137,9 +137,15 @@ class MatchingFragment : Fragment() {
     }
 
     private fun observeMatchingSuccess() {
-        matchingViewModel.isSuccessMatching.observe(viewLifecycleOwner) { isSuccess ->
-            if (isSuccess.getContentIfNotHandled() == true) {
-                findNavController().navigate(MatchingFragmentDirections.actionMatchingFragmentToMatchingSuccessFragment())
+        matchingViewModel.createdGroupId.observe(viewLifecycleOwner) { groupUId ->
+            with(groupUId.getContentIfNotHandled()) {
+                if (!this.isNullOrEmpty()) {
+                    findNavController().navigate(
+                        MatchingFragmentDirections.actionMatchingFragmentToMatchingSuccessFragment(
+                            groupUId = this
+                        )
+                    )
+                }
             }
         }
     }

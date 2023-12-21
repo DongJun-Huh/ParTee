@@ -50,8 +50,8 @@ class MatchingViewModel @Inject constructor(
     private val _curCandidateTeamMembers = ListLiveData<User>()
     val curCandidateTeamMembers: ListLiveData<User> get() = _curCandidateTeamMembers
 
-    private val _isSuccessMatching = MutableLiveData<Event<Boolean>>()
-    val isSuccessMatching: LiveData<Event<Boolean>> get() = _isSuccessMatching
+    private val _createdGroupId = MutableLiveData<Event<String>>()
+    val createdGroupId: LiveData<Event<String>> get() = _createdGroupId
 
     private val _successTeamInfo = MutableLiveData<Team>()
     val successTeamInfo: LiveData<Team> get() = _successTeamInfo
@@ -171,26 +171,32 @@ class MatchingViewModel @Inject constructor(
         if (teamIndex >= teams.size) return@launch
 
         val currentTeam = teams[teamIndex]
-        requestReactionsToCandidateTeamUseCase(currentTeam.teamUId, isLike)?.let { isSuccess ->
-            handleReactionResult(isSuccess, currentTeam)
+        requestReactionsToCandidateTeamUseCase(currentTeam.teamUId, isLike)?.let { successInfo ->
+            handleReactionResult(successInfo, currentTeam)
             updateCandidateTeamIndex(teamIndex, teams)
         }
     }
 
-    private fun handleReactionResult(isSuccess: Boolean, currentCandidateTeam: Team) {
-        _isSuccessMatching.postValue(Event(isSuccess))
-        if (isSuccess) {
+    private fun handleReactionResult(successInfo: String, currentCandidateTeam: Team) {
+        if (successInfo.isNotEmpty()) {
             setSuccessTeamInfo(currentCandidateTeam)
+            _createdGroupId.postValue(Event(successInfo))
         }
     }
 
     private fun setSuccessTeamInfo(currentTeam: Team) {
-        val intersectedLocations = _teamInfoDetail.value?.searchingLocations.orEmpty()
-            .toSet()
-            .intersect(currentTeam.searchingLocations.toSet())
-        _successTeamInfo.postValue(
-            currentTeam.copy(searchingLocations = intersectedLocations.toList())
-        )
+        _teamInfoDetail.value?.let { curUserTeam ->
+            when {
+                "전국" in curUserTeam.searchingLocations.toSet() -> currentTeam.searchingLocations
+                "전국" in currentTeam.searchingLocations.toSet() -> curUserTeam.searchingLocations
+                else -> curUserTeam.searchingLocations.toSet()
+                    .intersect(currentTeam.searchingLocations.toSet()).toList()
+            }
+        }?.let { intersectedLocations ->
+            _successTeamInfo.postValue(
+                currentTeam.copy(searchingLocations = intersectedLocations.toList())
+            )
+        }
     }
 
     private fun updateCandidateTeamIndex(teamIndex: Int, teams: List<Team>) {

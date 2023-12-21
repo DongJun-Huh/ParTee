@@ -23,40 +23,42 @@ class RequestReactionsToCandidateTeamUseCase @Inject constructor(
         ).let { isMatched ->
             if (isMatched) {
                 try {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        val curUserTeam = teamRepository.getUserTeamInfoDetail() ?: throw Exception(
-                            "GET current user team information failed"
-                        )
-                        val candidateTeam = teamRepository.getTeamInfoDetail(candidateTeamUId)
+                    val curUserTeam = teamRepository.getUserTeamInfoDetail() ?: throw Exception(
+                        "GET current user team information failed"
+                    )
+                    val candidateTeam = teamRepository.getTeamInfoDetail(candidateTeamUId)
 
-                        groupRepository.requestCreateGroup(
-                            Group(
-                                groupUId = "",
-                                originalTeamsInfo = listOf(curUserTeam, candidateTeam),
-                                headCount = curUserTeam.headCount + candidateTeam.headCount,
-                                membersUId = curUserTeam.membersUId + candidateTeam.membersUId,
-                                locations = curUserTeam.searchingLocations.toSet()
-                                    .intersect(candidateTeam.searchingLocations.toSet())
-                                    .toList(),
-                                days = candidateTeam.searchingDays,
-                                times = candidateTeam.searchingTimes,
-                                openChatUrl = curUserTeam.openChatUrl,
-                                createdTimeStamp = System.currentTimeMillis(),
-                                screenRoomInfo = GroupScreenRoomInfo(
-                                    screenRoomUId = "",
-                                    screenRoomPlaceName = "",
-                                    screenRoomPlaceUId = "",
-                                    screenRoomPlaceRoadAddress = "",
-                                    screenRoomPlacePastAddress = "",
-                                    screenRoomDateTime = LocalDateTime.now()
-                                )
+                    val groupUId = groupRepository.requestCreateGroup(
+                        Group(
+                            groupUId = "",
+                            originalTeamsInfo = listOf(curUserTeam, candidateTeam),
+                            headCount = curUserTeam.headCount + candidateTeam.headCount,
+                            membersUId = curUserTeam.membersUId + candidateTeam.membersUId,
+                            locations = when {
+                                "전국" in curUserTeam.searchingLocations.toSet() -> candidateTeam.searchingLocations
+                                "전국" in candidateTeam.searchingLocations.toSet() -> curUserTeam.searchingLocations
+                                else -> curUserTeam.searchingLocations.toSet()
+                                    .intersect(candidateTeam.searchingLocations.toSet()).toList()
+                            },
+                            days = candidateTeam.searchingDays,
+                            times = candidateTeam.searchingTimes,
+                            openChatUrl = curUserTeam.openChatUrl,
+                            createdTimeStamp = System.currentTimeMillis(),
+                            screenRoomInfo = GroupScreenRoomInfo(
+                                screenRoomUId = "",
+                                screenRoomPlaceName = "",
+                                screenRoomPlaceUId = "",
+                                screenRoomPlaceRoadAddress = "",
+                                screenRoomPlacePastAddress = "",
+                                screenRoomDateTime = LocalDateTime.now()
                             )
                         )
-                    }
+                    )
+                    return@let groupUId
                 } catch (e: Exception) {
-                    return@let false
+                    return@let ""
                 }
             }
-            return@let isMatched
+            return@let ""
         }
 }
