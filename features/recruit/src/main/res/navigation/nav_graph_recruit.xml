@@ -61,6 +61,10 @@
                 android:name="recruitPlaceUId"
                 android:defaultValue=""
                 app:argType="string" />
+            <argument
+                android:name="isEdit"
+                android:defaultValue="false"
+                app:argType="boolean" />
         </action>
         <action
             android:id="@+id/action_recruitCreateFragment_to_recruitDetailFragment"

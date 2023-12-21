@@ -15,6 +15,7 @@ import com.golfzon.domain.usecase.group.GetGroupsUseCase
 import com.golfzon.domain.usecase.member.GetUserInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,6 +39,13 @@ class GroupViewModel @Inject constructor(
 
     private val _isCreateScreenRoomSuccess = MutableLiveData<Event<Boolean>>()
     val isCreateScreenRoomSuccess get() : LiveData<Event<Boolean>> = _isCreateScreenRoomSuccess
+
+    var createRoomScreenDateTime = MutableLiveData<LocalDateTime>(LocalDateTime.now().plusDays(7L))
+    var createRoomScreenPlaceName = MutableLiveData<String>()
+    var createRoomScreenPlaceUId = MutableLiveData<String>()
+    var createRoomScreenPlaceRoadAddress = MutableLiveData<String>()
+    var createRoomScreenPlacePastAddress = MutableLiveData<String>()
+    var createRoomScreenFee = MutableLiveData<String>()
 
     fun getGroups() = viewModelScope.launch {
         getGroupsUseCase()?.let {
@@ -63,8 +71,16 @@ class GroupViewModel @Inject constructor(
             )
         }
 
-    fun createScreenRoom(groupUId: String, groupInfo: GroupScreenRoomInfo) = viewModelScope.launch {
-        createScreenRoomUseCase(groupUId, groupInfo).let {
+    fun createScreenRoom(groupUId: String) = viewModelScope.launch {
+        val reservationGroupInfo = GroupScreenRoomInfo(
+            screenRoomUId = groupUId,
+            screenRoomPlaceName = createRoomScreenPlaceName.value ?: "",
+            screenRoomPlaceUId = createRoomScreenPlaceUId.value ?: "",
+            screenRoomDateTime = createRoomScreenDateTime.value ?: LocalDateTime.now(),
+            screenRoomPlaceRoadAddress = createRoomScreenPlaceRoadAddress.value ?: "",
+            screenRoomPlacePastAddress = createRoomScreenPlacePastAddress.value ?: ""
+        )
+        createScreenRoomUseCase(groupUId, reservationGroupInfo).let {
             _isCreateScreenRoomSuccess.postValue(Event(it))
         }
     }

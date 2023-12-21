@@ -51,7 +51,7 @@ class MapFinderFragment : Fragment() {
                 view: WebView?,
                 request: WebResourceRequest?
             ): Boolean {
-                if (request?.url?.toString()?.matches(regexExtendedShop) == true && args.recruitPlaceUId != "") {
+                if (request?.url?.toString()?.matches(regexExtendedShop) == true && args.recruitPlaceUId != "" && !args.isEdit) {
                     return true
                 }
                 return super.shouldOverrideUrlLoading(view, request)
@@ -105,7 +105,7 @@ class MapFinderFragment : Fragment() {
                                 "observer.observe(target, { childList: true, subtree: true });" +
                                 "})();", null
                     )
-                } else if (url?.matches(regexBase) == true)  {
+                } else if (url?.matches(regexBase) == true || args.isEdit)  {
                     // 최초 장소 검색
                     // 찜, 현재 위치 버튼 제거
                     view?.evaluateJavascript(
@@ -151,7 +151,7 @@ class MapFinderFragment : Fragment() {
                     fun processHTML(placeName: String, placeUId: String, places: Array<String>) {
                         try {
                             // requireView 등을 사용하는 경우, 단순히 사용하지 않을뿐만 아니라 Exception을 Throw하기 때문에 view에 대한 null 체크를 직접 실행
-                            if (view != null && requireView().findNavController().currentBackStack.value.size == 4 && requireView().findNavController().currentDestination?.id == R.id.MapFinderFragment) {
+                            if (view != null && requireView().findNavController().currentBackStack.value.size >= 4 && requireView().findNavController().currentDestination?.id == R.id.MapFinderFragment) {
                                 requireActivity().runOnUiThread {
                                     view?.let { notNullView ->
                                         notNullView.findNavController().previousBackStackEntry?.savedStateHandle?.set("recruitPlaceName",placeName )
