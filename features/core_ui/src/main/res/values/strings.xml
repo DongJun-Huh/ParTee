@@ -34,8 +34,8 @@
 
     <!-- 메뉴 -->
     <string name="home">홈</string>
-    <string name="group">매칭 모임</string>
-    <string name="recruit">모임 찾기</string>
+    <string name="group">파티 목록</string>
+    <string name="recruit">파티 찾기</string>
 
     <!-- 지역 -->
     <string name="nationwide">전국</string>

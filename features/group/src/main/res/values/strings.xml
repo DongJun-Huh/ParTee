@@ -1,5 +1,5 @@
 <resources>
-    <string name="group_home_title">매칭 모임</string>
+    <string name="group_home_title">파티 목록</string>
     <string name="group_create_room">예약하기</string>
     <string name="create_room_screen_time">스크린 예약 시간</string>
     <string name="create_room_screen_fee">예상 비용</string>
