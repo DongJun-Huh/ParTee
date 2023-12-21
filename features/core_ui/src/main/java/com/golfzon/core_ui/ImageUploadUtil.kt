@@ -10,6 +10,7 @@ import android.os.Build
 import android.provider.MediaStore
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageException
@@ -91,6 +92,25 @@ object ImageUploadUtil {
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(this)
+            }
+        } catch (e: StorageException) {
+            e.printStackTrace()
+        }
+    }
+
+    fun RequestManager.loadImageFromFirebaseStorage(imageUId: String, imageType: ImageType, placeholder: Drawable?= null, size: Int, imageView: ImageView) {
+        try {
+            val firebaseStorage: FirebaseStorage by lazy {
+                val hiltEntryPoint = EntryPoints.get(imageView.context.applicationContext, StorageComponent::class.java)
+                hiltEntryPoint.getFirebaseStorage()
+            }
+
+            firebaseStorage.reference.child("${imageType.imageUrlPrefix}/${imageUId}").downloadUrl.addOnSuccessListener {
+                this.load(it)
+                    .placeholder(placeholder)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(imageView)
             }
         } catch (e: StorageException) {
             e.printStackTrace()

@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.golfzon.core_ui.ImageUploadUtil
 import com.golfzon.core_ui.adapter.itemDecoration.HorizontalMarginItemDecoration
 import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
@@ -26,11 +28,13 @@ class MatchingFragment : Fragment() {
     private var binding by autoCleared<FragmentMatchingBinding> { onDestroyBindingView() }
     private val matchingViewModel by activityViewModels<MatchingViewModel>()
     private var candidateTeamMemberAdapter: CandidateTeamMemberAdapter? = null
+    private var glideRequestManager: RequestManager? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMatchingBinding.inflate(inflater, container, false)
+        glideRequestManager = Glide.with(this@MatchingFragment)
         setDataBindingVariables()
         getCurUserTeam()
         getCandidateTeams()
@@ -51,12 +55,14 @@ class MatchingFragment : Fragment() {
 
     private fun onDestroyBindingView() {
         candidateTeamMemberAdapter = null
+        glideRequestManager = null
     }
 
     private fun setDataBindingVariables() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             vm = matchingViewModel
+            requestManager = glideRequestManager
         }
     }
 
@@ -98,9 +104,11 @@ class MatchingFragment : Fragment() {
                 if (this != null) {
                     binding.let {
                         it.curTeamDetail = this
-                        it.ivMatchingBackground.loadImageFromFirebaseStorage(
+                        glideRequestManager?.loadImageFromFirebaseStorage(
                             imageUId = this.teamImageUrl,
-                            imageType = ImageUploadUtil.ImageType.TEAM
+                            imageType = ImageUploadUtil.ImageType.TEAM,
+                            size = it.ivMatchingBackground.width,
+                            imageView = it.ivMatchingBackground
                         )
                     }
                     matchingViewModel.getCandidateTeamMembersInfo(this.membersUId)
@@ -118,7 +126,7 @@ class MatchingFragment : Fragment() {
     }
 
     private fun setSearchUserResultAdapter() {
-        candidateTeamMemberAdapter = CandidateTeamMemberAdapter()
+        candidateTeamMemberAdapter = CandidateTeamMemberAdapter(requestManager = glideRequestManager!!)
         with(binding.rvMatchingCandidateUsers) {
             adapter = candidateTeamMemberAdapter
             addItemDecoration(HorizontalMarginItemDecoration(12.dp))

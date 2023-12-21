@@ -11,6 +11,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.golfzon.core_ui.adapter.SpinnerAdapter
 import com.golfzon.core_ui.adapter.itemDecoration.VerticalMarginItemDecoration
 import com.golfzon.core_ui.autoCleared
@@ -29,12 +31,14 @@ class RecruitHomeFragment : Fragment() {
     private val recruitViewModel by activityViewModels<RecruitViewModel>()
     private var recruitPostAdapter: RecruitPostAdapter? = null
     private var spinnerAdapter: SpinnerAdapter? = null
+    private var glideRequestManager: RequestManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRecruitHomeBinding.inflate(inflater, container, false)
+        glideRequestManager = Glide.with(this@RecruitHomeFragment)
         setDataBindingVariables()
         getRecruits()
         getRecruitsMembers()
@@ -89,7 +93,7 @@ class RecruitHomeFragment : Fragment() {
     }
 
     private fun setRecruitPostAdapter() {
-        recruitPostAdapter = RecruitPostAdapter()
+        recruitPostAdapter = RecruitPostAdapter(requestManager = glideRequestManager!!)
         with(binding.rvRecruitPosts) {
             adapter = recruitPostAdapter
             addItemDecoration(VerticalMarginItemDecoration(20))

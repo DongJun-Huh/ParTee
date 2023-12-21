@@ -13,6 +13,10 @@
             type="com.golfzon.matching.MatchingViewModel" />
 
         <variable
+            name="requestManager"
+            type="com.bumptech.glide.RequestManager" />
+
+        <variable
             name="commonLocation"
             type="String" />
     </data>
@@ -55,6 +59,7 @@
                     android:id="@+id/iv_matching_success_team_info_first"
                     imageType="@{ImageUploadUtil.ImageType.TEAM}"
                     imageUId="@{vm.teamInfoDetail.teamImageUrl}"
+                    requestManager="@{requestManager}"
                     android:layout_width="96dp"
                     android:layout_height="100dp"
                     android:background="@color/white_F5F6F9"
@@ -90,6 +95,7 @@
                     android:id="@+id/iv_matching_success_team_info_second"
                     imageType="@{ImageUploadUtil.ImageType.TEAM}"
                     imageUId="@{vm.successTeamInfo.teamImageUrl}"
+                    requestManager="@{requestManager}"
                     android:layout_width="96dp"
                     android:layout_height="100dp"
                     android:background="@color/white_F5F6F9"

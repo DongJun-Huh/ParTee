@@ -11,6 +11,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.golfzon.core_ui.ImageUploadUtil
 import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
@@ -31,6 +32,7 @@ class TeamInfoFragment : Fragment() {
     private var binding by autoCleared<FragmentTeamInfoBinding>() { onDestroyBindingView() }
     private val teamViewModel by activityViewModels<TeamViewModel>()
     private var teamUserAdapter: TeamUserAdapter? = null
+    private var glideRequestManager: RequestManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +44,7 @@ class TeamInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentTeamInfoBinding.inflate(inflater, container, false)
+        glideRequestManager = Glide.with(this)
         setDataBindingVariables()
         return binding.root
     }
@@ -58,10 +61,11 @@ class TeamInfoFragment : Fragment() {
 
     private fun onDestroyBindingView() {
         teamUserAdapter = null
+        glideRequestManager = null
     }
 
     private fun setTeamUserAdapter() {
-        teamUserAdapter = TeamUserAdapter()
+        teamUserAdapter = TeamUserAdapter(requestManager = glideRequestManager!!)
         with(binding.rvTeamInfoUsers) {
             adapter = teamUserAdapter
             addItemDecoration(VerticalMarginItemDecoration(12))
@@ -86,10 +90,12 @@ class TeamInfoFragment : Fragment() {
             if (teamViewModel.newTeamImageBitmap.value == null) {
                 val currentImage =
                     binding.ivTeamInfoImage.drawable // Glide가 로딩되는 동안 이전 이미지를 유지하도록 placeholder로 지정
-                binding.ivTeamInfoImage.loadImageFromFirebaseStorage(
+                glideRequestManager?.loadImageFromFirebaseStorage(
                     imageUId = teamInfo.teamImageUrl ?: "",
                     imageType = ImageUploadUtil.ImageType.TEAM,
                     placeholder = currentImage,
+                    size = binding.ivTeamInfoImage.width,
+                    imageView = binding.ivTeamInfoImage
                 )
             }
         }

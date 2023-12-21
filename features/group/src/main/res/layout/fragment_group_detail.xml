@@ -13,6 +13,10 @@
             type="com.golfzon.group.GroupViewModel" />
 
         <variable
+            name="requestManager"
+            type="com.bumptech.glide.RequestManager" />
+
+        <variable
             name="groupDetail"
             type="com.golfzon.domain.model.Group" />
 
@@ -64,6 +68,7 @@
                     android:id="@+id/iv_group_detail_team_first"
                     imageType="@{ImageUploadUtil.ImageType.USER}"
                     imageUId="@{firstTeamUserDetail.profileImg}"
+                    requestManager="@{requestManager}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
@@ -333,6 +338,7 @@
                     android:id="@+id/iv_group_detail_team_second"
                     imageType="@{ImageUploadUtil.ImageType.USER}"
                     imageUId="@{secondTeamUserDetail.profileImg}"
+                    requestManager="@{requestManager}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"

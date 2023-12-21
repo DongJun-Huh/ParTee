@@ -5,12 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.golfzon.core_ui.ImageUploadUtil
-import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
+import com.bumptech.glide.RequestManager
 import com.golfzon.core_ui.databinding.ItemTeamInfoUserBinding
 import com.golfzon.domain.model.User
 
-class TeamUserAdapter(private val isWhiteTheme: Boolean = false) :
+class TeamUserAdapter(
+    private val isWhiteTheme: Boolean = false,
+    private val requestManager: RequestManager
+) :
     ListAdapter<Triple<User, Boolean, String>, TeamUserAdapter.TeamUserViewHolder>(diffCallback) {
     // User: 표시할 유저 정보, Boolean: 현재 유저가 본인인지 유무, String: 현재 팀장 Id
     companion object {
@@ -50,14 +52,11 @@ class TeamUserAdapter(private val isWhiteTheme: Boolean = false) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(user: Triple<User, Boolean, String>) {
             setBindingSetVariable(user)
-            binding.ivTeamInfoUser.loadImageFromFirebaseStorage(
-                imageUId = user.first.profileImg ?: "",
-                imageType = ImageUploadUtil.ImageType.USER
-            )
         }
 
         private fun setBindingSetVariable(user: Triple<User, Boolean, String>) {
             with(binding) {
+                this.requestManager = this@TeamUserAdapter.requestManager
                 this.user = user.first
                 this.isCurUser = user.second
                 this.isLeader = user.third == user.first.userUId

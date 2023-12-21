@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.golfzon.core_ui.adapter.CandidateTeamMemberAdapter
 import com.golfzon.core_ui.adapter.itemDecoration.HorizontalMarginItemDecoration
 import com.golfzon.core_ui.autoCleared
@@ -28,12 +30,14 @@ class RecruitDetailFragment : Fragment() {
     private val recruitViewModel by activityViewModels<RecruitViewModel>()
     private val args by navArgs<RecruitDetailFragmentArgs>()
     private var recruitDetailMembersAdapter: CandidateTeamMemberAdapter? = null
+    private var glideRequestManager: RequestManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRecruitDetailBinding.inflate(inflater, container, false)
+        glideRequestManager = Glide.with(this@RecruitDetailFragment)
         setDataBindingVariables()
         getRecruitDetail()
         return binding.root
@@ -50,6 +54,7 @@ class RecruitDetailFragment : Fragment() {
 
     private fun onDestroyBindingView() {
         recruitDetailMembersAdapter = null
+        glideRequestManager = null
     }
 
     private fun setDataBindingVariables() {
@@ -96,7 +101,7 @@ class RecruitDetailFragment : Fragment() {
 
     private fun setRecruitDetailMembersAdapter() {
         recruitDetailMembersAdapter =
-            CandidateTeamMemberAdapter(itemHeight = 52.dp, isCircleImage = true)
+            CandidateTeamMemberAdapter(itemHeight = 52.dp, isCircleImage = true, requestManager = glideRequestManager!!)
         binding.rvRecruitDetailParticipants.apply {
             adapter = recruitDetailMembersAdapter
             addItemDecoration(HorizontalMarginItemDecoration(8.dp))

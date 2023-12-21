@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.golfzon.core_ui.DialogUtil.resizeDialogFragment
 import com.golfzon.core_ui.DialogUtil.setDialogRadius
 import com.golfzon.core_ui.autoCleared
@@ -16,14 +18,17 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MatchingSuccessFragment : DialogFragment() {
-    private var binding by autoCleared<FragmentMatchingSuccessBinding>()
+    private var binding by autoCleared<FragmentMatchingSuccessBinding> { onDestroyBindingView() }
     private val matchingViewModel by activityViewModels<MatchingViewModel>()
     private val args by navArgs<MatchingSuccessFragmentArgs>()
+    private var glideRequestManager: RequestManager? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMatchingSuccessBinding.inflate(inflater, container, false)
+        glideRequestManager = Glide.with(this@MatchingSuccessFragment)
         setDialogRadius(dialog!!)
         setDataBindingVariables()
         return binding.root
@@ -40,10 +45,15 @@ class MatchingSuccessFragment : DialogFragment() {
         resizeDialogFragment(requireContext(), dialog!!)
     }
 
+    private fun onDestroyBindingView() {
+        glideRequestManager = null
+    }
+
     private fun setDataBindingVariables() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             vm = matchingViewModel
+            requestManager = glideRequestManager
         }
     }
 

@@ -6,11 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.RequestManager
 import com.golfzon.core_ui.databinding.ItemGroupBinding
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.domain.model.Group
 
-class GroupAdapter : ListAdapter<Group, GroupAdapter.GroupViewHolder>(diffCallback) {
+class GroupAdapter(private val requestManager: RequestManager) : ListAdapter<Group, GroupAdapter.GroupViewHolder>(diffCallback) {
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<Group>() {
             override fun areItemsTheSame(
@@ -57,6 +58,7 @@ class GroupAdapter : ListAdapter<Group, GroupAdapter.GroupViewHolder>(diffCallba
         RecyclerView.ViewHolder(binding.root) {
         fun bind(group: Group) {
             with(binding) {
+                this.requestManager = this@GroupAdapter.requestManager
                 root.setOnDebounceClickListener {
                     listener?.onItemClick(it, group)
                 }

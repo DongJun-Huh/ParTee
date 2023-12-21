@@ -10,6 +10,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.golfzon.core_ui.adapter.itemDecoration.VerticalMarginItemDecoration
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
@@ -23,12 +25,14 @@ class GroupHomeFragment : Fragment() {
     private var binding by autoCleared<FragmentGroupHomeBinding> { onDestroyBindingView() }
     private val groupViewModel by activityViewModels<GroupViewModel>()
     private var groupAdapter: GroupAdapter? = null
+    private var glideRequestManager: RequestManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentGroupHomeBinding.inflate(inflater, container, false)
+        glideRequestManager = Glide.with(this@GroupHomeFragment)
         getGroups()
         setDataBindingVariables()
         return binding.root
@@ -43,6 +47,7 @@ class GroupHomeFragment : Fragment() {
 
     private fun onDestroyBindingView() {
         groupAdapter = null
+        glideRequestManager = null
     }
 
     private fun setDataBindingVariables() {
@@ -74,7 +79,7 @@ class GroupHomeFragment : Fragment() {
     }
 
     private fun setGroupsAdapter() {
-        groupAdapter = GroupAdapter()
+        groupAdapter = GroupAdapter(requestManager = this@GroupHomeFragment.glideRequestManager!!)
         with(binding.rvGroupHomeGroups) {
             adapter = groupAdapter
             addItemDecoration(VerticalMarginItemDecoration(12))

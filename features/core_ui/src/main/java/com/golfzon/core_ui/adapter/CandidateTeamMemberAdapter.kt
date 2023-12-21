@@ -6,9 +6,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.golfzon.core_ui.ImageUploadUtil
-import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
+import com.bumptech.glide.RequestManager
 import com.golfzon.core_ui.databinding.ItemCandidateTeamMemberBinding
 import com.golfzon.core_ui.dp
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
@@ -18,7 +16,8 @@ import com.google.android.material.shape.ShapeAppearanceModel
 
 class CandidateTeamMemberAdapter(
     private val itemHeight: Int = 100.dp,
-    private val isCircleImage: Boolean = false
+    private val isCircleImage: Boolean = false,
+    private val requestManager: RequestManager
 ) :
     ListAdapter<User, CandidateTeamMemberAdapter.CandidateTeamMemberViewHolder>(diffCallback) {
     companion object {
@@ -69,12 +68,13 @@ class CandidateTeamMemberAdapter(
     inner class CandidateTeamMemberViewHolder(private val binding: ItemCandidateTeamMemberBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User) {
+            with(binding) {
+                this.requestManager = this@CandidateTeamMemberAdapter.requestManager
+                this.user = user
+            }
+
             with(binding.ivCandidateTeamMember) {
                 layoutParams.width = itemHeight
-                this.loadImageFromFirebaseStorage(
-                    imageUId = user.profileImg?: "",
-                    imageType = ImageUploadUtil.ImageType.USER
-                )
                 if (isCircleImage) {
                     shapeAppearanceModel =
                         ShapeAppearanceModel.builder()

@@ -11,6 +11,12 @@
 
         <import type="com.golfzon.domain.model.UserInfo" />
 
+        <import type="com.golfzon.core_ui.ImageUploadUtil" />
+
+        <variable
+            name="requestManager"
+            type="com.bumptech.glide.RequestManager" />
+
         <variable
             name="user"
             type="com.golfzon.domain.model.User" />
@@ -44,6 +50,9 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_team_info_user"
+                imageType="@{ImageUploadUtil.ImageType.USER}"
+                imageUId="@{user.profileImg}"
+                requestManager="@{requestManager}"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="11dp"
@@ -60,13 +69,13 @@
                 android:layout_marginTop="-11dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_crown"
+                android:tint="@{isWhiteTheme ? @color/primary_8B95B3 : @color/white}"
                 android:visibility="@{isLeader ? View.VISIBLE :View.INVISIBLE}"
                 app:layout_constraintBottom_toBottomOf="@id/iv_team_info_user"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/iv_team_info_user"
                 app:layout_constraintVertical_bias="0.0"
-                android:tint="@{isWhiteTheme ? @color/primary_8B95B3 : @color/white}"
                 tools:visibility="visible" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

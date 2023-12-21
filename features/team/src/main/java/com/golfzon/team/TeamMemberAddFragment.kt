@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.golfzon.core_ui.DialogUtil.setDialogRadius
 import com.golfzon.core_ui.adapter.itemDecoration.VerticalMarginItemDecoration
 import com.golfzon.core_ui.autoCleared
@@ -21,12 +23,14 @@ class TeamMemberAddFragment : BottomSheetDialogFragment() {
     private var binding by autoCleared<FragmentTeamMemberAddBinding>() { onDestroyBindingView() }
     private val teamViewModel by activityViewModels<TeamViewModel>()
     private var searchUserResultAdapter: SearchUserResultAdapter? = null
+    private var glideRequestManager: RequestManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentTeamMemberAddBinding.inflate(inflater, container, false)
+        glideRequestManager = Glide.with(this@TeamMemberAddFragment)
         setDialogRadius(dialog!!)
         setDialogStyle()
         setDataBindingVariables()
@@ -50,6 +54,7 @@ class TeamMemberAddFragment : BottomSheetDialogFragment() {
     private fun onDestroyBindingView() {
         searchUserResultAdapter = null
         teamViewModel.clearSearchedUsers()
+        glideRequestManager = null
     }
 
     private fun setDialogStyle() {
@@ -66,7 +71,7 @@ class TeamMemberAddFragment : BottomSheetDialogFragment() {
     }
 
     private fun setSearchUserResultAdapter() {
-        searchUserResultAdapter = SearchUserResultAdapter()
+        searchUserResultAdapter = SearchUserResultAdapter(requestManager = glideRequestManager!!)
         with(binding.rvTeamMembersAddSearchResult) {
             adapter = searchUserResultAdapter
             addItemDecoration(VerticalMarginItemDecoration(12))

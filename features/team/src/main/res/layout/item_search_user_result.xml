@@ -11,6 +11,12 @@
 
         <import type="com.golfzon.domain.model.UserInfo" />
 
+        <import type="com.golfzon.core_ui.ImageUploadUtil" />
+
+        <variable
+            name="requestManager"
+            type="com.bumptech.glide.RequestManager" />
+
         <variable
             name="user"
             type="com.golfzon.domain.model.User" />
@@ -31,6 +37,9 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_search_user_result"
+            imageType="@{ImageUploadUtil.ImageType.USER}"
+            imageUId="@{user.profileImg}"
+            requestManager="@{requestManager}"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginTop="11dp"

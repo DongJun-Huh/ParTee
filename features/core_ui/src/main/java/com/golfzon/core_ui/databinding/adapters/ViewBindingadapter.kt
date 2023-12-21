@@ -11,9 +11,11 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
+import com.bumptech.glide.RequestManager
 import com.golfzon.core_ui.ImageUploadUtil
 import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
+import com.google.android.material.imageview.ShapeableImageView
 import java.text.NumberFormat
 import java.util.Locale
 import kotlin.math.roundToInt
@@ -62,11 +64,23 @@ fun TextView.displayListsToString(divider: String? = "", lists: List<String>?) {
     this.text = result
 }
 
-@BindingAdapter(value = ["imageUId", "imageType"], requireAll = false)
-fun ImageView.loadImage(imageUId: String? = "", imageType: ImageUploadUtil.ImageType) {
-    this.loadImageFromFirebaseStorage(
+@BindingAdapter(value = ["imageUId", "imageType", "requestManager"], requireAll = false)
+fun ImageView.loadImage(imageUId: String? = "", imageType: ImageUploadUtil.ImageType, requestManager: RequestManager) {
+    requestManager.loadImageFromFirebaseStorage(
         imageUId = imageUId ?: "",
-        imageType = imageType
+        imageType = imageType,
+        size = this.width,
+        imageView = this
+    )
+}
+
+@BindingAdapter(value = ["imageUId", "imageType", "requestManager"], requireAll = false)
+fun ShapeableImageView.loadImage(imageUId: String? = "", imageType: ImageUploadUtil.ImageType, requestManager: RequestManager) {
+    requestManager.loadImageFromFirebaseStorage(
+        imageUId = imageUId ?: "",
+        imageType = imageType,
+        size = this.width,
+        imageView = this
     )
 }
 

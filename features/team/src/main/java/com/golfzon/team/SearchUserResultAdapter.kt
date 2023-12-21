@@ -6,14 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.golfzon.core_ui.ImageUploadUtil
-import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
+import com.bumptech.glide.RequestManager
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.domain.model.User
 import com.golfzon.team.databinding.ItemSearchUserResultBinding
 
-class SearchUserResultAdapter() : ListAdapter<User, SearchUserResultAdapter.SearchUserResultViewHolder>(diffCallback) {
+class SearchUserResultAdapter(private val requestManager: RequestManager) :
+    ListAdapter<User, SearchUserResultAdapter.SearchUserResultViewHolder>(diffCallback) {
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<User>() {
             override fun areItemsTheSame(oldItem: User, newItem: User) =
@@ -23,6 +22,7 @@ class SearchUserResultAdapter() : ListAdapter<User, SearchUserResultAdapter.Sear
                 oldItem == newItem
         }
     }
+
     interface OnItemClickListener {
         fun onItemClick(v: View, user: User)
     }
@@ -53,11 +53,6 @@ class SearchUserResultAdapter() : ListAdapter<User, SearchUserResultAdapter.Sear
         RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User) {
             setBindingSetVariable(user)
-            binding.ivSearchUserResult.loadImageFromFirebaseStorage(
-                imageUId = user.profileImg?: "",
-                imageType = ImageUploadUtil.ImageType.USER
-            )
-
             binding.root.setOnDebounceClickListener {
                 listener?.onItemClick(it, user)
             }
@@ -65,6 +60,7 @@ class SearchUserResultAdapter() : ListAdapter<User, SearchUserResultAdapter.Sear
 
         private fun setBindingSetVariable(user: User) {
             with(binding) {
+                this.requestManager = this@SearchUserResultAdapter.requestManager
                 setVariable(BR.user, user)
                 executePendingBindings()
             }

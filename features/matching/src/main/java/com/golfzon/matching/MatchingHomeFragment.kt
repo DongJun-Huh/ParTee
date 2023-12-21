@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.golfzon.core_ui.adapter.itemDecoration.VerticalMarginItemDecoration
 import com.golfzon.core_ui.adapter.TeamUserAdapter
 import com.golfzon.core_ui.autoCleared
@@ -22,11 +24,14 @@ class MatchingHomeFragment : Fragment() {
     private var binding by autoCleared<FragmentMatchingHomeBinding> { onDestroyBindingView() }
     private val matchingViewModel by activityViewModels<MatchingViewModel>()
     private var teamUserAdapter: TeamUserAdapter? = null
+    private var glideRequestManager: RequestManager? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMatchingHomeBinding.inflate(inflater, container, false)
+        glideRequestManager = Glide.with(this@MatchingHomeFragment)
         getBaseInfo()
         setDataBindingVariables()
         return binding.root
@@ -70,7 +75,7 @@ class MatchingHomeFragment : Fragment() {
     }
 
     private fun setTeamUserAdapter() {
-        teamUserAdapter = TeamUserAdapter(true)
+        teamUserAdapter = TeamUserAdapter(true, requestManager = this@MatchingHomeFragment.glideRequestManager!!)
         with(binding.rvMatchingHomeTeamUsers) {
             adapter = teamUserAdapter
             addItemDecoration(VerticalMarginItemDecoration(12))
