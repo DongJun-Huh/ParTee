@@ -16,6 +16,7 @@ import com.golfzon.core_ui.adapter.CandidateTeamMemberAdapter
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
+import com.golfzon.domain.model.GroupScreenRoomInfo
 import com.golfzon.domain.model.User
 import com.golfzon.group.databinding.FragmentGroupDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,7 +42,6 @@ class GroupDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeGroupDetail()
-        setReservationClickListener()
         setFirstTeamMembersAdapter()
         setSecondTeamMembersAdapter()
     }
@@ -68,6 +68,12 @@ class GroupDetailFragment : Fragment() {
                 if (this != null && this.originalTeamsInfo.size == 2) {
                     binding.let {
                         it.groupDetail = this
+                        it.groupScreenRoomInfo = this.screenRoomInfo
+                        setReservationClickListener(this.screenRoomInfo)
+                        if (this.screenRoomInfo?.screenRoomPlaceName?.isNotEmpty() == true) {
+                            binding.tvGroupDetailLocation.text =
+                                this.screenRoomInfo.screenRoomPlaceName
+                        }
                         it.firstTeamDetail = this.originalTeamsInfo[0]
                         it.secondTeamDetail = this.originalTeamsInfo[1]
 
@@ -90,11 +96,20 @@ class GroupDetailFragment : Fragment() {
         }
     }
 
-    private fun setReservationClickListener() {
-        binding.btnGroupDetailReservation.setOnDebounceClickListener {
-            findNavController().navigate(GroupDetailFragmentDirections.actionGroupDetailFragmentToGroupCreateRoomScreenFragment(
-                args.groupUId
-            ))
+    private fun setReservationClickListener(screenRoomInfo: GroupScreenRoomInfo) {
+        with(binding.btnGroupDetailReservation) {
+            this.isEnabled = screenRoomInfo.screenRoomPlaceName.isEmpty()
+            if (screenRoomInfo.screenRoomPlaceName.isEmpty()) {
+                this.setOnDebounceClickListener {
+                    findNavController().navigate(
+                        GroupDetailFragmentDirections.actionGroupDetailFragmentToGroupCreateRoomScreenFragment(
+                            args.groupUId
+                        )
+                    )
+                }
+            } else {
+                this.text = getString(R.string.group_create_room_complete)
+            }
         }
     }
 

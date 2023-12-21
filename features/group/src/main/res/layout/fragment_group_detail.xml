@@ -17,6 +17,10 @@
             type="com.golfzon.domain.model.Group" />
 
         <variable
+            name="groupScreenRoomInfo"
+            type="com.golfzon.domain.model.GroupScreenRoomInfo" />
+
+        <variable
             name="firstTeamDetail"
             type="com.golfzon.domain.model.Team" />
 
@@ -611,46 +615,16 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/pretendard_medium"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:text="@{`총 ` + groupDetail.headCount + `명`}"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="500"
                     android:textSize="12sp"
                     tools:text="총 4명" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_location"
-                    android:tint="@color/primary_8B95B3" />
-
-                <TextView
-                    displayListsToString="@{groupDetail.locations}"
-                    divider="@{`, `}"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:autoSizeMaxTextSize="12sp"
-                    android:autoSizeMinTextSize="8sp"
-                    android:autoSizeStepGranularity="0.5sp"
-                    android:autoSizeTextType="uniform"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@color/primary_8B95B3"
-                    android:textFontWeight="500"
-                    android:textSize="12sp"
-                    tools:text="서울" />
             </LinearLayout>
 
             <LinearLayout
@@ -670,11 +644,46 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/pretendard_medium"
-                    android:text="@{groupDetail.days + ` ` + groupDetail.times}"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@{groupScreenRoomInfo.screenRoomPlaceName.isEmpty ? (groupDetail.days + ` ` + groupDetail.times) : (groupScreenRoomInfo.screenRoomDateTime.monthValue + `.` + groupScreenRoomInfo.screenRoomDateTime.dayOfMonth + ` ` + groupScreenRoomInfo.screenRoomDateTime.hour + `:` + groupScreenRoomInfo.screenRoomDateTime.minute)}"
                     android:textColor="@color/primary_8B95B3"
                     android:textFontWeight="500"
                     android:textSize="12sp"
                     tools:text="주중 오전" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_location"
+                    android:tint="@color/primary_8B95B3" />
+
+                <TextView
+                    android:id="@+id/tv_group_detail_location"
+                    displayListsToString="@{groupScreenRoomInfo.screenRoomPlaceName.isEmpty ? groupDetail.locations : null}"
+                    divider="@{`, `}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:autoSizeMaxTextSize="12sp"
+                    android:autoSizeMinTextSize="8sp"
+                    android:autoSizeStepGranularity="0.5sp"
+                    android:autoSizeTextType="uniform"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/primary_8B95B3"
+                    android:textFontWeight="500"
+                    android:textSize="12sp"
+                    tools:text="서울" />
             </LinearLayout>
         </LinearLayout>
 

@@ -63,6 +63,9 @@ class GroupAdapter : ListAdapter<Group, GroupAdapter.GroupViewHolder>(diffCallba
 
                 if (group.headCount != 0) {
                     this.group = group
+                    this.screenRoomInfo = group.screenRoomInfo
+                    if (group.screenRoomInfo?.screenRoomPlaceName?.isNotEmpty() == true)
+                        binding.tvGroupLocation.text = group.screenRoomInfo.screenRoomPlaceName
                 }
                 if (group.originalTeamsInfo.size == 2) {
                     firstTeam = group.originalTeamsInfo[0]
