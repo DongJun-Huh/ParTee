@@ -7,6 +7,7 @@
     <color name="white_EBEDF3_opacity_80">#CCEBEDF3</color>
     <color name="white_DEE2F0">#FFDEE2F0</color>
     <color name="gray_D9D9D9">#FFD9D9D9</color>
+    <color name="gray_2F3236">#FF2F3236</color>
     <color name="gray_F0F1F3">#FFF0F1F3</color>
     <color name="gray_C5CAD2">#FFC5CAD2</color>
     <color name="blue_D8DCE7">#FFD8DCE7</color>
@@ -15,6 +16,7 @@
     <color name="blue_AFB7CF_opacity_20">#33AFB7CF</color>
     <color name="blue_AFB7CF_opacity_50">#80AFB7CF</color>
     <color name="blue_AFB7CF_opacity_60">#99AFB7CF</color>
+    <color name="green_9ACA74">#FF9ACA74</color>
     <color name="primary_btn_AFB7CF">#FFAFB7CF</color>
     <color name="primary_8B95B3">#FF8B95B3</color>
     <color name="primary_8B95B3_opacity_50">#808B95B3</color>

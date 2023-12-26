@@ -1,5 +1,6 @@
 <resources>
-    <string name="login_google">구글 계정으로 로그인</string>
+    <string name="login_introduce">함께하면 더 즐거운 골프 라이프</string>
+    <string name="login_google">구글로 시작하기</string>
 
     <!-- Register -->
     <string name="register_user_info_set_nickname_description">뭐라고 불리고 싶나요?</string>

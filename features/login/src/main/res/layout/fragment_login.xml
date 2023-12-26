@@ -13,32 +13,65 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/iv_login_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="182dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background_img_login" />
+
+        <ImageView
+            android:id="@+id/iv_login_background_dim"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:src="@drawable/background_gradation_black_to_transparent"
+            app:layout_constraintBottom_toBottomOf="@id/iv_login_background"
+            app:layout_constraintTop_toBottomOf="@id/iv_login_logo" />
 
         <ImageView
             android:id="@+id/iv_login_logo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="140dp"
+            android:layout_height="53dp"
             android:layout_marginHorizontal="60dp"
-            android:src="@drawable/logo_buddy_family"
+            android:layout_marginTop="112dp"
+            android:src="@drawable/ic_logo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.4" />
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tv_login_introduce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/login_introduce"
+            android:textColor="@color/green_9ACA74"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_login_logo"
+            app:layout_constraintVertical_bias="0.0" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_login_google_btn"
             android:layout_width="0dp"
             android:layout_height="56dp"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/btn_background_radius_12"
+            android:layout_marginBottom="36dp"
+            android:background="@drawable/background_radius_16"
+            android:backgroundTint="@color/gray_2F3236"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_login_logo"
-            app:layout_constraintVertical_bias="0.5">
+            app:layout_constraintVertical_bias="1.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
@@ -52,7 +85,7 @@
                     android:id="@+id/img_login_googlel_logo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="7dp"
+                    android:layout_marginRight="8dp"
                     android:src="@drawable/ic_logo_google"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/tv_login_google"
@@ -63,7 +96,7 @@
                     android:id="@+id/tv_login_google"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/pretendard_regular"
+                    android:fontFamily="@font/pretendard_medium"
                     android:letterSpacing="0.01"
                     android:lineSpacingExtra="1sp"
                     android:text="@string/login_google"
