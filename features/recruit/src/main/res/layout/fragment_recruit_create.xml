@@ -515,7 +515,7 @@
                             android:fontFamily="@font/pretendard_medium"
                             android:letterSpacing="0"
                             android:lineSpacingExtra="4sp"
-                            android:text="부부 / 커플 모임"
+                            android:text="@string/couple"
                             android:textColor="@color/primary_8B95B3"
                             android:textSize="12sp" />
 
