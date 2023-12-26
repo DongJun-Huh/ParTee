@@ -53,6 +53,7 @@ class RecruitHomeFragment : Fragment() {
         setCreateRecruitClickListener()
         observeRecruitsMembers()
         observeToggleConditions()
+        observeSortAndFilteringTrigger()
     }
 
     private fun onDestroyBindingView() {
@@ -239,6 +240,12 @@ class RecruitHomeFragment : Fragment() {
         }
         binding.cbRecruitSortFreeFee.setOnCheckedChangeListener { _, isChecked ->
             recruitViewModel.filterConditionFreeFee.postValue(isChecked)
+        }
+    }
+
+    private fun observeSortAndFilteringTrigger() {
+        recruitViewModel.recruitTrigger.observe(viewLifecycleOwner) {
+            // Trigger Observing
         }
     }
 }
