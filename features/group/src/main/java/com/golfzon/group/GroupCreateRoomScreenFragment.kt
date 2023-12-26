@@ -205,7 +205,7 @@ class GroupCreateRoomScreenFragment : Fragment() {
     private fun observeCreateSuccess() {
         groupViewModel.isCreateScreenRoomSuccess.observe(viewLifecycleOwner) { isSuccess ->
             if (isSuccess.getContentIfNotHandled() == true) {
-                // TODO 글 작성 이후 과정 작성
+                findNavController().navigateUp()
             }
         }
     }
