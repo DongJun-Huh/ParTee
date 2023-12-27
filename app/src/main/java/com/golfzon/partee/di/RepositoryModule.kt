@@ -2,11 +2,13 @@ package com.golfzon.partee.di
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import com.golfzon.data.repository.ChatRepositoryImpl
 import com.golfzon.data.repository.GroupRepositoryImpl
 import com.golfzon.data.repository.MatchRepositoryImpl
 import com.golfzon.data.repository.MemberRepositoryImpl
 import com.golfzon.data.repository.RecruitRepositoryImpl
 import com.golfzon.data.repository.TeamRepositoryImpl
+import com.golfzon.domain.repository.ChatRepository
 import com.golfzon.domain.repository.GroupRepository
 import com.golfzon.domain.repository.MatchRepository
 import com.golfzon.domain.repository.MemberRepository
@@ -48,4 +50,9 @@ class RepositoryModule {
     @Provides
     fun provideRecruitRepository(firestore: FirebaseFirestore, dataStore: DataStore<Preferences>) : RecruitRepository =
         RecruitRepositoryImpl(firestore = firestore, dataStore = dataStore)
+
+    @Singleton
+    @Provides
+    fun provideChatRepository(firestore: FirebaseFirestore, firebaseStorage: FirebaseStorage, dataStore: DataStore<Preferences>) : ChatRepository =
+        ChatRepositoryImpl(firestore = firestore, firebaseStorage = firebaseStorage, dataStore = dataStore)
 }

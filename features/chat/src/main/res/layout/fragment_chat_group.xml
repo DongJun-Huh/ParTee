@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ChatGroupFragment">
+
+    <data>
+
+        <import type="androidx.navigation.Navigation" />
+
+        <variable
+            name="vm"
+            type="com.golfzon.chat.ChatViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:id="@+id/layout_chat_group_appbar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <ImageButton
+                android:id="@+id/btn_chat_group_appbar_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:padding="20dp"
+                android:src="@drawable/ic_back" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_chat_group_log"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:animateLayoutChanges="true"
+            android:paddingHorizontal="15dp"
+            android:paddingTop="15dp"
+            app:layout_constraintBottom_toTopOf="@id/layout_chat_group_user_input"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_chat_group_appbar">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_chat_group_log"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:itemCount="100"
+                tools:listitem="@layout/item_chat_other" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_chat_group_user_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray_252020_opacity_40"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_chat_group_log"
+            app:layout_constraintVertical_bias="1.0">
+
+            <EditText
+                android:id="@+id/et_chat_group_user_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/background_radius_16"
+                android:backgroundTint="@color/gray_F0F1F3"
+                android:fontFamily="@font/pretendard_regular"
+                android:hint="@string/chat_input_hint"
+                android:imeOptions="actionDone"
+                android:paddingHorizontal="15dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="13dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_C5CAD2"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_chat_group_user_input_send"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/btn_chat_group_user_input_send"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:background="@android:color/transparent"
+                android:paddingHorizontal="12dp"
+                android:src="@drawable/ic_send"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@id/et_chat_group_user_input"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -48,6 +48,7 @@ class GroupDetailFragment : Fragment() {
         observeGroupDetail()
         setFirstTeamMembersAdapter()
         setSecondTeamMembersAdapter()
+        setChatClickListener()
     }
 
     private fun setDataBindingVariables() {
@@ -169,6 +170,12 @@ class GroupDetailFragment : Fragment() {
 
         groupViewModel.curSecondTeamMembers.observe(viewLifecycleOwner) {
             secondTeamMemberAdapter?.submitList(it)
+        }
+    }
+
+    private fun setChatClickListener() {
+        binding.btnGroupDetailChat.setOnDebounceClickListener {
+            (requireActivity() as GroupActivity).navigateToChat(groupUId = args.groupUId)
         }
     }
 }

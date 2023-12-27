@@ -60,4 +60,10 @@ class GroupActivity : AppCompatActivity() {
         startActivity(intent)
         finishAffinity()
     }
+
+    fun navigateToChat(groupUId: String = "") {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/chat/${groupUId}"))
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+        startActivity(intent)
+    }
 }

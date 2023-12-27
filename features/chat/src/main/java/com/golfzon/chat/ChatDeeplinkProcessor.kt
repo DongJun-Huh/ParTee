@@ -1,4 +1,4 @@
-package com.golfzon.group
+package com.golfzon.chat
 
 import android.content.Context
 import android.content.Intent
@@ -7,17 +7,18 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GroupDeeplinkProcessor @Inject constructor(
+class ChatDeeplinkProcessor @Inject constructor(
     private val context: Context
 ) : DeeplinkProcessor {
 
     override fun matches(deeplink: String): Boolean {
-        return deeplink.contains(context.getString(com.golfzon.core_ui.R.string.group_deeplink_url))
+        return deeplink.contains(context.getString(com.golfzon.core_ui.R.string.chat_deeplink_url))
     }
 
     override fun execute(deeplink: String) {
-        val intent = Intent(context, GroupActivity::class.java)
+        val intent = Intent(context, ChatActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
         when {
             deeplink.contains(context.getString(com.golfzon.core_ui.R.string.group_reservation_deeplink_url)) -> {
                 val groupUId = deeplink.split("${context.getString(com.golfzon.core_ui.R.string.group_reservation_deeplink_url)}/").getOrNull(1)

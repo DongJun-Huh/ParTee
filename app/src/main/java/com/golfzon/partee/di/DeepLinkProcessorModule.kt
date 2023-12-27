@@ -1,5 +1,6 @@
 package com.golfzon.partee.di
 
+import com.golfzon.chat.ChatDeeplinkProcessor
 import com.golfzon.core_ui.navigation.DeeplinkProcessor
 import com.golfzon.group.GroupDeeplinkProcessor
 import com.golfzon.login.ui.LoginDeeplinkProcessor
@@ -34,4 +35,8 @@ interface DeepLinkProcessorModule {
     @Binds
     @IntoSet
     fun bindRecruitDeeplinkProcessors(recruitDeeplinkProcessor: RecruitDeeplinkProcessor): DeeplinkProcessor
+
+    @Binds
+    @IntoSet
+    fun bindChatDeeplinkProcessors(chatDeeplinkProcessor: ChatDeeplinkProcessor): DeeplinkProcessor
 }

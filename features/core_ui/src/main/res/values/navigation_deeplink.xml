@@ -7,4 +7,5 @@
     <string name="group_reservation_deeplink_url">/reservation</string>
     <string name="recruit_deeplink_url">/recruit</string>
     <string name="screen_deeplink_url">/screen</string>
+    <string name="chat_deeplink_url">/chat</string>
 </resources>

@@ -21,6 +21,8 @@ object FireStoreHelper {
         firestore.collection("groups")
     fun getGroupDocument(firestore: FirebaseFirestore, groupUId: String) =
         getGroupCollection(firestore).document(groupUId)
+    fun getGroupMessagesCollection(firestore: FirebaseFirestore, groupUId: String) =
+        getGroupDocument(groupUId = groupUId, firestore = firestore).collection("groupMessages")
 
     fun getTeamCollection(firestore: FirebaseFirestore) = firestore.collection("teams")
     fun getTeamDocument(firestore: FirebaseFirestore, teamUId: String) = getTeamCollection(firestore).document(teamUId)

@@ -205,6 +205,7 @@ class GroupCreateRoomScreenFragment : Fragment() {
     private fun observeCreateSuccess() {
         groupViewModel.isCreateScreenRoomSuccess.observe(viewLifecycleOwner) { isSuccess ->
             if (isSuccess.getContentIfNotHandled() == true) {
+                groupViewModel.sendMessageWithReservation(groupUId = args.groupUId)
                 findNavController().navigateUp()
             }
         }

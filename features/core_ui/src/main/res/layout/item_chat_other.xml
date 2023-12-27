@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="java.time.Instant" />
+
+        <import type="java.time.ZoneId" />
+
+        <import type="java.time.ZonedDateTime" />
+
+        <import type="java.time.format.DateTimeFormatter" />
+
+        <import type="com.golfzon.domain.model.ChatMessageType" />
+
+        <import type="com.golfzon.core_ui.ImageUploadUtil" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="requestManager"
+            type="com.bumptech.glide.RequestManager" />
+
+        <variable
+            name="messageInfo"
+            type="com.golfzon.domain.model.GroupMessage" />
+
+        <variable
+            name="memberInfo"
+            type="com.golfzon.domain.model.User" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_chat_other_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingBottom="15dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_chat_other_log"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7.5dp"
+            android:layout_marginTop="2dp"
+            android:orientation="horizontal"
+            android:visibility="@{messageInfo.type == ChatMessageType.TEXT ? View.VISIBLE : View.GONE}"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias=".0"
+            app:layout_constraintStart_toEndOf="@id/iv_chat_other"
+            app:layout_constraintTop_toBottomOf="@id/tv_chat_other_name"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintWidth_max="wrap"
+            app:layout_constraintWidth_percent="0.65">
+
+            <TextView
+                android:id="@+id/tv_chat_other_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_radius_24"
+                android:backgroundTint="@color/gray_F0F1F3"
+                android:fontFamily="@font/pretendard_regular"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
+                android:text="@{messageInfo.textMessage.text}"
+                android:textColor="@color/black"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_chat_other_time"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="계좌번호 알려주세요" />
+
+            <TextView
+                android:id="@+id/tv_chat_other_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/pretendard_regular"
+                android:singleLine="true"
+                android:text="@{Instant.ofEpochMilli(messageInfo.createdAt).atZone(ZoneId.systemDefault()).toLocalDateTime().format(DateTimeFormatter.ofPattern(`a h:mm`))}"
+                android:textColor="@color/gray_313131"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/tv_chat_other_message"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
+                tools:text="오후 6:51" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_chat_other_reservation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7.5dp"
+            android:layout_marginTop="2dp"
+            android:orientation="horizontal"
+            android:visibility="@{messageInfo.type == ChatMessageType.RESERVATION ? View.VISIBLE : View.GONE}"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias=".0"
+            app:layout_constraintStart_toEndOf="@id/iv_chat_other"
+            app:layout_constraintTop_toBottomOf="@id/tv_chat_other_name"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintWidth_percent="0.75">
+
+            <LinearLayout
+                android:id="@+id/layout_chat_other_reservation_message"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:elevation="0dp"
+                android:orientation="vertical"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_chat_other_reservation_time"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
+
+                <com.golfzon.core_ui.map.CustomWebViewContainer
+                    android:id="@+id/cardview_chat_other_reservation_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:elevation="0dp"
+                    app:cardCornerRadius="24dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:elevation="0dp"
+                        android:orientation="vertical">
+
+                        <WebView
+                            android:id="@+id/webview_chat_other_reservation_message"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/tv_chat_other_reservation_message"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:background="@drawable/background_radius_24_bottom"
+                            android:backgroundTint="@color/gray_F0F1F3"
+                            android:fontFamily="@font/pretendard_regular"
+                            android:gravity="start"
+                            android:paddingHorizontal="15dp"
+                            android:paddingVertical="10dp"
+                            android:text="@{messageInfo.textMessage.text}"
+                            android:textColor="@color/black"
+                            android:textSize="10sp"
+                            tools:text="23년 12월 28일 15:04\n골프존파크 대치 삼성역점" />
+                    </LinearLayout>
+                </com.golfzon.core_ui.map.CustomWebViewContainer>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_chat_other_reservation_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/pretendard_regular"
+                android:singleLine="true"
+                android:text="@{Instant.ofEpochMilli(messageInfo.createdAt).atZone(ZoneId.systemDefault()).toLocalDateTime().format(DateTimeFormatter.ofPattern(`a h:mm`))}"
+                android:textColor="@color/gray_313131"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/layout_chat_other_reservation_message"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
+                tools:text="오후 6:51" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_chat_other"
+            imageType="@{ImageUploadUtil.ImageType.USER}"
+            imageUId="@{memberInfo.profileImg}"
+            requestManager="@{requestManager}"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_gravity="top|start"
+            android:layout_marginTop="6dp"
+            android:scaleType="centerCrop"
+            android:src="@color/gray_313131"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:shapeAppearance="@style/ShapeAppearance.circle" />
+
+        <TextView
+            android:id="@+id/tv_chat_other_name"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="7.5dp"
+            android:fontFamily="@font/pretendard_regular"
+            android:maxLength="5"
+            android:text="@{memberInfo.nickname}"
+            android:textColor="@color/black"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/iv_chat_other"
+            app:layout_constraintTop_toTopOf="@id/iv_chat_other"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="JunJunJunJunJunJunJun" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
