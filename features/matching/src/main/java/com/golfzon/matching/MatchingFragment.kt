@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.constraintlayout.motion.widget.TransitionAdapter
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -21,7 +24,6 @@ import com.golfzon.core_ui.extension.toast
 import com.golfzon.domain.model.User
 import com.golfzon.matching.databinding.FragmentMatchingBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class MatchingFragment : Fragment() {
@@ -51,6 +53,8 @@ class MatchingFragment : Fragment() {
         observeCurrentCandidateTeamMembers()
         observeMatchingSuccess()
         observeCandidateTeamIsEnd()
+        displayReactionStamp()
+        setReactionClickListener()
     }
 
     private fun onDestroyBindingView() {
@@ -100,18 +104,26 @@ class MatchingFragment : Fragment() {
 
     private fun observeCurrentCandidateTeam() {
         matchingViewModel.curCandidateTeam.observe(viewLifecycleOwner) { curTeam ->
-            with(curTeam.getContentIfNotHandled()) {
+            with(curTeam) {
                 if (this != null) {
                     binding.let {
-                        it.curTeamDetail = this
+                        it.curTeamDetail = this.cardTop
+                        it.nextTeamDetail = this.cardBottom
                         glideRequestManager?.loadImageFromFirebaseStorage(
-                            imageUId = this.teamImageUrl,
+                            imageUId = this.cardTop.teamImageUrl,
                             imageType = ImageUploadUtil.ImageType.TEAM,
+                            placeholder = it.ivBackgroundCardTwo.drawable,
                             size = it.ivMatchingBackground.width,
                             imageView = it.ivMatchingBackground
                         )
+                        glideRequestManager?.loadImageFromFirebaseStorage(
+                            imageUId = this.cardBottom.teamImageUrl,
+                            imageType = ImageUploadUtil.ImageType.TEAM,
+                            size = it.ivBackgroundCardTwo.width,
+                            imageView = it.ivBackgroundCardTwo
+                        )
                     }
-                    matchingViewModel.getCandidateTeamMembersInfo(this.membersUId)
+                    matchingViewModel.getCandidateTeamMembersInfo(this.cardTop.membersUId)
                 } else {
                     // 최초 로딩 이후 2번째 화면 실행부터 화면 실행하자마자 실행되는 곳
                 }
@@ -126,7 +138,8 @@ class MatchingFragment : Fragment() {
     }
 
     private fun setSearchUserResultAdapter() {
-        candidateTeamMemberAdapter = CandidateTeamMemberAdapter(requestManager = glideRequestManager!!)
+        candidateTeamMemberAdapter =
+            CandidateTeamMemberAdapter(requestManager = glideRequestManager!!)
         with(binding.rvMatchingCandidateUsers) {
             adapter = candidateTeamMemberAdapter
             addItemDecoration(HorizontalMarginItemDecoration(12.dp))
@@ -166,9 +179,10 @@ class MatchingFragment : Fragment() {
 
     private fun displayCandidateTeamIsOver(isEnd: Boolean) {
         setReactionButtonsEnabled(isEnabled = !isEnd)
-        binding.layoutMatchingNotExist.visibility = if (isEnd) View.VISIBLE else View.GONE
+        binding.layoutMatchingNotExist.isVisible = isEnd
 
         if (isEnd) {
+            binding.motionLayoutRoot.transitionToState(R.id.notExist)
             this@MatchingFragment.toast(
                 message = getString(R.string.matching_candidate_team_is_not_exist_toast_message),
                 isError = true
@@ -180,6 +194,83 @@ class MatchingFragment : Fragment() {
         with(binding) {
             btnMatchingReactionsLike.isEnabled = isEnabled
             btnMatchingReactionsDislike.isEnabled = isEnabled
+        }
+    }
+
+    private fun displayReactionStamp() {
+        val combinedTransitionObserver = object : TransitionAdapter() {
+            override fun onTransitionChange(
+                motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float
+            ) {
+                super.onTransitionChange(motionLayout, startId, endId, progress)
+                displayReactionStamp(endId, progress)
+            }
+
+            override fun onTransitionCompleted(motionLayout: MotionLayout, currentId: Int) {
+                super.onTransitionCompleted(motionLayout, currentId)
+                reactionToCurrentTeam(motionLayout, currentId)
+            }
+
+            private fun displayReactionStamp(endId: Int, progress: Float) {
+                with(binding) {
+                    when (endId) {
+                        R.id.like -> {
+                            ivMatchingStampLike.alpha = if (progress >= 0) progress * 2 else 0F
+                            btnMatchingCurrentReactionLike.alpha = if (progress >= 0) 1F else 0F
+                            btnMatchingCurrentReactionDislike.alpha = 0F
+                        }
+
+                        R.id.unlike -> {
+                            ivMatchingStampDislike.alpha = if (progress >= 0) progress * 2 else 0F
+                            btnMatchingCurrentReactionDislike.alpha = if (progress >= 0) 1F else 0F
+                            btnMatchingCurrentReactionLike.alpha = 0F
+                        }
+
+                        else -> {
+                            btnMatchingCurrentReactionDislike.alpha = 0F
+                            btnMatchingCurrentReactionLike.alpha = 0F
+
+                            ivMatchingStampLike.alpha = 0f
+                            ivMatchingStampDislike.alpha = 0f
+                        }
+                    }
+                }
+            }
+
+            private fun reactionToCurrentTeam(motionLayout: MotionLayout, currentId: Int) {
+                when (currentId) {
+                    R.id.offScreenUnlike, R.id.offScreenLike -> {
+                        matchingViewModel.reactionsToCandidateTeam(currentId != R.id.offScreenUnlike)
+                        with(binding) {
+                            ivMatchingBackground.setImageDrawable(binding.ivBackgroundCardTwo.drawable)
+                            curTeamDetail = binding.nextTeamDetail
+                            layoutMatchingCandidateTeam.isVisible = true
+                            layoutMatchingCandidateUser.isVisible = false
+                        }
+                        resetMotionLayout(motionLayout)
+                    }
+                }
+            }
+
+            private fun resetMotionLayout(motionLayout: MotionLayout) {
+                with(motionLayout) {
+                    progress = 0f
+                    setTransition(R.id.start, R.id.like)
+                }
+            }
+        }
+
+        binding.motionLayoutRoot.setTransitionListener(combinedTransitionObserver)
+    }
+
+    private fun setReactionClickListener() {
+        with(binding) {
+            btnMatchingReactionsLike.setOnDebounceClickListener {
+                motionLayoutRoot.transitionToState(R.id.like)
+            }
+            btnMatchingReactionsDislike.setOnDebounceClickListener {
+                motionLayoutRoot.transitionToState(R.id.unlike)
+            }
         }
     }
 }

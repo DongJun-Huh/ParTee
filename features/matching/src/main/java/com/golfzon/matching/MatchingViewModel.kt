@@ -44,8 +44,8 @@ class MatchingViewModel @Inject constructor(
     private val _isCurCandidateTeamExist = MutableLiveData<Event<Boolean>>()
     val isCurCandidateTeamExist: LiveData<Event<Boolean>> get() = _isCurCandidateTeamExist
 
-    private val _curCandidateTeam = MutableLiveData<Event<Team>>()
-    val curCandidateTeam: LiveData<Event<Team>> get() = _curCandidateTeam
+    private val _curCandidateTeam = MutableLiveData<MatchingCardModel>()
+    val curCandidateTeam: LiveData<MatchingCardModel> get() = _curCandidateTeam
 
     private val _curCandidateTeamMembers = ListLiveData<User>()
     val curCandidateTeamMembers: ListLiveData<User> get() = _curCandidateTeamMembers
@@ -121,6 +121,11 @@ class MatchingViewModel @Inject constructor(
         }
     }
 
+    private val topCard
+        get() = _candidateTeams.value!![curCandidateTeamIndex.value!! % _candidateTeams.value!!.size]
+    private val bottomCard
+        get() = _candidateTeams.value!![(curCandidateTeamIndex.value!! + 1) % _candidateTeams.value!!.size]
+
     private fun filteringCandidateTeams(reactedTeams: List<String>) = viewModelScope.launch {
         getCandidateTeamUseCase(
             curSearchingHeadCount.value ?: 1,
@@ -132,12 +137,21 @@ class MatchingViewModel @Inject constructor(
 
             _candidateTeams.replaceAll(priorityOrderedTeams, true)
             if (it.isNotEmpty()) {
-                _curCandidateTeam.postValue(Event(priorityOrderedTeams[0]))
+                updateCards()
                 _isCurCandidateTeamExist.postValue(Event(true))
             } else {
                 _isCurCandidateTeamExist.postValue(Event(false))
             }
         }
+    }
+
+    private fun updateCards() {
+        _curCandidateTeam.postValue(
+            MatchingCardModel(
+                cardTop = topCard,
+                cardBottom = bottomCard
+            )
+        )
     }
 
     private val List<Team>.calculatePriorityScores
@@ -202,7 +216,8 @@ class MatchingViewModel @Inject constructor(
     private fun updateCandidateTeamIndex(teamIndex: Int, teams: List<Team>) {
         if (teamIndex < teams.size - 1) {
             curCandidateTeamIndex.value = teamIndex + 1
-            _curCandidateTeam.postValue(Event(teams[teamIndex + 1]))
+            updateCards()
+//            _curCandidateTeam.postValue(Event(teams[teamIndex + 1]))
             _isCandidateEnd.postValue(Event(false))
         } else {
             _isCandidateEnd.postValue(Event(true))

@@ -29,442 +29,480 @@
             type="com.golfzon.domain.model.Team" />
 
         <variable
+            name="nextTeamDetail"
+            type="com.golfzon.domain.model.Team" />
+
+        <variable
             name="curUserDetail"
             type="com.golfzon.domain.model.User" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.golfzon.core_ui.ClickableMotionLayout
+        android:id="@+id/motionLayout_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true">
+        android:animateLayoutChanges="true"
+        app:layoutDescription="@xml/swipe_actions">
 
-        <ImageView
-            android:id="@+id/iv_matching_background"
-            imageType="@{ImageUploadUtil.ImageType.USER}"
-            imageUId="@{curUserDetail.profileImg}"
-            requestManager="@{requestManager}"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardTwo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/background_img_golf" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/background_gradation_gray_to_transparent" />
-
-        <LinearLayout
-            android:id="@+id/layout_matching_candidate_team"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginBottom="33dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@id/layout_matching_candidate_users"
+            android:outlineSpotShadowColor="@android:color/transparent"
+            app:cardBackgroundColor="@color/design_default_color_secondary"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/team"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/tv_matching_candidate_team_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:fontFamily="@font/pretendard_semi_bold"
-                android:text="@{curTeamDetail.teamName}"
-                android:textColor="@color/white"
-                android:textFontWeight="600"
-                android:textSize="28sp" />
-
-            <LinearLayout
-                android:id="@+id/layout_matching_candidate_team_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_location"
-                        android:tint="@color/white" />
-
-                    <TextView
-                        displayListsToString="@{curTeamDetail.searchingLocations}"
-                        divider="@{` / `}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:gravity="center"
-                        android:textColor="@color/white" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_cake"
-                        android:tint="@color/white" />
-
-                    <TextView
-                        android:id="@+id/tv_matching_candidate_team_info_avg_age"
-                        dividend="@{curTeamDetail.totalAge}"
-                        divisor="@{curTeamDetail.headCount}"
-                        postfix="@{@string/age_unit_korean}"
-                        prefix="@{@string/average_korean}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        tools:text="평균 25세" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_flag"
-                        android:tint="@color/white" />
-
-                    <TextView
-                        android:id="@+id/tv_matching_candidate_team_info_avg_years_playing"
-                        dividend="@{curTeamDetail.totalAge}"
-                        divisor="@{curTeamDetail.headCount}"
-                        postfix="@{@string/year_unit_korean}"
-                        prefix="@{@string/average_korean}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        tools:text="평균 7년" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_flash"
-                        android:tint="@color/white" />
-
-                    <TextView
-                        android:id="@+id/tv_matching_candidate_team_info_avg_average"
-                        dividend="@{curTeamDetail.totalAverage}"
-                        divisor="@{curTeamDetail.headCount}"
-                        postfix="@{@string/average_unit_korean}"
-                        prefix="@{@string/average_korean}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        tools:text="평균 120타" />
-                </LinearLayout>
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_matching_candidate_user"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginBottom="33dp"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@id/layout_matching_candidate_users"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:visibility="visible">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                android:orientation="horizontal">
+                android:id="@+id/containerCardTwo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/tv_matching_candidate_user_name"
+                <ImageView
+                    android:id="@+id/iv_background_cardTwo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/background_img_golf" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardOne"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:outlineSpotShadowColor="@android:color/transparent"
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/containerCardOne"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_matching_background"
+                    imageType="@{ImageUploadUtil.ImageType.USER}"
+                    imageUId="@{curUserDetail.profileImg}"
+                    requestManager="@{requestManager}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/background_img_golf" />
+
+                <ImageView
+                    android:id="@+id/iv_background_gradient"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/background_gradation_gray_to_transparent" />
+
+                <LinearLayout
+                    android:id="@+id/layout_matching_candidate_team"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginBottom="33dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toTopOf="@id/layout_matching_candidate_users"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/team"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/tv_matching_candidate_team_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/pretendard_semi_bold"
+                        android:text="@{curTeamDetail.teamName}"
+                        android:textColor="@color/white"
+                        android:textFontWeight="600"
+                        android:textSize="28sp" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_matching_candidate_team_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_location"
+                                android:tint="@color/white" />
+
+                            <TextView
+                                displayListsToString="@{curTeamDetail.searchingLocations}"
+                                divider="@{` / `}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:gravity="center"
+                                android:textColor="@color/white" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_cake"
+                                android:tint="@color/white" />
+
+                            <TextView
+                                android:id="@+id/tv_matching_candidate_team_info_avg_age"
+                                dividend="@{curTeamDetail.totalAge}"
+                                divisor="@{curTeamDetail.headCount}"
+                                postfix="@{@string/age_unit_korean}"
+                                prefix="@{@string/average_korean}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:gravity="center"
+                                android:textColor="@color/white"
+                                tools:text="평균 25세" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_flag"
+                                android:tint="@color/white" />
+
+                            <TextView
+                                android:id="@+id/tv_matching_candidate_team_info_avg_years_playing"
+                                dividend="@{curTeamDetail.totalAge}"
+                                divisor="@{curTeamDetail.headCount}"
+                                postfix="@{@string/year_unit_korean}"
+                                prefix="@{@string/average_korean}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:gravity="center"
+                                android:textColor="@color/white"
+                                tools:text="평균 7년" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_flash"
+                                android:tint="@color/white" />
+
+                            <TextView
+                                android:id="@+id/tv_matching_candidate_team_info_avg_average"
+                                dividend="@{curTeamDetail.totalAverage}"
+                                divisor="@{curTeamDetail.headCount}"
+                                postfix="@{@string/average_unit_korean}"
+                                prefix="@{@string/average_korean}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:gravity="center"
+                                android:textColor="@color/white"
+                                tools:text="평균 120타" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_matching_candidate_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginBottom="33dp"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@id/layout_matching_candidate_users"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:visibility="visible">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:animateLayoutChanges="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_matching_candidate_user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/pretendard_semi_bold"
+                            android:text="@{curUserDetail.nickname}"
+                            android:textColor="@color/white"
+                            android:textFontWeight="600"
+                            android:textSize="28sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.5"
+                            tools:text="허동준" />
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="10dp"
+                            android:paddingVertical="5dp"
+                            android:src="@drawable/ic_tag_user"
+                            android:tint="@color/white"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_matching_candidate_user_name"
+                            app:layout_constraintDimensionRatio="H,1:1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toEndOf="@id/tv_matching_candidate_user_name"
+                            app:layout_constraintTop_toTopOf="@id/tv_matching_candidate_user_name"
+                            app:layout_constraintVertical_bias="0.5" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_matching_candidate_user_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:animateLayoutChanges="true"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:animateLayoutChanges="true"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_cake"
+                                android:tint="@color/white" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:gravity="center"
+                                android:text="@{@string/info_age(curUserDetail.age)}"
+                                android:textColor="@color/white"
+                                tools:text="25세" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:animateLayoutChanges="true"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_flag"
+                                android:tint="@color/white" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:gravity="center"
+                                android:text="@{@string/info_years_playing(curUserDetail.yearsPlaying)}"
+                                android:textColor="@color/white"
+                                tools:text="3년" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:animateLayoutChanges="true"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_flash"
+                                android:tint="@color/white" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:gravity="center"
+                                android:text="@{@string/info_average(curUserDetail.average)}"
+                                android:textColor="@color/white"
+                                tools:text="100타" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_matching_candidate_users"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toTopOf="@id/btn_matching_current_reaction_like"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="24dp"
+                        android:text="@{@string/matching_candidate_team_members_title(curTeamDetail.teamName)}"
+                        android:textColor="@color/white" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_matching_candidate_users"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="36dp"
+                        android:orientation="horizontal"
+                        android:overScrollMode="never"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_candidate_team_member" />
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_card_middle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:fontFamily="@font/pretendard_semi_bold"
-                    android:text="@{curUserDetail.nickname}"
-                    android:textColor="@color/white"
-                    android:textFontWeight="600"
-                    android:textSize="28sp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintGuide_percent="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/btn_matching_current_reaction_dislike"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginEnd="9dp"
+                    android:layout_marginBottom="36dp"
+                    android:alpha="0.0"
+                    android:background="@color/primary_btn_AFB7CF"
+                    android:backgroundTint="#F85C7B"
+                    android:clickable="false"
+                    android:elevation="1dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_x"
+                    android:tint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_card_middle"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:shapeAppearance="@style/ShapeAppearance.circle" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/btn_matching_current_reaction_like"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginBottom="36dp"
+                    android:alpha="0.0"
+                    android:background="@color/primary_btn_AFB7CF"
+                    android:backgroundTint="#3CD47C"
+                    android:clickable="false"
+                    android:elevation="1dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_heart"
+                    android:tint="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.5"
-                    tools:text="허동준" />
+                    app:layout_constraintStart_toEndOf="@id/guideline_card_middle"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:shapeAppearance="@style/ShapeAppearance.circle" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_matching_stamp_like"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_gravity="center"
-                    android:layout_marginStart="10dp"
-                    android:paddingVertical="5dp"
-                    android:src="@drawable/ic_tag_user"
-                    android:tint="@color/white"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_matching_candidate_user_name"
-                    app:layout_constraintDimensionRatio="H,1:1"
+                    android:alpha="0.0"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_reaction_like"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="W,1:1"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toEndOf="@id/tv_matching_candidate_user_name"
-                    app:layout_constraintTop_toTopOf="@id/tv_matching_candidate_user_name"
-                    app:layout_constraintVertical_bias="0.5" />
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintWidth_percent="0.5" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_matching_stamp_dislike"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:alpha="0.0"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_reaction_dislike"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="W,1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.9"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintWidth_percent="0.5" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_matching_candidate_user_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:animateLayoutChanges="true"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:animateLayoutChanges="true"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_cake"
-                        android:tint="@color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:gravity="center"
-                        android:text="@{@string/info_age(curUserDetail.age)}"
-                        android:textColor="@color/white"
-                        tools:text="25세" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:animateLayoutChanges="true"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_flag"
-                        android:tint="@color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:gravity="center"
-                        android:text="@{@string/info_years_playing(curUserDetail.yearsPlaying)}"
-                        android:textColor="@color/white"
-                        tools:text="3년" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:animateLayoutChanges="true"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_flash"
-                        android:tint="@color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:gravity="center"
-                        android:text="@{@string/info_average(curUserDetail.average)}"
-                        android:textColor="@color/white"
-                        tools:text="100타" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_matching_candidate_users"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@id/layout_matching_reactions"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:text="@{@string/matching_candidate_team_members_title(curTeamDetail.teamName)}"
-                android:textColor="@color/white" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_matching_candidate_users"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="36dp"
-                android:orientation="horizontal"
-                android:overScrollMode="never"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_candidate_team_member" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_matching_reactions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="36dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="1.0">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/btn_matching_reactions_dislike"
-                onDebounceClick="@{() -> vm.reactionsToCandidateTeam(false)}"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@color/primary_btn_AFB7CF"
-                android:scaleType="center"
-                android:src="@drawable/ic_x"
-                android:tint="@color/white"
-                app:shapeAppearance="@style/ShapeAppearance.circle" />
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/btn_matching_reactions_like"
-                onDebounceClick="@{() -> vm.reactionsToCandidateTeam(true)}"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="18dp"
-                android:background="@color/primary_btn_AFB7CF"
-                android:scaleType="center"
-                android:src="@drawable/ic_heart"
-                android:tint="@color/white"
-                app:shapeAppearance="@style/ShapeAppearance.circle" />
-        </LinearLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_matching_searching"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:visibility="visible"
-            tools:visibility="gone">
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/lottie_matching_searching"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/animation_match_searching"
-                app:lottie_speed="2" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_matching_not_exist"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:visibility="gone">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/iv_matching_candidate_team_is_not_exist"
-                imageType="@{ImageUploadUtil.ImageType.TEAM}"
-                imageUId="@{curUserTeamDetail.teamImageUrl}"
-                requestManager="@{requestManager}"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearance="@style/ShapeAppearance.circle"
-                tools:src="@drawable/user_sample" />
-
-            <TextView
-                android:id="@+id/tv_matching_candidate_team_is_not_exist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:fontFamily="@font/pretendard_regular"
-                android:gravity="center"
-                android:letterSpacing="0"
-                android:lineSpacingExtra="4sp"
-                android:text="@string/matching_candidate_team_is_not_exist_view_message"
-                android:textColor="@color/gray_767B83"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_matching_candidate_team_is_not_exist"
-                app:layout_constraintVertical_bias="0.0" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
             android:id="@+id/layout_matching_appbar"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:elevation="1dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -488,12 +526,49 @@
                 android:tint="@color/primary_8B95B3" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/layout_matching_reactions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="36dp"
+            android:elevation="1dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/btn_matching_reactions_dislike"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@color/primary_btn_AFB7CF"
+                android:scaleType="center"
+                android:src="@drawable/ic_x"
+                android:tint="@color/white"
+                app:shapeAppearance="@style/ShapeAppearance.circle" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/btn_matching_reactions_like"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="18dp"
+                android:background="@color/primary_btn_AFB7CF"
+                android:scaleType="center"
+                android:src="@drawable/ic_heart"
+                android:tint="@color/white"
+                app:shapeAppearance="@style/ShapeAppearance.circle" />
+        </LinearLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+            android:id="@+id/layout_matching_filtering_current"
+            android:layout_width="0dp"
             android:layout_height="41dp"
             android:layout_marginHorizontal="18dp"
             android:background="@drawable/background_radius_12"
             android:backgroundTint="@color/gray_D9D9D9"
+            android:elevation="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -564,5 +639,69 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_matching_searching"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:visibility="visible"
+            tools:visibility="gone">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie_matching_searching"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/animation_match_searching"
+                app:lottie_speed="2" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_matching_not_exist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:visibility="gone">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_matching_candidate_team_is_not_exist"
+                imageType="@{ImageUploadUtil.ImageType.TEAM}"
+                imageUId="@{curUserTeamDetail.teamImageUrl}"
+                requestManager="@{requestManager}"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearance="@style/ShapeAppearance.circle"
+                tools:src="@drawable/user_sample" />
+
+            <TextView
+                android:id="@+id/tv_matching_candidate_team_is_not_exist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/pretendard_regular"
+                android:gravity="center"
+                android:letterSpacing="0"
+                android:lineSpacingExtra="4sp"
+                android:text="@string/matching_candidate_team_is_not_exist_view_message"
+                android:textColor="@color/gray_767B83"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_matching_candidate_team_is_not_exist"
+                app:layout_constraintVertical_bias="0.0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.golfzon.core_ui.ClickableMotionLayout>
 </layout>
