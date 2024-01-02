@@ -16,6 +16,9 @@ import com.golfzon.domain.usecase.member.GetUserInfoUseCase
 import com.golfzon.domain.usecase.team.DeleteTeamUseCase
 import com.golfzon.domain.usecase.team.GetUserTeamInfoDetailUseCase
 import com.golfzon.domain.usecase.team.RequestTeamOrganizedUseCase
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.perf.ktx.performance
+import com.google.firebase.perf.metrics.Trace
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -46,6 +49,7 @@ class TeamViewModel @Inject constructor(
 
     private val _isTeamDeleteSuccess = MutableLiveData<Event<Boolean>>()
     val isTeamDeleteSuccess: LiveData<Event<Boolean>> get() = _isTeamDeleteSuccess
+    private val requestChangeTeamInfoTrace: Trace = Firebase.performance.newTrace("request_change_team_info_trace")
 
     fun getNewTeamInfo() = viewModelScope.launch {
         val teamInfo = getUserTeamInfoDetailUseCase()
@@ -103,6 +107,7 @@ class TeamViewModel @Inject constructor(
     }
 
     fun organizeTeam() = viewModelScope.launch {
+        requestChangeTeamInfoTrace.start()
         _newTeam.value?.let { organizeDetail ->
             if (organizeDetail.searchingLocations.isEmpty()
             // TODO 시간및 위치 설정 추가시 체크 조건 설정
@@ -118,6 +123,8 @@ class TeamViewModel @Inject constructor(
                     ),
                     ImageUploadUtil.bitmapToFile(newTeamImageBitmap.value, newTeamImgPath.value)
                 )?.let {
+                    requestChangeTeamInfoTrace.putAttribute("team_uid",organizeDetail.teamUId)
+                    requestChangeTeamInfoTrace.stop()
                     _isTeamOrganizeSuccess.postValue(Event(true))
                 }
             }
