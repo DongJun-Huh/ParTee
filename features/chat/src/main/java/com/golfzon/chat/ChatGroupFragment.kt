@@ -4,15 +4,18 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.golfzon.chat.databinding.FragmentChatGroupBinding
@@ -36,6 +39,7 @@ class ChatGroupFragment : Fragment() {
     private val groupUId by lazy {
         (requireActivity() as ChatActivity).intent.getStringExtra("groupUId") ?: ""
     }
+
     private val chatLogLoadingTrace: Trace = Firebase.performance.newTrace("chat_log_loading_trace")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,25 +97,23 @@ class ChatGroupFragment : Fragment() {
         chatViewModel.getCurrentUserInfo()
     }
 
-    private fun observePastMessages() {
-        chatViewModel.chatLogs.observe(viewLifecycleOwner) {
-            if (chatAdapter != null) {
-                chatAdapter?.submitList(it)
-                binding.rvChatGroupLog.scrollToPosition(chatAdapter!!.itemCount - 1)
-            }
-        }
-    }
-
     private fun getNewMessage() {
         chatViewModel.receiveMessage(groupUId)
     }
 
     private fun observeNewMessage() {
-        chatViewModel.newChat.observe(viewLifecycleOwner) {
-            with(it.getContentIfNotHandled()) {
+        chatViewModel.chatLogs.observe(viewLifecycleOwner) {
+            with(it) {
                 if (this != null && chatAdapter != null) {
-                    chatAdapter?.submitList(chatViewModel.chatLogs.value)
-                    binding.rvChatGroupLog.smoothScrollToPosition(chatViewModel.chatLogs.value!!.size - 1)
+                    chatAdapter?.submitList(it)
+                    // 메시지 추가 직전에 마지막 item을 보고있었고, 새로운 채팅이 추가된 경우에만 자동 스크롤
+                    if ((binding.rvChatGroupLog.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                        == (binding.rvChatGroupLog.adapter?.itemCount ?: 1) - 1
+                    ) {
+                        if (it.size > 1) {
+                            binding.rvChatGroupLog.smoothScrollToPosition(it.size - 1)
+                        }
+                    }
                 }
             }
         }

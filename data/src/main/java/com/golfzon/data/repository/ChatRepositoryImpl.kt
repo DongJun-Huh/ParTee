@@ -68,39 +68,23 @@ class ChatRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getPastMessages(groupUId: String) = flow {
-        try {
-            val documents =
-                getGroupMessagesCollection(groupUId = groupUId, firestore = firestore).get().await()
-            val messages = documents.documents.mapNotNull { it.data?.toDataClass<GroupMessage>() }
-            emit(messages)
-        } catch (e: Exception) {
-            Lg.e(e)
-            emit(emptyList<GroupMessage>())
-        }
-    }.flowOn(Dispatchers.IO)
-
     override suspend fun receiveMessages(
         groupUId: String,
-        callback: (GroupMessage) -> Unit
+        callback: (List<GroupMessage>) -> Unit
     ): () -> Unit =
         withContext(Dispatchers.IO) {
             val registration =
                 getGroupMessagesCollection(groupUId = groupUId, firestore = firestore)
                     .addSnapshotListener { snapshots, error ->
-                        if (error != null || snapshots == null || snapshots.metadata.isFromCache) {
+                        if (error != null || snapshots == null) {
                             return@addSnapshotListener
                         }
 
-                        for (shot in snapshots.documentChanges) {
-                            if (shot.type == DocumentChange.Type.ADDED ||
-                                shot.type == DocumentChange.Type.MODIFIED
-                            ) {
-                                val message = shot.document.data.toDataClass<GroupMessage>()
-                                Lg.e(message.textMessage.text)
-                                callback(message)
-                            }
+                        val newChats = snapshots.documentChanges.map {
+                            it.type == DocumentChange.Type.ADDED || it.type == DocumentChange.Type.MODIFIED
+                            it.document.data.toDataClass<GroupMessage>()
                         }
+                        callback(newChats)
                     }
 
             return@withContext fun() { registration.remove() }

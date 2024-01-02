@@ -4,14 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.golfzon.core_ui.Event
 import com.golfzon.core_ui.ListLiveData
 import com.golfzon.domain.model.GroupMessage
 import com.golfzon.domain.model.TextMessage
 import com.golfzon.domain.model.User
 import com.golfzon.domain.repository.OnGrpMessageResponse
 import com.golfzon.domain.usecase.chat.GetGroupMessageUseCase
-import com.golfzon.domain.usecase.chat.GetPastGroupMessageUseCase
 import com.golfzon.domain.usecase.chat.SendGroupMessageUseCase
 import com.golfzon.domain.usecase.group.GetGroupDetailUseCase
 import com.golfzon.domain.usecase.member.GetCurUserInfoUseCase
@@ -30,8 +28,7 @@ class ChatViewModel @Inject constructor(
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val getGroupDetailUseCase: GetGroupDetailUseCase,
     private val sendGroupMessageUseCase: SendGroupMessageUseCase,
-    private val getGroupMessageUseCase: GetGroupMessageUseCase,
-    private val getPastGroupMessageUseCase: GetPastGroupMessageUseCase
+    private val getGroupMessageUseCase: GetGroupMessageUseCase
 ) : ViewModel() {
 
     private val _currentUserBasicInfo =
@@ -46,9 +43,6 @@ class ChatViewModel @Inject constructor(
 
     private val _chatLogs = ListLiveData<GroupMessage>()
     val chatLogs: ListLiveData<GroupMessage> = _chatLogs
-
-    private val _newChat = MutableLiveData<Event<GroupMessage>>()
-    val newChat: LiveData<Event<GroupMessage>> = _newChat
 
     private var _removeChatListener: () -> Unit = {}
     val removeChatListener: () -> Unit get() = _removeChatListener
@@ -80,19 +74,9 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    private fun getPastMessages(groupUId: String) = viewModelScope.launch {
-        getPastGroupMessageUseCase(groupUId).collectLatest {
-            _chatLogs.replaceAll(it, true)
-        }
-    }
-
     fun receiveMessage(groupUId: String) = viewModelScope.launch {
-        getPastMessages(groupUId).join()
         _removeChatListener = getGroupMessageUseCase(groupUId) {
-            if (_chatLogs.value?.contains(it) == false) {
-                _chatLogs.add(it, false)
-                _newChat.value = Event(it)
-            }
+            _chatLogs.addAll(it, true)
         }
     }
 
