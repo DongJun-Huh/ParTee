@@ -94,7 +94,8 @@ class TeamInfoFragment : Fragment() {
                     imageUId = teamInfo.teamImageUrl ?: "",
                     imageType = ImageUploadUtil.ImageType.TEAM,
                     placeholder = currentImage,
-                    size = binding.ivTeamInfoImage.width,
+                    width = binding.ivTeamInfoImage.width,
+                    height = binding.ivTeamInfoImage.height,
                     imageView = binding.ivTeamInfoImage
                 )
             }

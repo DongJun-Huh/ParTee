@@ -88,14 +88,16 @@ class GroupDetailFragment : Fragment() {
                             requestManager.loadImageFromFirebaseStorage(
                                 imageUId = this.originalTeamsInfo[0].teamImageUrl,
                                 imageType = ImageUploadUtil.ImageType.TEAM,
-                                size = it.ivGroupDetailTeamFirst.width,
+                                width = it.ivGroupDetailTeamFirst.width,
+                                height = it.ivGroupDetailTeamFirst.height,
                                 imageView = it.ivGroupDetailTeamFirst
                             )
 
                             requestManager.loadImageFromFirebaseStorage(
                                 imageUId = this.originalTeamsInfo[1].teamImageUrl,
                                 imageType = ImageUploadUtil.ImageType.TEAM,
-                                size = it.ivGroupDetailTeamSecond.width,
+                                width = it.ivGroupDetailTeamSecond.width,
+                                height = it.ivGroupDetailTeamSecond.height,
                                 imageView = it.ivGroupDetailTeamSecond
                             )
                         }

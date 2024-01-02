@@ -28,6 +28,7 @@ import dagger.hilt.components.SingletonComponent
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
+import java.lang.Integer.max
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -40,6 +41,7 @@ interface StorageComponent {
 
 object ImageUploadUtil {
     private val PERMIT_IMAGE_EXTENSIONS = listOf("jpg", "jpeg", "png", "webp")
+    private const val IMAGE_LIMIT_DEFAULT_SIZE = 1080
 
     // Get Image Extension
     fun Uri.extension(contentResolver: ContentResolver): String = contentResolver
@@ -58,6 +60,27 @@ object ImageUploadUtil {
     }
 
     val String.isPermitExtension: Boolean get() = this in PERMIT_IMAGE_EXTENSIONS
+
+    private fun Bitmap.resizeBitmap(
+        resizedWidth: Int = IMAGE_LIMIT_DEFAULT_SIZE,
+        resizedHeight: Int = IMAGE_LIMIT_DEFAULT_SIZE,
+    ): Bitmap {
+        var bmpWidth = this.width.toFloat()
+        var bmpHeight = this.height.toFloat()
+
+        if (bmpWidth > resizedWidth) {
+            val mWidth = bmpWidth / 100
+            val scale = resizedWidth / mWidth
+            bmpWidth *= scale / 100
+            bmpHeight *= scale / 100
+        } else if (bmpHeight > resizedHeight) {
+            val mHeight = bmpHeight / 100
+            val scale = resizedHeight / mHeight
+            bmpWidth *= scale / 100
+            bmpHeight *= scale / 100
+        }
+        return Bitmap.createScaledBitmap(this, bmpWidth.toInt(), bmpHeight.toInt(), true)
+    }
 
     fun bitmapToFile(bitmap: Bitmap?, path: String?): File? {
         if (bitmap == null || path == null) {
@@ -96,12 +119,22 @@ object ImageUploadUtil {
         imageUId: String,
         imageType: ImageType,
         placeholder: Drawable? = null,
-        size: Int,
+        width: Int,
+        height: Int,
         imageView: ImageView
     ) {
         val imageLoadingTrace: Trace = Firebase.performance.newTrace("image_loading_trace")
         var isTraceStarted = false
         try {
+            val requestSize = when (max(width, height)) {
+                in 720 .. 1080 -> 1080
+                in 480 .. 720 -> 720
+                in 240 .. 480 -> 480
+                in 120 .. 240 -> 240
+                in 0 .. 120 -> 120
+                else -> 1080
+            }
+
             with(imageLoadingTrace) {
                 if (imageView.context is ContextWrapper) {
                     this.putAttribute(
@@ -126,10 +159,10 @@ object ImageUploadUtil {
                 hiltEntryPoint.getFirebaseStorage()
             }
 
-            firebaseStorage.reference.child("${imageType.imageUrlPrefix}/${imageUId}").downloadUrl.addOnSuccessListener {
+            firebaseStorage.reference.child("${imageType.imageUrlPrefix}/resized/${imageUId}_${requestSize}").downloadUrl.addOnSuccessListener {
                 this.asBitmap()
                     .load(it)
-                    .override(size, size)
+                    .override(width, height)
                     .placeholder(placeholder)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .skipMemoryCache(false)

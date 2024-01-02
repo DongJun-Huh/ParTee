@@ -69,7 +69,8 @@ fun ImageView.loadImage(imageUId: String? = "", imageType: ImageUploadUtil.Image
     requestManager.loadImageFromFirebaseStorage(
         imageUId = imageUId ?: "",
         imageType = imageType,
-        size = this.width,
+        width = this.width,
+        height = this.height,
         imageView = this
     )
 }
@@ -79,7 +80,8 @@ fun ShapeableImageView.loadImage(imageUId: String? = "", imageType: ImageUploadU
     requestManager.loadImageFromFirebaseStorage(
         imageUId = imageUId ?: "",
         imageType = imageType,
-        size = this.width,
+        width = this.width,
+        height = this.height,
         imageView = this
     )
 }

@@ -128,13 +128,15 @@ class MatchingFragment : Fragment() {
                             imageUId = this.cardTop.teamImageUrl,
                             imageType = ImageUploadUtil.ImageType.TEAM,
                             placeholder = it.ivBackgroundCardTwo.drawable,
-                            size = it.ivMatchingBackground.width,
+                            width = it.ivMatchingBackground.width,
+                            height = it.ivMatchingBackground.height,
                             imageView = it.ivMatchingBackground
                         )
                         glideRequestManager?.loadImageFromFirebaseStorage(
                             imageUId = this.cardBottom.teamImageUrl,
                             imageType = ImageUploadUtil.ImageType.TEAM,
-                            size = it.ivBackgroundCardTwo.width,
+                            width = it.ivBackgroundCardTwo.width,
+                            height = it.ivBackgroundCardTwo.height,
                             imageView = it.ivBackgroundCardTwo
                         )
                     }
