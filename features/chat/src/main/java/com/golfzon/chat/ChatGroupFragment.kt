@@ -127,6 +127,7 @@ class ChatGroupFragment : Fragment() {
     }
 
     private fun setChatLogAdapter() {
+        var renderedItemCount = 0
         chatViewModel.chatGroupMembersInfo.observe(viewLifecycleOwner) {
             if (it.first.isEmpty() || it.second.first.isEmpty()) return@observe
             chatAdapter = ChatAdapter(
@@ -147,8 +148,26 @@ class ChatGroupFragment : Fragment() {
                     }
                 }
             }
-            binding.rvChatGroupLog.adapter = chatAdapter
-            observePastMessages()
+            with(binding.rvChatGroupLog) {
+                adapter = chatAdapter
+                layoutManager = object : LinearLayoutManager(requireContext()) {
+                    override fun onLayoutCompleted(state: RecyclerView.State?) {
+                        super.onLayoutCompleted(state)
+
+                        // 10개 이상 채팅이 있는 경우, 10개이상 렌더링 된 경우에만 보이도록 설정, 이하인 경우 절반 이상이 렌더링 된경우에만 보이도록 설정
+                        renderedItemCount++
+                        val itemCount = this@with.adapter?.itemCount ?: return
+
+                        with(this@with) {
+                            isVisible = when {
+                                itemCount <= 0 -> false
+                                itemCount >= 10 -> renderedItemCount >= 10
+                                else -> renderedItemCount > (itemCount / 2)
+                            }
+                        }
+                    }
+                }
+            }
             getNewMessage()
             observeNewMessage()
         }
