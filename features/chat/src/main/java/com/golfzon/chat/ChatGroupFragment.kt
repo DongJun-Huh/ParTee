@@ -132,16 +132,18 @@ class ChatGroupFragment : Fragment() {
                 userUId = it.second.first,
                 membersInfo = it.first
             ).apply {
-                onRenderCompleted =
-                    {
-                        binding.rvChatGroupLog.scrollToPosition(this.itemCount - 1)
-                        if (this.itemCount > 0) {
-                            chatLogLoadingTrace.let { trace ->
-                                trace.putAttribute("chatLogCount", this.itemCount.toString())
-                                trace.stop()
-                            }
+                setHasStableIds(true)
+                onFirstRenderCompleted = {
+                    if (this.itemCount > 0) {
+                        binding.rvChatGroupLog.let { rv ->
+                            rv.scrollToPosition(this.itemCount - 1)
+                        }
+                        chatLogLoadingTrace.let { trace ->
+                            trace.putAttribute("chatLogCount", this.itemCount.toString())
+                            trace.stop()
                         }
                     }
+                }
             }
             binding.rvChatGroupLog.adapter = chatAdapter
             observePastMessages()

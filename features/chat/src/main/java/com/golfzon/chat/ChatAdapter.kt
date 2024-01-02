@@ -28,7 +28,7 @@ class ChatAdapter(
     private val membersInfo: List<User>
 ) :
     ListAdapter<GroupMessage, RecyclerView.ViewHolder>(diffCallback) {
-    var onRenderCompleted: (() -> Unit)? = null
+    var onFirstRenderCompleted: (() -> Unit)? = null
 
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<GroupMessage>() {
@@ -86,7 +86,7 @@ class ChatAdapter(
         currentList: MutableList<GroupMessage>
     ) {
         super.onCurrentListChanged(previousList, currentList)
-        onRenderCompleted?.invoke()
+        if (previousList.isEmpty()) onFirstRenderCompleted?.invoke()
     }
 
     override fun getItemViewType(position: Int): Int =
