@@ -195,10 +195,7 @@ class TeamInfoFragment : Fragment() {
                 with(teamViewModel) {
                     newTeamImageBitmap.postValue(curBitmap)
                     newTeamImgPath.postValue(
-                        ImageUploadUtil.getTempImageFilePath(
-                            newTeamImgExtension.value ?: "jpg",
-                            requireContext()
-                        )
+                        ImageUploadUtil.getTempImageFilePath("webp", requireContext())
                     )
                 }
 

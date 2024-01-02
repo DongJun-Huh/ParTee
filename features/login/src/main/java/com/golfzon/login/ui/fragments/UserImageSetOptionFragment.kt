@@ -92,10 +92,7 @@ class UserImageSetOptionFragment : DialogFragment() {
         intent?.data?.let { uri ->
             val contentResolver = requireActivity().applicationContext.contentResolver
             if (uri.extension(contentResolver).isPermitExtension) {
-                setImageInfo(
-                    uri.toBitmap(requireContext().contentResolver),
-                    uri.extension(requireActivity().applicationContext.contentResolver)
-                )
+                setImageInfo(uri.toBitmap(requireContext().contentResolver))
             } else {
                 this@UserImageSetOptionFragment.toast(
                     message = getString(com.golfzon.core_ui.R.string.upload_image_fail_file_extension),
@@ -144,7 +141,7 @@ class UserImageSetOptionFragment : DialogFragment() {
             val timeStamp = SimpleDateFormat("yyyy-MM-d-HH-mm-ss", Locale.KOREA).format(Date())
             val photoFileName = "Capture_${timeStamp}_"
             val tmpDir: File? = requireContext().cacheDir
-            File.createTempFile(photoFileName, ".jpg", tmpDir).apply {
+            File.createTempFile(photoFileName, ".webp", tmpDir).apply {
                 currentTakenPhotoPath = absolutePath
             }
         } catch (e: Exception) {
@@ -156,25 +153,16 @@ class UserImageSetOptionFragment : DialogFragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
             if (activityResult.resultCode == Activity.RESULT_OK) {
                 val photoFile = File(currentTakenPhotoPath)
-                val photoFileExtension = currentTakenPhotoPath
-                    .split(".")
-                    .last().ifEmpty { "jpg" }
-                setImageInfo(
-                    Uri.fromFile(photoFile).toBitmap(requireContext().contentResolver),
-                    photoFileExtension
-                )
+                setImageInfo(Uri.fromFile(photoFile).toBitmap(requireContext().contentResolver))
             }
         }
 
-    private fun setImageInfo(bitmap: Bitmap, fileExtension: String) {
-        // 이미지 파일과 함께, 파일 확장자도 같이 저장
-        loginViewModel.setImageFileExtension(fileExtension)
+    private fun setImageInfo(bitmap: Bitmap) {
         findNavController().navigate(
             UserImageSetOptionFragmentDirections.actionUserImageSetOptionFragmentToImageCropFragment(
-                ImagePath = bitmapToFile(
-                    bitmap,
-                    getTempImageFilePath(fileExtension, requireContext())
-                )?.absolutePath ?: ""
+                ImagePath = bitmapToFile(bitmap,
+                    getTempImageFilePath("webp", requireContext()))
+                    ?.absolutePath ?: ""
             )
         )
     }

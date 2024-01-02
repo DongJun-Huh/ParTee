@@ -68,7 +68,13 @@ object ImageUploadUtil {
         try {
             file.createNewFile()
             out = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                bitmap.resizeBitmap()
+                    .compress(Bitmap.CompressFormat.WEBP_LOSSY, 100, out)
+            } else {
+                bitmap.resizeBitmap()
+                    .compress(Bitmap.CompressFormat.WEBP, 100, out)
+            }
         } finally {
             out?.close()
         }

@@ -77,9 +77,7 @@ class UserImageSetFragment : Fragment() {
                     .toBitmap(requireContext().contentResolver)
                 with(loginViewModel) {
                     profileImgBitmap.postValue(curBitmap)
-                    profileImgPath.postValue(
-                        getTempImageFilePath(profileImgExtension.value ?: "jpg", requireContext())
-                    )
+                    profileImgPath.postValue(getTempImageFilePath("webp", requireContext()))
                 }
 
                 Glide.with(requireContext())

@@ -127,7 +127,7 @@ class TeamRepositoryImpl @Inject constructor(
                 )
 
                 val newTeam = if (teamImg != null) {
-                    val teamImageExtension = teamImg.path?.split(".")?.last()?.ifEmpty { "jpg" }
+                    val teamImageExtension = teamImg.path?.split(".")?.last()?.ifEmpty { "webp" }
                     val teamImagesRef = firebaseStorage.reference
                         .child("teams/${requestTeamUId}.${teamImageExtension}")
 

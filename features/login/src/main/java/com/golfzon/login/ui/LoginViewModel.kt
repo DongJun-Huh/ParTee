@@ -67,8 +67,6 @@ class LoginViewModel @Inject constructor(
     val introduceMessage = MutableLiveData<String>()
     val profileImgBitmap = MutableLiveData<Bitmap>()
     val profileImgPath = MutableLiveData<String>()
-    private val _profileImgExtension = MutableLiveData<String>()
-    val profileImgExtension: LiveData<String> get() = _profileImgExtension
 
     fun onGoogleLoginResult(result: FirebaseAuthUIAuthenticationResult) {
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
@@ -128,9 +126,5 @@ class LoginViewModel @Inject constructor(
         ).let {
             _isSetUserInfoSuccess.postValue(Event(it))
         }
-    }
-
-    fun setImageFileExtension(extension: String) {
-        _profileImgExtension.postValue(extension)
     }
 }

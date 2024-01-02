@@ -104,7 +104,7 @@ class MemberRepositoryImpl @Inject constructor(
             val curUserUId = dataStore.readValue(stringPreferencesKey("userUId"), "") ?: ""
             val curUserEmail = dataStore.readValue(stringPreferencesKey("userEmail"), "") ?: ""
 
-            val userImageExtension = userImg.path.split(".").last().ifEmpty { "jpg" }
+            val userImageExtension = userImg.path.split(".").last().ifEmpty { "webp" }
             val userImagesRef = firebaseStorage.reference
                 .child("users/${curUserUId}.${userImageExtension}")
 

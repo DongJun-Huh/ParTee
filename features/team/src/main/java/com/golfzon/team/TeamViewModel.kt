@@ -40,8 +40,6 @@ class TeamViewModel @Inject constructor(
 
     val newTeamImageBitmap = MutableLiveData<Bitmap?>()
     val newTeamImgPath = MutableLiveData<String>()
-    private val _newTeamImgExtension = MutableLiveData<String>()
-    val newTeamImgExtension: LiveData<String> get() = _newTeamImgExtension
 
     private val _isTeamOrganizeSuccess = MutableLiveData<Event<Boolean>>()
     val isTeamOrganizeSuccess: LiveData<Event<Boolean>> get() = _isTeamOrganizeSuccess
@@ -182,9 +180,5 @@ class TeamViewModel @Inject constructor(
         } ?: run {
             _isTeamDeleteSuccess.postValue(Event(true))
         }
-    }
-
-    fun setImageFileExtension(extension: String) {
-        _newTeamImgExtension.postValue(extension)
     }
 }
