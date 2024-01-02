@@ -10,14 +10,11 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.widget.ImageView
-import androidx.core.graphics.drawable.toBitmap
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
-import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.perf.ktx.performance
 import com.google.firebase.perf.metrics.AddTrace
@@ -88,26 +85,6 @@ object ImageUploadUtil {
         return "$cacheDir/$fileName"
     }
 
-    fun ImageView.loadImageFromFirebaseStorage(imageUId: String, imageType: ImageType, placeholder: Drawable?= null) {
-        try {
-            val firebaseStorage: FirebaseStorage by lazy {
-                val hiltEntryPoint = EntryPoints.get(this.context.applicationContext, StorageComponent::class.java)
-                hiltEntryPoint.getFirebaseStorage()
-            }
-
-            firebaseStorage.reference.child("${imageType.imageUrlPrefix}/${imageUId}").downloadUrl.addOnSuccessListener {
-                Glide.with(this.context)
-                    .load(it)
-                    .placeholder(placeholder)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(this)
-            }
-        } catch (e: StorageException) {
-            e.printStackTrace()
-        }
-    }
-
     @AddTrace(name = "loadImageFromFirebaseStorage")
     fun RequestManager.loadImageFromFirebaseStorage(
         imageUId: String,
@@ -117,18 +94,24 @@ object ImageUploadUtil {
         imageView: ImageView
     ) {
         val imageLoadingTrace: Trace = Firebase.performance.newTrace("image_loading_trace")
-        with(imageLoadingTrace) {
-            if (imageView.context is ContextWrapper) {
-                this.putAttribute(
-                    "load_activity",
-                    (imageView.context as ContextWrapper).baseContext.javaClass.simpleName
-                )
-            }
-            putAttribute("image_uid", imageUId)
-            putAttribute("image_view_id", imageView.resources.getResourceEntryName(imageView.id))
-            start()
-        }
+        var isTraceStarted = false
         try {
+            with(imageLoadingTrace) {
+                if (imageView.context is ContextWrapper) {
+                    this.putAttribute(
+                        "load_activity",
+                        (imageView.context as ContextWrapper).baseContext.javaClass.simpleName
+                    )
+                }
+                putAttribute("image_uid", imageUId)
+                putAttribute(
+                    "image_view_id",
+                    imageView.resources.getResourceEntryName(imageView.id)
+                )
+                isTraceStarted = true
+                start()
+            }
+
             val firebaseStorage: FirebaseStorage by lazy {
                 val hiltEntryPoint = EntryPoints.get(
                     imageView.context.applicationContext,
@@ -138,48 +121,69 @@ object ImageUploadUtil {
             }
 
             firebaseStorage.reference.child("${imageType.imageUrlPrefix}/${imageUId}").downloadUrl.addOnSuccessListener {
-                this.load(it)
-                    .listener(object : RequestListener<Drawable> {
-                        override fun onLoadFailed(
-                            e: GlideException?,
-                            model: Any?,
-                            target: Target<Drawable>,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            with(imageLoadingTrace) {
-                                putAttribute("image_file_size__byte", "0")
-                                stop()
-                            }
-                            return false
-                        }
-
-                        override fun onResourceReady(
-                            resource: Drawable,
-                            model: Any,
-                            target: Target<Drawable>?,
-                            dataSource: DataSource,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            with(imageLoadingTrace) {
-                                putAttribute(
-                                    "image_size",
-                                    "${resource.intrinsicWidth}x${resource.intrinsicHeight}"
-                                )
-                                putAttribute(
-                                    "image_file_size__byte",
-                                    "${resource.toBitmap().byteCount}"
-                                )
-                                stop()
-                            }
-                            return false
-                        }
-                    })
+                this.asBitmap()
+                    .load(it)
+                    .override(size, size)
                     .placeholder(placeholder)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .skipMemoryCache(false)
-                    .into(imageView)
+                    .into(object : CustomTarget<Bitmap>() {
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?
+                        ) {
+                            if (imageView.width > 0 && imageView.height > 0) {
+                                val resized = Bitmap.createScaledBitmap(
+                                    resource,
+                                    imageView.width,
+                                    imageView.height,
+                                    false
+                                )
+                                imageView.setImageBitmap(resized)
+                            } else { imageView.setImageBitmap(resource) }
+
+                            with(imageLoadingTrace) {
+                                putAttribute(
+                                    "image_size",
+                                    "${resource.width}x${resource.height}"
+                                )
+                                putAttribute(
+                                    "image_file_size__byte",
+                                    "${resource.byteCount}"
+                                )
+                                if (isTraceStarted) {
+                                    isTraceStarted = false
+                                    stop()
+                                }
+                            }
+                        }
+
+                        override fun onLoadCleared(placeholder: Drawable?) {
+                            with(imageLoadingTrace) {
+//                                putAttribute("image_file_size__byte", "0")
+                                if (isTraceStarted) {
+                                    isTraceStarted = false
+                                    stop()
+                                }
+                            }
+                        }
+                        override fun onLoadFailed(errorDrawable: Drawable?) {
+                            super.onLoadFailed(errorDrawable)
+                            with(imageLoadingTrace) {
+                                putAttribute("image_file_size__byte", "0")
+                                if (isTraceStarted) {
+                                    isTraceStarted = false
+                                    stop()
+                                }
+                            }
+                        }
+                    })
             }
         } catch (e: StorageException) {
+            if (isTraceStarted) {
+                isTraceStarted = false
+                imageLoadingTrace.stop()
+            }
             e.printStackTrace()
         }
     }
