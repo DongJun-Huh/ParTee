@@ -20,6 +20,7 @@ class CandidateTeamMemberAdapter(
     private val requestManager: RequestManager
 ) :
     ListAdapter<User, CandidateTeamMemberAdapter.CandidateTeamMemberViewHolder>(diffCallback) {
+    var onRenderCompleted: (() -> Unit)? = null
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<User>() {
             override fun areItemsTheSame(
@@ -63,6 +64,14 @@ class CandidateTeamMemberAdapter(
 
     override fun submitList(list: MutableList<User>?) {
         super.submitList(list?.let { ArrayList(it) })
+    }
+
+    override fun onCurrentListChanged(
+        previousList: MutableList<User>,
+        currentList: MutableList<User>
+    ) {
+        super.onCurrentListChanged(previousList, currentList)
+        onRenderCompleted?.invoke()
     }
 
     inner class CandidateTeamMemberViewHolder(private val binding: ItemCandidateTeamMemberBinding) :

@@ -9,5 +9,6 @@ plugins {
     alias(libs.plugins.navigation.safeArgs.kotlin) apply false
     alias(libs.plugins.com.google.gms.gooleServices) apply false
     alias(libs.plugins.dagger.hilt.android) apply false
+    alias(libs.plugins.firebase.performance.plugin) apply false
 }
 true // Needed to make the Suppress annotation work for the plugins block

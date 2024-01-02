@@ -21,6 +21,9 @@ import com.golfzon.core_ui.KeyboardVisibilityUtils
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.perf.ktx.performance
+import com.google.firebase.perf.metrics.Trace
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,6 +35,19 @@ class ChatGroupFragment : Fragment() {
     private var chatAdapter: ChatAdapter? = null
     private val groupUId by lazy {
         (requireActivity() as ChatActivity).intent.getStringExtra("groupUId") ?: ""
+    }
+    private val chatLogLoadingTrace: Trace = Firebase.performance.newTrace("chat_log_loading_trace")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setChatLogLoadingTrace()
+    }
+
+    private fun setChatLogLoadingTrace() {
+        with(chatLogLoadingTrace) {
+            incrementMetric("chat_log_loading_count", 1)
+            putAttribute("groupUId", groupUId)
+            start()
+        }
     }
 
     override fun onCreateView(
@@ -117,7 +133,15 @@ class ChatGroupFragment : Fragment() {
                 membersInfo = it.first
             ).apply {
                 onRenderCompleted =
-                    { binding.rvChatGroupLog.scrollToPosition(this.itemCount - 1) }
+                    {
+                        binding.rvChatGroupLog.scrollToPosition(this.itemCount - 1)
+                        if (this.itemCount > 0) {
+                            chatLogLoadingTrace.let { trace ->
+                                trace.putAttribute("chatLogCount", this.itemCount.toString())
+                                trace.stop()
+                            }
+                        }
+                    }
             }
             binding.rvChatGroupLog.adapter = chatAdapter
             observePastMessages()

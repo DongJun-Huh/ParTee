@@ -10,6 +10,7 @@ material = "1.9.0"
 gms-googleServices = "4.4.0"
 firebase = "32.6.0"
 firebase-ui = "7.2.0"
+firebase-performance = "1.4.2"
 constraintlayout = "2.1.4"
 kotlin-reflect = "1.9.21"
 google-gson = "2.10.1"
@@ -47,6 +48,7 @@ firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx"}
 firebase-ui-auth = { group = "com.firebaseui", name ="firebase-ui-auth", version.ref = "firebase-ui"}
 firebase-firestore-ktx = { module = "com.google.firebase:firebase-firestore-ktx"}
 firebase-storage = { module = "com.google.firebase:firebase-storage" }
+firebase-performance = { module = "com.google.firebase:firebase-perf"}
 
 lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle"}
 lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle"}
@@ -81,9 +83,10 @@ com-android-library = { id = "com.android.library", version.ref = "agp" }
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
 dagger-hilt-android = { id = "com.google.dagger.hilt.android" , version.ref = "hilt" }
 navigation-safeArgs-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
+firebase-performance-plugin = { id = "com.google.firebase.firebase-perf", version.ref = "firebase-performance"}
 
 [bundles]
-firebase = ["firebase-analytics", "firebase-auth-ktx", "firebase-ui-auth", "firebase-firestore-ktx", "firebase-storage"]
+firebase = ["firebase-analytics", "firebase-auth-ktx", "firebase-ui-auth", "firebase-firestore-ktx", "firebase-storage", "firebase-performance"]
 android-lifecycle = ["lifecycle-viewmodel-ktx", "lifecycle-livedata-ktx", "lifecycle-viewmodel-savedstate", "lifecycle-compiler"]
 jetpack-navigation = ["navigation-fragment-ktx", "navigation-ui-ktx"]
 coroutine = ["kotlinx-coroutines-core", "kotlinx-coroutines-android"]
