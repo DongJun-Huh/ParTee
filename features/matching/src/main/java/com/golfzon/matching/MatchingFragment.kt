@@ -23,6 +23,9 @@ import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.core_ui.extension.toast
 import com.golfzon.domain.model.User
 import com.golfzon.matching.databinding.FragmentMatchingBinding
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.perf.ktx.performance
+import com.google.firebase.perf.metrics.Trace
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,6 +34,18 @@ class MatchingFragment : Fragment() {
     private val matchingViewModel by activityViewModels<MatchingViewModel>()
     private var candidateTeamMemberAdapter: CandidateTeamMemberAdapter? = null
     private var glideRequestManager: RequestManager? = null
+    private val candidateTeamMemberLoadTrace: Trace = Firebase.performance.newTrace("candidate_team_member_load_trace")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setCandidateTeamMemberLoadTrace()
+    }
+
+    private fun setCandidateTeamMemberLoadTrace() {
+        with(candidateTeamMemberLoadTrace) {
+            start()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -139,7 +154,21 @@ class MatchingFragment : Fragment() {
 
     private fun setSearchUserResultAdapter() {
         candidateTeamMemberAdapter =
-            CandidateTeamMemberAdapter(requestManager = glideRequestManager!!)
+            CandidateTeamMemberAdapter(requestManager = glideRequestManager!!).apply {
+                onRenderCompleted = {
+                    if (this.itemCount > 0) {
+                        with(candidateTeamMemberLoadTrace) {
+                            incrementMetric("candidate_team_member_load_count", 1)
+                            removeAttribute("candidate_team_member_count")
+                            removeAttribute("candidate_team_uid")
+
+                            putAttribute("candidate_team_member_count", this@apply.itemCount.toString())
+                            putAttribute("candidate_team_uid", matchingViewModel.curCandidateTeam.value?.cardTop?.teamUId ?: "unknown")
+                            stop()
+                        }
+                    }
+                }
+            }
         with(binding.rvMatchingCandidateUsers) {
             adapter = candidateTeamMemberAdapter
             addItemDecoration(HorizontalMarginItemDecoration(12.dp))
@@ -187,6 +216,8 @@ class MatchingFragment : Fragment() {
                 message = getString(R.string.matching_candidate_team_is_not_exist_toast_message),
                 isError = true
             )
+        } else {
+            candidateTeamMemberLoadTrace.start()
         }
     }
 
