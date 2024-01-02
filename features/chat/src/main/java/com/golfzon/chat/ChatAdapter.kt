@@ -43,7 +43,7 @@ class ChatAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
+        return when (viewType % 2) {
             TYPE_MINE -> {
                 ChatViewMineHolder(
                     ItemChatMineBinding.inflate(
@@ -90,8 +90,8 @@ class ChatAdapter(
     }
 
     override fun getItemViewType(position: Int): Int =
-        if (getItem(position).from == userUId) TYPE_MINE
-        else TYPE_OTHER
+        if (getItem(position).from == userUId) position * 2
+        else position * 2 + 1
 
     private fun setMap(
         placeUId: String,
