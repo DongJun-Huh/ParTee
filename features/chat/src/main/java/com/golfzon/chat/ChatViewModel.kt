@@ -50,6 +50,9 @@ class ChatViewModel @Inject constructor(
     private val _newChat = MutableLiveData<Event<GroupMessage>>()
     val newChat: LiveData<Event<GroupMessage>> = _newChat
 
+    private var _removeChatListener: () -> Unit = {}
+    val removeChatListener: () -> Unit get() = _removeChatListener
+
     fun getCurrentUserInfo() = viewModelScope.launch {
         getCurUserInfoUseCase().let {
             _currentUserBasicInfo.emit(it)
@@ -85,7 +88,7 @@ class ChatViewModel @Inject constructor(
 
     fun receiveMessage(groupUId: String) = viewModelScope.launch {
         getPastMessages(groupUId).join()
-        getGroupMessageUseCase(groupUId) {
+        _removeChatListener = getGroupMessageUseCase(groupUId) {
             if (_chatLogs.value?.contains(it) == false) {
                 _chatLogs.add(it, false)
                 _newChat.value = Event(it)

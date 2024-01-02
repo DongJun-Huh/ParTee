@@ -10,5 +10,5 @@ interface OnGrpMessageResponse{
 interface ChatRepository {
     suspend fun sendMessage(message: GroupMessage, listener: OnGrpMessageResponse)
     suspend fun getPastMessages(groupUId: String): Flow<List<GroupMessage>>
-    suspend fun receiveMessages(groupUId: String, callback: (GroupMessage) -> Unit)
+    suspend fun receiveMessages(groupUId: String, callback: (GroupMessage) -> Unit): () -> Unit
 }

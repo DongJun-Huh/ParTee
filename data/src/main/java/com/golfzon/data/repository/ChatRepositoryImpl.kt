@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ChatRepositoryImpl @Inject constructor(
@@ -79,23 +80,29 @@ class ChatRepositoryImpl @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun receiveMessages(groupUId: String, callback: (GroupMessage) -> Unit) {
-        CoroutineScope(Dispatchers.IO).launch {
-            getGroupMessagesCollection(groupUId = groupUId, firestore = firestore)
-                .addSnapshotListener { snapshots, error ->
-                    if (error != null || snapshots == null || snapshots.metadata.isFromCache) {
-                        return@addSnapshotListener
-                    }
+    override suspend fun receiveMessages(
+        groupUId: String,
+        callback: (GroupMessage) -> Unit
+    ): () -> Unit =
+        withContext(Dispatchers.IO) {
+            val registration =
+                getGroupMessagesCollection(groupUId = groupUId, firestore = firestore)
+                    .addSnapshotListener { snapshots, error ->
+                        if (error != null || snapshots == null || snapshots.metadata.isFromCache) {
+                            return@addSnapshotListener
+                        }
 
-                    for (shot in snapshots.documentChanges) {
-                        if (shot.type == DocumentChange.Type.ADDED ||
-                            shot.type == DocumentChange.Type.MODIFIED
-                        ) {
-                            val message = shot.document.data.toDataClass<GroupMessage>()
-                            callback(message)
+                        for (shot in snapshots.documentChanges) {
+                            if (shot.type == DocumentChange.Type.ADDED ||
+                                shot.type == DocumentChange.Type.MODIFIED
+                            ) {
+                                val message = shot.document.data.toDataClass<GroupMessage>()
+                                Lg.e(message.textMessage.text)
+                                callback(message)
+                            }
                         }
                     }
-                }
+
+            return@withContext fun() { registration.remove() }
         }
-    }
 }

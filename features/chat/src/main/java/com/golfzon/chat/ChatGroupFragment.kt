@@ -59,6 +59,7 @@ class ChatGroupFragment : Fragment() {
         keyboardVisibilityUtils.detachKeyboardListeners()
         chatAdapter = null
         glideRequestManager = null
+        chatViewModel.removeChatListener()
     }
 
     private fun setDataBindingVariables() {
