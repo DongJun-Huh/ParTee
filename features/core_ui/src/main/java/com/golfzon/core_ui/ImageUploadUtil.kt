@@ -10,7 +10,6 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.widget.ImageView
-import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomTarget
@@ -114,6 +113,31 @@ object ImageUploadUtil {
         return "$cacheDir/$fileName"
     }
 
+
+    fun RequestManager.loadImageFromFirebaseStoragePreload(
+        imageUId: String,
+        imageType: ImageType,
+        applicationContext: Context
+    ) {
+        try {
+            val firebaseStorage: FirebaseStorage by lazy {
+                val hiltEntryPoint = EntryPoints.get(
+                    applicationContext,
+                    StorageComponent::class.java
+                )
+                hiltEntryPoint.getFirebaseStorage()
+            }
+
+            firebaseStorage.reference.child("${imageType.imageUrlPrefix}/resized/1080_${imageUId}").downloadUrl.addOnSuccessListener {
+                this.asBitmap()
+                    .load(it)
+                    .preload()
+            }
+        } catch (e: StorageException) {
+            e.printStackTrace()
+        }
+    }
+
     @AddTrace(name = "loadImageFromFirebaseStorage")
     fun RequestManager.loadImageFromFirebaseStorage(
         imageUId: String,
@@ -127,11 +151,11 @@ object ImageUploadUtil {
         var isTraceStarted = false
         try {
             val requestSize = when (max(width, height)) {
-                in 720 .. 1080 -> 1080
-                in 480 .. 720 -> 720
-                in 240 .. 480 -> 480
-                in 120 .. 240 -> 240
-                in 0 .. 120 -> 120
+                in 720..1080 -> 1080
+                in 480..720 -> 720
+                in 240..480 -> 480
+                in 120..240 -> 240
+                in 0..120 -> 120
                 else -> 1080
             }
 
@@ -159,65 +183,55 @@ object ImageUploadUtil {
                 hiltEntryPoint.getFirebaseStorage()
             }
 
-            firebaseStorage.reference.child("${imageType.imageUrlPrefix}/resized/${imageUId}_${requestSize}").downloadUrl.addOnSuccessListener {
-                this.asBitmap()
-                    .load(it)
-                    .override(width, height)
-                    .placeholder(placeholder)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .skipMemoryCache(false)
-                    .into(object : CustomTarget<Bitmap>() {
-                        override fun onResourceReady(
-                            resource: Bitmap,
-                            transition: Transition<in Bitmap>?
-                        ) {
-                            if (imageView.width > 0 && imageView.height > 0) {
-                                val resized = Bitmap.createScaledBitmap(
-                                    resource,
-                                    imageView.width,
-                                    imageView.height,
-                                    false
-                                )
-                                imageView.setImageBitmap(resized)
-                            } else { imageView.setImageBitmap(resource) }
+            this.asBitmap()
+                .load("https://storage.googleapis.com/partee-1ba05.appspot.com/${imageType.imageUrlPrefix}/resized/${requestSize}_${imageUId}")
+                .placeholder(placeholder)
+                .override(width, height)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .skipMemoryCache(false)
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        imageView.setImageBitmap(resource)
 
-                            with(imageLoadingTrace) {
-                                putAttribute(
-                                    "image_size",
-                                    "${resource.width}x${resource.height}"
-                                )
-                                putAttribute(
-                                    "image_file_size__byte",
-                                    "${resource.byteCount}"
-                                )
-                                if (isTraceStarted) {
-                                    isTraceStarted = false
-                                    stop()
-                                }
+                        with(imageLoadingTrace) {
+                            putAttribute(
+                                "image_size",
+                                "${resource.width}x${resource.height}"
+                            )
+                            putAttribute(
+                                "image_file_size__byte",
+                                "${resource.byteCount}"
+                            )
+                            if (isTraceStarted) {
+                                isTraceStarted = false
+                                stop()
                             }
                         }
+                    }
 
-                        override fun onLoadCleared(placeholder: Drawable?) {
-                            with(imageLoadingTrace) {
-//                                putAttribute("image_file_size__byte", "0")
-                                if (isTraceStarted) {
-                                    isTraceStarted = false
-                                    stop()
-                                }
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        with(imageLoadingTrace) {
+                            if (isTraceStarted) {
+                                isTraceStarted = false
+                                stop()
                             }
                         }
-                        override fun onLoadFailed(errorDrawable: Drawable?) {
-                            super.onLoadFailed(errorDrawable)
-                            with(imageLoadingTrace) {
-                                putAttribute("image_file_size__byte", "0")
-                                if (isTraceStarted) {
-                                    isTraceStarted = false
-                                    stop()
-                                }
+                    }
+
+                    override fun onLoadFailed(errorDrawable: Drawable?) {
+                        super.onLoadFailed(errorDrawable)
+                        with(imageLoadingTrace) {
+                            if (isTraceStarted) {
+                                isTraceStarted = false
+                                stop()
                             }
                         }
-                    })
-            }
+                    }
+                })
+
         } catch (e: StorageException) {
             if (isTraceStarted) {
                 isTraceStarted = false
