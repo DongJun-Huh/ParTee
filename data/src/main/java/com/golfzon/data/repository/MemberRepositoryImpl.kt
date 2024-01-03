@@ -76,6 +76,11 @@ class MemberRepositoryImpl @Inject constructor(
         // Return Value: (최초가입여부, 유저정보)
         withContext(Dispatchers.IO) {
             try {
+                with(dataStore) {
+                    storeValue(stringPreferencesKey("userUId"), UId)
+                    storeValue(stringPreferencesKey("userEmail"), email)
+                }
+
                 val userDocument = getUserDocument(firestore, UId).get().await()
                 val userDocumentData = userDocument.data
                     ?: return@withContext Pair(false, null) // 1. 미 가입 상태
@@ -87,8 +92,6 @@ class MemberRepositoryImpl @Inject constructor(
                 val userDetail = (userDocumentData.toDataClass<User>() as User)
 
                 with(dataStore) {
-                    storeValue(stringPreferencesKey("userUId"), UId)
-                    storeValue(stringPreferencesKey("userEmail"), email)
                     storeValue(stringPreferencesKey("userNickname"), userDetail.nickname)
                 }
 
