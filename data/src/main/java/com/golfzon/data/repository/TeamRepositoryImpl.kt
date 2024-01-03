@@ -133,8 +133,6 @@ class TeamRepositoryImpl @Inject constructor(
 
                     val uploadTeamImageTask = teamImagesRef.putFile(Uri.fromFile(teamImg))
                     tasks.add(uploadTeamImageTask)
-                    Lg.e("${requestTeamUId}.${teamImageExtension}")
-
                     newTeamWithNoImage.copy(teamImageUrl = "${requestTeamUId}.${teamImageExtension}")
                 } else {
                     newTeamWithNoImage
