@@ -41,7 +41,6 @@
         android:id="@+id/motionLayout_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
         app:layoutDescription="@xml/swipe_actions">
 
         <com.google.android.material.card.MaterialCardView
@@ -49,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:outlineSpotShadowColor="@android:color/transparent"
-            app:cardBackgroundColor="@color/design_default_color_secondary"
+            app:cardBackgroundColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -75,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:outlineSpotShadowColor="@android:color/transparent"
-            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardBackgroundColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

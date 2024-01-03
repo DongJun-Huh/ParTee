@@ -202,8 +202,8 @@ object ImageUploadUtil {
                                 "${resource.width}x${resource.height}"
                             )
                             putAttribute(
-                                "image_file_size__byte",
-                                "${resource.byteCount}"
+                                "image_file_size_request",
+                                "${requestSize}"
                             )
                             if (isTraceStarted) {
                                 isTraceStarted = false

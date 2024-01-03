@@ -44,11 +44,14 @@ class MatchingViewModel @Inject constructor(
     private val _isCurCandidateTeamExist = MutableLiveData<Event<Boolean>>()
     val isCurCandidateTeamExist: LiveData<Event<Boolean>> get() = _isCurCandidateTeamExist
 
-    private val _curCandidateTeam = MutableLiveData<MatchingCardModel>()
-    val curCandidateTeam: LiveData<MatchingCardModel> get() = _curCandidateTeam
+    private val _curCandidateTeam = MutableLiveData<Event<MatchingCardModel>>()
+    val curCandidateTeam: LiveData<Event<MatchingCardModel>> get() = _curCandidateTeam
 
     private val _curCandidateTeamMembers = ListLiveData<User>()
     val curCandidateTeamMembers: ListLiveData<User> get() = _curCandidateTeamMembers
+
+    private val _nextCandidateTeamMembers = ListLiveData<User>()
+    val nextCandidateTeamMembers: ListLiveData<User> get() = _nextCandidateTeamMembers
 
     private val _createdGroupId = MutableLiveData<Event<String>>()
     val createdGroupId: LiveData<Event<String>> get() = _createdGroupId
@@ -98,6 +101,10 @@ class MatchingViewModel @Inject constructor(
         _teamUsers.clear(true)
     }
 
+    fun clearCurrentCandidateTeamMembers() {
+        _curCandidateTeamMembers.clear(true)
+    }
+
     fun getTeamMembersInfo(membersUId: List<String>, leaderUId: String) = viewModelScope.launch {
         _teamUsers.replaceAll(membersUId.map {
             val curUserInfo = getUserInfoUseCase(it)
@@ -107,6 +114,10 @@ class MatchingViewModel @Inject constructor(
 
     fun getCandidateTeamMembersInfo(membersUId: List<String>) = viewModelScope.launch {
         _curCandidateTeamMembers.replaceAll(membersUId.map { getUserInfoUseCase(it).first }, true)
+    }
+
+    fun getNextCandidateTeamMembersInfo(membersUId: List<String>) = viewModelScope.launch {
+        _nextCandidateTeamMembers.replaceAll(membersUId.map { getUserInfoUseCase(it).first }, true)
     }
 
     fun getCurrentUserInfo() = viewModelScope.launch {
@@ -147,9 +158,11 @@ class MatchingViewModel @Inject constructor(
 
     private fun updateCards() {
         _curCandidateTeam.postValue(
-            MatchingCardModel(
-                cardTop = topCard,
-                cardBottom = bottomCard
+            Event(
+                MatchingCardModel(
+                    cardTop = topCard,
+                    cardBottom = bottomCard
+                )
             )
         )
     }
@@ -186,8 +199,8 @@ class MatchingViewModel @Inject constructor(
 
         val currentTeam = teams[teamIndex]
         requestReactionsToCandidateTeamUseCase(currentTeam.teamUId, isLike)?.let { successInfo ->
-            handleReactionResult(successInfo, currentTeam)
             updateCandidateTeamIndex(teamIndex, teams)
+            handleReactionResult(successInfo, currentTeam)
         }
     }
 

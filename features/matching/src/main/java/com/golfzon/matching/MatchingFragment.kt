@@ -16,6 +16,7 @@ import com.bumptech.glide.RequestManager
 import com.golfzon.core_ui.ImageUploadUtil
 import com.golfzon.core_ui.adapter.itemDecoration.HorizontalMarginItemDecoration
 import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
+import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStoragePreload
 import com.golfzon.core_ui.adapter.CandidateTeamMemberAdapter
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
@@ -66,6 +67,7 @@ class MatchingFragment : Fragment() {
         observeCurrentCandidateTeamIsExist()
         observeCurrentCandidateTeam()
         observeCurrentCandidateTeamMembers()
+        preloadNextCandidateTeamMembers()
         observeMatchingSuccess()
         observeCandidateTeamIsEnd()
         displayReactionStamp()
@@ -73,6 +75,7 @@ class MatchingFragment : Fragment() {
     }
 
     private fun onDestroyBindingView() {
+        matchingViewModel.clearCurrentCandidateTeamMembers()
         candidateTeamMemberAdapter = null
         glideRequestManager = null
     }
@@ -110,16 +113,13 @@ class MatchingFragment : Fragment() {
             with(isExist.getContentIfNotHandled()) {
                 displayCandidateTeamIsOver(this == false)
                 matchingViewModel.curCandidateTeamIndex.value = 0
-                if (this != null) {
-                    binding.layoutMatchingSearching.visibility = View.GONE
-                }
             }
         }
     }
 
     private fun observeCurrentCandidateTeam() {
         matchingViewModel.curCandidateTeam.observe(viewLifecycleOwner) { curTeam ->
-            with(curTeam) {
+            with(curTeam.getContentIfNotHandled()) {
                 if (this != null) {
                     binding.let {
                         it.curTeamDetail = this.cardTop
@@ -141,6 +141,7 @@ class MatchingFragment : Fragment() {
                         )
                     }
                     matchingViewModel.getCandidateTeamMembersInfo(this.cardTop.membersUId)
+                    matchingViewModel.getNextCandidateTeamMembersInfo(this.cardBottom.membersUId)
                 } else {
                     // 최초 로딩 이후 2번째 화면 실행부터 화면 실행하자마자 실행되는 곳
                 }
@@ -151,6 +152,20 @@ class MatchingFragment : Fragment() {
     private fun observeCurrentCandidateTeamMembers() {
         matchingViewModel.curCandidateTeamMembers.observe(viewLifecycleOwner) { curMembers ->
             candidateTeamMemberAdapter?.submitList(curMembers)
+        }
+    }
+
+    private fun preloadNextCandidateTeamMembers() {
+        matchingViewModel.nextCandidateTeamMembers.observe(viewLifecycleOwner) { nextMembers ->
+            nextMembers.forEach { member ->
+                member.profileImg?.let { memberUId ->
+                    glideRequestManager?.loadImageFromFirebaseStoragePreload(
+                        imageUId = memberUId,
+                        imageType = ImageUploadUtil.ImageType.USER,
+                        applicationContext = requireActivity().applicationContext
+                    )
+                }
+            }
         }
     }
 
@@ -165,8 +180,9 @@ class MatchingFragment : Fragment() {
                             removeAttribute("candidate_team_uid")
 
                             putAttribute("candidate_team_member_count", this@apply.itemCount.toString())
-                            putAttribute("candidate_team_uid", matchingViewModel.curCandidateTeam.value?.cardTop?.teamUId ?: "unknown")
+                            putAttribute("candidate_team_uid", matchingViewModel.curCandidateTeam.value?.peekContent()?.cardTop?.teamUId ?: "unknown")
                             stop()
+                            binding.motionLayoutRoot.transitionToState(R.id.detail)
                         }
                     }
                 }
@@ -213,7 +229,7 @@ class MatchingFragment : Fragment() {
         binding.layoutMatchingNotExist.isVisible = isEnd
 
         if (isEnd) {
-            binding.motionLayoutRoot.transitionToState(R.id.notExist)
+            binding.motionLayoutRoot.transitionToState(R.id.notExist, 150)
             this@MatchingFragment.toast(
                 message = getString(R.string.matching_candidate_team_is_not_exist_toast_message),
                 isError = true
@@ -276,6 +292,7 @@ class MatchingFragment : Fragment() {
                         matchingViewModel.reactionsToCandidateTeam(currentId != R.id.offScreenUnlike)
                         with(binding) {
                             ivMatchingBackground.setImageDrawable(binding.ivBackgroundCardTwo.drawable)
+                            candidateTeamMemberAdapter?.submitList(matchingViewModel.nextCandidateTeamMembers.value)
                             curTeamDetail = binding.nextTeamDetail
                             layoutMatchingCandidateTeam.isVisible = true
                             layoutMatchingCandidateUser.isVisible = false
@@ -288,7 +305,7 @@ class MatchingFragment : Fragment() {
             private fun resetMotionLayout(motionLayout: MotionLayout) {
                 with(motionLayout) {
                     progress = 0f
-                    setTransition(R.id.start, R.id.like)
+                    setTransition(R.id.detail, R.id.like)
                 }
             }
         }

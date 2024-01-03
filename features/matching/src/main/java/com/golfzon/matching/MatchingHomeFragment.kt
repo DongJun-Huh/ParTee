@@ -13,7 +13,6 @@ import com.bumptech.glide.RequestManager
 import com.golfzon.core_ui.adapter.itemDecoration.VerticalMarginItemDecoration
 import com.golfzon.core_ui.adapter.TeamUserAdapter
 import com.golfzon.core_ui.autoCleared
-import com.golfzon.core_ui.dp
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.core_ui.extension.toast
 import com.golfzon.matching.databinding.FragmentMatchingHomeBinding
