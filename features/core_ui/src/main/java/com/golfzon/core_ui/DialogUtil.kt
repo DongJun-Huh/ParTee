@@ -9,6 +9,7 @@ import android.os.Build
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import com.golfzon.core_ui.DeviceSizeUtil.getDeviceWidthSize
 
 object DialogUtil {
     fun setDialogRadius(dialog: Dialog) {
@@ -20,19 +21,6 @@ object DialogUtil {
         val deviceWidth = getDeviceWidthSize(context)
         params?.width = (deviceWidth * dialogSizeRatio).toInt()
         dialog?.window?.attributes = params as WindowManager.LayoutParams
-    }
-
-    fun getDeviceWidthSize(context: Context): Int {
-        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        if (Build.VERSION.SDK_INT < 30) {
-            val display = windowManager.defaultDisplay
-            val size = Point()
-            display.getSize(size)
-            return size.x
-        } else {
-            val rect = windowManager.currentWindowMetrics.bounds
-            return rect.width()
-        }
     }
 
 }
