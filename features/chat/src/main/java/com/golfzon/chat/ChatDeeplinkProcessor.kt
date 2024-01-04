@@ -18,7 +18,6 @@ class ChatDeeplinkProcessor @Inject constructor(
     override fun execute(deeplink: String) {
         val intent = Intent(context, ChatActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
         when {
             deeplink.contains(context.getString(com.golfzon.core_ui.R.string.group_reservation_deeplink_url)) -> {
                 val groupUId = deeplink.split("${context.getString(com.golfzon.core_ui.R.string.group_reservation_deeplink_url)}/").getOrNull(1)

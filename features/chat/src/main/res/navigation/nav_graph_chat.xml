@@ -8,5 +8,27 @@
         android:id="@+id/ChatGroupFragment"
         android:name="com.golfzon.chat.ChatGroupFragment"
         android:label="fragment_chat_group"
-        tools:layout="@layout/fragment_chat_group" />
+        tools:layout="@layout/fragment_chat_group">
+        <action
+            android:id="@+id/action_chatGroupFragment_to_mapFinderFragment"
+            app:destination="@id/MapFinderFragment"
+            app:enterAnim="@anim/translate_from_right_in"
+            app:exitAnim="@anim/translate_to_left_out"
+            app:popExitAnim="@anim/translate_to_right_out">
+            <argument
+                android:name="recruitPlaceUId"
+                android:defaultValue=""
+                app:argType="string" />
+            <argument
+                android:name="isEdit"
+                android:defaultValue="false"
+                app:argType="boolean" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/MapFinderFragment"
+        android:name="com.golfzon.core_ui.map.MapFinderFragment"
+        android:label="fragment_map_finder"
+        tools:layout="@layout/fragment_map_finder" />
 </navigation>

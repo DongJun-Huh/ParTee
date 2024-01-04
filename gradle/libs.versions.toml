@@ -24,6 +24,7 @@ datastore = "1.0.0"
 flexbox = "3.0.0"
 image-crop = "1.2.3"
 lottie = "6.2.0"
+recyclerview = "1.2.1"
 
 # DI
 hilt = "2.46.1"
@@ -72,7 +73,8 @@ glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "gl
 datastore = { group = "androidx.datastore" , name = "datastore-preferences", version.ref = "datastore"}
 flexbox = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "flexbox" }
 image-cropview = { group = "com.naver.android.helloyako", name = "imagecropview", version.ref = "image-crop"}
-lottie = { group = "com.airbnb.android", name ="lottie", version.ref = "lottie"}
+lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie"}
+recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
@@ -81,13 +83,13 @@ org-jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "o
 com-google-gms-gooleServices = { id = "com.google.gms.google-services", version.ref = "gms-googleServices" }
 com-android-library = { id = "com.android.library", version.ref = "agp" }
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
-dagger-hilt-android = { id = "com.google.dagger.hilt.android" , version.ref = "hilt" }
+dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 navigation-safeArgs-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
-firebase-performance-plugin = { id = "com.google.firebase.firebase-perf", version.ref = "firebase-performance"}
+firebase-performance-plugin = { id = "com.google.firebase.firebase-perf", version.ref = "firebase-performance" }
 
 [bundles]
 firebase = ["firebase-analytics", "firebase-auth-ktx", "firebase-ui-auth", "firebase-firestore-ktx", "firebase-storage", "firebase-performance"]
 android-lifecycle = ["lifecycle-viewmodel-ktx", "lifecycle-livedata-ktx", "lifecycle-viewmodel-savedstate", "lifecycle-compiler"]
 jetpack-navigation = ["navigation-fragment-ktx", "navigation-ui-ktx"]
 coroutine = ["kotlinx-coroutines-core", "kotlinx-coroutines-android"]
-hilt =["dagger-hilt-android", "dagger-hilt-android-compiler", "javax-inject"]
+hilt = ["dagger-hilt-android", "dagger-hilt-android-compiler", "javax-inject"]

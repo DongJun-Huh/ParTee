@@ -61,4 +61,5 @@ dependencies {
     implementation(libs.bundles.jetpack.navigation)
     implementation(libs.glide)
     implementation(libs.flexbox)
+    implementation(libs.recyclerview)
 }

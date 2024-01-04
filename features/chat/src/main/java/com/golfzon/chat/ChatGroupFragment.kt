@@ -14,6 +14,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -35,6 +36,8 @@ class ChatGroupFragment : Fragment() {
     private var binding by autoCleared<FragmentChatGroupBinding> { onDestroyBindingView() }
     private val chatViewModel by activityViewModels<ChatViewModel>()
     private var glideRequestManager: RequestManager? = null
+    private var chatConcatAdapter: ConcatAdapter? = null
+    private var chatHeaderAdapter: ChatHeaderAdapter? = null
     private var chatAdapter: ChatAdapter? = null
     private val groupUId by lazy {
         (requireActivity() as ChatActivity).intent.getStringExtra("groupUId") ?: ""
@@ -77,6 +80,8 @@ class ChatGroupFragment : Fragment() {
 
     private fun onDestroyBindingView() {
         keyboardVisibilityUtils.detachKeyboardListeners()
+        chatConcatAdapter = null
+        chatHeaderAdapter = null
         chatAdapter = null
         glideRequestManager = null
         chatViewModel.removeChatListener()
@@ -128,8 +133,21 @@ class ChatGroupFragment : Fragment() {
 
     private fun setChatLogAdapter() {
         var renderedItemCount = 0
+
         chatViewModel.chatGroupMembersInfo.observe(viewLifecycleOwner) {
             if (it.first.isEmpty() || it.second.first.isEmpty()) return@observe
+
+            chatHeaderAdapter = ChatHeaderAdapter(groupUId).apply {
+                setOnItemClickListener(object : ChatHeaderAdapter.OnItemClickListener {
+                    override fun reservationScreen(groupUId: String, pos: Int) {
+                        (requireActivity() as ChatActivity).navigateToGroup(
+                            destination = getString(com.golfzon.core_ui.R.string.group_reservation_deeplink_url),
+                            groupUId = groupUId
+                        )
+                    }
+                })
+            }
+
             chatAdapter = ChatAdapter(
                 requestManager = glideRequestManager!!,
                 userUId = it.second.first,
@@ -148,8 +166,9 @@ class ChatGroupFragment : Fragment() {
                     }
                 }
             }
+            chatConcatAdapter = ConcatAdapter(chatHeaderAdapter!!, chatAdapter!!)
             with(binding.rvChatGroupLog) {
-                adapter = chatAdapter
+                adapter = chatConcatAdapter
                 layoutManager = object : LinearLayoutManager(requireContext()) {
                     override fun onLayoutCompleted(state: RecyclerView.State?) {
                         super.onLayoutCompleted(state)

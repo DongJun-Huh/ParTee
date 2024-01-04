@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="20dp"
+    android:background="@drawable/background_radius_12"
+    android:backgroundTint="@color/white_F5F6F9"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="12dp">
+
+    <TextView
+        android:id="@+id/tv_chat_header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendard_medium"
+        android:text="파티가 모일 골프존을 찾아 바로 예약해보세요!"
+        android:textColor="@color/primary_8B95B3"
+        android:textSize="14sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_chat_header_reservation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/pretendard_semi_bold"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:letterSpacing="0"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        android:stateListAnimator="@null"
+        android:text="@string/reservation_2"
+        android:textColor="@color/primary_8B95B3"
+        android:textSize="14sp"
+        app:backgroundTint="@color/white_F5F6F9"
+        app:cornerRadius="8dp"
+        app:icon="@drawable/ic_calendar_filled"
+        app:iconGravity="start"
+        app:iconPadding="8dp"
+        app:iconTint="@color/primary_8B95B3"
+        app:strokeColor="@color/primary_8B95B3"
+        app:strokeWidth="1dp" />
+
+    <!-- TODO 예약 완료시 화면 노출 -->
+</LinearLayout>

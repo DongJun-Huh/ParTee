@@ -1,5 +1,7 @@
 package com.golfzon.chat
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
@@ -20,5 +22,14 @@ class ChatActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         return navHostFragment.navController
+    }
+
+    fun navigateToGroup(destination: String = "", groupUId: String = "") {
+        val intent = if (groupUId.isNotEmpty())
+            Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/group${destination}/${groupUId}"))
+        else
+            Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/group${destination}"))
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+        startActivity(intent)
     }
 }
