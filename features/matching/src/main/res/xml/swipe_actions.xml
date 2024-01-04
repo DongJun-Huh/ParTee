@@ -69,22 +69,17 @@
     <Transition
         android:id="@+id/detailToLeft"
         app:constraintSetEnd="@+id/unlike"
-        app:constraintSetStart="@+id/detail">
+        app:constraintSetStart="@+id/detail"
+        app:motionInterpolator="linear">
 
         <OnSwipe
             app:dragDirection="dragLeft"
+            app:dragThreshold="1"
             app:onTouchUp="autoComplete"
             app:touchAnchorId="@id/cardOne"
             app:touchAnchorSide="left"
             app:touchRegionId="@id/cardOne" />
 
-        <KeyFrameSet>
-            <KeyPosition
-                app:framePosition="50"
-                app:keyPositionType="pathRelative"
-                app:motionTarget="@id/cardOne"
-                app:percentY="0.1" />
-        </KeyFrameSet>
     </Transition>
 
     <Transition
@@ -96,9 +91,11 @@
     <Transition
         android:id="@+id/detailToRight"
         app:constraintSetEnd="@+id/like"
-        app:constraintSetStart="@+id/detail">
+        app:constraintSetStart="@+id/detail"
+        app:motionInterpolator="linear">
         <OnSwipe
             app:dragDirection="dragRight"
+            app:dragThreshold="1"
             app:onTouchUp="autoComplete"
             app:touchAnchorId="@id/cardOne"
             app:touchAnchorSide="right"
