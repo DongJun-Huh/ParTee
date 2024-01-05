@@ -174,7 +174,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/selector_button_background_radius_12_enabled"
-                android:enabled="false"
                 android:fontFamily="@font/pretendard_medium"
                 android:gravity="center"
                 android:letterSpacing="0"

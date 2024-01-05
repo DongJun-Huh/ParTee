@@ -37,6 +37,7 @@ class MatchingSuccessFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setReservationClickListener()
+        setChatClickListener()
         observeSuccessTeamInfo()
     }
 
@@ -63,6 +64,12 @@ class MatchingSuccessFragment : DialogFragment() {
                 destination = getString(com.golfzon.core_ui.R.string.group_reservation_deeplink_url),
                 groupUId = args.groupUId
             )
+        }
+    }
+
+    private fun setChatClickListener() {
+        binding.btnMatchingSuccessGroupChat.setOnDebounceClickListener {
+            (requireActivity() as MatchingActivity).navigateToChat(args.groupUId)
         }
     }
 
