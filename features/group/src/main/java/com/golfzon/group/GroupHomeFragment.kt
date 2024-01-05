@@ -94,6 +94,14 @@ class GroupHomeFragment : Fragment() {
                     )
                 )
             }
+
+            override fun onRecruitItemClick(view: View, group: Group) {
+                findNavController().navigate(
+                    GroupHomeFragmentDirections.actionGroupHomeFragmentToGwroupDetailRecruitFragment(
+                        groupUId = group.groupUId
+                    )
+                )
+            }
         })
 
 

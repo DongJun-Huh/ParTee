@@ -7,6 +7,7 @@ data class Group(
     val originalTeamsInfo: List<Team>,
     val headCount: Int,
     val membersUId: List<String>,
+    val membersInfo: List<User>?= null,
     val locations: List<String>,
     val days: String,
     val times: String,

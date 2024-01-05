@@ -20,14 +20,6 @@
         <variable
             name="screenRoomInfo"
             type="com.golfzon.domain.model.GroupScreenRoomInfo" />
-
-        <variable
-            name="firstTeam"
-            type="com.golfzon.domain.model.Team" />
-
-        <variable
-            name="secondTeam"
-            type="com.golfzon.domain.model.Team" />
     </data>
 
     <LinearLayout
@@ -40,72 +32,22 @@
         android:paddingTop="20dp"
         android:paddingBottom="16dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:id="@+id/layout_group_recruit_members"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/layout_group_team_first"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintEnd_toStartOf="@id/layout_group_team_second"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:visibility="gone">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/iv_group_team_first"
-                    imageType="@{ImageUploadUtil.ImageType.TEAM}"
-                    imageUId="@{firstTeam.teamImageUrl}"
-                    requestManager="@{requestManager}"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
-                    android:layout_marginTop="11dp"
-                    android:padding="2dp"
-                    android:scaleType="centerCrop"
-                    app:shapeAppearance="@style/ShapeAppearance.circle"
-                    app:strokeColor="@color/white_EBEDF3"
-                    app:strokeWidth="2dp"
-                    tools:src="@drawable/user_sample" />
-
-                <TextView
-                    android:id="@+id/tv_group_team_first_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/pretendard_semi_bold"
-                    android:gravity="center"
-                    android:letterSpacing="0"
-                    android:lineSpacingExtra="5sp"
-                    android:text="@{`TEAM\n` + firstTeam.teamName}"
-                    android:textColor="@color/primary_8B95B3"
-                    android:textFontWeight="600"
-                    android:textSize="16sp"
-                    tools:text="TEAM\n골프존" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_group_team_second"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toEndOf="@id/layout_group_team_first"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/iv_group_team_second"
-                    imageType="@{ImageUploadUtil.ImageType.TEAM}"
-                    imageUId="@{secondTeam.teamImageUrl}"
-                    requestManager="@{requestManager}"
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:layout_marginTop="11dp"
                     android:padding="2dp"
                     android:scaleType="centerCrop"
                     app:shapeAppearance="@style/ShapeAppearance.circle"
@@ -114,37 +56,104 @@
                     tools:src="@drawable/user_sample2" />
 
                 <TextView
-                    android:id="@+id/tv_group_team_second_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/pretendard_semi_bold"
-                    android:gravity="center"
-                    android:letterSpacing="0"
-                    android:lineSpacingExtra="5sp"
-                    android:text="@{`TEAM\n` + secondTeam.teamName}"
+                    android:lineHeight="24sp"
                     android:textColor="@color/primary_8B95B3"
-                    android:textFontWeight="600"
                     android:textSize="16sp"
-                    tools:text="TEAM\n팀이름팀" />
+                    tools:text="골프존" />
             </LinearLayout>
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/iv_group_team_relationship"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginTop="11dp"
-                android:background="@color/white"
-                android:scaleType="center"
-                android:src="@drawable/ic_relationship"
-                app:layout_constraintBottom_toBottomOf="@id/layout_group_team_first"
-                app:layout_constraintEnd_toEndOf="@id/layout_group_team_second"
-                app:layout_constraintStart_toStartOf="@id/layout_group_team_first"
-                app:layout_constraintTop_toTopOf="@id/layout_group_team_first"
-                app:layout_constraintVertical_bias="0.2"
-                app:shapeAppearance="@style/ShapeAppearance.circle" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-12dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearance="@style/ShapeAppearance.circle"
+                    app:strokeColor="@color/white_EBEDF3"
+                    app:strokeWidth="2dp"
+                    tools:src="@drawable/user_sample2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/pretendard_semi_bold"
+                    android:lineHeight="24sp"
+                    android:textColor="@color/primary_8B95B3"
+                    android:textSize="16sp"
+                    tools:text="골프존" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-12dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearance="@style/ShapeAppearance.circle"
+                    app:strokeColor="@color/white_EBEDF3"
+                    app:strokeWidth="2dp"
+                    tools:src="@drawable/user_sample2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/pretendard_semi_bold"
+                    android:lineHeight="24sp"
+                    android:textColor="@color/primary_8B95B3"
+                    android:textSize="16sp"
+                    tools:text="골프존" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-12dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearance="@style/ShapeAppearance.circle"
+                    app:strokeColor="@color/white_EBEDF3"
+                    app:strokeWidth="2dp"
+                    tools:src="@drawable/user_sample2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/pretendard_semi_bold"
+                    android:lineHeight="24sp"
+                    android:textColor="@color/primary_8B95B3"
+                    android:textSize="16sp"
+                    tools:text="골프존" />
+            </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -3,15 +3,22 @@ package com.golfzon.group
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.core.view.children
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.golfzon.core_ui.databinding.ItemGroupBinding
+import com.golfzon.core_ui.databinding.ItemGroupRecruitBinding
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.domain.model.Group
+import com.google.android.material.imageview.ShapeableImageView
 
-class GroupAdapter(private val requestManager: RequestManager) : ListAdapter<Group, GroupAdapter.GroupViewHolder>(diffCallback) {
+class GroupAdapter(private val requestManager: RequestManager) :
+    ListAdapter<Group, RecyclerView.ViewHolder>(diffCallback) {
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<Group>() {
             override fun areItemsTheSame(
@@ -26,10 +33,14 @@ class GroupAdapter(private val requestManager: RequestManager) : ListAdapter<Gro
             ): Boolean =
                 oldItem == newItem
         }
+
+        private const val TYPE_MATCHED = 0
+        private const val TYPE_RECRUITED = 1
     }
 
     interface OnItemClickListener {
         fun onItemClick(view: View, group: Group)
+        fun onRecruitItemClick(view: View, group: Group)
     }
 
     private var listener: OnItemClickListener? = null
@@ -37,24 +48,41 @@ class GroupAdapter(private val requestManager: RequestManager) : ListAdapter<Gro
         this.listener = listener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder =
-        GroupViewHolder(
-            ItemGroupBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            TYPE_MATCHED -> GroupMatchedViewHolder(
+                ItemGroupBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
             )
-        )
 
-    override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
-        holder.bind(getItem(position))
+            else -> GroupRecruitedViewHolder(
+                ItemGroupRecruitBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is GroupMatchedViewHolder)
+            holder.bind(getItem(position))
+        else if (holder is GroupRecruitedViewHolder)
+            holder.bind(getItem(position))
     }
 
     override fun submitList(list: MutableList<Group>?) {
         super.submitList(list?.let { ArrayList(it) })
     }
 
-    inner class GroupViewHolder(private val binding: ItemGroupBinding) :
+    override fun getItemViewType(position: Int): Int =
+        if (getItem(position).originalTeamsInfo.isEmpty()) TYPE_RECRUITED else TYPE_MATCHED
+
+    inner class GroupMatchedViewHolder(private val binding: ItemGroupBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(group: Group) {
             with(binding) {
@@ -72,6 +100,41 @@ class GroupAdapter(private val requestManager: RequestManager) : ListAdapter<Gro
                 if (group.originalTeamsInfo.size == 2) {
                     firstTeam = group.originalTeamsInfo[0]
                     secondTeam = group.originalTeamsInfo[1]
+                }
+            }
+        }
+    }
+
+    inner class GroupRecruitedViewHolder(private val binding: ItemGroupRecruitBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(group: Group) {
+            with(binding) {
+                this.requestManager = requestManager
+                root.setOnDebounceClickListener {
+                    listener?.onRecruitItemClick(it, group)
+                }
+
+                if (group.headCount != 0) {
+                    this.group = group
+                    this.screenRoomInfo = group.screenRoomInfo
+                    if (group.screenRoomInfo.screenRoomPlaceName.isNotEmpty())
+                        binding.tvGroupLocation.text = group.screenRoomInfo.screenRoomPlaceName
+
+                    group.membersInfo?.mapIndexedNotNull { index, memberInfo ->
+                        val curMemberView = binding.layoutGroupRecruitMembers.getChildAt(index)
+                        if (curMemberView is LinearLayout) {
+                            curMemberView.isVisible = true
+                            curMemberView.children.forEach { child ->
+                                if (child is ShapeableImageView) {
+                                    this@GroupAdapter.requestManager
+                                        .load("https://storage.googleapis.com/partee-1ba05.appspot.com/users/resized/120_${memberInfo.profileImg}")
+                                        .into(child)
+                                } else if (child is TextView) {
+                                    child.text = memberInfo.nickname
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

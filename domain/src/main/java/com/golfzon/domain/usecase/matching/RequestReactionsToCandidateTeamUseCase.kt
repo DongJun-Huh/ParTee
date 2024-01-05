@@ -34,6 +34,7 @@ class RequestReactionsToCandidateTeamUseCase @Inject constructor(
                             originalTeamsInfo = listOf(curUserTeam, candidateTeam),
                             headCount = curUserTeam.headCount + candidateTeam.headCount,
                             membersUId = curUserTeam.membersUId + candidateTeam.membersUId,
+                            membersInfo = emptyList(), // 추후에 그룹 리스트를 불러오는 경우에만 사용하므로 그때만 추가해서 사용
                             locations = when {
                                 "전국" in curUserTeam.searchingLocations.toSet() -> candidateTeam.searchingLocations
                                 "전국" in candidateTeam.searchingLocations.toSet() -> curUserTeam.searchingLocations

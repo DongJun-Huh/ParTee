@@ -56,13 +56,25 @@ class GroupViewModel @Inject constructor(
 
     fun getGroups() = viewModelScope.launch {
         getGroupsUseCase()?.let {
-            _groups.replaceAll(it, true)
+            val memberInfoAddedGroup = it.map { group ->
+                group.copy(
+                    membersInfo = group.membersUId.mapNotNull { memberUId ->
+                        getUserInfoUseCase(memberUId).first
+                    }
+                )
+            }
+            _groups.replaceAll(memberInfoAddedGroup, true)
         }
     }
 
     fun getGroupDetail(groupUId: String) = viewModelScope.launch {
         getGroupDetailUseCase(groupUId).let { groupDetail ->
-            _curGroupDetail.postValue(Event(groupDetail))
+            val memberInfoAddedGroupDetail = groupDetail.copy(
+                membersInfo = groupDetail.membersUId.mapNotNull { memberUId ->
+                    getUserInfoUseCase(memberUId).first
+                }
+            )
+            _curGroupDetail.postValue(Event(memberInfoAddedGroupDetail))
         }
     }
 
