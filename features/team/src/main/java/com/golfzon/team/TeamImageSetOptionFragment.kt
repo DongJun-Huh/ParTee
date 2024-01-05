@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +43,7 @@ class TeamImageSetOptionFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentTeamImageSetOptionBinding.inflate(inflater, container, false)
-        DialogUtil.setDialogRadius(dialog!!)
+        DialogUtil.setDialogRadius(dialog!!, dialogGravity = Gravity.BOTTOM)
         return binding.root
     }
 

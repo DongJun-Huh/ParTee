@@ -63,7 +63,11 @@
     <color name="black_opacity_60">#99000000</color>
     <color name="black_181919_opacity_60">#99181919</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="white_opacity_10">#1AFFFFFF</color>
     <color name="white_opacity_20">#33FFFFFF</color>
+    <color name="white_opacity_30">#4DFFFFFF</color>
     <color name="white_opacity_40">#66FFFFFF</color>
+    <color name="white_opacity_80">#CCFFFFFF</color>
     <color name="white_opacity50">#80FFFFFF</color>
+    <color name="red_error_60">#FFFF637F</color>
 </resources>

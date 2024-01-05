@@ -97,6 +97,8 @@ class TeamDaysTimesSetFragment : DialogFragment() {
                         days = dialog!!.findViewById<RadioButton>(binding.rgTeamDays.checkedRadioButtonId).text.toString(),
                         times = dialog!!.findViewById<RadioButton>(binding.rgTeamTimes.checkedRadioButtonId).text.toString()
                     )
+                    this@TeamDaysTimesSetFragment
+                        .toast(message = getString(R.string.team_days_times_change_success_toast_message))
                     findNavController().navigateUp()
                 }
             }

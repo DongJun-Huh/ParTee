@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -68,7 +69,17 @@ class TeamInfoFragment : Fragment() {
         teamUserAdapter = TeamUserAdapter(requestManager = glideRequestManager!!)
         with(binding.rvTeamInfoUsers) {
             adapter = teamUserAdapter
-            addItemDecoration(VerticalMarginItemDecoration(12))
+            addItemDecoration(
+                VerticalMarginItemDecoration(
+                    spacing = 8,
+                    isAddLine = true,
+                    lineMargin = 12,
+                    lineColor = ContextCompat.getColor(
+                        requireContext(),
+                        com.golfzon.core_ui.R.color.white_opacity_80
+                    )
+                )
+            )
         }
     }
 
@@ -102,6 +113,7 @@ class TeamInfoFragment : Fragment() {
         }
 
         teamViewModel.teamUsers.observe(viewLifecycleOwner) { users ->
+            binding.btnTeamInfoActionAddUser.isEnabled = users.size < 3
             teamUserAdapter?.submitList(users)
         }
     }
@@ -121,13 +133,13 @@ class TeamInfoFragment : Fragment() {
     }
 
     private fun setTeamLocationSetClickListener() {
-        binding.layoutTeamInfoLocations.setOnDebounceClickListener {
+        binding.btnTeamInfoActionChangeLocation.setOnDebounceClickListener {
             findNavController().navigate(TeamInfoFragmentDirections.actionTeamInfoFragmentToTeamLocationSetFragment())
         }
     }
 
     private fun setTeamDaysTimesSetClickListener() {
-        binding.layoutTeamInfoDaysTimes.setOnDebounceClickListener {
+        binding.btnTeamInfoActionChangeDaysTimes.setOnDebounceClickListener {
             findNavController().navigate(TeamInfoFragmentDirections.actionTeamInfoFragmentToTeamDaysTimesSetFragment())
         }
     }
@@ -172,6 +184,7 @@ class TeamInfoFragment : Fragment() {
     private fun setTeamNameChangeSaveClickListener() {
         binding.btnTeamInfoSetSave.setOnDebounceClickListener {
             teamViewModel.changeTeamName(binding.etTeamInfoSetName.text.toString())
+            this@TeamInfoFragment.toast(message = getString(R.string.team_information_change_success_toast_message))
             setTeamInfoSetLayoutOnAndOff()
         }
     }

@@ -4,68 +4,99 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_radius_28"
-    android:backgroundTint="@color/white"
-    android:paddingBottom="18dp"
+    android:paddingBottom="13dp"
     tools:context=".TeamImageSetOptionFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_team_image_set_option_select_gallery"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/background_radius_16"
+        android:backgroundTint="@color/gray_700_272929"
+        android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tv_team_image_set_option_select_gallery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="21dp"
-            android:layout_marginBottom="18dp"
-            android:fontFamily="@font/pretendard_regular"
-            android:text="@string/image_option_gallery"
-            android:textColor="@color/primary_A4EF69"
-            android:textFontWeight="500"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_team_image_set_option_take_photo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_team_image_set_option_select_gallery">
-
-        <View
-            android:id="@+id/view_team_image_set_option_take_photo_horizontal_line"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_team_image_set_option_select_gallery"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/golfzon_light_gray_CCCCCC"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_team_image_set_option_take_photo"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="21dp"
-            android:fontFamily="@font/pretendard_regular"
-            android:text="@string/image_option_camera"
-            android:textColor="@color/golfzon_gray_706F73"
-            android:textFontWeight="500"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/selector_background_gray_600_radius_8_pressed"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_team_image_set_option_take_photo_horizontal_line" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_team_image_set_option_select_gallery"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_gallery"
+                android:tint="@color/grayscale_100_A8B1B1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <TextView
+                android:id="@+id/tv_team_image_set_option_select_gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="@string/image_option_gallery"
+                android:textColor="@color/grayscale_100_A8B1B1"
+                android:textFontWeight="500"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/iv_team_image_set_option_select_gallery"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_team_image_set_option_take_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/selector_background_gray_600_radius_8_pressed"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_team_image_set_option_select_gallery">
+
+            <ImageView
+                android:id="@+id/iv_team_image_set_option_select_camera"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_camrea_filled"
+                android:tint="@color/grayscale_100_A8B1B1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <TextView
+                android:id="@+id/tv_team_image_set_option_take_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="@string/image_option_camera"
+                android:textColor="@color/grayscale_100_A8B1B1"
+                android:textFontWeight="500"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/iv_team_image_set_option_select_camera"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

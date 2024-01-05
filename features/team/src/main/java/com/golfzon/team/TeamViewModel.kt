@@ -63,7 +63,7 @@ class TeamViewModel @Inject constructor(
 
         val newTeam = Team(
             teamUId = "",
-            teamName = "팀 이름",
+            teamName = "",
             teamImageUrl = "",
             leaderUId = curUserUId,
             membersUId = listOf(curUserUId),
@@ -109,7 +109,8 @@ class TeamViewModel @Inject constructor(
     fun organizeTeam() = viewModelScope.launch {
         requestChangeTeamInfoTrace.start()
         _newTeam.value?.let { organizeDetail ->
-            if (organizeDetail.searchingLocations.isEmpty()
+            if (organizeDetail.teamName.isEmpty()
+                || organizeDetail.searchingLocations.isEmpty()
                 || organizeDetail.searchingDays.isEmpty() || organizeDetail.searchingTimes.isEmpty()
             ) {
                 _isTeamOrganizeSuccess.postValue(Event(false))

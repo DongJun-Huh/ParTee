@@ -29,10 +29,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/selector_background_radius_16_pressed"
+        android:background="@drawable/selector_background_radius_28_pressed"
         android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
-        android:paddingTop="3dp"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="5dp"
         android:paddingBottom="16dp">
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -62,17 +62,22 @@
                 android:letterSpacing="0"
                 android:lineSpacingExtra="5sp"
                 android:text="@{user.nickname}"
-                android:textColor="@color/primary_A4EF69"
+                android:textColor="@color/white"
                 android:textFontWeight="600"
                 android:textSize="16sp"
                 tools:text="허동준" />
 
             <LinearLayout
                 android:id="@+id/layout_team_info_user_detail_basic"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+                android:background="@drawable/background_radius_100"
+                android:backgroundTint="@color/gray_500_464B4B"
+                android:orientation="horizontal"
+                android:paddingVertical="4dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="16dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -81,19 +86,19 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:backgroundTint="@android:color/transparent"
-                        android:src="@drawable/ic_cake"
-                        android:tint="@color/primary_A4EF69" />
+                        android:src="@drawable/ic_cake_filled"
+                        android:tint="@color/gray_300_707777" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:fontFamily="@font/pretendard_regular"
+                        android:fontFamily="@font/montserrat_medium"
                         android:text="@{@string/info_age(user.age)}"
-                        android:textColor="@color/primary_A4EF69"
+                        android:textColor="@color/grayscale_100_A8B1B1"
                         android:textFontWeight="500"
                         android:textSize="12sp"
                         tools:text="25세" />
@@ -106,19 +111,19 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:backgroundTint="@android:color/transparent"
-                        android:src="@drawable/ic_flag"
-                        android:tint="@color/primary_A4EF69" />
+                        android:src="@drawable/ic_flag_filled"
+                        android:tint="@color/gray_300_707777" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:fontFamily="@font/pretendard_regular"
+                        android:fontFamily="@font/montserrat_medium"
                         android:text="@{@string/info_years_playing(user.yearsPlaying)}"
-                        android:textColor="@color/primary_A4EF69"
+                        android:textColor="@color/grayscale_100_A8B1B1"
                         android:textFontWeight="500"
                         android:textSize="12sp"
                         tools:text="8년" />
@@ -131,19 +136,19 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:backgroundTint="@android:color/transparent"
-                        android:src="@drawable/ic_flash"
-                        android:tint="@color/primary_A4EF69" />
+                        android:src="@drawable/ic_flash_filled"
+                        android:tint="@color/gray_300_707777" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:fontFamily="@font/pretendard_regular"
+                        android:fontFamily="@font/montserrat_medium"
                         android:text="@{@string/info_average(user.average)}"
-                        android:textColor="@color/primary_A4EF69"
+                        android:textColor="@color/grayscale_100_A8B1B1"
                         android:textFontWeight="500"
                         android:textSize="12sp"
                         tools:text="100타" />

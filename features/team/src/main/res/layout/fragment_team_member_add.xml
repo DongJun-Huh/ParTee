@@ -17,83 +17,91 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/dialog_option_default_top"
-            android:backgroundTint="@color/white_EBEDF3"
+            android:backgroundTint="@color/gray_700_272929"
             android:orientation="vertical"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="22dp"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="12dp"
             app:behavior_hideable="false">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="start"
+                android:layout_marginStart="4dp"
                 android:fontFamily="@font/pretendard_semi_bold"
+                android:includeFontPadding="false"
+                android:letterSpacing="0"
                 android:lineHeight="24sp"
                 android:text="@string/team_member_add_title"
+                android:textColor="@color/white"
                 android:textFontWeight="600"
                 android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="18dp"
                 android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/et_team_member_add_search"
                     onEditorEnterAction="@{()->vm.searchUsers(etTeamMemberAddSearch.getText().toString)}"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="52dp"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_background_radius_12"
-                    android:backgroundTint="@color/white"
-                    android:fontFamily="@font/pretendard_regular"
+                    android:background="@drawable/selector_edittext_radius_16_enabled"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:hint="닉네임을 입력하세요"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:lineHeight="20sp"
                     android:maxLines="1"
-                    android:paddingHorizontal="20dp"
+                    android:paddingHorizontal="24dp"
                     android:paddingVertical="10dp"
                     android:singleLine="true"
                     android:text="@={searchNickname}"
-                    android:textColor="@color/primary_A4EF69"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/gray_500_464B4B"
                     android:textFontWeight="500"
                     android:textSize="16sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_team_members_add_search"
                     onDebounceClick="@{()->vm.searchUsers(searchNickname)}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="73dp"
+                    android:layout_height="52dp"
                     android:layout_marginStart="12dp"
-                    android:background="@drawable/btn_background_radius_12"
-                    android:backgroundTint="@color/primary_btn_AFB7CF"
-                    android:fontFamily="@font/pretendard_regular"
+                    android:background="@drawable/background_radius_16"
+                    android:backgroundTint="@color/primary_A4EF69"
+                    android:fontFamily="@font/pretendard_semi_bold"
                     android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:letterSpacing="0"
                     android:lineHeight="20sp"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="10dp"
                     android:text="@string/search"
-                    android:textColor="@color/white"
+                    android:textColor="@color/gray_700_272929"
                     android:textFontWeight="500"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/pretendard_semi_bold"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/pretendard_medium"
                 android:lineHeight="21sp"
                 android:text="@{@string/team_member_add_results_head_count(vm.searchedUsers.size())}"
-                android:textColor="@color/primary_A4EF69"
+                android:textColor="@color/grayscale_100_A8B1B1"
                 android:textFontWeight="600"
                 android:textSize="14sp"
                 tools:text="검색 결과 2건" />
@@ -102,7 +110,7 @@
                 android:id="@+id/rv_team_members_add_search_result"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="3"

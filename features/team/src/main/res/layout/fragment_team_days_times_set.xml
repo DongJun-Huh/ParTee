@@ -15,70 +15,95 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_radius_28"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/gray_700_272929"
         android:orientation="vertical"
         android:paddingHorizontal="24dp"
-        android:paddingVertical="24dp">
+        android:paddingVertical="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:gravity="center_vertical"
+            android:text="@string/team_days_change_title"
+            android:textColor="@color/white"
+            android:textFontWeight="500"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:fontFamily="@font/pretendard_regular"
+            android:gravity="center_vertical"
+            android:lineHeight="19sp"
+            android:text="@string/team_days_change_description"
+            android:textColor="@color/grayscale_100_A8B1B1"
+            android:textFontWeight="500"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="28dp"
             android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/pretendard_regular"
-                android:includeFontPadding="false"
-                android:letterSpacing="0"
-                android:text="@string/team_days_times_change_title"
-                android:textColor="@color/primary_A4EF69"
-                android:textFontWeight="500"
-                android:textSize="14sp" />
 
             <RadioGroup
                 android:id="@+id/rg_team_days"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/rb_team_days_weekdays"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
                     android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
                     android:fontFamily="@font/pretendard_medium"
-                    android:gravity="center"
+                    android:includeFontPadding="false"
                     android:letterSpacing="0"
+                    android:lineHeight="19.6sp"
                     android:paddingHorizontal="16dp"
-                    android:paddingVertical="4dp"
+                    android:paddingVertical="8dp"
                     android:text="@string/weekday"
-                    android:textColor="@drawable/selector_textview_primary_50_to_white"
+                    android:textColor="@drawable/selector_textview_gray_300_to_primary"
+                    android:textFontWeight="500"
                     android:textSize="14sp" />
 
                 <RadioButton
                     android:id="@+id/rb_team_days_weekend"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
                     android:fontFamily="@font/pretendard_medium"
-                    android:gravity="center"
+                    android:includeFontPadding="false"
                     android:letterSpacing="0"
+                    android:lineHeight="19.6sp"
                     android:paddingHorizontal="16dp"
-                    android:paddingVertical="4dp"
+                    android:paddingVertical="8dp"
                     android:text="@string/weekend"
-                    android:textColor="@drawable/selector_textview_primary_50_to_white"
+                    android:textColor="@drawable/selector_textview_gray_300_to_primary"
+                    android:textFontWeight="500"
                     android:textSize="14sp" />
             </RadioGroup>
 
             <RadioGroup
                 android:id="@+id/rg_team_times"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:orientation="horizontal">
@@ -90,12 +115,14 @@
                     android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
                     android:fontFamily="@font/pretendard_medium"
-                    android:gravity="center"
+                    android:includeFontPadding="false"
                     android:letterSpacing="0"
+                    android:lineHeight="19.6sp"
                     android:paddingHorizontal="16dp"
-                    android:paddingVertical="4dp"
+                    android:paddingVertical="8dp"
                     android:text="@string/morning"
-                    android:textColor="@drawable/selector_textview_primary_50_to_white"
+                    android:textColor="@drawable/selector_textview_gray_300_to_primary"
+                    android:textFontWeight="500"
                     android:textSize="14sp" />
 
                 <RadioButton
@@ -106,12 +133,14 @@
                     android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
                     android:fontFamily="@font/pretendard_medium"
-                    android:gravity="center"
+                    android:includeFontPadding="false"
                     android:letterSpacing="0"
+                    android:lineHeight="19.6sp"
                     android:paddingHorizontal="16dp"
-                    android:paddingVertical="4dp"
+                    android:paddingVertical="8dp"
                     android:text="@string/afternoon"
-                    android:textColor="@drawable/selector_textview_primary_50_to_white"
+                    android:textColor="@drawable/selector_textview_gray_300_to_primary"
+                    android:textFontWeight="500"
                     android:textSize="14sp" />
 
                 <RadioButton
@@ -122,12 +151,14 @@
                     android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
                     android:fontFamily="@font/pretendard_medium"
-                    android:gravity="center"
+                    android:includeFontPadding="false"
                     android:letterSpacing="0"
+                    android:lineHeight="19.6sp"
                     android:paddingHorizontal="16dp"
-                    android:paddingVertical="4dp"
+                    android:paddingVertical="8dp"
                     android:text="@string/night"
-                    android:textColor="@drawable/selector_textview_primary_50_to_white"
+                    android:textColor="@drawable/selector_textview_gray_300_to_primary"
+                    android:textFontWeight="500"
                     android:textSize="14sp" />
 
                 <RadioButton
@@ -138,12 +169,14 @@
                     android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
                     android:fontFamily="@font/pretendard_medium"
-                    android:gravity="center"
+                    android:includeFontPadding="false"
                     android:letterSpacing="0"
+                    android:lineHeight="19.6sp"
                     android:paddingHorizontal="16dp"
-                    android:paddingVertical="4dp"
+                    android:paddingVertical="8dp"
                     android:text="@string/dawn"
-                    android:textColor="@drawable/selector_textview_primary_50_to_white"
+                    android:textColor="@drawable/selector_textview_gray_300_to_primary"
+                    android:textFontWeight="500"
                     android:textSize="14sp" />
             </RadioGroup>
         </LinearLayout>
@@ -151,16 +184,17 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_team_days_times_save"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="48dp"
             android:layout_marginTop="36dp"
-            android:background="@drawable/selector_button_background_radius_12_enabled"
-            android:fontFamily="@font/pretendard_medium"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/selector_button_background_radius_16_enabled"
+            android:fontFamily="@font/pretendard_semi_bold"
             android:gravity="center"
-            android:letterSpacing="0"
-            android:lineSpacingExtra="5sp"
-            android:stateListAnimator="@null"
+            android:lineHeight="24sp"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="8dp"
             android:text="@string/save"
-            android:textColor="@drawable/selector_textview_enabled"
+            android:textColor="@color/gray_700_272929"
             android:textFontWeight="500"
             android:textSize="16sp" />
     </LinearLayout>

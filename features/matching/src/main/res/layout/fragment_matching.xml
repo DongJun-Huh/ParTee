@@ -64,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    tools:src="@drawable/background_img_golf" />
+                    tools:src="@drawable/background_img_golf2" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -93,7 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    tools:src="@drawable/background_img_golf" />
+                    tools:src="@drawable/background_img_golf2" />
 
                 <ImageView
                     android:id="@+id/iv_background_gradient"

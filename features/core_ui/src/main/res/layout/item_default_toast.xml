@@ -17,9 +17,9 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_height="45dp"
             android:layout_gravity="center"
-            app:cardBackgroundColor="@color/white_DEE2F0"
+            app:cardBackgroundColor="@color/gray_900_1D1E1E"
             app:cardCornerRadius="100dp"
             app:cardElevation="0dp">
 
@@ -33,6 +33,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_check_circle"
+                    android:tint="@color/primary_A4EF69"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -46,7 +47,7 @@
                     android:gravity="center_vertical"
                     android:lineHeight="24sp"
                     android:text="@{toastMessage}"
-                    android:textColor="@color/primary_A4EF69"
+                    android:textColor="@color/white"
                     android:textFontWeight="600"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"

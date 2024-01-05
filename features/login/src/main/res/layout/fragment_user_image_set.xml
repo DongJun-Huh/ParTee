@@ -266,7 +266,7 @@
         <!--            android:id="@+id/btn_user_image_set_complete"-->
         <!--            onDebounceClick="@{()->vm.requestSetUserInfo()}"-->
         <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="56dp"-->
+        <!--            android:layout_height="52dp"-->
         <!--            android:layout_marginTop="44dp"-->
         <!--            android:layout_marginBottom="4dp"-->
         <!--            android:background="@drawable/selector_button_background_radius_12_enabled"-->

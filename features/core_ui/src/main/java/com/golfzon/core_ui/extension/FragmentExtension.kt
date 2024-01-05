@@ -24,10 +24,23 @@ fun Fragment.toast(message: String, bottomOffset: Int = 44, isError: Boolean = f
         false
     )
     binding.toastMessage = message
-    if (isError)
-        binding.ivToastIcon.setImageDrawable(
-            ContextCompat.getDrawable(requireContext(), R.drawable.ic_x_circle)
-        )
+    if (isError) {
+        with(binding.ivToastIcon) {
+            setImageDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_x_circle)
+            )
+            imageTintList =
+                ContextCompat.getColorStateList(requireContext(), R.color.red_error_60)
+        }
+    } else {
+        with(binding.ivToastIcon) {
+            setImageDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_check_circle)
+            )
+            imageTintList =
+                ContextCompat.getColorStateList(requireContext(), R.color.primary_A4EF69)
+        }
+    }
     Toast(requireContext()).apply {
         setGravity(Gravity.FILL_HORIZONTAL or Gravity.BOTTOM, 0, bottomOffset.Px)
         duration = Toast.LENGTH_SHORT

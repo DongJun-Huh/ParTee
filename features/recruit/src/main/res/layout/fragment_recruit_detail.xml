@@ -619,7 +619,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_recruit_detail_participate"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="52dp"
                 android:animateLayoutChanges="true"
                 android:background="@drawable/selector_button_background_radius_12_enabled"
                 android:enabled="@{recruitDetail.searchingHeadCount - recruitDetail.headCount &lt;= 0 ? false : true}"

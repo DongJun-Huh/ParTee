@@ -81,6 +81,8 @@ class TeamLocationSetFragment : DialogFragment() {
                     )
                 } else {
                     teamViewModel.setLocation(curSearchingPlaces)
+                    this@TeamLocationSetFragment
+                        .toast(message = getString(R.string.team_location_change_success_toast_message))
                     findNavController().navigateUp()
                 }
             }
