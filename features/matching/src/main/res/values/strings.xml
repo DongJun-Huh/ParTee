@@ -1,6 +1,7 @@
 <resources>
     <string name="matching_start">매칭 시작</string>
     <string name="matching_start_2">팀 찾기</string>
+    <string name="matching_start_fail_not_leader">팀장만 매칭가능</string>
     <string name="matching_filtering_condition_set_fail_toast_massage">검색 조건을 설정해주세요</string>
     <string name="home_team_not_exist_message">현재 팀이 존재하지 않습니다.\n새로운 팀을 구성해보세요</string>
     <string name="home_team_matching_start_fail_not_exist_team">팀을 구성한 뒤에 매칭을 시작할 수 있어요!</string>
