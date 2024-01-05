@@ -239,7 +239,8 @@ class MatchingViewModel @Inject constructor(
 
     fun updateHeadCount(delta: Int) {
         curSearchingHeadCount.value?.let { headCount ->
-            val newCount = (headCount + delta).coerceIn(1, 3)
+            val newCount =
+                (headCount + delta).coerceIn(1, 4 - (teamInfoDetail.value?.headCount ?: 3))
             curSearchingHeadCount.value = newCount
         }
     }
