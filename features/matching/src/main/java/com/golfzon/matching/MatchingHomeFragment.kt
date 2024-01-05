@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -96,7 +97,24 @@ class MatchingHomeFragment : Fragment() {
         }
 
         matchingViewModel.teamUsers.observe(viewLifecycleOwner) { users ->
+            // TeamInfoDetail을 얻은 후 받아오는 정보
             teamUserAdapter?.submitList(users)
+            val curUserInfo = users.filter { it.second }
+            if (curUserInfo.isNotEmpty()) {
+                if (curUserInfo[0].first.userUId != curUserInfo[0].third) {
+                    binding.btnMatchingHomeTeamSetting.isVisible = false
+                    with(binding.btnMatchingHomeStart) {
+                        isEnabled = false
+                        text = getString(R.string.matching_start_fail_not_leader)
+                    }
+                } else {
+                    binding.btnMatchingHomeTeamSetting.isVisible = true
+                    with(binding.btnMatchingHomeStart) {
+                        isEnabled = true
+                        text = getString(R.string.matching_start)
+                    }
+                }
+            }
         }
     }
 
