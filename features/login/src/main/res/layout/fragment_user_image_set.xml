@@ -13,246 +13,266 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="24dp">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_user_image_set_input"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="8dp"
-            app:layout_constraintBottom_toTopOf="@id/btn_user_image_set_complete"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_user_image_set"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="24dp"
+            android:background="#1E1E1E"
+            android:scaleType="center"
+            android:src="@drawable/ic_logo"
+            app:layout_constraintBottom_toTopOf="@id/layout_user_image_set_input_buttons"
+            app:layout_constraintDimensionRatio="W,9:16"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5">
+            app:layout_constraintTop_toBottomOf="@id/layout_user_image_set_title"
+            app:layout_constraintVertical_bias="0.5"
+            app:shapeAppearance="@style/ShapeAppearance.radius32" />
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/iv_user_image_set"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@color/white_F5F6F9"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="9:16"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.5"
-                app:shapeAppearance="@style/ShapeAppearance.radius32" />
-
-            <TextView
-                android:id="@+id/tv_user_image_set_input_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:fontFamily="@font/pretendard_regular"
-                android:gravity="center"
-                android:lineHeight="19sp"
-                android:text="@string/register_user_image_set_description"
-                android:textColor="@color/blue_CCD1E0"
-                android:textFontWeight="500"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@id/layout_user_image_set_input_buttons"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/iv_user_image_set"
-                app:layout_constraintVertical_bias="1.0" />
-
-            <LinearLayout
-                android:id="@+id/layout_user_image_set_input_buttons"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="@id/iv_user_image_set"
-                app:layout_constraintEnd_toEndOf="@id/iv_user_image_set"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="@id/iv_user_image_set"
-                app:layout_constraintTop_toTopOf="@id/iv_user_image_set"
-                app:layout_constraintVertical_bias="0.5">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_user_image_set_input_button_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/background_radius_32"
-                    android:fontFamily="@font/pretendard_regular"
-                    android:gravity="center"
-                    android:lineHeight="21sp"
-                    android:paddingHorizontal="14dp"
-                    android:paddingVertical="8dp"
-                    android:stateListAnimator="@null"
-                    android:text="@string/register_user_image_set_button_add_image"
-                    android:textColor="@color/white"
-                    android:textFontWeight="500"
-                    android:textSize="14sp"
-                    app:backgroundTint="@color/blue_AFB7CF"
-                    app:icon="@drawable/ic_gallery_add"
-                    app:iconGravity="start"
-                    app:iconPadding="8dp"
-                    app:iconTint="@color/white" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_user_image_set_input_button_introduce"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:background="@drawable/background_radius_32"
-                    android:fontFamily="@font/pretendard_regular"
-                    android:gravity="center"
-                    android:lineHeight="21sp"
-                    android:paddingHorizontal="14dp"
-                    android:paddingVertical="8dp"
-                    android:stateListAnimator="@null"
-                    android:text="@string/register_user_image_set_button_add_introduce_message"
-                    android:textColor="@color/white"
-                    android:textFontWeight="500"
-                    android:textSize="14sp"
-                    app:backgroundTint="@color/blue_AFB7CF"
-                    app:icon="@drawable/ic_gallery_add"
-                    app:iconGravity="start"
-                    app:iconPadding="8dp"
-                    app:iconTint="@color/white" />
-            </LinearLayout>
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:src="@drawable/background_gradation_gray_to_transparent"
-                app:layout_constraintBottom_toBottomOf="@id/iv_user_image_set"
-                app:layout_constraintEnd_toEndOf="@id/iv_user_image_set"
-                app:layout_constraintStart_toStartOf="@id/iv_user_image_set"
-                app:layout_constraintTop_toBottomOf="@id/layout_user_image_set_input_buttons"
-                app:layout_constraintVertical_bias="1.0"
-                app:shapeAppearance="@style/ShapeAppearance.radius32" />
-
-            <LinearLayout
-                android:id="@+id/layout_user_image_set_input_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="24dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@id/iv_user_image_set"
-                app:layout_constraintEnd_toEndOf="@id/iv_user_image_set"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@id/iv_user_image_set"
-                app:layout_constraintTop_toTopOf="@id/iv_user_image_set"
-                app:layout_constraintVertical_bias="1.0">
-
-                <TextView
-                    android:id="@+id/tv_user_image_set_input_info_nickname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/pretendard_semi_bold"
-                    android:lineHeight="33sp"
-                    android:text="@{vm.nickname}"
-                    android:textColor="@color/white"
-                    android:textFontWeight="600"
-                    android:textSize="24sp"
-                    tools:text="허동준" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@android:color/transparent"
-                        android:src="@drawable/ic_cake"
-                        android:tint="@color/white" />
-
-                    <TextView
-                        android:id="@+id/tv_user_image_set_input_info_age"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:fontFamily="@font/pretendard_regular"
-                        android:text="@{vm.ageTen != null ? vm.ageTen + vm.ageOne + @string/age_unit_korean : vm.ageOne+ @string/age_unit_korean}"
-                        android:textColor="@color/white"
-                        android:textFontWeight="500"
-                        android:textSize="12sp"
-                        tools:text="25세" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@android:color/transparent"
-                        android:src="@drawable/ic_flag"
-                        android:tint="@color/white" />
-
-                    <TextView
-                        android:id="@+id/tv_user_image_set_input_info_years_playing"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:fontFamily="@font/pretendard_regular"
-                        android:text="@{vm.yearsPlayingTen != null ? vm.yearsPlayingTen + vm.yearsPlayingOne + @string/year_unit_korean : vm.yearsPlayingOne+ @string/year_unit_korean}"
-                        android:textColor="@color/white"
-                        android:textFontWeight="500"
-                        android:textSize="12sp"
-                        tools:text="8년" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@android:color/transparent"
-                        android:src="@drawable/ic_flash"
-                        android:tint="@color/white" />
-
-                    <TextView
-                        android:id="@+id/tv_user_image_set_input_info_average"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:fontFamily="@font/pretendard_regular"
-                        android:text="@{vm.averageHundred != null ? vm.averageHundred + vm.averageTen + vm.averageOne+ @string/average_unit_korean : vm.averageTen + vm.averageOne+ @string/average_unit_korean}"
-                        android:textColor="@color/white"
-                        android:textFontWeight="500"
-                        android:textSize="12sp"
-                        tools:text="100타" />
-                </LinearLayout>
-
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_user_image_set_complete"
-            onDebounceClick="@{()->vm.requestSetUserInfo()}"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="82dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/selector_button_background_radius_12_enabled"
-            android:fontFamily="@font/pretendard_semi_bold"
-            android:gravity="center"
-            android:lineHeight="20sp"
-            android:padding="10dp"
-            android:stateListAnimator="@null"
-            android:text="@string/complete"
-            android:textColor="@drawable/selector_textview_enabled"
-            android:textSize="16sp"
-            android:visibility="invisible"
+        <LinearLayout
+            android:id="@+id/layout_user_image_set_input_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_user_image_set_input"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_user_image_set_input_button_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_radius_32"
+                android:fontFamily="@font/pretendard_medium"
+                android:gravity="center"
+                android:lineHeight="14sp"
+                android:paddingHorizontal="22dp"
+                android:paddingVertical="8dp"
+                android:stateListAnimator="@null"
+                android:text="@string/register_user_image_set_button_add_image"
+                android:textColor="#707777"
+                android:textFontWeight="500"
+                android:textSize="14sp"
+                app:backgroundTint="#272929"
+                app:icon="@drawable/ic_check_circle"
+                app:iconGravity="start"
+                app:iconPadding="8dp"
+                app:iconTint="#707777" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_user_image_set_input_button_introduce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/background_radius_32"
+                android:fontFamily="@font/pretendard_regular"
+                android:gravity="center"
+                android:lineHeight="21sp"
+                android:paddingHorizontal="22dp"
+                android:paddingVertical="8dp"
+                android:stateListAnimator="@null"
+                android:text="@string/register_user_image_set_button_add_introduce_message"
+                android:textColor="#707777"
+                android:textFontWeight="500"
+                android:textSize="14sp"
+                app:backgroundTint="#272929"
+                app:icon="@drawable/ic_check_circle"
+                app:iconGravity="start"
+                app:iconPadding="8dp"
+                app:iconTint="#707777" />
+        </LinearLayout>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/background_gradation_gray_to_transparent"
+            app:layout_constraintBottom_toBottomOf="@id/iv_user_image_set"
+            app:layout_constraintEnd_toEndOf="@id/iv_user_image_set"
+            app:layout_constraintStart_toStartOf="@id/iv_user_image_set"
+            app:layout_constraintTop_toTopOf="@id/iv_user_image_set"
+            app:layout_constraintVertical_bias="1.0"
+            app:shapeAppearance="@style/ShapeAppearance.radius32" />
+
+        <LinearLayout
+            android:id="@+id/layout_user_image_set_input_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="28dp"
+            android:layout_marginBottom="24dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/iv_user_image_set"
+            app:layout_constraintEnd_toEndOf="@id/iv_user_image_set"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/iv_user_image_set"
+            app:layout_constraintTop_toTopOf="@id/iv_user_image_set"
+            app:layout_constraintVertical_bias="1.0">
+
+            <TextView
+                android:id="@+id/tv_user_image_set_input_info_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/pretendard_semi_bold"
+                android:lineHeight="33sp"
+                android:text="@{vm.nickname}"
+                android:textColor="@color/white"
+                android:textFontWeight="600"
+                android:textSize="24sp"
+                tools:text="허동준" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/transparent"
+                    android:src="@drawable/ic_cake"
+                    android:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_user_image_set_input_info_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:text="@{vm.ageTen != null ? vm.ageTen + vm.ageOne + @string/age_unit_korean : vm.ageOne+ @string/age_unit_korean}"
+                    android:textColor="@color/white"
+                    android:textFontWeight="500"
+                    android:textSize="12sp"
+                    tools:text="25세" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/transparent"
+                    android:src="@drawable/ic_flag"
+                    android:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_user_image_set_input_info_years_playing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:text="@{vm.yearsPlayingTen != null ? vm.yearsPlayingTen + vm.yearsPlayingOne + @string/year_unit_korean : vm.yearsPlayingOne+ @string/year_unit_korean}"
+                    android:textColor="@color/white"
+                    android:textFontWeight="500"
+                    android:textSize="12sp"
+                    tools:text="8년" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/transparent"
+                    android:src="@drawable/ic_flash"
+                    android:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_user_image_set_input_info_average"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:text="@{vm.averageHundred != null ? vm.averageHundred + vm.averageTen + vm.averageOne+ @string/average_unit_korean : vm.averageTen + vm.averageOne+ @string/average_unit_korean}"
+                    android:textColor="@color/white"
+                    android:textFontWeight="500"
+                    android:textSize="12sp"
+                    tools:text="100타" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_user_image_set_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="12dp"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/layout_user_image_set_title_brief"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_flash" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/pretendard_semi_bold"
+                    android:text="소개카드"
+                    android:textColor="@color/blue_AFB7CF"
+                    android:textFontWeight="500"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:includeFontPadding="false"
+                android:letterSpacing="0.01"
+                android:lineHeight="20sp"
+                android:lineSpacingExtra="-4sp"
+                android:text="당신을 표현하는 소개 카드를\n만들어보세요"
+                android:textColor="@color/white"
+                android:textFontWeight="500"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <!--        <androidx.appcompat.widget.AppCompatButton-->
+        <!--            android:id="@+id/btn_user_image_set_complete"-->
+        <!--            onDebounceClick="@{()->vm.requestSetUserInfo()}"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="56dp"-->
+        <!--            android:layout_marginTop="44dp"-->
+        <!--            android:layout_marginBottom="4dp"-->
+        <!--            android:background="@drawable/selector_button_background_radius_12_enabled"-->
+        <!--            android:fontFamily="@font/pretendard_semi_bold"-->
+        <!--            android:gravity="center"-->
+        <!--            android:lineHeight="20sp"-->
+        <!--            android:padding="10dp"-->
+        <!--            android:stateListAnimator="@null"-->
+        <!--            android:text="@string/complete"-->
+        <!--            android:textColor="@drawable/selector_textview_enabled"-->
+        <!--            android:textSize="16sp"-->
+        <!--            android:visibility="visible"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintVertical_bias="1.0" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -89,8 +89,11 @@ class LoginActivity : AppCompatActivity() {
                 else -> "Join"
             }
             btnNext.text = when (destinationId) {
-                R.id.ImageCropFragment -> getString(com.golfzon.core_ui.R.string.complete)
-                R.id.UserImageSetFragment -> getString(com.golfzon.core_ui.R.string.complete)
+                R.id.ImageCropFragment,
+                R.id.UserImageSetFragment,
+                R.id.UserImageSetOptionFragment,
+                R.id.UserInfoSetIntroduceFragment
+                -> getString(com.golfzon.core_ui.R.string.complete)
                 else -> getString(com.golfzon.core_ui.R.string.next)
             }
         }

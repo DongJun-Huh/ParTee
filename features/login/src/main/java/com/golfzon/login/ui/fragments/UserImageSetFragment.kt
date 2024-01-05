@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -65,8 +67,36 @@ class UserImageSetFragment : Fragment() {
     private fun setUserIntroduceOptionClickListener() {
         binding.btnUserImageSetInputButtonIntroduce.setOnDebounceClickListener {
             findNavController().navigate(UserImageSetFragmentDirections.actionUserImageSetFragmentToUserInfoSetIntroduceFragment())
-            (it as MaterialButton).text =
-                getString(R.string.register_user_image_set_button_change_introduce_message)
+        }
+
+        loginViewModel.introduceMessage.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                with(binding.btnUserImageSetInputButtonIntroduce) {
+                    setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            com.golfzon.core_ui.R.color.primary_8B95B3
+                        )
+                    )
+                    iconTint = ContextCompat.getColorStateList(
+                        requireContext(),
+                        com.golfzon.core_ui.R.color.primary_8B95B3
+                    )
+                }
+            } else {
+                with(binding.btnUserImageSetInputButtonIntroduce) {
+                    setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            com.golfzon.core_ui.R.color.gray_707777
+                        )
+                    )
+                    iconTint = ContextCompat.getColorStateList(
+                        requireContext(),
+                        com.golfzon.core_ui.R.color.gray_707777
+                    )
+                }
+            }
         }
     }
 
@@ -80,16 +110,24 @@ class UserImageSetFragment : Fragment() {
                     profileImgPath.postValue(getTempImageFilePath("webp", requireContext()))
                 }
 
+                binding.ivUserImageSet.scaleType = ImageView.ScaleType.CENTER_CROP
                 Glide.with(requireContext())
                     .load(curBitmap.copy(Bitmap.Config.ARGB_8888, true))
                     // Cannot create a mutable Bitmap with config: HARDWARE 오류로 COPY해 mutable가능하도록 한 뒤 사용
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(binding.ivUserImageSet)
-                with(binding) {
-                    tvUserImageSetInputDescription.visibility = View.GONE
-                    btnUserImageSetInputButtonImage.text =
-                        getString(R.string.register_user_image_set_button_change_image)
+                with(binding.btnUserImageSetInputButtonImage) {
+                    setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            com.golfzon.core_ui.R.color.primary_8B95B3
+                        )
+                    )
+                    iconTint = ContextCompat.getColorStateList(
+                        requireContext(),
+                        com.golfzon.core_ui.R.color.primary_8B95B3
+                    )
                 }
             }
     }
