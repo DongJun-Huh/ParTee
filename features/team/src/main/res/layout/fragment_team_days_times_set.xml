@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".TeamDaysTimesSetFragment">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.golfzon.team.TeamViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_radius_28"
+        android:backgroundTint="@color/white"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_regular"
+                android:includeFontPadding="false"
+                android:letterSpacing="0"
+                android:text="@string/team_days_times_change_title"
+                android:textColor="@color/primary_8B95B3"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+
+            <RadioGroup
+                android:id="@+id/rg_team_days"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_team_days_weekdays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_background_radius_100"
+                    android:button="@null"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:letterSpacing="0"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/weekday"
+                    android:textColor="@drawable/selector_textview_primary_50_to_white"
+                    android:textSize="14sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_team_days_weekend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/selector_background_radius_100"
+                    android:button="@null"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:letterSpacing="0"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/weekend"
+                    android:textColor="@drawable/selector_textview_primary_50_to_white"
+                    android:textSize="14sp" />
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/rg_team_times"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_team_times_morning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_background_radius_100"
+                    android:button="@null"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:letterSpacing="0"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/morning"
+                    android:textColor="@drawable/selector_textview_primary_50_to_white"
+                    android:textSize="14sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_team_times_afternoon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/selector_background_radius_100"
+                    android:button="@null"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:letterSpacing="0"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/afternoon"
+                    android:textColor="@drawable/selector_textview_primary_50_to_white"
+                    android:textSize="14sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_team_times_night"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/selector_background_radius_100"
+                    android:button="@null"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:letterSpacing="0"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/night"
+                    android:textColor="@drawable/selector_textview_primary_50_to_white"
+                    android:textSize="14sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_team_times_dawn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/selector_background_radius_100"
+                    android:button="@null"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:letterSpacing="0"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/dawn"
+                    android:textColor="@drawable/selector_textview_primary_50_to_white"
+                    android:textSize="14sp" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_team_days_times_save"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/selector_button_background_radius_12_enabled"
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+            android:letterSpacing="0"
+            android:lineSpacingExtra="5sp"
+            android:stateListAnimator="@null"
+            android:text="@string/save"
+            android:textColor="@drawable/selector_textview_enabled"
+            android:textFontWeight="500"
+            android:textSize="16sp" />
+    </LinearLayout>
+</layout>

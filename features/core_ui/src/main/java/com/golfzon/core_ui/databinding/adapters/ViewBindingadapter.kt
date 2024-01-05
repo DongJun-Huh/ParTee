@@ -51,7 +51,7 @@ fun EditText.onEditorEnterAction(f: Function1<String, Unit>?) {
 
 @BindingAdapter("divider", "displayListsToString")
 fun TextView.displayListsToString(divider: String? = "", lists: List<String>?) {
-    if (lists == null) return
+    if (lists.isNullOrEmpty()) return
     if (lists.size == 1) {
         this.text = lists[0]
         return
@@ -62,6 +62,17 @@ fun TextView.displayListsToString(divider: String? = "", lists: List<String>?) {
         result += if (idx == 0) "${curElement}" else " ${divider} ${curElement}"
     }
     this.text = result
+}
+
+@BindingAdapter("skipListToRepresentOne")
+fun TextView.skipListTORepresentOne(list: List<String>?) {
+    if (list.isNullOrEmpty()) return
+    if (list.size == 1) {
+        this.text = list[0]
+        return
+    }
+
+    this.text = "${list[0]} 외 ${list.size - 1}개"
 }
 
 @BindingAdapter(value = ["imageUId", "imageType", "requestManager"], requireAll = false)

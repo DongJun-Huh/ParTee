@@ -109,6 +109,7 @@ class TeamInfoFragment : Fragment() {
     private fun setTopActionClickListeners() {
         setAddMemberClickListener()
         setTeamLocationSetClickListener()
+        setTeamDaysTimesSetClickListener()
         setTeamNameSetClickListener()
         setTeamImageSetClickListener()
     }
@@ -120,8 +121,14 @@ class TeamInfoFragment : Fragment() {
     }
 
     private fun setTeamLocationSetClickListener() {
-        binding.btnTeamInfoActionChangeLocation.setOnDebounceClickListener {
+        binding.layoutTeamInfoLocations.setOnDebounceClickListener {
             findNavController().navigate(TeamInfoFragmentDirections.actionTeamInfoFragmentToTeamLocationSetFragment())
+        }
+    }
+
+    private fun setTeamDaysTimesSetClickListener() {
+        binding.layoutTeamInfoDaysTimes.setOnDebounceClickListener {
+            findNavController().navigate(TeamInfoFragmentDirections.actionTeamInfoFragmentToTeamDaysTimesSetFragment())
         }
     }
 
@@ -138,7 +145,8 @@ class TeamInfoFragment : Fragment() {
 
             etTeamInfoSetName.isEnabled = !etTeamInfoSetName.isEnabled
             btnTeamInfoActionAddUser.isEnabled = !btnTeamInfoActionAddUser.isEnabled
-            btnTeamInfoActionChangeLocation.isEnabled = !btnTeamInfoActionChangeLocation.isEnabled
+            layoutTeamInfoLocations.isEnabled = !layoutTeamInfoLocations.isEnabled
+            layoutTeamInfoDaysTimes.isEnabled = !layoutTeamInfoDaysTimes.isEnabled
             btnTeamInfoActionChangeInfo.isEnabled = !btnTeamInfoActionChangeInfo.isEnabled
             btnTeamInfoActionChangeImage.isEnabled = !btnTeamInfoActionChangeImage.isEnabled
         }

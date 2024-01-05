@@ -16,6 +16,9 @@
             android:id="@+id/action_TeamInfoFragment_to_TeamLocationSetFragment"
             app:destination="@id/TeamLocationSetFragment" />
         <action
+            android:id="@+id/action_TeamInfoFragment_to_teamDaysTimesSetFragment"
+            app:destination="@id/TeamDaysTimesSetFragment" />
+        <action
             android:id="@+id/action_teamInfoFragment_to_teamImageSetOptionFragment"
             app:destination="@id/TeamImageSetOptionFragment" />
     </fragment>
@@ -29,6 +32,11 @@
         android:name="com.golfzon.team.TeamLocationSetFragment"
         android:label="fragment_team_location_set"
         tools:layout="@layout/fragment_team_location_set" />
+    <dialog
+        android:id="@+id/TeamDaysTimesSetFragment"
+        android:name="com.golfzon.team.TeamDaysTimesSetFragment"
+        android:label="fragment_team_days_times_set"
+        tools:layout="@layout/fragment_team_days_times_set" />
 
     <dialog
         android:id="@+id/TeamImageSetOptionFragment"

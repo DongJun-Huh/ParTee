@@ -110,8 +110,7 @@ class TeamViewModel @Inject constructor(
         requestChangeTeamInfoTrace.start()
         _newTeam.value?.let { organizeDetail ->
             if (organizeDetail.searchingLocations.isEmpty()
-            // TODO 시간및 위치 설정 추가시 체크 조건 설정
-//                || organizeDetail.searchingDays.isEmpty() || organizeDetail.searchingTimes.isEmpty()
+                || organizeDetail.searchingDays.isEmpty() || organizeDetail.searchingTimes.isEmpty()
             ) {
                 _isTeamOrganizeSuccess.postValue(Event(false))
                 return@let
@@ -155,6 +154,17 @@ class TeamViewModel @Inject constructor(
             _newTeam.value?.let {
                 it.copy(
                     searchingLocations = locations
+                )
+            }
+        )
+    }
+
+    fun setDaysAndTimes(days: String, times: String) = viewModelScope.launch {
+        _newTeam.postValue(
+            _newTeam.value?.let {
+                it.copy(
+                    searchingDays = days,
+                    searchingTimes = times
                 )
             }
         )
