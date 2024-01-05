@@ -15,8 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        android:background="@color/white"
-        android:padding="24dp">
+        android:background="@color/background_181919"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="12dp">
 
         <LinearLayout
             android:id="@+id/layout_user_info_set_nickname_title"
@@ -31,14 +32,19 @@
                 android:id="@+id/layout_user_info_set_nickname_title_brief"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:background="@drawable/background_radius_8"
+                android:backgroundTint="@color/gray_800_222323"
+                android:orientation="horizontal"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="bottom|center"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_tag_user" />
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_tag_user_filled" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -46,7 +52,7 @@
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/pretendard_semi_bold"
                     android:text="@string/nickname"
-                    android:textColor="@color/blue_AFB7CF"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -54,13 +60,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/pretendard_regular"
                 android:letterSpacing="0.01"
                 android:lineHeight="20sp"
                 android:lineSpacingExtra="-4sp"
                 android:text="@string/register_user_info_set_nickname_description"
-                android:textColor="@color/primary_8B95B3"
+                android:textColor="@color/white"
                 android:textFontWeight="500"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -69,16 +75,21 @@
             android:id="@+id/et_user_info_set_nickname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
-            android:background="@drawable/background_radius_12"
-            android:backgroundTint="@color/white_F5F6F9"
-            android:fontFamily="@font/pretendard_regular"
-            android:gravity="center"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/selector_edittext_radius_16_enabled"
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="start"
             android:hint="@string/register_user_info_set_nickname_edittext_hint"
+            android:includeFontPadding="false"
+            android:letterSpacing="0"
             android:lineHeight="20sp"
+            android:maxLines="1"
+            android:paddingHorizontal="24dp"
             android:paddingVertical="18dp"
+            android:singleLine="true"
             android:text="@={vm.nickname}"
-            android:textColorHint="@color/blue_CCD1E0"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray_500_464B4B"
             android:textFontWeight="500"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"

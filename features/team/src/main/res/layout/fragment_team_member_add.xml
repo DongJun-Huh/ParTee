@@ -62,7 +62,7 @@
                     android:paddingVertical="10dp"
                     android:singleLine="true"
                     android:text="@={searchNickname}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     android:textSize="16sp" />
 
@@ -93,7 +93,7 @@
                 android:fontFamily="@font/pretendard_semi_bold"
                 android:lineHeight="21sp"
                 android:text="@{@string/team_member_add_results_head_count(vm.searchedUsers.size())}"
-                android:textColor="@color/primary_8B95B3"
+                android:textColor="@color/primary_A4EF69"
                 android:textFontWeight="600"
                 android:textSize="14sp"
                 tools:text="검색 결과 2건" />

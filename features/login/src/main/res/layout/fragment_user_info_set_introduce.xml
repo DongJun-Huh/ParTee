@@ -19,92 +19,76 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_radius_28"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/gray_700_272929"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:paddingStart="24dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="16dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/layout_user_info_set_introduce_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:animateLayoutChanges="true"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tv_user_info_set_introduce_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:fontFamily="@font/pretendard_semi_bold"
                 android:gravity="center_vertical"
                 android:letterSpacing="0.01"
                 android:lineHeight="27sp"
                 android:text="@string/register_user_info_set_introduce_title"
-                android:textColor="@color/gray_313131"
+                android:textColor="@color/white"
                 android:textFontWeight="600"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@+id/btn_user_info_set_introduce_close"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@android:color/transparent"
+                android:padding="8dp"
+                android:src="@drawable/ic_x"
+                android:tint="@color/white" />
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/et_user_info_set_introduce"
             android:layout_width="match_parent"
             android:layout_height="144dp"
-            android:background="@drawable/background_radius_8"
-            android:backgroundTint="@color/white_F6F6F7"
+            android:background="@drawable/selector_edittext_radius_16_enabled"
             android:fontFamily="@font/pretendard_regular"
             android:gravity="start"
             android:hint="@string/register_user_info_set_introduce_description"
             android:lineHeight="21sp"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="16dp"
             android:text="@{vm.introduceMessage}"
-            android:textColor="@color/gray_767B83"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray_500_464B4B"
             android:textFontWeight="500"
             android:textSize="14sp" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_user_info_set_introduce_save"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:orientation="horizontal"
-            android:paddingTop="16dp"
-            android:paddingBottom="24dp">
-
-            <Button
-                android:id="@+id/tv_user_info_set_introduce_cancel"
-                onDebounceClick="@{view -> Navigation.findNavController(view).navigateUp()}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:fontFamily="@font/pretendard_regular"
-                android:lineHeight="21sp"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="8dp"
-                android:text="@string/cancel"
-                android:textColor="@color/gray_767B83"
-                android:textFontWeight="500"
-                android:textSize="14sp" />
-
-            <Button
-                android:id="@+id/tv_user_info_set_introduce_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="@android:color/transparent"
-                android:fontFamily="@font/pretendard_regular"
-                android:lineHeight="21sp"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="8dp"
-                android:text="@string/save"
-                android:textFontWeight="500"
-                android:textSize="14sp" />
-        </LinearLayout>
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="22dp"
+            android:background="@drawable/selector_button_background_radius_16_enabled"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:lineHeight="24sp"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="10dp"
+            android:text="@string/save"
+            android:textSize="16sp" />
     </LinearLayout>
 </layout>

@@ -84,10 +84,6 @@ class LoginActivity : AppCompatActivity() {
                 R.id.ImageCropFragment -> View.INVISIBLE
                 else -> View.VISIBLE
             }
-            tvLoginAppbarTitle.text = when (destinationId) {
-                R.id.ImageCropFragment -> "Crop"
-                else -> "Join"
-            }
             btnNext.text = when (destinationId) {
                 R.id.ImageCropFragment,
                 R.id.UserImageSetFragment,

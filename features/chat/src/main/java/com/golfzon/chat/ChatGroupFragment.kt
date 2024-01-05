@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewConfiguration
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -249,7 +248,7 @@ class ChatGroupFragment : Fragment() {
                         binding.btnChatGroupUserInputSend.imageTintList =
                             ContextCompat.getColorStateList(
                                 requireContext(),
-                                com.golfzon.core_ui.R.color.primary_8B95B3
+                                com.golfzon.core_ui.R.color.primary_A4EF69
                             )
                     }
                 }

@@ -13,7 +13,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/background_181919"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="12dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_user_image_set"
@@ -57,14 +60,15 @@
                 android:paddingVertical="8dp"
                 android:stateListAnimator="@null"
                 android:text="@string/register_user_image_set_button_add_image"
-                android:textColor="#707777"
+                android:textColor="@color/gray_300_707777"
                 android:textFontWeight="500"
                 android:textSize="14sp"
-                app:backgroundTint="#272929"
+                app:backgroundTint="@color/gray_800_222323"
                 app:icon="@drawable/ic_check_circle"
                 app:iconGravity="start"
-                app:iconPadding="8dp"
-                app:iconTint="#707777" />
+                app:iconPadding="4dp"
+                app:iconSize="16sp"
+                app:iconTint="@color/gray_300_707777" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_user_image_set_input_button_introduce"
@@ -79,14 +83,15 @@
                 android:paddingVertical="8dp"
                 android:stateListAnimator="@null"
                 android:text="@string/register_user_image_set_button_add_introduce_message"
-                android:textColor="#707777"
+                android:textColor="@color/gray_300_707777"
                 android:textFontWeight="500"
                 android:textSize="14sp"
-                app:backgroundTint="#272929"
+                app:backgroundTint="@color/gray_800_222323"
                 app:icon="@drawable/ic_check_circle"
                 app:iconGravity="start"
-                app:iconPadding="8dp"
-                app:iconTint="#707777" />
+                app:iconPadding="4dp"
+                app:iconSize="16sp"
+                app:iconTint="@color/gray_300_707777" />
         </LinearLayout>
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -124,7 +129,7 @@
                 android:text="@{vm.nickname}"
                 android:textColor="@color/white"
                 android:textFontWeight="600"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 tools:text="허동준" />
 
             <LinearLayout
@@ -133,20 +138,20 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:backgroundTint="@android:color/transparent"
-                    android:src="@drawable/ic_cake"
-                    android:tint="@color/white" />
+                    android:src="@drawable/ic_cake_filled"
+                    android:tint="@color/gray_300_707777" />
 
                 <TextView
                     android:id="@+id/tv_user_image_set_input_info_age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:fontFamily="@font/pretendard_regular"
+                    android:fontFamily="@font/montserrat_medium"
                     android:text="@{vm.ageTen != null ? vm.ageTen + vm.ageOne + @string/age_unit_korean : vm.ageOne+ @string/age_unit_korean}"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grayscale_100_A8B1B1"
                     android:textFontWeight="500"
                     android:textSize="12sp"
                     tools:text="25세" />
@@ -155,23 +160,24 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:backgroundTint="@android:color/transparent"
-                    android:src="@drawable/ic_flag"
-                    android:tint="@color/white" />
+                    android:src="@drawable/ic_flag_filled"
+                    android:tint="@color/gray_300_707777" />
 
                 <TextView
                     android:id="@+id/tv_user_image_set_input_info_years_playing"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:fontFamily="@font/pretendard_regular"
+                    android:fontFamily="@font/montserrat_medium"
                     android:text="@{vm.yearsPlayingTen != null ? vm.yearsPlayingTen + vm.yearsPlayingOne + @string/year_unit_korean : vm.yearsPlayingOne+ @string/year_unit_korean}"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grayscale_100_A8B1B1"
                     android:textFontWeight="500"
                     android:textSize="12sp"
                     tools:text="8년" />
@@ -180,23 +186,24 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:backgroundTint="@android:color/transparent"
-                    android:src="@drawable/ic_flash"
-                    android:tint="@color/white" />
+                    android:src="@drawable/ic_flash_filled"
+                    android:tint="@color/gray_300_707777" />
 
                 <TextView
                     android:id="@+id/tv_user_image_set_input_info_average"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:fontFamily="@font/pretendard_regular"
+                    android:fontFamily="@font/montserrat_medium"
                     android:text="@{vm.averageHundred != null ? vm.averageHundred + vm.averageTen + vm.averageOne+ @string/average_unit_korean : vm.averageTen + vm.averageOne+ @string/average_unit_korean}"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grayscale_100_A8B1B1"
                     android:textFontWeight="500"
                     android:textSize="12sp"
                     tools:text="100타" />
@@ -207,8 +214,6 @@
             android:id="@+id/layout_user_image_set_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="12dp"
             android:animateLayoutChanges="true"
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
@@ -218,14 +223,18 @@
                 android:id="@+id/layout_user_image_set_title_brief"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:background="@drawable/background_radius_8"
+                android:backgroundTint="@color/gray_800_222323"
+                android:orientation="horizontal"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="bottom|center"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_flash" />
+                    android:src="@drawable/ic_smile_filled" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -233,7 +242,7 @@
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/pretendard_semi_bold"
                     android:text="소개카드"
-                    android:textColor="@color/blue_AFB7CF"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -241,11 +250,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/pretendard_medium"
                 android:includeFontPadding="false"
                 android:letterSpacing="0.01"
-                android:lineHeight="20sp"
+                android:lineHeight="30sp"
                 android:lineSpacingExtra="-4sp"
                 android:text="당신을 표현하는 소개 카드를\n만들어보세요"
                 android:textColor="@color/white"

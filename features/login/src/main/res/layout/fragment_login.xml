@@ -62,9 +62,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_login_google_btn"
             android:layout_width="0dp"
-            android:layout_height="56dp"
+            android:layout_height="52dp"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="36dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/background_radius_16"
             android:backgroundTint="@color/gray_2F3236"
             app:layout_constraintBottom_toBottomOf="parent"

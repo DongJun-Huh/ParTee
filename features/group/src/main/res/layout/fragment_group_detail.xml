@@ -627,7 +627,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="@{`총 ` + groupDetail.headCount + `명`}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     android:textSize="12sp"
                     tools:text="총 4명" />
@@ -653,7 +653,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="@{groupScreenRoomInfo.screenRoomPlaceName.isEmpty ? (groupDetail.days + ` ` + groupDetail.times) : (groupScreenRoomInfo.screenRoomDateTime.monthValue + `.` + groupScreenRoomInfo.screenRoomDateTime.dayOfMonth + ` ` + groupScreenRoomInfo.screenRoomDateTime.hour + `:` + groupScreenRoomInfo.screenRoomDateTime.minute)}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     android:textSize="12sp"
                     tools:text="주중 오전" />
@@ -670,7 +670,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_location"
-                    android:tint="@color/primary_8B95B3" />
+                    android:tint="@color/primary_A4EF69" />
 
                 <TextView
                     android:id="@+id/tv_group_detail_location"
@@ -686,7 +686,7 @@
                     android:fontFamily="@font/pretendard_medium"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     android:textSize="12sp"
                     tools:text="서울" />

@@ -53,7 +53,7 @@
                 android:letterSpacing="0"
                 android:lineHeight="15sp"
                 android:text="@{Instant.ofEpochMilli(messageInfo.createdAt).atZone(ZoneId.systemDefault()).toLocalDateTime().format(DateTimeFormatter.ofPattern(`a h:mm`))}"
-                android:textColor="@color/primary_8B95B3_opacity_50"
+                android:textColor="@color/primary_A4EF69_opacity_50"
                 android:textSize="10sp"
                 tools:text="오후 6:51" />
 
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:background="@drawable/background_radius_16"
-                android:backgroundTint="@color/primary_8B95B3"
+                android:backgroundTint="@color/primary_A4EF69"
                 android:fontFamily="@font/pretendard_medium"
                 android:gravity="start"
                 android:includeFontPadding="false"
@@ -102,7 +102,7 @@
                 android:letterSpacing="0"
                 android:lineHeight="15sp"
                 android:text="@{Instant.ofEpochMilli(messageInfo.createdAt).atZone(ZoneId.systemDefault()).toLocalDateTime().format(DateTimeFormatter.ofPattern(`a h:mm`))}"
-                android:textColor="@color/primary_8B95B3_opacity_50"
+                android:textColor="@color/primary_A4EF69_opacity_50"
                 android:textSize="10sp"
                 tools:text="오후 6:51" />
 
@@ -140,7 +140,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
                             android:background="@drawable/background_radius_16_bottom"
-                            android:backgroundTint="@color/primary_8B95B3"
+                            android:backgroundTint="@color/primary_A4EF69"
                             android:fontFamily="@font/pretendard_medium"
                             android:gravity="start"
                             android:includeFontPadding="false"

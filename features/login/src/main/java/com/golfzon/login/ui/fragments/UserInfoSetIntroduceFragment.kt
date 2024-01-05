@@ -30,6 +30,7 @@ class UserInfoSetIntroduceFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setBackClickListener()
         setSaveClickListener()
     }
 
@@ -45,8 +46,14 @@ class UserInfoSetIntroduceFragment : DialogFragment() {
         }
     }
 
+    private fun setBackClickListener() {
+        binding.btnUserInfoSetIntroduceClose.setOnDebounceClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
     private fun setSaveClickListener() {
-        binding.tvUserInfoSetIntroduceSave.setOnDebounceClickListener {
+        binding.btnUserInfoSetIntroduceSave.setOnDebounceClickListener {
             loginViewModel.introduceMessage.postValue(binding.etUserInfoSetIntroduce.text.toString())
             findNavController().navigateUp()
         }

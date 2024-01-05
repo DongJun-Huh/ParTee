@@ -14,7 +14,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="24dp">
+        android:background="@color/background_181919"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="12dp">
 
         <LinearLayout
             android:id="@+id/layout_user_info_set_average_title"
@@ -29,14 +31,18 @@
                 android:id="@+id/layout_user_info_set_average_title_brief"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:background="@drawable/background_radius_8"
+                android:backgroundTint="@color/gray_800_222323"
+                android:orientation="horizontal"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="bottom|center"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_flash" />
+                    android:src="@drawable/ic_flash_filled" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -44,7 +50,7 @@
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/pretendard_semi_bold"
                     android:text="@string/average"
-                    android:textColor="@color/blue_AFB7CF"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -52,13 +58,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/pretendard_medium"
                 android:letterSpacing="0.01"
                 android:lineHeight="20sp"
                 android:lineSpacingExtra="-4sp"
                 android:text="@string/register_user_info_set_average_description"
-                android:textColor="@color/primary_8B95B3"
+                android:textColor="@color/white"
                 android:textFontWeight="500"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -67,7 +73,7 @@
             android:id="@+id/layout_user_info_set_average_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
+            android:layout_marginTop="40dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -80,16 +86,16 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginStart="12dp"
-                android:background="@drawable/background_radius_12"
-                android:backgroundTint="@color/white_F5F6F9"
-                android:fontFamily="@font/pretendard_regular"
+                android:background="@drawable/selector_edittext_radius_16_enabled"
+                android:fontFamily="@font/montserrat_medium"
                 android:gravity="center"
                 android:hint="0"
                 android:inputType="numberDecimal"
                 android:lineHeight="20sp"
                 android:maxLength="1"
                 android:text="@={vm.averageHundred}"
-                android:textColorHint="@color/blue_CCD1E0"
+                android:textColor="@color/white"
+                android:textColorHint="@color/gray_500_464B4B"
                 android:textFontWeight="500"
                 android:textSize="16sp" />
 
@@ -98,16 +104,16 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginStart="12dp"
-                android:background="@drawable/background_radius_12"
-                android:backgroundTint="@color/white_F5F6F9"
-                android:fontFamily="@font/pretendard_regular"
+                android:background="@drawable/selector_edittext_radius_16_enabled"
+                android:fontFamily="@font/montserrat_medium"
                 android:gravity="center"
                 android:hint="8"
                 android:inputType="numberDecimal"
                 android:lineHeight="20sp"
                 android:maxLength="1"
                 android:text="@={vm.averageTen}"
-                android:textColorHint="@color/blue_CCD1E0"
+                android:textColor="@color/white"
+                android:textColorHint="@color/gray_500_464B4B"
                 android:textFontWeight="500"
                 android:textSize="16sp" />
 
@@ -116,16 +122,16 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginStart="12dp"
-                android:background="@drawable/background_radius_12"
-                android:backgroundTint="@color/white_F5F6F9"
-                android:fontFamily="@font/pretendard_regular"
+                android:background="@drawable/selector_edittext_radius_16_enabled"
+                android:fontFamily="@font/montserrat_medium"
                 android:gravity="center"
                 android:hint="5"
                 android:inputType="numberDecimal"
                 android:lineHeight="20sp"
                 android:maxLength="1"
                 android:text="@={vm.averageOne}"
-                android:textColorHint="@color/blue_CCD1E0"
+                android:textColor="@color/white"
+                android:textColorHint="@color/gray_500_464B4B"
                 android:textFontWeight="500"
                 android:textSize="16sp" />
 
@@ -133,9 +139,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:fontFamily="@font/pretendard_regular"
+                android:fontFamily="@font/pretendard_medium"
                 android:text="@string/average_unit_korean"
-                android:textColor="@color/blue_CCD1E0"
+                android:textColor="@color/grayscale_100_A8B1B1"
                 android:textFontWeight="500"
                 android:textSize="16sp" />
         </LinearLayout>

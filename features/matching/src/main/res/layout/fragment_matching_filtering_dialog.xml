@@ -33,7 +33,7 @@
                 android:includeFontPadding="false"
                 android:letterSpacing="0"
                 android:text="@string/matching_filtering_head_count_title"
-                android:textColor="@color/primary_8B95B3"
+                android:textColor="@color/primary_A4EF69"
                 android:textSize="14sp" />
 
             <LinearLayout
@@ -70,7 +70,7 @@
                     android:layout_width="46dp"
                     android:layout_height="46dp"
                     android:background="@drawable/btn_background_radius_12"
-                    android:backgroundTint="@color/primary_8B95B3"
+                    android:backgroundTint="@color/primary_A4EF69"
                     android:gravity="center"
                     android:src="@drawable/ic_plus" />
             </LinearLayout>
@@ -89,7 +89,7 @@
                 android:includeFontPadding="false"
                 android:letterSpacing="0"
                 android:text="@string/matching_filtering_day_and_time_title"
-                android:textColor="@color/primary_8B95B3"
+                android:textColor="@color/primary_A4EF69"
                 android:textSize="14sp" />
 
             <RadioGroup

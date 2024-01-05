@@ -62,7 +62,7 @@
                 android:letterSpacing="0"
                 android:lineSpacingExtra="5sp"
                 android:text="@{user.nickname}"
-                android:textColor="@color/primary_8B95B3"
+                android:textColor="@color/primary_A4EF69"
                 android:textFontWeight="600"
                 android:textSize="16sp"
                 tools:text="허동준" />
@@ -85,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@android:color/transparent"
                         android:src="@drawable/ic_cake"
-                        android:tint="@color/primary_8B95B3" />
+                        android:tint="@color/primary_A4EF69" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -93,7 +93,7 @@
                         android:layout_marginStart="4dp"
                         android:fontFamily="@font/pretendard_regular"
                         android:text="@{@string/info_age(user.age)}"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textFontWeight="500"
                         android:textSize="12sp"
                         tools:text="25세" />
@@ -110,7 +110,7 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@android:color/transparent"
                         android:src="@drawable/ic_flag"
-                        android:tint="@color/primary_8B95B3" />
+                        android:tint="@color/primary_A4EF69" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -118,7 +118,7 @@
                         android:layout_marginStart="4dp"
                         android:fontFamily="@font/pretendard_regular"
                         android:text="@{@string/info_years_playing(user.yearsPlaying)}"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textFontWeight="500"
                         android:textSize="12sp"
                         tools:text="8년" />
@@ -135,7 +135,7 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@android:color/transparent"
                         android:src="@drawable/ic_flash"
-                        android:tint="@color/primary_8B95B3" />
+                        android:tint="@color/primary_A4EF69" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -143,7 +143,7 @@
                         android:layout_marginStart="4dp"
                         android:fontFamily="@font/pretendard_regular"
                         android:text="@{@string/info_average(user.average)}"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textFontWeight="500"
                         android:textSize="12sp"
                         tools:text="100타" />

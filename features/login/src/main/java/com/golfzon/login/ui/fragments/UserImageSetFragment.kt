@@ -17,11 +17,9 @@ import com.golfzon.core_ui.ImageUploadUtil.getTempImageFilePath
 import com.golfzon.core_ui.ImageUploadUtil.toBitmap
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
-import com.golfzon.login.R
 import com.golfzon.login.databinding.FragmentUserImageSetBinding
 import com.golfzon.login.ui.LoginActivity
 import com.golfzon.login.ui.LoginViewModel
-import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
@@ -75,12 +73,12 @@ class UserImageSetFragment : Fragment() {
                     setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
-                            com.golfzon.core_ui.R.color.primary_8B95B3
+                            com.golfzon.core_ui.R.color.primary_A4EF69
                         )
                     )
                     iconTint = ContextCompat.getColorStateList(
                         requireContext(),
-                        com.golfzon.core_ui.R.color.primary_8B95B3
+                        com.golfzon.core_ui.R.color.primary_A4EF69
                     )
                 }
             } else {
@@ -88,12 +86,12 @@ class UserImageSetFragment : Fragment() {
                     setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
-                            com.golfzon.core_ui.R.color.gray_707777
+                            com.golfzon.core_ui.R.color.gray_300_707777
                         )
                     )
                     iconTint = ContextCompat.getColorStateList(
                         requireContext(),
-                        com.golfzon.core_ui.R.color.gray_707777
+                        com.golfzon.core_ui.R.color.gray_300_707777
                     )
                 }
             }
@@ -121,12 +119,12 @@ class UserImageSetFragment : Fragment() {
                     setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
-                            com.golfzon.core_ui.R.color.primary_8B95B3
+                            com.golfzon.core_ui.R.color.primary_A4EF69
                         )
                     )
                     iconTint = ContextCompat.getColorStateList(
                         requireContext(),
-                        com.golfzon.core_ui.R.color.primary_8B95B3
+                        com.golfzon.core_ui.R.color.primary_A4EF69
                     )
                 }
             }

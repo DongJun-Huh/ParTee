@@ -62,7 +62,7 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/pretendard_semi_bold"
                     android:lineHeight="24sp"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textSize="16sp"
                     tools:text="골프존" />
             </LinearLayout>
@@ -91,7 +91,7 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/pretendard_semi_bold"
                     android:lineHeight="24sp"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textSize="16sp"
                     tools:text="골프존" />
             </LinearLayout>
@@ -120,7 +120,7 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/pretendard_semi_bold"
                     android:lineHeight="24sp"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textSize="16sp"
                     tools:text="골프존" />
             </LinearLayout>
@@ -149,7 +149,7 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/pretendard_semi_bold"
                     android:lineHeight="24sp"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textSize="16sp"
                     tools:text="골프존" />
             </LinearLayout>
@@ -183,7 +183,7 @@
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/pretendard_medium"
                     android:text="@{`총 `+ group.headCount + `명`}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     android:textSize="12sp"
                     tools:text="총 4명" />
@@ -209,7 +209,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="@{screenRoomInfo.screenRoomPlaceName.isEmpty ? (group.days + ` ` + group.times) : (screenRoomInfo.screenRoomDateTime.monthValue + `.` + screenRoomInfo.screenRoomDateTime.dayOfMonth + ` ` + screenRoomInfo.screenRoomDateTime.hour + `:` + screenRoomInfo.screenRoomDateTime.minute)}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     android:textSize="12sp"
                     tools:text="주중 오전" />
@@ -227,7 +227,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_location"
-                    android:tint="@color/primary_8B95B3" />
+                    android:tint="@color/primary_A4EF69" />
 
                 <TextView
                     android:id="@+id/tv_group_location"
@@ -243,7 +243,7 @@
                     android:fontFamily="@font/pretendard_medium"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     tools:text="서울" />
             </LinearLayout>

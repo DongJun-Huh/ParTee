@@ -44,7 +44,7 @@
                 android:fontFamily="@font/pretendard_semi_bold"
                 android:gravity="center"
                 android:text="@string/chat"
-                android:textColor="@color/primary_8B95B3"
+                android:textColor="@color/primary_A4EF69"
                 android:textSize="16sp" />
 
             <ImageButton

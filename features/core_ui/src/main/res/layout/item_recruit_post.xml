@@ -71,7 +71,7 @@
                         android:layout_gravity="center"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_hearts"
-                        app:tint="@color/primary_8B95B3" />
+                        app:tint="@color/primary_A4EF69" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -79,7 +79,7 @@
                         android:layout_marginStart="2dp"
                         android:fontFamily="@font/pretendard_medium"
                         android:text="부부/커플"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textFontWeight="500" />
                 </LinearLayout>
 
@@ -100,7 +100,7 @@
                         android:layout_gravity="center"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_timer"
-                        app:tint="@color/primary_8B95B3" />
+                        app:tint="@color/primary_A4EF69" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -108,7 +108,7 @@
                         android:layout_marginStart="2dp"
                         android:fontFamily="@font/pretendard_medium"
                         android:text="마감 임박"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textFontWeight="500" />
                 </LinearLayout>
 
@@ -129,7 +129,7 @@
                         android:layout_gravity="center"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_moon"
-                        app:tint="@color/primary_8B95B3" />
+                        app:tint="@color/primary_A4EF69" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -137,7 +137,7 @@
                         android:layout_marginStart="2dp"
                         android:fontFamily="@font/pretendard_medium"
                         android:text="연박"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textFontWeight="500" />
                 </LinearLayout>
 
@@ -157,7 +157,7 @@
                         android:layout_gravity="center"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_money"
-                        app:tint="@color/primary_8B95B3" />
+                        app:tint="@color/primary_A4EF69" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -165,7 +165,7 @@
                         android:layout_marginStart="2dp"
                         android:fontFamily="@font/pretendard_medium"
                         android:text="@string/free_fee"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textFontWeight="500" />
                 </LinearLayout>
             </LinearLayout>
@@ -201,7 +201,7 @@
                     android:fontFeatureSettings="600"
                     android:letterSpacing="0"
                     android:text="@{recruitDetail.recruitDateTime.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.KOREAN)}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textSize="12sp"
                     tools:text="수요일" />
 
@@ -213,7 +213,7 @@
                     android:fontFeatureSettings="500"
                     android:letterSpacing="0"
                     android:text="@{String.valueOf(recruitDetail.recruitDateTime.dayOfMonth)}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textSize="24sp"
                     tools:text="12" />
             </LinearLayout>
@@ -237,7 +237,7 @@
                         android:layout_gravity="center"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_clock"
-                        app:tint="@color/primary_8B95B3" />
+                        app:tint="@color/primary_A4EF69" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -245,7 +245,7 @@
                         android:layout_marginStart="4dp"
                         android:fontFamily="@font/pretendard_medium"
                         android:text="@{recruitDetail.recruitDateTime.format(DateTimeFormatter.ofPattern(`a hh:mm`))}"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textFontWeight="500"
                         tools:text="오전 11:50" />
                 </LinearLayout>
@@ -262,7 +262,7 @@
                         android:layout_gravity="center"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_location"
-                        android:tint="@color/primary_8B95B3" />
+                        android:tint="@color/primary_A4EF69" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -270,7 +270,7 @@
                         android:layout_marginStart="4dp"
                         android:fontFamily="@font/pretendard_medium"
                         android:text="@{recruitDetail.recruitPlaceName}"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textFontWeight="500"
                         tools:text="한강이북점" />
                 </LinearLayout>
@@ -320,7 +320,7 @@
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/pretendard_medium"
                     android:text="@{`~ ` + recruitDetail.recruitEndDateTime.format(DateTimeFormatter.ofPattern(`MM월 dd일`))}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     android:textSize="12sp"
                     tools:text="~ 12월 1일" />
@@ -338,7 +338,7 @@
                     android:lineSpacingExtra="3sp"
                     android:paddingHorizontal="4dp"
                     android:text="@{Period.between(LocalDate.now(), recruitDetail.recruitEndDateTime.toLocalDate()).days &lt; 0 ? `모집마감` : `D-`+Period.between(LocalDate.now(), recruitDetail.recruitEndDateTime.toLocalDate()).days}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="600"
                     android:textSize="10sp"
                     tools:text="D-1" />
@@ -357,7 +357,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_moneys"
-                    android:tint="@color/primary_8B95B3" />
+                    android:tint="@color/primary_A4EF69" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -366,7 +366,7 @@
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/pretendard_medium"
                     android:text="@{NumberFormat.getCurrencyInstance(Locale.KOREA).format(recruitDetail.fee) + `원`}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     android:textSize="12sp"
                     tools:text="130,000원" />
@@ -391,7 +391,7 @@
                     android:layout_marginStart="2dp"
                     android:fontFamily="@font/pretendard_medium"
                     android:text="@{recruitDetail.isConsecutiveStay ? `연박 O` : `연박 X`}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     android:textSize="12sp"
                     tools:text="연박 X" />

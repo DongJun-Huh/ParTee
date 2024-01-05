@@ -28,6 +28,7 @@ class UserInfoSetNicknameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setNavigate()
+        binding.etUserInfoSetNickname.requestFocus()
     }
 
     private fun setDataBindingVariables() {

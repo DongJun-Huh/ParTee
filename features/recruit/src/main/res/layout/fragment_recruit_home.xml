@@ -56,7 +56,7 @@
                 android:lineSpacingExtra="6sp"
                 android:paddingHorizontal="20dp"
                 android:text="@string/create_recruit"
-                android:textColor="@color/primary_8B95B3"
+                android:textColor="@color/primary_A4EF69"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -182,7 +182,7 @@
             android:layout_marginHorizontal="72dp"
             android:layout_marginBottom="28dp"
             android:background="@drawable/background_radius_100"
-            app:backgroundTint="@color/primary_8B95B3"
+            app:backgroundTint="@color/primary_A4EF69"
             app:itemRippleColor="@android:color/transparent"
             app:itemTextColor="@drawable/selector_textview_white_50_to_white"
             app:labelVisibilityMode="labeled"

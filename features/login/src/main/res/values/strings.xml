@@ -5,8 +5,8 @@
     <!-- Register -->
     <string name="register_user_info_set_nickname_description">뭐라고 불리고 싶나요?</string>
     <string name="register_user_info_set_nickname_edittext_hint">닉네임을 입력해주세요</string>
-    <string name="register_user_info_set_age_description">나이를 입력해주세요.</string>
-    <string name="register_user_info_set_years_playing_description">구력이 얼마나 됐나요?</string>
+    <string name="register_user_info_set_age_description">몇 살 인가요?</string>
+    <string name="register_user_info_set_years_playing_description">구력이 얼마나 되나요?</string>
     <string name="register_user_info_set_average_description">평균 타수는 몇 타 인가요?</string>
     <string name="register_user_image_set_description">당신을 표현하는 사진과 소개를 통해\nParTee 카드를 만들어보세요</string>
     <string name="register_user_image_set_button_add_image">사진 추가</string>
@@ -14,6 +14,6 @@
     <string name="register_user_image_set_button_add_introduce_message">소개 입력</string>
     <string name="register_user_image_set_button_change_introduce_message">소개 수정</string>
     <string name="register_user_info_set_introduce_title">소개 입력</string>
-    <string name="register_user_info_set_introduce_description">간단한 소개글을 작성해주세요</string>
+    <string name="register_user_info_set_introduce_description">소개 글을 입력해 주세요.</string>
 
 </resources>

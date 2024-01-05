@@ -81,7 +81,7 @@
                     android:letterSpacing="0"
                     android:lineSpacingExtra="5sp"
                     android:text="@{`TEAM\n` + firstTeam.teamName}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="600"
                     android:textSize="16sp"
                     tools:text="TEAM\n골프존" />
@@ -124,7 +124,7 @@
                     android:letterSpacing="0"
                     android:lineSpacingExtra="5sp"
                     android:text="@{`TEAM\n` + secondTeam.teamName}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="600"
                     android:textSize="16sp"
                     tools:text="TEAM\n팀이름팀" />
@@ -174,7 +174,7 @@
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/pretendard_medium"
                     android:text="@{`총 `+ group.headCount + `명`}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     android:textSize="12sp"
                     tools:text="총 4명" />
@@ -200,7 +200,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="@{screenRoomInfo.screenRoomPlaceName.isEmpty ? (group.days + ` ` + group.times) : (screenRoomInfo.screenRoomDateTime.monthValue + `.` + screenRoomInfo.screenRoomDateTime.dayOfMonth + ` ` + screenRoomInfo.screenRoomDateTime.hour + `:` + screenRoomInfo.screenRoomDateTime.minute)}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     android:textSize="12sp"
                     tools:text="주중 오전" />
@@ -218,7 +218,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_location"
-                    android:tint="@color/primary_8B95B3" />
+                    android:tint="@color/primary_A4EF69" />
 
                 <TextView
                     android:id="@+id/tv_group_location"
@@ -234,7 +234,7 @@
                     android:fontFamily="@font/pretendard_medium"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     tools:text="서울" />
             </LinearLayout>

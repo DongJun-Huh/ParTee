@@ -213,7 +213,7 @@ class ChatAdapter(
                         cardViewContainer = cardviewChatMineReservationMessage,
                         topBarColor = ContextCompat.getColor(
                             webviewChatMineReservationMessage.context,
-                            com.golfzon.core_ui.R.color.primary_8B95B3
+                            com.golfzon.core_ui.R.color.primary_A4EF69
                         ).getColorHex,
                         topBarTextColor = ContextCompat.getColor(
                             webviewChatMineReservationMessage.context,

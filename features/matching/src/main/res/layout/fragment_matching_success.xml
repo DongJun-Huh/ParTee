@@ -38,7 +38,7 @@
             android:letterSpacing="0.01"
             android:lineSpacingExtra="3sp"
             android:text="@string/matching_success_title"
-            android:textColor="@color/primary_8B95B3"
+            android:textColor="@color/primary_A4EF69"
             android:textFontWeight="500"
             android:textSize="16sp" />
 
@@ -78,7 +78,7 @@
                     android:letterSpacing="-0.01"
                     android:lineSpacingExtra="3sp"
                     android:text="@{`TEAM\n`+vm.teamInfoDetail.teamName}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     android:textSize="14sp"
                     tools:text="TEAM\n팀이름" />
@@ -114,7 +114,7 @@
                     android:letterSpacing="-0.01"
                     android:lineSpacingExtra="3sp"
                     android:text="@{`TEAM\n`+vm.successTeamInfo.teamName}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     android:textSize="14sp"
                     tools:text="TEAM\n골프존" />
@@ -142,7 +142,7 @@
             android:paddingVertical="8dp"
             android:singleLine="true"
             android:text="@{vm.successTeamInfo.searchingDays + ` / ` + vm.successTeamInfo.searchingTimes + ` / ` + commonLocation}"
-            android:textColor="@color/primary_8B95B3"
+            android:textColor="@color/primary_A4EF69"
             android:textFontWeight="600"
             tools:text="주말 오전 서울" />
 

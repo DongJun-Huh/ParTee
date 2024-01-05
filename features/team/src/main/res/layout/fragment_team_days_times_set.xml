@@ -33,7 +33,7 @@
                 android:includeFontPadding="false"
                 android:letterSpacing="0"
                 android:text="@string/team_days_times_change_title"
-                android:textColor="@color/primary_8B95B3"
+                android:textColor="@color/primary_A4EF69"
                 android:textFontWeight="500"
                 android:textSize="14sp" />
 

@@ -26,7 +26,7 @@
             android:layout_marginBottom="18dp"
             android:fontFamily="@font/pretendard_regular"
             android:text="@string/image_option_gallery"
-            android:textColor="@color/primary_8B95B3"
+            android:textColor="@color/primary_A4EF69"
             android:textFontWeight="500"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"

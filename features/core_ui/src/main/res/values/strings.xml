@@ -3,7 +3,7 @@
     <string name="age">나이</string>
     <string name="age_unit_korean">세</string>
     <string name="years_playing">구력</string>
-    <string name="average">타수</string>
+    <string name="average">평균 타수</string>
     <string name="average_unit_korean">타</string>
     <string name="next">다음</string>
     <string name="complete">완료</string>

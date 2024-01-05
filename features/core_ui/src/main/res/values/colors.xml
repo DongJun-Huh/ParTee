@@ -10,7 +10,6 @@
     <color name="gray_2F3236">#FF2F3236</color>
     <color name="gray_F0F1F3">#FFF0F1F3</color>
     <color name="gray_C5CAD2">#FFC5CAD2</color>
-    <color name="gray_707777">#FF707777</color>
     <color name="blue_D8DCE7">#FFD8DCE7</color>
     <color name="blue_CCD1E0">#FFCCD1E0</color>
     <color name="blue_AFB7CF">#FFAFB7CF</color>
@@ -19,13 +18,28 @@
     <color name="blue_AFB7CF_opacity_60">#99AFB7CF</color>
     <color name="green_9ACA74">#FF9ACA74</color>
     <color name="primary_btn_AFB7CF">#FFAFB7CF</color>
-    <color name="primary_8B95B3">#FF8B95B3</color>
-    <color name="primary_8B95B3_opacity_50">#808B95B3</color>
     <color name="gray_767B83">#FF767B83</color>
     <color name="gray_313131">#FF313131</color>
     <color name="gray_C4C4C4">#FFC4C4C4</color>
     <color name="gray_252020_opacity_40">#66252020</color>
     <color name="black_1C1D22">#FF1C1D22</color>
+
+    <color name="background_181919">#FF181919</color>
+    <color name="grayscale_100_A8B1B1">#FFA8B1B1</color>
+    <color name="gray_900_1D1E1E">#FF1D1E1E</color>
+    <color name="gray_800_222323">#FF222323</color>
+    <color name="gray_700_272929">#FF272929</color>
+    <color name="gray_600_333636">#FF333636</color>
+    <color name="gray_500_464B4B">#FF464B4B</color>
+    <color name="gray_400_515656">#FF515656</color>
+    <color name="gray_300_707777">#FF707777</color>
+    <color name="gray_200_8E9898">#FF8E9898</color>
+    <color name="gray_100_515656">#FF515656</color>
+    <color name="green_400_A4EF69">#FFA4EF69</color>
+    <color name="green_500_A4EF69">#FFA4EF69</color>
+    <color name="primary_A4EF69">#FFA4EF69</color>
+    <color name="primary_A4EF69_opacity_30">#4DA4EF69</color>
+    <color name="primary_A4EF69_opacity_50">#80A4EF69</color>
 
     <color name="golfzon_indigo_002B4F">#FF002B4F</color>
     <color name="golfzon_blue_0C1A6F">#FF0C1A6F</color>

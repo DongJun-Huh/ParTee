@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/pretendard_medium"
         android:text="파티가 모일 골프존을 찾아 바로 예약해보세요!"
-        android:textColor="@color/primary_8B95B3"
+        android:textColor="@color/primary_A4EF69"
         android:textSize="14sp" />
 
     <com.google.android.material.button.MaterialButton
@@ -34,15 +34,15 @@
         android:paddingVertical="8dp"
         android:stateListAnimator="@null"
         android:text="@string/reservation_2"
-        android:textColor="@color/primary_8B95B3"
+        android:textColor="@color/primary_A4EF69"
         android:textSize="14sp"
         app:backgroundTint="@color/white_F5F6F9"
         app:cornerRadius="8dp"
         app:icon="@drawable/ic_calendar_filled"
         app:iconGravity="start"
         app:iconPadding="8dp"
-        app:iconTint="@color/primary_8B95B3"
-        app:strokeColor="@color/primary_8B95B3"
+        app:iconTint="@color/primary_A4EF69"
+        app:strokeColor="@color/primary_A4EF69"
         app:strokeWidth="1dp" />
 
     <!-- TODO 예약 완료시 화면 노출 -->

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/background_radius_28"
-    android:backgroundTint="@color/white"
+    android:backgroundTint="@color/background_181919"
     android:paddingBottom="18dp"
     tools:context=".ui.fragments.UserImageSetOptionFragment">
 
@@ -26,7 +26,7 @@
             android:layout_marginBottom="18dp"
             android:fontFamily="@font/pretendard_regular"
             android:text="@string/image_option_gallery"
-            android:textColor="@color/primary_8B95B3"
+            android:textColor="@color/primary_A4EF69"
             android:textFontWeight="500"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -47,7 +47,7 @@
             android:id="@+id/view_user_image_set_option_take_photo_horizontal_line"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/golfzon_light_gray_CCCCCC"
+            android:background="@color/primary_A4EF69"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -58,9 +58,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:layout_marginBottom="21dp"
-            android:fontFamily="@font/pretendard_regular"
+            android:fontFamily="@font/pretendard_medium"
             android:text="@string/image_option_camera"
-            android:textColor="@color/golfzon_gray_706F73"
+            android:textColor="@color/white"
             android:textFontWeight="500"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"

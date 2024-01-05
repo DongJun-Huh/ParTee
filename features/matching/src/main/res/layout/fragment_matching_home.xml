@@ -113,7 +113,7 @@
                     android:letterSpacing="0"
                     android:lineSpacingExtra="4sp"
                     android:text="@{vm.teamInfoDetail.teamName == null ? `` : vm.teamInfoDetail.teamName}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="600"
                     android:textSize="14sp"
                     tools:text="TEAM 골프존" />
@@ -132,7 +132,7 @@
                     android:paddingVertical="2dp"
                     android:layout_marginVertical="22dp"
                     android:text="@{@string/info_team_head_count(vm.teamInfoDetail.headCount)}"
-                    android:textColor="@color/primary_8B95B3"
+                    android:textColor="@color/primary_A4EF69"
                     android:textFontWeight="500"
                     android:textSize="12sp"
                     tools:text="3/3" />
@@ -156,7 +156,7 @@
                 android:fontFamily="@font/pretendard_semi_bold"
                 android:gravity="center_horizontal"
                 android:text="@string/home_team_not_exist_message"
-                android:textColor="@color/primary_8B95B3"
+                android:textColor="@color/primary_A4EF69"
                 android:textSize="16sp"
                 android:visibility="@{vm.teamInfoDetail == null ? View.VISIBLE :View.GONE}" />
 
@@ -181,7 +181,7 @@
             android:layout_marginHorizontal="72dp"
             android:layout_marginBottom="28dp"
             android:background="@drawable/background_radius_100"
-            app:backgroundTint="@color/primary_8B95B3"
+            app:backgroundTint="@color/primary_A4EF69"
             app:itemRippleColor="@android:color/transparent"
             app:itemTextColor="@drawable/selector_textview_white_50_to_white"
             app:labelVisibilityMode="labeled"

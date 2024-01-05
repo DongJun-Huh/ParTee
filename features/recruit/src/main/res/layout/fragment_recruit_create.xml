@@ -89,7 +89,7 @@
                         android:paddingVertical="4dp"
                         android:singleLine="true"
                         android:text="@{vm.createRecruitDateTime.format(DateTimeFormatter.ofPattern(`yyyy년 MM월 dd일 EEEE`))}"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -141,7 +141,7 @@
                             android:letterSpacing="0"
                             android:lineSpacingExtra="4sp"
                             android:text="@string/recruit_time"
-                            android:textColor="@color/primary_8B95B3"
+                            android:textColor="@color/primary_A4EF69"
                             android:textSize="12sp" />
 
                         <TextView
@@ -160,7 +160,7 @@
                             android:paddingVertical="12dp"
                             android:singleLine="true"
                             android:text="@{vm.createRecruitDateTime.format(DateTimeFormatter.ofPattern(`a hh시 mm분`))}"
-                            android:textColor="@color/primary_8B95B3"
+                            android:textColor="@color/primary_A4EF69"
                             android:textSize="16sp"
                             tools:text="오전 11시 50분" />
                     </LinearLayout>
@@ -182,7 +182,7 @@
                             android:letterSpacing="0"
                             android:lineSpacingExtra="4sp"
                             android:text="@string/place"
-                            android:textColor="@color/primary_8B95B3"
+                            android:textColor="@color/primary_A4EF69"
                             android:textSize="12sp" />
 
                         <TextView
@@ -201,7 +201,7 @@
                             android:paddingVertical="12dp"
                             android:singleLine="true"
                             android:text="@{vm.createRecruitPlaceName}"
-                            android:textColor="@color/primary_8B95B3"
+                            android:textColor="@color/primary_A4EF69"
                             android:textSize="16sp"
                             tools:text="한강이북점" />
                     </LinearLayout>
@@ -227,7 +227,7 @@
                         android:letterSpacing="0"
                         android:lineSpacingExtra="4sp"
                         android:text="@string/recruit_end_date"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textSize="12sp" />
 
                     <TextView
@@ -246,7 +246,7 @@
                         android:paddingVertical="12dp"
                         android:singleLine="true"
                         android:text="@{vm.createRecruitEndDate.format(DateTimeFormatter.ofPattern(`yyyy년 MM월 dd일 EEEE`))}"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textSize="16sp"
                         tools:text="2023년 12월 3일 일요일" />
 
@@ -258,7 +258,7 @@
                         android:letterSpacing="0"
                         android:lineSpacingExtra="4sp"
                         android:text="@string/recruit_end_date_guide"
-                        android:textColor="@color/primary_8B95B3_opacity_50"
+                        android:textColor="@color/primary_A4EF69_opacity_50"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -283,7 +283,7 @@
                         android:letterSpacing="0"
                         android:lineSpacingExtra="4sp"
                         android:text="@string/participate_fee"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -309,7 +309,7 @@
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="12dp"
                         android:singleLine="true"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -327,7 +327,7 @@
                         android:letterSpacing="0"
                         android:lineSpacingExtra="5sp"
                         android:text="@string/money_unit_korean"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -357,7 +357,7 @@
                         android:letterSpacing="0"
                         android:lineSpacingExtra="4sp"
                         android:text="@string/recruit_head_count"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textSize="12sp" />
 
                     <RadioGroup
@@ -449,7 +449,7 @@
                             android:letterSpacing="0"
                             android:lineSpacingExtra="4sp"
                             android:text="@string/consecutive_stay"
-                            android:textColor="@color/primary_8B95B3"
+                            android:textColor="@color/primary_A4EF69"
                             android:textSize="12sp" />
 
                         <RadioGroup
@@ -516,7 +516,7 @@
                             android:letterSpacing="0"
                             android:lineSpacingExtra="4sp"
                             android:text="@string/couple"
-                            android:textColor="@color/primary_8B95B3"
+                            android:textColor="@color/primary_A4EF69"
                             android:textSize="12sp" />
 
                         <RadioGroup
@@ -583,7 +583,7 @@
                         android:letterSpacing="0"
                         android:lineSpacingExtra="4sp"
                         android:text="@string/recruit_introduce"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textSize="12sp" />
 
                     <EditText
@@ -606,7 +606,7 @@
                         android:paddingVertical="12dp"
                         android:scrollbars="vertical"
                         android:text="@={vm.creteRecruitIntroduceMessage}"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textSize="14sp"
                         tools:text="안녕하세요~ 같이 골프쳐요~ 안녕하세요~ 같이 골프쳐요~ 안녕하세요~ 같이 골프쳐요~ 안녕하세요~ 같이 골프쳐요~ 안녕하세요~ 같이 골프쳐요~ " />
                 </LinearLayout>

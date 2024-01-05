@@ -93,7 +93,7 @@
                         android:paddingVertical="4dp"
                         android:singleLine="true"
                         android:text="@{vm.createRoomScreenDateTime.format(DateTimeFormatter.ofPattern(`yyyy년 MM월 dd일 EEEE`))}"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -144,7 +144,7 @@
                             android:letterSpacing="0"
                             android:lineSpacingExtra="4sp"
                             android:text="@string/create_room_screen_time"
-                            android:textColor="@color/primary_8B95B3"
+                            android:textColor="@color/primary_A4EF69"
                             android:textSize="12sp" />
 
                         <TextView
@@ -163,7 +163,7 @@
                             android:paddingVertical="12dp"
                             android:singleLine="true"
                             android:text="@{vm.createRoomScreenDateTime.format(DateTimeFormatter.ofPattern(`a hh시 mm분`))}"
-                            android:textColor="@color/primary_8B95B3"
+                            android:textColor="@color/primary_A4EF69"
                             android:textSize="16sp"
                             tools:text="오전 11시 50분" />
                     </LinearLayout>
@@ -190,7 +190,7 @@
                         android:letterSpacing="0"
                         android:lineSpacingExtra="4sp"
                         android:text="@string/create_room_screen_fee"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -216,7 +216,7 @@
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="12dp"
                         android:singleLine="true"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -234,7 +234,7 @@
                         android:letterSpacing="0"
                         android:lineSpacingExtra="5sp"
                         android:text="@string/money_unit_korean"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -264,7 +264,7 @@
                         android:letterSpacing="0"
                         android:lineSpacingExtra="4sp"
                         android:text="@string/place"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textSize="12sp" />
 
                     <TextView
@@ -283,7 +283,7 @@
                         android:paddingVertical="12dp"
                         android:singleLine="true"
                         android:text="@{vm.createRoomScreenPlaceName}"
-                        android:textColor="@color/primary_8B95B3"
+                        android:textColor="@color/primary_A4EF69"
                         android:textSize="16sp"
                         tools:text="한강이북점" />
 
