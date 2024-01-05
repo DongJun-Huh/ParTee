@@ -3,7 +3,8 @@
     <string name="matching_start_2">팀 찾기</string>
     <string name="matching_start_fail_not_leader">팀장만 매칭가능</string>
     <string name="matching_filtering_condition_set_fail_toast_massage">검색 조건을 설정해주세요</string>
-    <string name="home_team_not_exist_message">현재 팀이 존재하지 않습니다.\n새로운 팀을 구성해보세요</string>
+    <string name="matching_start_guide">매칭을 통해 함께 할 다른 팀들을 살펴볼 수 있어요.\n원하는 팀과 파티를 만들어 골프를 즐기세요!</string>
+    <string name="home_team_not_exist_message">현재 팀이 존재하지 않아요.\n설정을 눌러 새로운 팀을 구성해보세요.</string>
     <string name="home_team_matching_start_fail_not_exist_team">팀을 구성한 뒤에 매칭을 시작할 수 있어요!</string>
     <string name="matching_candidate_team_is_not_exist_toast_message">더이상 매칭될 수 있는 팀이 없어요!</string>
     <string name="matching_candidate_team_is_not_exist_view_message">현재 조건에 맞는 팀이 존재하지 않습니다\n더 많은 팀을 찾기위해 조건을 변경해보세요</string>

@@ -3,6 +3,7 @@ package com.golfzon.matching
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import androidx.navigation.ui.setupWithNavController
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
@@ -23,6 +24,7 @@ class MatchingActivity : AppCompatActivity() {
         binding = ActivityMatchingBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setNavigation()
+        setBottomNavigationView()
     }
 
     override fun onPause() {
@@ -54,6 +56,23 @@ class MatchingActivity : AppCompatActivity() {
     private fun handleIntent(intent: Intent) {
         intent.data?.toString()?.let {
             deeplinkHandler.process(it)
+        }
+    }
+    private fun setBottomNavigationView() {
+        with(binding.bottomNavigationMatching) {
+            setupWithNavController(findNavController())
+            selectedItemId = R.id.MatchingHomeFragment
+            itemIconTintList = null
+        }
+        with(binding.bottomNavigationMatching.menu) {
+            findItem(com.golfzon.core_ui.R.id.GroupHomeFragment).setOnMenuItemClickListener {
+                navigateToGroup()
+                true
+            }
+            findItem(com.golfzon.core_ui.R.id.RecruitHomeFragment).setOnMenuItemClickListener {
+                navigateToRecruit()
+                true
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 <resources>
-    <string name="nickname">닉네임</string>
+    <string name="partee">파티</string>
+    <string name="nickname">닉네임</string>티
     <string name="age">나이</string>
     <string name="age_unit_korean">세</string>
     <string name="years_playing">구력</string>

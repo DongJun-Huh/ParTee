@@ -1,22 +1,26 @@
 package com.golfzon.matching
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
-import com.golfzon.core_ui.adapter.itemDecoration.VerticalMarginItemDecoration
 import com.golfzon.core_ui.adapter.TeamUserAdapter
+import com.golfzon.core_ui.adapter.itemDecoration.VerticalMarginItemDecoration
 import com.golfzon.core_ui.autoCleared
+import com.golfzon.core_ui.dp
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.core_ui.extension.toast
 import com.golfzon.matching.databinding.FragmentMatchingHomeBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,7 +46,8 @@ class MatchingHomeFragment : Fragment() {
         setTeamUserAdapter()
         initializeTeamInfo()
         navigateToTeamInfo()
-        setBottomNavigationView()
+        initBottomSheet()
+        setMatchingStartGuide()
     }
 
     private fun onDestroyBindingView() {
@@ -56,26 +61,9 @@ class MatchingHomeFragment : Fragment() {
         }
     }
 
-    private fun setBottomNavigationView() {
-        with(binding.bottomNavigationMatchingHome) {
-            setupWithNavController(findNavController())
-            selectedItemId = R.id.MatchingHomeFragment
-            itemIconTintList = null
-        }
-        with(binding.bottomNavigationMatchingHome.menu) {
-            findItem(com.golfzon.core_ui.R.id.GroupHomeFragment).setOnMenuItemClickListener {
-                (requireActivity() as MatchingActivity).navigateToGroup()
-                true
-            }
-            findItem(com.golfzon.core_ui.R.id.RecruitHomeFragment).setOnMenuItemClickListener {
-                (requireActivity() as MatchingActivity).navigateToRecruit()
-                true
-            }
-        }
-    }
-
     private fun setTeamUserAdapter() {
-        teamUserAdapter = TeamUserAdapter(true, requestManager = this@MatchingHomeFragment.glideRequestManager!!)
+        teamUserAdapter =
+            TeamUserAdapter(true, requestManager = this@MatchingHomeFragment.glideRequestManager!!)
         with(binding.rvMatchingHomeTeamUsers) {
             adapter = teamUserAdapter
             addItemDecoration(VerticalMarginItemDecoration(12))
@@ -135,5 +123,51 @@ class MatchingHomeFragment : Fragment() {
                 )
             }
         }
+    }
+
+    private fun setMatchingStartGuide() {
+        val guideSpan = SpannableString(getString(R.string.matching_start_guide))
+        guideSpan.setSpan(
+            ForegroundColorSpan(
+                resources.getColor(
+                    com.golfzon.core_ui.R.color.primary_A4EF69,
+                    null
+                )
+            ),
+            guideSpan.indexOf(getString(com.golfzon.core_ui.R.string.partee)),
+            guideSpan.indexOf(getString(com.golfzon.core_ui.R.string.partee)) + getString(com.golfzon.core_ui.R.string.partee).length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        binding.itemTextviewMatchingHomeGuide.tvSpeechBubble.text = guideSpan
+    }
+
+    private fun initBottomSheet() {
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.viewMatchingHomeTeamBottomSheet)
+
+        val textBubbleHeightExpanded = 0.dp
+        val textBubbleDelta = 82.dp
+        val textBubbleParams = binding.itemTextviewMatchingHomeGuide.layoutTextBubble.layoutParams
+
+        val btnMatchStartParams = binding.btnMatchingHomeStart.layoutParams
+        val heightDelta = 56.dp - 48.dp
+        val heightExpanded = 48.dp
+
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {}
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                btnMatchStartParams.height =
+                    (heightExpanded + heightDelta * (1 - slideOffset)).toInt()
+                binding.btnMatchingHomeStart.layoutParams = btnMatchStartParams
+
+                textBubbleParams.height =
+                    (textBubbleHeightExpanded + textBubbleDelta * (1 - slideOffset)).toInt()
+                binding.itemTextviewMatchingHomeGuide.viewSpeechBubbleTriangle.isVisible =
+                    textBubbleParams.height >= 68.dp
+                binding.itemTextviewMatchingHomeGuide.layoutTextBubble.layoutParams =
+                    textBubbleParams
+                binding.itemTextviewMatchingHomeGuide.layoutTextBubble.alpha = 1 - slideOffset
+            }
+        })
     }
 }

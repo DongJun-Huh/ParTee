@@ -2,15 +2,18 @@ package com.golfzon.core_ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
+import com.golfzon.core_ui.R
 import com.golfzon.core_ui.databinding.ItemTeamInfoUserBinding
+import com.golfzon.core_ui.dp
 import com.golfzon.domain.model.User
 
 class TeamUserAdapter(
-    private val isWhiteTheme: Boolean = false,
+    private val isBlackTheme: Boolean = false,
     private val requestManager: RequestManager
 ) :
     ListAdapter<Triple<User, Boolean, String>, TeamUserAdapter.TeamUserViewHolder>(diffCallback) {
@@ -52,6 +55,12 @@ class TeamUserAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(user: Triple<User, Boolean, String>) {
             setBindingSetVariable(user)
+            if (user.second) {
+                binding.ivTeamInfoUser.strokeWidth = 2.dp.toFloat()
+                binding.ivTeamInfoUser.strokeColor = ContextCompat.getColorStateList(binding.ivTeamInfoUser.context, R.color.primary_A4EF69)
+            } else {
+                binding.ivTeamInfoUser.strokeWidth = 0.dp.toFloat()
+            }
         }
 
         private fun setBindingSetVariable(user: Triple<User, Boolean, String>) {
@@ -60,7 +69,7 @@ class TeamUserAdapter(
                 this.user = user.first
                 this.isCurUser = user.second
                 this.isLeader = user.third == user.first.userUId
-                this.isWhiteTheme = this@TeamUserAdapter.isWhiteTheme
+                this.isBlackTheme = this@TeamUserAdapter.isBlackTheme
                 executePendingBindings()
             }
         }
