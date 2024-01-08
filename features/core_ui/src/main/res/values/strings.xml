@@ -34,6 +34,8 @@
     <string name="soon_end">마감 임박</string>
     <string name="free_fee">비용 없음</string>
     <string name="money_unit_korean">원</string>
+    <string name="people_count">총 %d명</string>
+    <string name="partee_count">매칭된 파티 %d</string>
 
     <!-- 메뉴 -->
     <string name="home">홈</string>

@@ -27,7 +27,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/black"
         android:fillViewport="true">
 
         <LinearLayout
@@ -48,7 +48,26 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:padding="20dp"
-                android:src="@drawable/ic_back" />
+                android:src="@drawable/ic_arrow_left" />
+
+            <TextView
+                style="@style/body_1_strong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="골프장 예약"
+                android:textColor="@color/white" />
+
+            <ImageButton
+                onDebounceClick="@{view -> Navigation.findNavController(view).navigateUp()}"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:padding="20dp"
+                android:src="@drawable/ic_arrow_left"
+                android:visibility="invisible" />
         </LinearLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -82,19 +101,19 @@
 
                     <TextView
                         android:id="@+id/tv_create_room_screen_date"
+                        style="@style/body_1"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/background_stroke_1_bottom"
-                        android:fontFamily="@font/pretendard_medium"
+                        android:layout_height="52dp"
+                        android:background="@drawable/background_radius_16"
+                        android:backgroundTint="@color/gray_800_222323"
                         android:gravity="center_vertical|start"
-                        android:letterSpacing="0"
-                        android:lineSpacingExtra="6sp"
                         android:maxLines="1"
                         android:paddingVertical="4dp"
+                        android:paddingStart="24dp"
+                        android:paddingEnd="12dp"
                         android:singleLine="true"
                         android:text="@{vm.createRoomScreenDateTime.format(DateTimeFormatter.ofPattern(`yyyy년 MM월 dd일 EEEE`))}"
-                        android:textColor="@color/primary_A4EF69"
-                        android:textSize="18sp"
+                        android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
@@ -107,10 +126,12 @@
                         android:id="@+id/btn_create_room_screen_date_set"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
+                        android:layout_marginEnd="8dp"
                         android:background="@android:color/transparent"
                         android:padding="8dp"
                         android:scaleType="center"
-                        android:src="@drawable/ic_calendar"
+                        android:src="@drawable/ic_calendar_filled"
+                        android:tint="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
@@ -123,7 +144,7 @@
                     android:id="@+id/layout_create_room_screen_time_and_place"
                     android:layout_width="match_parent"
                     android:layout_height="74dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="20dp"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -138,33 +159,31 @@
                         android:orientation="vertical">
 
                         <TextView
+                            style="@style/caption_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/pretendard_medium"
                             android:letterSpacing="0"
                             android:lineSpacingExtra="4sp"
                             android:text="@string/create_room_screen_time"
-                            android:textColor="@color/primary_A4EF69"
-                            android:textSize="12sp" />
+                            android:textColor="@color/gray_200_8E9898" />
 
                         <TextView
                             android:id="@+id/tv_create_room_screen_time"
+                            style="@style/body_1"
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
+                            android:layout_height="52dp"
                             android:layout_marginTop="8dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/background_radius_8"
-                            android:backgroundTint="@color/blue_AFB7CF_opacity_20"
-                            android:fontFamily="@font/pretendard_medium"
-                            android:letterSpacing="0"
-                            android:lineSpacingExtra="5sp"
+                            android:background="@drawable/background_radius_16"
+                            android:backgroundTint="@color/gray_800_222323"
+                            android:gravity="center_vertical"
                             android:maxLines="1"
-                            android:paddingHorizontal="16dp"
-                            android:paddingVertical="12dp"
+                            android:paddingVertical="4dp"
+                            android:paddingStart="24dp"
+                            android:paddingEnd="12dp"
                             android:singleLine="true"
                             android:text="@{vm.createRoomScreenDateTime.format(DateTimeFormatter.ofPattern(`a hh시 mm분`))}"
-                            android:textColor="@color/primary_A4EF69"
-                            android:textSize="16sp"
+                            android:textColor="@color/white"
                             tools:text="오전 11시 50분" />
                     </LinearLayout>
                 </LinearLayout>
@@ -184,14 +203,12 @@
 
                     <TextView
                         android:id="@+id/tv_create_room_screen_title"
+                        style="@style/caption_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/pretendard_medium"
-                        android:letterSpacing="0"
-                        android:lineSpacingExtra="4sp"
                         android:text="@string/create_room_screen_fee"
-                        android:textColor="@color/primary_A4EF69"
-                        android:textSize="12sp"
+                        android:textColor="@color/gray_200_8E9898"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -201,23 +218,21 @@
 
                     <EditText
                         android:id="@+id/et_create_room_screen_fee_input"
+                        style="@style/body_1"
                         moneyFormattedText="@={vm.createRoomScreenFee}"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="52dp"
                         android:layout_marginTop="8dp"
-                        android:background="@drawable/background_radius_8"
-                        android:backgroundTint="@color/blue_AFB7CF_opacity_20"
-                        android:fontFamily="@font/pretendard_medium"
+                        android:background="@drawable/selector_edittext_radius_16_enabled"
+                        android:hint="50,000"
                         android:imeOptions="actionDone"
                         android:inputType="numberDecimal"
-                        android:letterSpacing="0"
-                        android:lineSpacingExtra="5sp"
                         android:maxLines="1"
-                        android:paddingHorizontal="16dp"
-                        android:paddingVertical="12dp"
+                        android:paddingStart="24dp"
+                        android:paddingEnd="12dp"
                         android:singleLine="true"
-                        android:textColor="@color/primary_A4EF69"
-                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/gray_500_464B4B"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -227,20 +242,18 @@
                         tools:text="130,000" />
 
                     <TextView
+                        style="@style/body_1"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16sp"
-                        android:fontFamily="@font/pretendard_medium"
-                        android:letterSpacing="0"
-                        android:lineSpacingExtra="5sp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="center_vertical"
                         android:text="@string/money_unit_korean"
-                        android:textColor="@color/primary_A4EF69"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="@id/et_create_room_screen_fee_input"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_create_room_screen_title"
+                        app:layout_constraintTop_toTopOf="@id/et_create_room_screen_fee_input"
                         app:layout_constraintVertical_bias="0.5" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -258,33 +271,31 @@
                     app:layout_constraintVertical_bias="0.0">
 
                     <TextView
+                        style="@style/caption_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/pretendard_medium"
-                        android:letterSpacing="0"
-                        android:lineSpacingExtra="4sp"
                         android:text="@string/place"
-                        android:textColor="@color/primary_A4EF69"
-                        android:textSize="12sp" />
+                        android:textColor="@color/gray_200_8E9898" />
 
                     <TextView
                         android:id="@+id/tv_create_room_screen_place"
+                        style="@style/body_1"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="52dp"
                         android:layout_marginTop="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_radius_8"
-                        android:backgroundTint="@color/blue_AFB7CF_opacity_20"
-                        android:fontFamily="@font/pretendard_medium"
-                        android:letterSpacing="0"
-                        android:lineSpacingExtra="5sp"
+                        android:background="@drawable/background_radius_16"
+                        android:backgroundTint="@color/gray_800_222323"
+                        android:gravity="center_vertical"
+                        android:hint="지점을 선택해주세요"
                         android:maxLines="1"
-                        android:paddingHorizontal="16dp"
-                        android:paddingVertical="12dp"
+                        android:paddingVertical="4dp"
+                        android:paddingStart="24dp"
+                        android:paddingEnd="12dp"
                         android:singleLine="true"
                         android:text="@{vm.createRoomScreenPlaceName}"
-                        android:textColor="@color/primary_A4EF69"
-                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/gray_500_464B4B"
                         tools:text="한강이북점" />
 
                     <com.golfzon.core_ui.map.CustomWebViewContainer
@@ -322,14 +333,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:animateLayoutChanges="true"
-                android:background="@drawable/selector_button_background_radius_12_enabled"
+                android:background="@drawable/selector_button_background_radius_16_enabled"
                 android:fontFamily="@font/pretendard_semi_bold"
                 android:gravity="center"
                 android:lineHeight="20sp"
                 android:padding="10dp"
                 android:stateListAnimator="@null"
                 android:text="@string/group_create_room"
-                android:textColor="@drawable/selector_textview_enabled"
+                android:textColor="@color/gray_700_272929"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

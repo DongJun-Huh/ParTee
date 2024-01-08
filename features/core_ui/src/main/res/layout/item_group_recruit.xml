@@ -26,17 +26,73 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_radius_24"
-        android:backgroundTint="@color/white_F5F6F9"
+        android:backgroundTint="@color/gray_800_222323"
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="16dp">
+        android:paddingTop="16dp"
+        android:paddingBottom="20dp">
+
+        <LinearLayout
+            android:id="@+id/layout_group_reservation_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/layout_group_reservation_info_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@{screenRoomInfo.screenRoomPlaceName.isEmpty ? @drawable/ic_state_progress: @drawable/ic_check_circle}"
+                    android:tint="@{screenRoomInfo.screenRoomPlaceName.isEmpty ? @color/red_error_60: @color/primary_A4EF69}"
+                    tools:src="@drawable/ic_check_circle"
+                    tools:tint="@color/primary_A4EF69" />
+
+                <TextView
+                    style="@style/caption_1_strong_montserrat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="@{screenRoomInfo.screenRoomPlaceName.isEmpty ? `예약 전`: `예약 완료`}"
+                    android:textColor="@{screenRoomInfo.screenRoomPlaceName.isEmpty ? @color/red_error_60: @color/primary_A4EF69}"
+                    tools:text="예약 전"
+                    tools:textColor="@color/red_error_60" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/ic_user_filled" />
+
+                <TextView
+                    android:id="@+id/tv_group_recruit_members_count"
+                    style="@style/caption_1_montserrat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="2dp"
+                    android:text="@{`총 `+ group.headCount + `명`}"
+                    android:textColor="@color/white"
+                    tools:text="총 4명" />
+            </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layout_group_recruit_members"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="start"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -46,162 +102,94 @@
                 android:visibility="gone">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:padding="2dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:scaleType="centerCrop"
                     app:shapeAppearance="@style/ShapeAppearance.circle"
-                    app:strokeColor="@color/white_EBEDF3"
-                    app:strokeWidth="2dp"
                     tools:src="@drawable/user_sample2" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/pretendard_semi_bold"
-                    android:lineHeight="24sp"
-                    android:textColor="@color/primary_A4EF69"
-                    android:textSize="16sp"
-                    tools:text="골프존" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-12dp"
+                android:layout_marginStart="-8dp"
                 android:orientation="vertical"
                 android:visibility="gone">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:padding="2dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:scaleType="centerCrop"
                     app:shapeAppearance="@style/ShapeAppearance.circle"
-                    app:strokeColor="@color/white_EBEDF3"
-                    app:strokeWidth="2dp"
                     tools:src="@drawable/user_sample2" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/pretendard_semi_bold"
-                    android:lineHeight="24sp"
-                    android:textColor="@color/primary_A4EF69"
-                    android:textSize="16sp"
-                    tools:text="골프존" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-12dp"
+                android:layout_marginStart="-8dp"
                 android:orientation="vertical"
                 android:visibility="gone">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:padding="2dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:scaleType="centerCrop"
                     app:shapeAppearance="@style/ShapeAppearance.circle"
-                    app:strokeColor="@color/white_EBEDF3"
-                    app:strokeWidth="2dp"
                     tools:src="@drawable/user_sample2" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/pretendard_semi_bold"
-                    android:lineHeight="24sp"
-                    android:textColor="@color/primary_A4EF69"
-                    android:textSize="16sp"
-                    tools:text="골프존" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-12dp"
+                android:layout_marginStart="-8dp"
                 android:orientation="vertical"
                 android:visibility="gone">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:padding="2dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:scaleType="centerCrop"
                     app:shapeAppearance="@style/ShapeAppearance.circle"
-                    app:strokeColor="@color/white_EBEDF3"
-                    app:strokeWidth="2dp"
                     tools:src="@drawable/user_sample2" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/pretendard_semi_bold"
-                    android:lineHeight="24sp"
-                    android:textColor="@color/primary_A4EF69"
-                    android:textSize="16sp"
-                    tools:text="골프존" />
             </LinearLayout>
+
+            <TextView
+                style="@style/body_1_strong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:text="@{group.membersInfo.get(0).nickname + ` 외 ` + (group.headCount - 1) + `명`}"
+                android:textColor="@color/white"
+                tools:text="골프존 외 3명" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/background_radius_100"
-            android:backgroundTint="@color/white_EBEDF3"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="4dp">
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:background="@drawable/background_radius_100"
+                android:backgroundTint="@color/gray_600_333636"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_people" />
+                    android:src="@drawable/ic_clock_filled"
+                    android:tint="@color/white_opacity50" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:text="@{`총 `+ group.headCount + `명`}"
-                    android:textColor="@color/primary_A4EF69"
-                    android:textFontWeight="500"
-                    android:textSize="12sp"
-                    tools:text="총 4명" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_clock" />
-
-                <TextView
+                    style="@style/caption_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -209,30 +197,30 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="@{screenRoomInfo.screenRoomPlaceName.isEmpty ? (group.days + ` ` + group.times) : (screenRoomInfo.screenRoomDateTime.monthValue + `.` + screenRoomInfo.screenRoomDateTime.dayOfMonth + ` ` + screenRoomInfo.screenRoomDateTime.hour + `:` + screenRoomInfo.screenRoomDateTime.minute)}"
-                    android:textColor="@color/primary_A4EF69"
-                    android:textFontWeight="500"
-                    android:textSize="12sp"
+                    android:textColor="@color/white_opacity_80"
                     tools:text="주중 오전" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                android:layout_marginStart="8dp"
+                android:background="@drawable/background_radius_100"
+                android:backgroundTint="@color/gray_600_333636"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_location"
-                    android:tint="@color/primary_A4EF69" />
+                    android:src="@drawable/ic_location_filled"
+                    android:tint="@color/white_opacity50" />
 
                 <TextView
                     android:id="@+id/tv_group_location"
-                    displayListsToString="@{screenRoomInfo.screenRoomPlaceName.isEmpty ? group.locations : null}"
-                    divider="@{`, `}"
+                    skipListToRepresentOne="@{screenRoomInfo.screenRoomPlaceName.isEmpty ? group.locations : null}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -243,7 +231,7 @@
                     android:fontFamily="@font/pretendard_medium"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/primary_A4EF69"
+                    android:textColor="@color/white_opacity_80"
                     android:textFontWeight="500"
                     tools:text="서울" />
             </LinearLayout>

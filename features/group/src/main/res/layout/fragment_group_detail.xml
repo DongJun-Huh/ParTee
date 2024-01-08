@@ -114,10 +114,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:backgroundTint="@android:color/transparent"
-                            android:src="@drawable/ic_cake"
+                            android:src="@drawable/ic_cake_filled"
                             android:tint="@color/white" />
 
                         <TextView
@@ -139,10 +139,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:backgroundTint="@android:color/transparent"
-                            android:src="@drawable/ic_flag"
+                            android:src="@drawable/ic_flag_filled"
                             android:tint="@color/white" />
 
                         <TextView
@@ -164,10 +164,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:backgroundTint="@android:color/transparent"
-                            android:src="@drawable/ic_flash"
+                            android:src="@drawable/ic_flash_filled"
                             android:tint="@color/white" />
 
                         <TextView
@@ -218,10 +218,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:backgroundTint="@android:color/transparent"
-                            android:src="@drawable/ic_cake"
+                            android:src="@drawable/ic_cake_filled"
                             android:tint="@color/white" />
 
                         <TextView
@@ -246,10 +246,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:backgroundTint="@android:color/transparent"
-                            android:src="@drawable/ic_flag"
+                            android:src="@drawable/ic_flag_filled"
                             android:tint="@color/white" />
 
                         <TextView
@@ -274,10 +274,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:backgroundTint="@android:color/transparent"
-                            android:src="@drawable/ic_flash"
+                            android:src="@drawable/ic_flash_filled"
                             android:tint="@color/white" />
 
                         <TextView
@@ -384,10 +384,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:backgroundTint="@android:color/transparent"
-                            android:src="@drawable/ic_cake"
+                            android:src="@drawable/ic_cake_filled"
                             android:tint="@color/white" />
 
                         <TextView
@@ -409,10 +409,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:backgroundTint="@android:color/transparent"
-                            android:src="@drawable/ic_flag"
+                            android:src="@drawable/ic_flag_filled"
                             android:tint="@color/white" />
 
                         <TextView
@@ -434,10 +434,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:backgroundTint="@android:color/transparent"
-                            android:src="@drawable/ic_flash"
+                            android:src="@drawable/ic_flash_filled"
                             android:tint="@color/white" />
 
                         <TextView
@@ -488,10 +488,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:backgroundTint="@android:color/transparent"
-                            android:src="@drawable/ic_cake"
+                            android:src="@drawable/ic_cake_filled"
                             android:tint="@color/white" />
 
                         <TextView
@@ -516,10 +516,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:backgroundTint="@android:color/transparent"
-                            android:src="@drawable/ic_flag"
+                            android:src="@drawable/ic_flag_filled"
                             android:tint="@color/white" />
 
                         <TextView
@@ -544,10 +544,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:backgroundTint="@android:color/transparent"
-                            android:src="@drawable/ic_flash"
+                            android:src="@drawable/ic_flash_filled"
                             android:tint="@color/white" />
 
                         <TextView
@@ -591,16 +591,13 @@
         <LinearLayout
             android:id="@+id/layout_group_detail_info"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="38.5dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="22dp"
-            android:background="@drawable/background_radius_100"
+            android:layout_height="34dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/background_radius_16_stroke_1_white_opacity_10_background_white_opacity_20"
             android:backgroundTint="@color/white_EBEDF3"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="4dp"
             app:layout_constraintBottom_toTopOf="@id/layout_group_detail_actions"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -610,58 +607,59 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_people" />
+                    android:src="@drawable/ic_user_filled" />
 
                 <TextView
+                    style="@style/caption_1_montserrat"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginStart="4dp"
                     android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center_vertical"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:text="@{`총 ` + groupDetail.headCount + `명`}"
-                    android:textColor="@color/primary_A4EF69"
-                    android:textFontWeight="500"
-                    android:textSize="12sp"
+                    android:text="@{@string/people_count(groupDetail.headCount)}"
+                    android:textColor="@color/white_opacity_80"
                     tools:text="총 4명" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_clock" />
+                    android:src="@drawable/ic_clock_filled"
+                    android:tint="@color/white_opacity50" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginStart="4dp"
-                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center_vertical"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="@{groupScreenRoomInfo.screenRoomPlaceName.isEmpty ? (groupDetail.days + ` ` + groupDetail.times) : (groupScreenRoomInfo.screenRoomDateTime.monthValue + `.` + groupScreenRoomInfo.screenRoomDateTime.dayOfMonth + ` ` + groupScreenRoomInfo.screenRoomDateTime.hour + `:` + groupScreenRoomInfo.screenRoomDateTime.minute)}"
-                    android:textColor="@color/primary_A4EF69"
-                    android:textFontWeight="500"
-                    android:textSize="12sp"
+                    android:textColor="@color/white_opacity_80"
                     tools:text="주중 오전" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="18dp"
                 android:orientation="horizontal">
 
@@ -669,26 +667,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_location"
-                    android:tint="@color/primary_A4EF69" />
+                    android:src="@drawable/ic_location_filled"
+                    android:tint="@color/white_opacity50" />
 
                 <TextView
                     android:id="@+id/tv_group_detail_location"
+                    style="@style/caption_1"
                     displayListsToString="@{groupScreenRoomInfo.screenRoomPlaceName.isEmpty ? groupDetail.locations : null}"
                     divider="@{`, `}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginStart="4dp"
                     android:autoSizeMaxTextSize="12sp"
                     android:autoSizeMinTextSize="8sp"
                     android:autoSizeStepGranularity="0.5sp"
                     android:autoSizeTextType="uniform"
-                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center_vertical"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/primary_A4EF69"
-                    android:textFontWeight="500"
-                    android:textSize="12sp"
+                    android:textColor="@color/white_opacity_80"
                     tools:text="서울" />
             </LinearLayout>
         </LinearLayout>
@@ -699,7 +697,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="44dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="16dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -710,30 +708,27 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_group_detail_reservation"
+                style="@style/body_1_strong"
                 android:layout_width="0dp"
                 android:layout_height="52dp"
                 android:layout_weight="1"
-                android:background="@drawable/selector_button_background_radius_12_enabled"
-                android:fontFamily="@font/pretendard_medium"
+                android:background="@drawable/background_radius_16"
+                android:backgroundTint="@color/white"
                 android:gravity="center"
                 android:text="@string/reservation"
-                android:textColor="@drawable/selector_textview_enabled"
-                android:textFontWeight="500"
-                android:textSize="16sp" />
+                android:textColor="@color/gray_700_272929" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_group_detail_chat"
+                style="@style/body_1_strong"
                 android:layout_width="0dp"
                 android:layout_height="52dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/selector_button_background_radius_12_enabled"
-                android:fontFamily="@font/pretendard_medium"
+                android:background="@drawable/selector_button_background_radius_16_enabled"
                 android:gravity="center"
                 android:text="@string/chat"
-                android:textColor="@drawable/selector_textview_enabled"
-                android:textFontWeight="500"
-                android:textSize="16sp" />
+                android:textColor="@color/gray_700_272929" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

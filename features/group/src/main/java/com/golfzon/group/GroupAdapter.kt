@@ -1,5 +1,8 @@
 package com.golfzon.group
 
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +14,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
+import com.golfzon.core_ui.R
 import com.golfzon.core_ui.databinding.ItemGroupBinding
 import com.golfzon.core_ui.databinding.ItemGroupRecruitBinding
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
@@ -92,6 +96,7 @@ class GroupAdapter(private val requestManager: RequestManager) :
                 }
 
                 if (group.headCount != 0) {
+                    setPeopleCount(group.headCount)
                     this.group = group
                     this.screenRoomInfo = group.screenRoomInfo
                     if (group.screenRoomInfo?.screenRoomPlaceName?.isNotEmpty() == true)
@@ -102,6 +107,23 @@ class GroupAdapter(private val requestManager: RequestManager) :
                     secondTeam = group.originalTeamsInfo[1]
                 }
             }
+        }
+
+        private fun setPeopleCount(membersCount: Int) {
+            val groupCountToString = membersCount.toString()
+            val countSpan = SpannableString(binding.tvGroupMembersCount.context.getString(R.string.people_count, membersCount))
+            countSpan.setSpan(
+                ForegroundColorSpan(
+                    binding.tvGroupMembersCount.context.resources.getColor(
+                        R.color.primary_A4EF69,
+                        null
+                    )
+                ),
+                countSpan.indexOf(groupCountToString),
+                countSpan.indexOf(groupCountToString) + groupCountToString.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            binding.tvGroupMembersCount.text = countSpan
         }
     }
 
@@ -115,6 +137,7 @@ class GroupAdapter(private val requestManager: RequestManager) :
                 }
 
                 if (group.headCount != 0) {
+                    setPeopleCount(group.headCount)
                     this.group = group
                     this.screenRoomInfo = group.screenRoomInfo
                     if (group.screenRoomInfo.screenRoomPlaceName.isNotEmpty())
@@ -129,14 +152,29 @@ class GroupAdapter(private val requestManager: RequestManager) :
                                     this@GroupAdapter.requestManager
                                         .load("https://storage.googleapis.com/partee-1ba05.appspot.com/users/resized/120_${memberInfo.profileImg}")
                                         .into(child)
-                                } else if (child is TextView) {
-                                    child.text = memberInfo.nickname
                                 }
                             }
                         }
                     }
                 }
             }
+        }
+
+        private fun setPeopleCount(membersCount: Int) {
+            val groupCountToString = membersCount.toString()
+            val countSpan = SpannableString(binding.tvGroupRecruitMembersCount.context.getString(R.string.people_count, membersCount))
+            countSpan.setSpan(
+                ForegroundColorSpan(
+                    binding.tvGroupRecruitMembersCount.context.resources.getColor(
+                        R.color.primary_A4EF69,
+                        null
+                    )
+                ),
+                countSpan.indexOf(groupCountToString),
+                countSpan.indexOf(groupCountToString) + groupCountToString.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            binding.tvGroupRecruitMembersCount.text = countSpan
         }
     }
 }

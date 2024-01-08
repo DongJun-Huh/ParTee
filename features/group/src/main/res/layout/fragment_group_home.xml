@@ -7,13 +7,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/black">
 
         <LinearLayout
             android:id="@+id/layout_group_appbar"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -22,26 +23,33 @@
 
             <TextView
                 android:id="@+id/tv_group_appbar_title"
+                style="@style/sub_title_strong"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
-                android:fontFamily="@font/montserrat_semi_bold"
                 android:gravity="center"
-                android:letterSpacing="0"
-                android:lineSpacingExtra="6sp"
+                android:paddingVertical="10dp"
                 android:text="@string/group_home_title"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_group_appbar_count"
+                style="@style/caption_1_strong_montserrat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/gray_200_8E9898"
+                tools:text="예졍된 파티 3" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_group_home_groups"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="16dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bottom_navigation_group_home"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_group_appbar"
@@ -51,17 +59,16 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation_group_home"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginHorizontal="72dp"
-            android:layout_marginBottom="28dp"
-            android:background="@drawable/background_radius_100"
-            app:backgroundTint="@color/primary_A4EF69"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/background_radius_24_top"
+            app:backgroundTint="@color/gray_900_1D1E1E"
             app:itemRippleColor="@android:color/transparent"
-            app:itemTextColor="@drawable/selector_textview_white_50_to_white"
+            app:itemTextColor="@drawable/selector_textview_gray_300_to_white"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/bottom_navigation_menu" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

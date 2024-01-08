@@ -1,6 +1,9 @@
 package com.golfzon.group
 
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -103,36 +106,29 @@ class GroupHomeFragment : Fragment() {
                 )
             }
         })
+    }
 
-
-        binding.rvGroupHomeGroups.addOnChildAttachStateChangeListener(object :
-            RecyclerView.OnChildAttachStateChangeListener {
-            override fun onChildViewAttachedToWindow(view: View) {
-                // 최초 RecyclerView 로딩 시 동적 Margin 추가
-                with(binding.rvGroupHomeGroups) {
-                    if (getChildAdapterPosition(view) + 1 == adapter?.itemCount) {
-                        view.addRecyclerViewLastItemMarginBottom(
-                            12.dp + binding.bottomNavigationGroupHome.height + 12.dp
-                        )
-                    }
-                }
-            }
-
-            override fun onChildViewDetachedFromWindow(view: View) {}
-        })
+    private fun setGroupCount(groupCount: Int) {
+        val groupCountToString = groupCount.toString()
+        val countSpan = SpannableString(getString(com.golfzon.core_ui.R.string.partee_count, groupCount))
+        countSpan.setSpan(
+            ForegroundColorSpan(
+                resources.getColor(
+                    com.golfzon.core_ui.R.color.primary_A4EF69,
+                    null
+                )
+            ),
+            countSpan.indexOf(groupCountToString),
+            countSpan.indexOf(groupCountToString) + groupCountToString.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        binding.tvGroupAppbarCount.text = countSpan
     }
 
     private fun observeGroups() {
         groupViewModel.groups.observe(viewLifecycleOwner) { groups ->
+            setGroupCount(groups.size)
             groupAdapter?.submitList(groups)
-            // 이미 한번 Attach 되었던 경우 동적 Margin 추가
-            with(binding.rvGroupHomeGroups) {
-                if (childCount > 0) {
-                    getChildAt(childCount - 1).addRecyclerViewLastItemMarginBottom(
-                        12.dp + binding.bottomNavigationGroupHome.height + 12.dp
-                    )
-                }
-            }
         }
     }
 }
