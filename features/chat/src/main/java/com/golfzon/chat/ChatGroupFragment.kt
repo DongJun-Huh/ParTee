@@ -98,7 +98,9 @@ class ChatGroupFragment : Fragment() {
     }
 
     private fun setBackClickListener() {
-        binding.btnChatGroupAppbarBack.setOnDebounceClickListener { findNavController().navigateUp() }
+        binding.btnChatGroupAppbarBack.setOnDebounceClickListener {
+            (requireActivity() as ChatActivity).finish()
+        }
     }
 
     private fun getCurrentUserInfo() {
@@ -266,13 +268,22 @@ class ChatGroupFragment : Fragment() {
                         chatViewModel.sendMessage(groupUId, inputText.toString())
                         inputText.clear()
 
-                        this.imageTintList = ContextCompat.getColorStateList(
-                            requireContext(),
-                            com.golfzon.core_ui.R.color.gray_C4C4C4
-                        )
+                        this.imageTintList = ContextCompat.getColorStateList(requireContext(),R.color.gray_C4C4C4)
                     }
                 }
             }
         }
+    }
+
+    private fun setTitleChatMembersCount(membersCount: Int) {
+        val titleSpan = SpannableString(getString(com.golfzon.chat.R.string.chat_members_count, membersCount))
+        val membersCountToString = membersCount.toString()
+        titleSpan.setSpan(
+            ForegroundColorSpan(resources.getColor(R.color.primary_A4EF69, null)),
+            titleSpan.indexOf(membersCountToString),
+            titleSpan.indexOf(membersCountToString) + membersCountToString.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        binding.tvChatGroupAppbarTitle.text = titleSpan
     }
 }
