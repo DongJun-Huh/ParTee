@@ -23,7 +23,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/black"
         android:fillViewport="true">
 
         <LinearLayout
@@ -44,7 +44,7 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:padding="20dp"
-                android:src="@drawable/ic_back" />
+                android:src="@drawable/ic_arrow_left" />
         </LinearLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -78,18 +78,17 @@
 
                     <TextView
                         android:id="@+id/tv_recruit_create_date"
+                        style="@style/sub_title_strong"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/background_stroke_1_bottom"
                         android:fontFamily="@font/pretendard_medium"
                         android:gravity="center_vertical|start"
-                        android:letterSpacing="0"
-                        android:lineSpacingExtra="6sp"
                         android:maxLines="1"
                         android:paddingVertical="4dp"
                         android:singleLine="true"
                         android:text="@{vm.createRecruitDateTime.format(DateTimeFormatter.ofPattern(`yyyy년 MM월 dd일 EEEE`))}"
-                        android:textColor="@color/primary_A4EF69"
+                        android:textColor="@color/white"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -106,7 +105,8 @@
                         android:background="@android:color/transparent"
                         android:padding="8dp"
                         android:scaleType="center"
-                        android:src="@drawable/ic_calendar"
+                        android:src="@drawable/ic_calendar_filled"
+                        android:tint="@color/white_opacity50"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
@@ -135,33 +135,26 @@
                         android:orientation="vertical">
 
                         <TextView
+                            style="@style/caption_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/pretendard_medium"
-                            android:letterSpacing="0"
-                            android:lineSpacingExtra="4sp"
                             android:text="@string/recruit_time"
-                            android:textColor="@color/primary_A4EF69"
-                            android:textSize="12sp" />
+                            android:textColor="@color/gray_200_8E9898" />
 
                         <TextView
                             android:id="@+id/tv_recruit_create_time"
+                            style="@style/body_1"
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
+                            android:layout_height="52dp"
                             android:layout_marginTop="8dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/background_radius_8"
-                            android:backgroundTint="@color/blue_AFB7CF_opacity_20"
-                            android:fontFamily="@font/pretendard_medium"
-                            android:letterSpacing="0"
-                            android:lineSpacingExtra="5sp"
+                            android:background="@drawable/selector_edittext_radius_16_enabled"
+                            android:gravity="center_vertical"
                             android:maxLines="1"
-                            android:paddingHorizontal="16dp"
+                            android:paddingHorizontal="24dp"
                             android:paddingVertical="12dp"
                             android:singleLine="true"
                             android:text="@{vm.createRecruitDateTime.format(DateTimeFormatter.ofPattern(`a hh시 mm분`))}"
-                            android:textColor="@color/primary_A4EF69"
-                            android:textSize="16sp"
+                            android:textColor="@color/white"
                             tools:text="오전 11시 50분" />
                     </LinearLayout>
 
@@ -176,33 +169,26 @@
                         android:orientation="vertical">
 
                         <TextView
+                            style="@style/caption_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/pretendard_medium"
-                            android:letterSpacing="0"
-                            android:lineSpacingExtra="4sp"
                             android:text="@string/place"
-                            android:textColor="@color/primary_A4EF69"
-                            android:textSize="12sp" />
+                            android:textColor="@color/gray_200_8E9898" />
 
                         <TextView
                             android:id="@+id/tv_recruit_create_place"
+                            style="@style/body_1"
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
+                            android:layout_height="52dp"
                             android:layout_marginTop="8dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/background_radius_8"
-                            android:backgroundTint="@color/blue_AFB7CF_opacity_20"
-                            android:fontFamily="@font/pretendard_medium"
-                            android:letterSpacing="0"
-                            android:lineSpacingExtra="5sp"
+                            android:background="@drawable/selector_edittext_radius_16_enabled"
+                            android:gravity="center_vertical"
                             android:maxLines="1"
-                            android:paddingHorizontal="16dp"
+                            android:paddingHorizontal="24dp"
                             android:paddingVertical="12dp"
                             android:singleLine="true"
                             android:text="@{vm.createRecruitPlaceName}"
-                            android:textColor="@color/primary_A4EF69"
-                            android:textSize="16sp"
+                            android:textColor="@color/white"
                             tools:text="한강이북점" />
                     </LinearLayout>
                 </LinearLayout>
@@ -221,36 +207,31 @@
                     app:layout_constraintVertical_bias="0.0">
 
                     <TextView
+                        style="@style/caption_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/pretendard_medium"
-                        android:letterSpacing="0"
-                        android:lineSpacingExtra="4sp"
                         android:text="@string/recruit_end_date"
-                        android:textColor="@color/primary_A4EF69"
-                        android:textSize="12sp" />
+                        android:textColor="@color/gray_200_8E9898" />
 
                     <TextView
                         android:id="@+id/tv_recruit_create_end_date"
+                        style="@style/body_1"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="52dp"
                         android:layout_marginTop="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/background_radius_8"
-                        android:backgroundTint="@color/blue_AFB7CF_opacity_20"
-                        android:fontFamily="@font/pretendard_medium"
-                        android:letterSpacing="0"
-                        android:lineSpacingExtra="5sp"
+                        android:background="@drawable/selector_edittext_radius_16_enabled"
+                        android:gravity="center_vertical"
                         android:maxLines="1"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="12dp"
                         android:singleLine="true"
                         android:text="@{vm.createRecruitEndDate.format(DateTimeFormatter.ofPattern(`yyyy년 MM월 dd일 EEEE`))}"
-                        android:textColor="@color/primary_A4EF69"
-                        android:textSize="16sp"
+                        android:textColor="@color/white"
                         tools:text="2023년 12월 3일 일요일" />
 
                     <TextView
+                        style="@style/caption_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -258,7 +239,7 @@
                         android:letterSpacing="0"
                         android:lineSpacingExtra="4sp"
                         android:text="@string/recruit_end_date_guide"
-                        android:textColor="@color/primary_A4EF69_opacity_50"
+                        android:textColor="@color/gray_400_515656"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -277,14 +258,11 @@
 
                     <TextView
                         android:id="@+id/tv_recruit_create_title"
+                        style="@style/caption_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/pretendard_medium"
-                        android:letterSpacing="0"
-                        android:lineSpacingExtra="4sp"
                         android:text="@string/participate_fee"
-                        android:textColor="@color/primary_A4EF69"
-                        android:textSize="12sp"
+                        android:textColor="@color/gray_200_8E9898"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -294,23 +272,20 @@
 
                     <EditText
                         android:id="@+id/et_recruit_create_fee_input"
+                        style="@style/body_1"
                         moneyFormattedText="@={vm.createRecruitFee}"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="52dp"
                         android:layout_marginTop="8dp"
-                        android:background="@drawable/background_radius_8"
-                        android:backgroundTint="@color/blue_AFB7CF_opacity_20"
-                        android:fontFamily="@font/pretendard_medium"
+                        android:background="@drawable/selector_edittext_radius_16_enabled"
+                        android:gravity="center_vertical"
                         android:imeOptions="actionDone"
                         android:inputType="numberDecimal"
-                        android:letterSpacing="0"
-                        android:lineSpacingExtra="5sp"
                         android:maxLines="1"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="12dp"
                         android:singleLine="true"
-                        android:textColor="@color/primary_A4EF69"
-                        android:textSize="16sp"
+                        android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -320,20 +295,19 @@
                         tools:text="130,000" />
 
                     <TextView
+                        style="@style/body_1"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16sp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="24dp"
                         android:fontFamily="@font/pretendard_medium"
-                        android:letterSpacing="0"
-                        android:lineSpacingExtra="5sp"
+                        android:gravity="center_vertical"
                         android:text="@string/money_unit_korean"
-                        android:textColor="@color/primary_A4EF69"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textColor="@color/white_opacity50"
+                        app:layout_constraintBottom_toBottomOf="@id/et_recruit_create_fee_input"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_recruit_create_title"
+                        app:layout_constraintTop_toTopOf="@id/et_recruit_create_fee_input"
                         app:layout_constraintVertical_bias="0.5" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -351,68 +325,68 @@
                     app:layout_constraintVertical_bias="0.0">
 
                     <TextView
+                        style="@style/caption_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/pretendard_medium"
-                        android:letterSpacing="0"
-                        android:lineSpacingExtra="4sp"
                         android:text="@string/recruit_head_count"
-                        android:textColor="@color/primary_A4EF69"
-                        android:textSize="12sp" />
+                        android:textColor="@color/gray_200_8E9898" />
 
                     <RadioGroup
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="8dp"
                         android:checkedButton="@{vm.createRecruitHeadCountCheckedButtonId}"
                         android:onCheckedChanged="@{(group, checkedId) -> vm.updateHeadcount(checkedId)}"
                         android:orientation="horizontal">
 
                         <RadioButton
                             android:id="@+id/rb_recruit_create_searching_head_count_1"
+                            style="@style/body_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/selector_background_radius_100_stroke_1"
+                            android:background="@drawable/selector_background_radius_100"
                             android:button="@null"
                             android:fontFamily="@font/pretendard_medium"
                             android:gravity="center"
                             android:letterSpacing="0"
-                            android:paddingHorizontal="16dp"
-                            android:paddingVertical="4dp"
+                            android:paddingHorizontal="18dp"
+                            android:paddingVertical="8dp"
                             android:text="1명"
-                            android:textColor="@drawable/selector_textview_primary_to_white"
+                            android:textColor="@drawable/selector_textview_gray_300_to_primary"
                             android:textSize="14sp" />
 
                         <RadioButton
                             android:id="@+id/rb_recruit_create_searching_head_count_2"
+                            style="@style/body_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:background="@drawable/selector_background_radius_100_stroke_1"
+                            android:background="@drawable/selector_background_radius_100"
                             android:button="@null"
                             android:fontFamily="@font/pretendard_medium"
                             android:gravity="center"
                             android:letterSpacing="0"
-                            android:paddingHorizontal="16dp"
-                            android:paddingVertical="4dp"
+                            android:paddingHorizontal="18dp"
+                            android:paddingVertical="8dp"
                             android:text="2명"
-                            android:textColor="@drawable/selector_textview_primary_to_white"
+                            android:textColor="@drawable/selector_textview_gray_300_to_primary"
                             android:textSize="14sp" />
 
                         <RadioButton
                             android:id="@+id/rb_recruit_create_searching_head_count_3"
+                            style="@style/body_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:background="@drawable/selector_background_radius_100_stroke_1"
+                            android:background="@drawable/selector_background_radius_100"
                             android:button="@null"
                             android:fontFamily="@font/pretendard_medium"
                             android:gravity="center"
                             android:letterSpacing="0"
-                            android:paddingHorizontal="16dp"
-                            android:paddingVertical="4dp"
+                            android:paddingHorizontal="18dp"
+                            android:paddingVertical="8dp"
                             android:text="3명"
-                            android:textColor="@drawable/selector_textview_primary_to_white"
+                            android:textColor="@drawable/selector_textview_gray_300_to_primary"
                             android:textSize="14sp" />
                     </RadioGroup>
                 </LinearLayout>
@@ -443,52 +417,55 @@
                         app:layout_constraintVertical_bias="0.0">
 
                         <TextView
+                            style="@style/caption_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/pretendard_medium"
                             android:letterSpacing="0"
                             android:lineSpacingExtra="4sp"
                             android:text="@string/consecutive_stay"
-                            android:textColor="@color/primary_A4EF69"
-                            android:textSize="12sp" />
+                            android:textColor="@color/gray_200_8E9898" />
 
                         <RadioGroup
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="8dp"
                             android:checkedButton="@{vm.createRecruitIsConsecutiveStayCheckedButtonId}"
                             android:onCheckedChanged="@{(group, checkedId) -> vm.updateConsecutiveStay(checkedId)}"
                             android:orientation="horizontal">
 
                             <RadioButton
                                 android:id="@+id/rb_recruit_create_consecutive_stay_true"
+                                style="@style/body_2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/selector_background_radius_100_stroke_1"
+                                android:background="@drawable/selector_background_radius_100"
                                 android:button="@null"
                                 android:fontFamily="@font/pretendard_medium"
                                 android:gravity="center"
                                 android:letterSpacing="0"
-                                android:paddingHorizontal="16dp"
-                                android:paddingVertical="4dp"
-                                android:text="O"
-                                android:textColor="@drawable/selector_textview_primary_to_white"
+                                android:paddingHorizontal="18dp"
+                                android:paddingVertical="8dp"
+                                android:text="네"
+                                android:textColor="@drawable/selector_textview_gray_300_to_primary"
                                 android:textSize="14sp" />
+
 
                             <RadioButton
                                 android:id="@+id/rb_recruit_create_consecutive_stay_false"
+                                style="@style/body_2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
-                                android:background="@drawable/selector_background_radius_100_stroke_1"
+                                android:background="@drawable/selector_background_radius_100"
                                 android:button="@null"
                                 android:fontFamily="@font/pretendard_medium"
                                 android:gravity="center"
                                 android:letterSpacing="0"
-                                android:paddingHorizontal="16dp"
-                                android:paddingVertical="4dp"
-                                android:text="X"
-                                android:textColor="@drawable/selector_textview_primary_to_white"
+                                android:paddingHorizontal="18dp"
+                                android:paddingVertical="8dp"
+                                android:text="아니오"
+                                android:textColor="@drawable/selector_textview_gray_300_to_primary"
                                 android:textSize="14sp" />
                         </RadioGroup>
                     </LinearLayout>
@@ -510,52 +487,54 @@
                         app:layout_constraintVertical_bias="0.0">
 
                         <TextView
+                            style="@style/caption_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/pretendard_medium"
                             android:letterSpacing="0"
                             android:lineSpacingExtra="4sp"
                             android:text="@string/couple"
-                            android:textColor="@color/primary_A4EF69"
-                            android:textSize="12sp" />
+                            android:textColor="@color/gray_200_8E9898" />
 
                         <RadioGroup
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="8dp"
                             android:checkedButton="@{vm.createRecruitIsCoupleCheckedButtonId}"
                             android:onCheckedChanged="@{(group, checkedId) -> vm.updateCouple(checkedId)}"
                             android:orientation="horizontal">
 
                             <RadioButton
                                 android:id="@+id/rb_recruit_create_couple_true"
+                                style="@style/body_2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/selector_background_radius_100_stroke_1"
+                                android:background="@drawable/selector_background_radius_100"
                                 android:button="@null"
                                 android:fontFamily="@font/pretendard_medium"
                                 android:gravity="center"
                                 android:letterSpacing="0"
-                                android:paddingHorizontal="16dp"
-                                android:paddingVertical="4dp"
-                                android:text="O"
-                                android:textColor="@drawable/selector_textview_primary_to_white"
+                                android:paddingHorizontal="18dp"
+                                android:paddingVertical="8dp"
+                                android:text="네"
+                                android:textColor="@drawable/selector_textview_gray_300_to_primary"
                                 android:textSize="14sp" />
 
                             <RadioButton
                                 android:id="@+id/rb_recruit_create_couple_false"
+                                style="@style/body_2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
-                                android:background="@drawable/selector_background_radius_100_stroke_1"
+                                android:background="@drawable/selector_background_radius_100"
                                 android:button="@null"
                                 android:fontFamily="@font/pretendard_medium"
                                 android:gravity="center"
                                 android:letterSpacing="0"
-                                android:paddingHorizontal="16dp"
-                                android:paddingVertical="4dp"
-                                android:text="X"
-                                android:textColor="@drawable/selector_textview_primary_to_white"
+                                android:paddingHorizontal="18dp"
+                                android:paddingVertical="8dp"
+                                android:text="아니오"
+                                android:textColor="@drawable/selector_textview_gray_300_to_primary"
                                 android:textSize="14sp" />
                         </RadioGroup>
                     </LinearLayout>
@@ -577,25 +556,25 @@
                     app:layout_constraintVertical_bias="0.0">
 
                     <TextView
+                        style="@style/caption_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/pretendard_medium"
                         android:letterSpacing="0"
                         android:lineSpacingExtra="4sp"
                         android:text="@string/recruit_introduce"
-                        android:textColor="@color/primary_A4EF69"
-                        android:textSize="12sp" />
+                        android:textColor="@color/gray_200_8E9898" />
 
                     <EditText
                         android:id="@+id/et_recruit_create_introduce_message"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
                         android:layout_marginTop="8dp"
-                        android:background="@drawable/background_radius_8"
-                        android:backgroundTint="@color/blue_AFB7CF_opacity_20"
+                        android:background="@drawable/selector_edittext_radius_16_enabled"
                         android:breakStrategy="simple"
                         android:fontFamily="@font/pretendard_medium"
                         android:gravity="top|start"
+                        android:hint="모임을 소개해주세요"
                         android:inputType="textMultiLine"
                         android:isScrollContainer="true"
                         android:lineSpacingExtra="4sp"
@@ -606,7 +585,8 @@
                         android:paddingVertical="12dp"
                         android:scrollbars="vertical"
                         android:text="@={vm.creteRecruitIntroduceMessage}"
-                        android:textColor="@color/primary_A4EF69"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/gray_500_464B4B"
                         android:textSize="14sp"
                         tools:text="안녕하세요~ 같이 골프쳐요~ 안녕하세요~ 같이 골프쳐요~ 안녕하세요~ 같이 골프쳐요~ 안녕하세요~ 같이 골프쳐요~ 안녕하세요~ 같이 골프쳐요~ " />
                 </LinearLayout>
@@ -631,13 +611,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:animateLayoutChanges="true"
-                android:background="@drawable/selector_button_background_radius_12_enabled"
+                android:background="@drawable/selector_button_background_radius_16_enabled"
                 android:fontFamily="@font/pretendard_semi_bold"
                 android:gravity="center"
                 android:padding="10dp"
                 android:stateListAnimator="@null"
                 android:text="@string/upload"
-                android:textColor="@drawable/selector_textview_enabled"
+                android:textColor="@color/gray_700_272929"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

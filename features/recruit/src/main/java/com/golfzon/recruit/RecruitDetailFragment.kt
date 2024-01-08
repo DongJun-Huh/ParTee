@@ -75,17 +75,20 @@ class RecruitDetailFragment : Fragment() {
                     this?.let { recruitDetail ->
                         with(binding) {
                             this.recruitDetail = recruitDetail
-                            tvRecruitDetailEndDateDDay.text =
-                                if (Period.between(
-                                        LocalDate.now(),
-                                        recruitDetail.recruitEndDateTime.toLocalDate()
-                                    ).days < 0 ||
-                                    recruitDetail.searchingHeadCount - recruitDetail.headCount <= 0
-                                ) getString(R.string.participate_end)
-                                else "D-" + Period.between(
+                            if (LocalDate.now()
+                                    .isBefore(recruitDetail.recruitEndDateTime.toLocalDate()) ||
+                                recruitDetail.searchingHeadCount - recruitDetail.headCount <= 0
+                            ) {
+                                tvRecruitDetailEndDateDDay.text = "D-" + Period.between(
                                     LocalDate.now(),
                                     recruitDetail.recruitEndDateTime.toLocalDate()
                                 ).days
+                                btnRecruitDetailParticipate.isEnabled = true
+                            } else {
+                                tvRecruitDetailEndDateDDay.text =
+                                    getString(R.string.participate_end)
+                                btnRecruitDetailParticipate.isEnabled = false
+                            }
                         }
                         getRecruitMembers(recruitDetail.membersUId)
                         setMap(this.recruitPlaceUId)
@@ -101,7 +104,11 @@ class RecruitDetailFragment : Fragment() {
 
     private fun setRecruitDetailMembersAdapter() {
         recruitDetailMembersAdapter =
-            CandidateTeamMemberAdapter(itemHeight = 52.dp, isCircleImage = true, requestManager = glideRequestManager!!)
+            CandidateTeamMemberAdapter(
+                itemHeight = 52.dp,
+                isCircleImage = true,
+                requestManager = glideRequestManager!!
+            )
         binding.rvRecruitDetailParticipants.apply {
             adapter = recruitDetailMembersAdapter
             addItemDecoration(HorizontalMarginItemDecoration(8.dp))
@@ -158,9 +165,11 @@ class RecruitDetailFragment : Fragment() {
         binding.cardviewRecruitDetailPlaceMap.setTouchEventCallback(object :
             WebViewTouchEventCallback {
             override fun onEvent(event: MotionEvent?) {
-                findNavController().navigate(RecruitDetailFragmentDirections.actionRecruitDetailFragmentToMapFinderFragment(
-                    recruitPlaceUId = placeUId
-                ))
+                findNavController().navigate(
+                    RecruitDetailFragmentDirections.actionRecruitDetailFragmentToMapFinderFragment(
+                        recruitPlaceUId = placeUId
+                    )
+                )
             }
         })
     }

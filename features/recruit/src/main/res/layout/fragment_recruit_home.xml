@@ -14,12 +14,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/black">
 
         <LinearLayout
             android:id="@+id/layout_recruit_appbar"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="12dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -29,16 +31,12 @@
 
             <TextView
                 android:id="@+id/tv_recruit_appbar_title"
+                style="@style/sub_title_strong"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
-                android:fontFamily="@font/pretendard_medium"
                 android:gravity="center"
-                android:letterSpacing="0"
-                android:lineSpacingExtra="6sp"
                 android:text="@string/recruit"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textColor="@color/white" />
 
             <View
                 android:layout_width="0dp"
@@ -80,25 +78,25 @@
                 <Spinner
                     android:id="@+id/spinner_recruit_sort_date"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:background="@drawable/background_radius_100_stroke_1"
+                    android:layout_height="32dp"
+                    android:background="@drawable/background_radius_100_primary"
                     android:elevation="0dp"
                     android:fontFamily="@font/pretendard_medium"
                     android:paddingVertical="4dp"
-                    android:popupBackground="@drawable/background_radius_8_stroke_1_primary_background_white"
+                    android:popupBackground="@drawable/background_radius_8_stroke_1_gray_700_background_black"
                     android:stateListAnimator="@null"
                     android:text="@string/date" />
 
                 <Spinner
                     android:id="@+id/spinner_recruit_sort_time"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="32dp"
                     android:layout_marginStart="8dp"
-                    android:background="@drawable/background_radius_100_stroke_1"
+                    android:background="@drawable/background_radius_100_primary"
                     android:elevation="0dp"
                     android:fontFamily="@font/pretendard_medium"
                     android:paddingVertical="4dp"
-                    android:popupBackground="@drawable/background_radius_8_stroke_1_primary_background_white"
+                    android:popupBackground="@drawable/background_radius_8_stroke_1_gray_700_background_black"
                     android:stateListAnimator="@null"
                     android:text="@string/time" />
 
@@ -107,7 +105,7 @@
                 <!--                    android:layout_width="wrap_content"-->
                 <!--                    android:layout_height="30dp"-->
                 <!--                    android:layout_marginStart="8dp"-->
-                <!--                    android:background="@drawable/background_radius_100_stroke_1"-->
+                <!--                    android:background="@drawable/background_radius_100_primary"-->
                 <!--                    android:elevation="0dp"-->
                 <!--                    android:fontFamily="@font/pretendard_medium"-->
                 <!--                    android:paddingVertical="4dp"-->
@@ -118,43 +116,43 @@
                 <CheckBox
                     android:id="@+id/cb_recruit_sort_consecutive_stay"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="32dp"
                     android:layout_marginStart="8dp"
-                    android:background="@drawable/selector_background_radius_100_stroke_1"
+                    android:background="@drawable/selector_background_radius_100_only_stroke_1"
                     android:button="@null"
                     android:fontFamily="@font/pretendard_medium"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="4dp"
                     android:text="@string/consecutive_stay"
-                    android:textColor="@drawable/selector_textview_primary_to_white"
+                    android:textColor="@drawable/selector_textview_white_50_to_primary"
                     android:textFontWeight="500" />
 
                 <CheckBox
                     android:id="@+id/cb_recruit_sort_couple"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="32dp"
                     android:layout_marginStart="8dp"
-                    android:background="@drawable/selector_background_radius_100_stroke_1"
+                    android:background="@drawable/selector_background_radius_100_only_stroke_1"
                     android:button="@null"
                     android:fontFamily="@font/pretendard_medium"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="4dp"
                     android:text="@string/couple"
-                    android:textColor="@drawable/selector_textview_primary_to_white"
+                    android:textColor="@drawable/selector_textview_white_50_to_primary"
                     android:textFontWeight="500" />
 
                 <CheckBox
                     android:id="@+id/cb_recruit_sort_free_fee"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="32dp"
                     android:layout_marginStart="8dp"
-                    android:background="@drawable/selector_background_radius_100_stroke_1"
+                    android:background="@drawable/selector_background_radius_100_only_stroke_1"
                     android:button="@null"
                     android:fontFamily="@font/pretendard_medium"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="4dp"
                     android:text="@string/free_fee"
-                    android:textColor="@drawable/selector_textview_primary_to_white"
+                    android:textColor="@drawable/selector_textview_white_50_to_primary"
                     android:textFontWeight="500" />
             </LinearLayout>
         </HorizontalScrollView>
@@ -168,27 +166,27 @@
             android:orientation="vertical"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bottom_navigation_recruit_home"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_recruit_filters"
             tools:itemCount="5"
             tools:listitem="@layout/item_recruit_post" />
 
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation_recruit_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="72dp"
-            android:layout_marginBottom="28dp"
-            android:background="@drawable/background_radius_100"
-            app:backgroundTint="@color/primary_A4EF69"
+            android:layout_gravity="bottom"
+            android:background="@drawable/background_radius_24_top"
+            app:backgroundTint="@color/gray_900_1D1E1E"
             app:itemRippleColor="@android:color/transparent"
-            app:itemTextColor="@drawable/selector_textview_white_50_to_white"
+            app:itemTextColor="@drawable/selector_textview_gray_300_to_white"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/bottom_navigation_menu" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

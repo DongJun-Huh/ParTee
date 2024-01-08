@@ -97,7 +97,7 @@ class RecruitHomeFragment : Fragment() {
         recruitPostAdapter = RecruitPostAdapter(requestManager = glideRequestManager!!)
         with(binding.rvRecruitPosts) {
             adapter = recruitPostAdapter
-            addItemDecoration(VerticalMarginItemDecoration(20))
+            addItemDecoration(VerticalMarginItemDecoration(24))
         }
 
         recruitPostAdapter?.setOnItemClickListener(object :

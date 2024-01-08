@@ -37,8 +37,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:background="@color/black">
 
         <LinearLayout
             android:id="@+id/layout_recruit_detail_appbar"
@@ -58,7 +58,7 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:padding="20dp"
-                android:src="@drawable/ic_back" />
+                android:src="@drawable/ic_arrow_left" />
         </LinearLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -95,43 +95,15 @@
                         android:layout_marginTop="12dp">
 
                         <LinearLayout
-                            android:id="@+id/layout_recruit_detail_badge_couple"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:background="@drawable/background_radius_100_stroke_1"
-                            android:orientation="horizontal"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="4dp"
-                            android:visibility="@{recruitDetail.isCouple == true ? View.VISIBLE : View.GONE}">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:background="@android:color/transparent"
-                                android:src="@drawable/ic_hearts"
-                                app:tint="@color/primary_A4EF69" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="2dp"
-                                android:fontFamily="@font/pretendard_medium"
-                                android:text="@string/couple"
-                                android:textColor="@color/primary_A4EF69"
-                                android:textFontWeight="500" />
-                        </LinearLayout>
-
-                        <LinearLayout
                             android:id="@+id/layout_recruit_detail_badge_soon_end"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="27dp"
                             android:layout_marginEnd="8dp"
-                            android:background="@drawable/background_radius_100_stroke_1"
+                            android:background="@drawable/background_radius_8"
+                            android:backgroundTint="#3DFF4975"
                             android:orientation="horizontal"
                             android:paddingHorizontal="8dp"
-                            android:paddingVertical="4dp"
+                            android:paddingVertical="6dp"
                             android:visibility="@{recruitDetail.recruitDateTime != null &amp;&amp; (LocalDateTime.now().until(recruitDetail.recruitDateTime, ChronoUnit.DAYS) &lt; 5) ? View.VISIBLE : View.GONE}">
 
                             <ImageView
@@ -140,27 +112,59 @@
                                 android:layout_gravity="center"
                                 android:background="@android:color/transparent"
                                 android:src="@drawable/ic_timer"
-                                app:tint="@color/primary_A4EF69" />
+                                android:tint="#FF7294" />
 
                             <TextView
+                                style="@style/caption_2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="2dp"
+                                android:text="마감 임박"
+                                android:textColor="#FF7294" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/layout_recruit_detail_badge_couple"
+                            android:layout_width="wrap_content"
+                            android:layout_height="27dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/background_radius_8"
+                            android:backgroundTint="#3DFB6AED"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="6dp"
+                            android:visibility="@{recruitDetail.isCouple == true ? View.VISIBLE : View.GONE}">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:background="@android:color/transparent"
+                                android:src="@drawable/ic_hearts"
+                                android:tint="#FB6AED" />
+
+                            <TextView
+                                style="@style/caption_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
                                 android:layout_marginStart="2dp"
                                 android:fontFamily="@font/pretendard_medium"
-                                android:text="@string/soon_end"
-                                android:textColor="@color/primary_A4EF69"
-                                android:textFontWeight="500" />
+                                android:text="부부/커플"
+                                android:textColor="#FB6AED" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/layout_recruit_detail_badge_consecutive"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="27dp"
                             android:layout_marginEnd="8dp"
-                            android:background="@drawable/background_radius_100_stroke_1"
+                            android:background="@drawable/background_radius_8"
+                            android:backgroundTint="#3DFFF27F"
                             android:orientation="horizontal"
                             android:paddingHorizontal="8dp"
-                            android:paddingVertical="4dp"
+                            android:paddingVertical="6dp"
                             android:visibility="@{recruitDetail.isConsecutiveStay ? View.VISIBLE : View.GONE}">
 
                             <ImageView
@@ -169,26 +173,27 @@
                                 android:layout_gravity="center"
                                 android:background="@android:color/transparent"
                                 android:src="@drawable/ic_moon"
-                                app:tint="@color/primary_A4EF69" />
+                                android:tint="#FFF27F" />
 
                             <TextView
+                                style="@style/caption_2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
                                 android:layout_marginStart="2dp"
-                                android:fontFamily="@font/pretendard_medium"
-                                android:text="@string/consecutive_stay"
-                                android:textColor="@color/primary_A4EF69"
-                                android:textFontWeight="500" />
+                                android:text="연박"
+                                android:textColor="#FFF27F" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/layout_recruit_detail_badge_money"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/background_radius_100_stroke_1"
+                            android:layout_height="27dp"
+                            android:background="@drawable/background_radius_8"
+                            android:backgroundTint="#3D84C6EB"
                             android:orientation="horizontal"
                             android:paddingHorizontal="8dp"
-                            android:paddingVertical="4dp"
+                            android:paddingVertical="6dp"
                             android:visibility="@{recruitDetail.fee == 0 ? View.VISIBLE : View.GONE}">
 
                             <ImageView
@@ -197,16 +202,16 @@
                                 android:layout_gravity="center"
                                 android:background="@android:color/transparent"
                                 android:src="@drawable/ic_money"
-                                app:tint="@color/primary_A4EF69" />
+                                android:tint="#84C6EB" />
 
                             <TextView
+                                style="@style/caption_2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
                                 android:layout_marginStart="2dp"
-                                android:fontFamily="@font/pretendard_medium"
                                 android:text="@string/free_fee"
-                                android:textColor="@color/primary_A4EF69"
-                                android:textFontWeight="500" />
+                                android:textColor="#84C6EB" />
                         </LinearLayout>
                     </LinearLayout>
                 </HorizontalScrollView>
@@ -229,23 +234,19 @@
                         android:layout_width="82dp"
                         android:layout_height="80dp"
                         android:background="@drawable/background_radius_12"
-                        android:backgroundTint="@color/white_EBEDF3_opacity_50"
+                        android:backgroundTint="@color/gray_800_222323"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:paddingVertical="3dp">
 
                         <TextView
                             android:id="@+id/tv_recruit_detail_date"
+                            style="@style/caption_1_montserrat"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:fontFamily="@font/pretendard_semi_bold"
-                            android:fontFeatureSettings="600"
-                            android:letterSpacing="0"
-                            android:lineHeight="18sp"
                             android:text="@{recruitDetail.recruitDateTime != null? recruitDetail.recruitDateTime.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.KOREAN) : ``}"
-                            android:textColor="@color/primary_A4EF69"
-                            android:textSize="12sp"
+                            android:textColor="@color/white_opacity_80"
                             tools:text="수요일" />
 
                         <TextView
@@ -253,12 +254,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:fontFamily="@font/pretendard_medium"
+                            android:fontFamily="@font/montserrat_medium"
                             android:fontFeatureSettings="500"
                             android:letterSpacing="0"
                             android:lineHeight="34dp"
                             android:text="@{recruitDetail.recruitDateTime != null ? String.valueOf(recruitDetail.recruitDateTime.dayOfMonth) : ``}"
-                            android:textColor="@color/primary_A4EF69"
+                            android:textColor="@color/white_opacity_80"
                             android:textSize="34sp"
                             tools:text="12" />
                     </LinearLayout>
@@ -266,14 +267,14 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/background_radius_12"
-                        android:backgroundTint="@color/white_EBEDF3_opacity_50"
+                        android:backgroundTint="@color/gray_800_222323"
                         android:gravity="center_vertical"
                         android:orientation="vertical"
-                        android:paddingHorizontal="18dp"
-                        android:paddingVertical="12dp">
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="16dp">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -285,26 +286,25 @@
                                 android:layout_height="20dp"
                                 android:layout_gravity="center"
                                 android:background="@android:color/transparent"
-                                android:src="@drawable/ic_clock"
-                                app:tint="@color/primary_A4EF69" />
+                                android:src="@drawable/ic_clock_filled"
+                                android:tint="@color/white_opacity50" />
 
                             <TextView
                                 android:id="@+id/tv_recruit_detail_time"
+                                style="@style/body_2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="4dp"
-                                android:fontFamily="@font/pretendard_medium"
-                                android:lineHeight="24sp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="8dp"
                                 android:text="@{recruitDetail.recruitDateTime != null ? recruitDetail.recruitDateTime.format(DateTimeFormatter.ofPattern(`a hh:mm`)): ``}"
-                                android:textColor="@color/primary_A4EF69"
-                                android:textSize="16sp"
+                                android:textColor="@color/white"
                                 tools:text="오전 11:50" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="7dp"
                             android:orientation="horizontal">
 
                             <ImageView
@@ -312,20 +312,18 @@
                                 android:layout_height="20dp"
                                 android:layout_gravity="center"
                                 android:background="@android:color/transparent"
-                                android:src="@drawable/ic_location"
-                                android:tint="@color/primary_A4EF69" />
+                                android:src="@drawable/ic_location_filled"
+                                android:tint="@color/white_opacity50" />
 
                             <TextView
                                 android:id="@+id/tv_recruit_detail_place"
+                                style="@style/body_2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="4dp"
-                                android:fontFamily="@font/pretendard_medium"
-                                android:lineHeight="24sp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="8dp"
                                 android:text="@{recruitDetail.recruitPlaceName}"
-                                android:textColor="@color/primary_A4EF69"
-                                android:textFontWeight="500"
-                                android:textSize="16sp"
+                                android:textColor="@color/white"
                                 tools:text="한강이북점" />
                         </LinearLayout>
                     </LinearLayout>
@@ -354,50 +352,43 @@
                             android:layout_width="16dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_calendar" />
+                            android:src="@drawable/ic_calendar_filled"
+                            android:tint="@color/white_opacity50" />
 
                         <TextView
+                            style="@style/body_2_strong"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginStart="2dp"
-                            android:fontFamily="@font/pretendard_medium"
-                            android:lineHeight="21sp"
+                            android:layout_marginStart="8dp"
                             android:text="@string/participate_end"
-                            android:textColor="@color/primary_A4EF69"
-                            android:textFontWeight="500"
+                            android:textColor="@color/grayscale_100_A8B1B1"
                             android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tv_recruit_detail_end_date"
+                            style="@style/body_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginStart="20dp"
-                            android:fontFamily="@font/pretendard_semi_bold"
-                            android:lineHeight="21sp"
+                            android:layout_marginStart="49dp"
                             android:text="@{recruitDetail.recruitEndDateTime != null ? `~ ` + recruitDetail.recruitEndDateTime.format(DateTimeFormatter.ofPattern(`MM월 dd일`)) : ``}"
-                            android:textColor="@color/primary_A4EF69"
-                            android:textFontWeight="500"
-                            android:textSize="14sp"
+                            android:textColor="@color/white"
                             tools:text="~ 12월 1일" />
 
                         <TextView
                             android:id="@+id/tv_recruit_detail_end_date_d_day"
+                            style="@style/caption_2_strong_montserrat"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginStart="4dp"
                             android:background="@drawable/background_radius_100"
-                            android:backgroundTint="@color/blue_AFB7CF"
-                            android:fontFamily="@font/pretendard_semi_bold"
+                            android:backgroundTint="@color/gray_400_515656"
                             android:gravity="center"
-                            android:letterSpacing="0"
-                            android:lineSpacingExtra="3sp"
                             android:paddingHorizontal="8dp"
-                            android:textColor="@color/primary_A4EF69"
-                            android:textFontWeight="600"
-                            android:textSize="14sp"
+                            android:paddingVertical="2dp"
+                            android:textColor="@color/grayscale_100_A8B1B1"
                             tools:text="D-1" />
                     </LinearLayout>
 
@@ -409,35 +400,30 @@
 
                         <ImageView
                             android:layout_width="16dp"
-                            android:layout_height="16dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_moneys"
-                            android:tint="@color/primary_A4EF69" />
+                            android:src="@drawable/ic_money_filled"
+                            android:tint="@color/white_opacity50" />
 
                         <TextView
+                            style="@style/body_2_strong"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginStart="2dp"
-                            android:fontFamily="@font/pretendard_medium"
-                            android:lineHeight="21sp"
+                            android:layout_marginStart="8dp"
                             android:text="@string/participate_fee"
-                            android:textColor="@color/primary_A4EF69"
-                            android:textFontWeight="500"
+                            android:textColor="@color/grayscale_100_A8B1B1"
                             android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tv_recruit_detail_fee"
+                            style="@style/body_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginStart="20dp"
-                            android:fontFamily="@font/pretendard_semi_bold"
-                            android:lineHeight="21sp"
+                            android:layout_marginStart="49dp"
                             android:text="@{NumberFormat.getCurrencyInstance(Locale.KOREA).format(recruitDetail.fee) + @string/money_unit_korean}"
-                            android:textColor="@color/primary_A4EF69"
-                            android:textFontWeight="500"
-                            android:textSize="14sp"
+                            android:textColor="@color/white"
                             tools:text="130,000원" />
                     </LinearLayout>
 
@@ -449,34 +435,30 @@
 
                         <ImageView
                             android:layout_width="16dp"
-                            android:layout_height="16dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_moon_empty" />
+                            android:src="@drawable/ic_moon"
+                            android:tint="@color/white_opacity50" />
 
                         <TextView
+                            style="@style/body_2_strong"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginStart="2dp"
-                            android:fontFamily="@font/pretendard_medium"
-                            android:lineHeight="21sp"
+                            android:layout_marginStart="8dp"
                             android:text="@string/is_consecutive_stay"
-                            android:textColor="@color/primary_A4EF69"
-                            android:textFontWeight="500"
+                            android:textColor="@color/grayscale_100_A8B1B1"
                             android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tv_recruit_detail_consecutive_stay"
+                            style="@style/body_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginStart="20dp"
-                            android:fontFamily="@font/pretendard_semi_bold"
-                            android:lineHeight="21sp"
+                            android:layout_marginStart="49dp"
                             android:text="@{recruitDetail.isConsecutiveStay ? `O` : `X`}"
-                            android:textColor="@color/primary_A4EF69"
-                            android:textFontWeight="500"
-                            android:textSize="14sp"
+                            android:textColor="@color/white"
                             tools:text="X" />
                     </LinearLayout>
 
@@ -488,25 +470,76 @@
 
                         <ImageView
                             android:layout_width="16dp"
-                            android:layout_height="16dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_people" />
+                            android:src="@drawable/ic_hearts"
+                            android:tint="@color/white_opacity50" />
 
                         <TextView
-                            android:id="@+id/tv_recruit_detail_left_head_count"
+                            style="@style/body_2_strong"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginStart="2dp"
-                            android:fontFamily="@font/pretendard_medium"
-                            android:lineHeight="21sp"
-                            android:text="@{recruitDetail.searchingHeadCount - recruitDetail.headCount &lt;= 0 ? @string/recruit_left_head_count_no : @string/recruit_left_head_count(recruitDetail.searchingHeadCount - recruitDetail.headCount)}"
-                            android:textColor="@color/primary_A4EF69"
-                            android:textFontWeight="500"
-                            android:textSize="14sp"
-                            tools:text="모집 인원이 2명 남았어요!" />
+                            android:layout_marginStart="8dp"
+                            android:text="@string/is_couple"
+                            android:textColor="@color/grayscale_100_A8B1B1"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_recruit_detail_couple"
+                            style="@style/body_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="20dp"
+                            android:text="@{recruitDetail.isCouple ? `O` : `X`}"
+                            android:textColor="@color/white"
+                            tools:text="X" />
                     </LinearLayout>
                 </LinearLayout>
+
+                <!--                <LinearLayout-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="8dp"-->
+                <!--                    android:orientation="horizontal">-->
+
+                <!--                    <ImageView-->
+                <!--                        android:layout_width="16dp"-->
+                <!--                        android:layout_height="16dp"-->
+                <!--                        android:layout_gravity="center"-->
+                <!--                        android:src="@drawable/ic_people" />-->
+
+                <!--                    <TextView-->
+                <!--                        android:id="@+id/tv_recruit_detail_left_head_count"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_gravity="center"-->
+                <!--                        android:layout_marginStart="2dp"-->
+                <!--                        android:fontFamily="@font/pretendard_medium"-->
+                <!--                        android:lineHeight="21sp"-->
+                <!--                        android:text="@{recruitDetail.searchingHeadCount - recruitDetail.headCount &lt;= 0 ? @string/recruit_left_head_count_no : @string/recruit_left_head_count(recruitDetail.searchingHeadCount - recruitDetail.headCount)}"-->
+                <!--                        android:textColor="@color/primary_A4EF69"-->
+                <!--                        android:textFontWeight="500"-->
+                <!--                        android:textSize="14sp"-->
+                <!--                        tools:text="모집 인원이 2명 남았어요!" />-->
+                <!--                </LinearLayout>-->
+
+
+                <include
+                    android:id="@+id/item_textview_recruit_detail_ramain_count"
+                    layout="@layout/item_text_bubble"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="24dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_recruit_detail_reservation_info"
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_recruit_detail_participants"
@@ -519,38 +552,26 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_recruit_detail_reservation_info"
+                    app:layout_constraintTop_toBottomOf="@id/item_textview_recruit_detail_ramain_count"
                     app:layout_constraintVertical_bias="0.0"
                     tools:itemCount="3"
                     tools:listitem="@layout/item_candidate_team_member" />
 
-                <View
-                    android:id="@+id/view_recruit_detail_divider"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@color/white_F5F6F9"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rv_recruit_detail_participants" />
-
                 <TextView
                     android:id="@+id/tv_recruit_detail_introduce_message"
+                    style="@style/body_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/pretendard_medium"
+                    android:layout_marginTop="20dp"
                     android:lineHeight="21sp"
                     android:text="@{recruitDetail.recruitIntroduceMessage}"
-                    android:textColor="@color/primary_A4EF69"
-                    android:textSize="14sp"
+                    android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view_recruit_detail_divider"
+                    app:layout_constraintTop_toBottomOf="@id/rv_recruit_detail_participants"
                     app:layout_constraintVertical_bias="0.0"
                     tools:text="안녕하세요~ 같이 골프쳐요~ 안녕하세요~ 같이 골프쳐요~ 안녕하세요~ 같이 골프쳐요~ 안녕하세요~ 같이 골프쳐요~ 안녕하세요~ 같이 골프쳐요~ " />
 
@@ -591,6 +612,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="28dp"
+            android:background="@drawable/background_gradation_black_to_transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -618,19 +640,16 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_recruit_detail_participate"
+                style="@style/body_1_strong"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:animateLayoutChanges="true"
-                android:background="@drawable/selector_button_background_radius_12_enabled"
-                android:enabled="@{recruitDetail.searchingHeadCount - recruitDetail.headCount &lt;= 0 ? false : true}"
-                android:fontFamily="@font/pretendard_semi_bold"
+                android:background="@drawable/selector_button_background_radius_16_enabled"
                 android:gravity="center"
-                android:lineHeight="20sp"
                 android:padding="10dp"
                 android:stateListAnimator="@null"
                 android:text="@string/participate"
-                android:textColor="@drawable/selector_textview_enabled"
-                android:textSize="16sp"
+                android:textColor="@color/gray_700_272929"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
