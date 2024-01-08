@@ -59,8 +59,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="black_opacity_30">#4D000000</color>
-    <color name="black_1A1B1E_opacity_50">#801A1B1E</color>
     <color name="black_opacity_60">#99000000</color>
+    <color name="black_1A1B1E_opacity_50">#801A1B1E</color>
     <color name="black_181919_opacity_60">#99181919</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white_opacity_10">#1AFFFFFF</color>

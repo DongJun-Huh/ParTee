@@ -19,6 +19,7 @@ import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStorage
 import com.golfzon.core_ui.ImageUploadUtil.loadImageFromFirebaseStoragePreload
 import com.golfzon.core_ui.adapter.CandidateTeamMemberAdapter
 import com.golfzon.core_ui.autoCleared
+import com.golfzon.core_ui.databinding.adapters.loadImage
 import com.golfzon.core_ui.dp
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.core_ui.extension.toast
@@ -35,7 +36,9 @@ class MatchingFragment : Fragment() {
     private val matchingViewModel by activityViewModels<MatchingViewModel>()
     private var candidateTeamMemberAdapter: CandidateTeamMemberAdapter? = null
     private var glideRequestManager: RequestManager? = null
-    private val candidateTeamMemberLoadTrace: Trace = Firebase.performance.newTrace("candidate_team_member_load_trace")
+    private val candidateTeamMemberLoadTrace: Trace =
+        Firebase.performance.newTrace("candidate_team_member_load_trace")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setCandidateTeamMemberLoadTrace()
@@ -171,7 +174,10 @@ class MatchingFragment : Fragment() {
 
     private fun setSearchUserResultAdapter() {
         candidateTeamMemberAdapter =
-            CandidateTeamMemberAdapter(requestManager = glideRequestManager!!).apply {
+            CandidateTeamMemberAdapter(
+                itemHeight = 66.dp,
+                requestManager = glideRequestManager!!
+            ).apply {
                 onRenderCompleted = {
                     if (this.itemCount > 0) {
                         with(candidateTeamMemberLoadTrace) {
@@ -179,8 +185,15 @@ class MatchingFragment : Fragment() {
                             removeAttribute("candidate_team_member_count")
                             removeAttribute("candidate_team_uid")
 
-                            putAttribute("candidate_team_member_count", this@apply.itemCount.toString())
-                            putAttribute("candidate_team_uid", matchingViewModel.curCandidateTeam.value?.peekContent()?.cardTop?.teamUId ?: "unknown")
+                            putAttribute(
+                                "candidate_team_member_count",
+                                this@apply.itemCount.toString()
+                            )
+                            putAttribute(
+                                "candidate_team_uid",
+                                matchingViewModel.curCandidateTeam.value?.peekContent()?.cardTop?.teamUId
+                                    ?: "unknown"
+                            )
                             stop()
                             binding.motionLayoutRoot.transitionToState(R.id.detail)
                         }
@@ -202,6 +215,19 @@ class MatchingFragment : Fragment() {
                 }
             }
         })
+
+        binding.ivMatchingCandidateTeam.setOnDebounceClickListener {
+            with(binding) {
+                ivMatchingBackground.loadImage(
+                    imageUId = curTeamDetail?.teamImageUrl,
+                    imageType = ImageUploadUtil.ImageType.TEAM,
+                    requestManager = glideRequestManager!!
+                )
+                layoutMatchingCandidateUser.visibility = View.GONE
+                layoutMatchingCandidateTeam.visibility = View.VISIBLE
+            }
+
+        }
     }
 
     private fun observeMatchingSuccess() {
@@ -258,10 +284,22 @@ class MatchingFragment : Fragment() {
             override fun onTransitionCompleted(motionLayout: MotionLayout, currentId: Int) {
                 super.onTransitionCompleted(motionLayout, currentId)
                 reactionToCurrentTeam(motionLayout, currentId)
+                when (currentId) {
+                    R.id.detail -> {
+                        with(binding) {
+                            layoutMatchingReactions.alpha = 1F
+                            btnMatchingCurrentReactionDislike.alpha = 0F
+                            btnMatchingCurrentReactionLike.alpha = 0F
+                        }
+                    }
+                }
             }
 
             private fun displayReactionStamp(endId: Int, progress: Float) {
                 with(binding) {
+                    layoutMatchingReactions.alpha = 1F
+                    btnMatchingCurrentReactionDislike.alpha = 0F
+                    btnMatchingCurrentReactionLike.alpha = 0F
                     when (endId) {
                         R.id.like -> {
                             ivMatchingStampLike.alpha = if (progress >= 0) progress * 2 else 0F
@@ -278,7 +316,6 @@ class MatchingFragment : Fragment() {
                         else -> {
                             btnMatchingCurrentReactionDislike.alpha = 0F
                             btnMatchingCurrentReactionLike.alpha = 0F
-
                             ivMatchingStampLike.alpha = 0f
                             ivMatchingStampDislike.alpha = 0f
                         }

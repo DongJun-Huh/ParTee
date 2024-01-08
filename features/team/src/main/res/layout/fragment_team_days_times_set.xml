@@ -67,21 +67,16 @@
 
                 <RadioButton
                     android:id="@+id/rb_team_days_weekdays"
+                    style="@style/body_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/selector_background_radius_100"
                     android:button="@null"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:includeFontPadding="false"
-                    android:letterSpacing="0"
-                    android:lineHeight="19.6sp"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="8dp"
                     android:text="@string/weekday"
-                    android:textColor="@drawable/selector_textview_gray_300_to_primary"
-                    android:textFontWeight="500"
-                    android:textSize="14sp" />
+                    android:textColor="@drawable/selector_textview_gray_300_to_primary" />
 
                 <RadioButton
                     android:id="@+id/rb_team_days_weekend"

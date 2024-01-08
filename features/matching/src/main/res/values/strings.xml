@@ -13,5 +13,8 @@
     <string name="matching_candidate_team_members_title">%s의 팀원들</string>
     <string name="matching_filtering_head_count_title">몇 명으로 구성된 팀을 찾고 있나요?</string>
     <string name="matching_filtering_day_and_time_title">어느 시간대에 함께하고 싶나요?</string>
-    <string name="matching_success_title">파티가 만들어졌어요!</string>
+    <string name="matching_success_title">매칭에 성공했어요!</string>
+    <string name="matching_success_description">채팅방으로 이동해\n이용할 골프존을 예약해보세요!</string>
+    <string name="matching_success_navigate_chat">채팅방으로 이동하기</string>
+    <string name="matching_success_close">계속해서 파티 찾기</string>
 </resources>

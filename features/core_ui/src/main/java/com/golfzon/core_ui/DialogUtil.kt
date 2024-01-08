@@ -10,6 +10,7 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import com.golfzon.core_ui.DeviceSizeUtil.getDeviceHeightSize
 import com.golfzon.core_ui.DeviceSizeUtil.getDeviceWidthSize
 
 object DialogUtil {
@@ -23,6 +24,15 @@ object DialogUtil {
         val params: ViewGroup.LayoutParams? = dialog?.window?.attributes
         val deviceWidth = getDeviceWidthSize(context)
         params?.width = (deviceWidth * dialogSizeRatio).toInt()
+        dialog?.window?.attributes = params as WindowManager.LayoutParams
+    }
+
+    fun setFullSizeDialogFragment(context: Context, dialog: Dialog) {
+        val params: ViewGroup.LayoutParams? = dialog?.window?.attributes
+        val deviceWidth = getDeviceWidthSize(context)
+        val deviceHeight = getDeviceHeightSize(context)
+        params?.width = deviceWidth
+        params?.height = deviceHeight
         dialog?.window?.attributes = params as WindowManager.LayoutParams
     }
 

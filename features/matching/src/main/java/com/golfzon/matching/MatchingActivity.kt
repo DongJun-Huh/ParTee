@@ -6,6 +6,8 @@ import android.os.Build
 import androidx.navigation.ui.setupWithNavController
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.golfzon.core_ui.navigation.DeeplinkHandler
@@ -40,8 +42,8 @@ class MatchingActivity : AppCompatActivity() {
 
     private fun removeActivityChangeAnimation() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN,0, 0)
-            overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE,0, 0)
+            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, 0, 0)
+            overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, 0, 0)
         } else {
             overridePendingTransition(0, 0)
         }
@@ -58,7 +60,13 @@ class MatchingActivity : AppCompatActivity() {
             deeplinkHandler.process(it)
         }
     }
+
     private fun setBottomNavigationView() {
+        findNavController().addOnDestinationChangedListener { _, destination, _ ->
+            binding.bottomNavigationMatching.isVisible =
+                (destination.id == R.id.MatchingHomeFragment)
+        }
+
         with(binding.bottomNavigationMatching) {
             setupWithNavController(findNavController())
             selectedItemId = R.id.MatchingHomeFragment
@@ -84,7 +92,10 @@ class MatchingActivity : AppCompatActivity() {
 
     fun navigateToGroup(destination: String = "", groupUId: String = "") {
         val intent = if (groupUId.isNotEmpty())
-            Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/group${destination}/${groupUId}"))
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("partee://multi.module.app/group${destination}/${groupUId}")
+            )
         else
             Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/group${destination}"))
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
@@ -100,7 +111,8 @@ class MatchingActivity : AppCompatActivity() {
     }
 
     fun navigateToChat(groupUId: String = "") {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/chat/${groupUId}"))
+        val intent =
+            Intent(Intent.ACTION_VIEW, Uri.parse("partee://multi.module.app/chat/${groupUId}"))
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         startActivity(intent)
     }

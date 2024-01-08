@@ -42,7 +42,7 @@
             app:popUpTo="@id/MatchingFragment"
             app:popUpToInclusive="true" />
     </fragment>
-    <dialog
+    <fragment
         android:id="@+id/MatchingSuccessFragment"
         android:name="com.golfzon.matching.MatchingSuccessFragment"
         android:label="fragment_matching_success"
@@ -50,5 +50,5 @@
         <argument
             android:name="groupUId"
             app:argType="string" />
-    </dialog>
+    </fragment>
 </navigation>

@@ -21,39 +21,93 @@
             type="String" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/background_radius_28"
-        android:backgroundTint="@color/white"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_gradation_background_181919_to_transparent"
         android:orientation="vertical"
         android:paddingHorizontal="24dp"
         android:paddingVertical="24dp">
 
+        <ImageButton
+            android:id="@+id/btn_matching_success_close_x"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_x"
+            android:tint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
         <TextView
+            android:id="@+id/tv_matching_success_title"
+            style="@style/sub_title_strong"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginBottom="12dp"
             android:fontFamily="@font/pretendard_medium"
-            android:letterSpacing="0.01"
-            android:lineSpacingExtra="3sp"
             android:text="@string/matching_success_title"
-            android:textColor="@color/primary_A4EF69"
-            android:textFontWeight="500"
-            android:textSize="16sp" />
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/tv_matching_success_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_matching_success_description"
+            style="@style/body_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="100dp"
+            android:gravity="center"
+            android:lineHeight="21dp"
+            android:text="@string/matching_success_description"
+            android:textColor="@color/gray_200_8E9898"
+            app:layout_constraintBottom_toTopOf="@id/layout_matching_success_group_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_matching_success_group_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guildeline_matching_success_team"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
 
             <LinearLayout
                 android:id="@+id/layout_matching_success_team_info_first"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginEnd="8dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/guildeline_matching_success_team"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_matching_success_team_info_first"
@@ -64,32 +118,48 @@
                     android:layout_height="100dp"
                     android:background="@color/white_F5F6F9"
                     android:scaleType="centerCrop"
-                    app:shapeAppearance="@style/ShapeAppearance.radius28"
+                    app:shapeAppearance="@style/ShapeAppearance.circle"
                     tools:src="@drawable/user_sample" />
 
                 <TextView
-                    android:id="@+id/tv_matching_success_team_info_first_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/background_radius_8"
+                    android:backgroundTint="@color/gray_600_333636"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/team"
+                    android:textColor="@color/primary_A4EF69" />
+
+                <TextView
+                    android:id="@+id/tv_matching_success_team_info_first_name"
+                    style="@style/body_1_strong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
                     android:fontFamily="@font/pretendard_medium"
                     android:gravity="center"
-                    android:letterSpacing="-0.01"
-                    android:lineSpacingExtra="3sp"
-                    android:text="@{`TEAM\n`+vm.teamInfoDetail.teamName}"
-                    android:textColor="@color/primary_A4EF69"
-                    android:textFontWeight="500"
-                    android:textSize="14sp"
-                    tools:text="TEAM\n팀이름" />
+                    android:text="@{vm.teamInfoDetail.teamName}"
+                    android:textColor="@color/white"
+                    tools:text="팀이름" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_matching_success_team_info_second"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:orientation="vertical">
+                android:layout_marginStart="8dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/guildeline_matching_success_team"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_matching_success_team_info_second"
@@ -100,88 +170,105 @@
                     android:layout_height="100dp"
                     android:background="@color/white_F5F6F9"
                     android:scaleType="centerCrop"
-                    app:shapeAppearance="@style/ShapeAppearance.radius28"
+                    app:shapeAppearance="@style/ShapeAppearance.circle"
                     tools:src="@drawable/user_sample2" />
 
                 <TextView
-                    android:id="@+id/tv_matching_success_team_info_second_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/background_radius_8"
+                    android:backgroundTint="@color/gray_600_333636"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/team"
+                    android:textColor="@color/primary_A4EF69" />
+
+                <TextView
+                    android:id="@+id/tv_matching_success_team_info_second_name"
+                    style="@style/body_1_strong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
                     android:fontFamily="@font/pretendard_medium"
                     android:gravity="center"
-                    android:letterSpacing="-0.01"
-                    android:lineSpacingExtra="3sp"
-                    android:text="@{`TEAM\n`+vm.successTeamInfo.teamName}"
-                    android:textColor="@color/primary_A4EF69"
-                    android:textFontWeight="500"
-                    android:textSize="14sp"
-                    tools:text="TEAM\n골프존" />
+                    android:text="@{vm.successTeamInfo.teamName}"
+                    android:textColor="@color/white"
+                    tools:text="팀이름" />
             </LinearLayout>
-        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_matching_success_group_info"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            android:layout_weight="1"
-            android:autoSizeMaxTextSize="16sp"
-            android:autoSizeMinTextSize="11sp"
-            android:autoSizeStepGranularity="0.5sp"
-            android:autoSizeTextType="uniform"
-            android:background="@drawable/background_radius_100"
-            android:backgroundTint="@color/blue_AFB7CF_opacity_50"
-            android:fontFamily="@font/pretendard_medium"
-            android:gravity="center"
-            android:letterSpacing="0.01"
-            android:lineSpacingExtra="3sp"
-            android:maxLines="1"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
-            android:singleLine="true"
-            android:text="@{vm.successTeamInfo.searchingDays + ` / ` + vm.successTeamInfo.searchingTimes + ` / ` + commonLocation}"
-            android:textColor="@color/primary_A4EF69"
-            android:textFontWeight="600"
-            tools:text="주말 오전 서울" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:background="@color/gray_900_1D1E1E"
+                android:padding="2dp"
+                android:scaleType="center"
+                android:src="@drawable/ic_like"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guildeline_matching_success_team"
+                app:layout_constraintStart_toStartOf="@id/guildeline_matching_success_team"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.25"
+                app:shapeAppearance="@style/ShapeAppearance.circle"
+                app:strokeColor="@color/primary_A4EF69"
+                app:strokeWidth="2dp" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie_matching_searching"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.15"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_speed="1"
+                app:lottie_url="https://lottie.host/5947a8d3-9199-4b3a-8050-8cd724d07fcd/mnVYIkX2KO.json" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_matching_success_group_reservation"
-                android:layout_width="0dp"
-                android:layout_height="52dp"
-                android:layout_weight="1"
-                android:background="@drawable/selector_button_background_radius_12_enabled"
-                android:fontFamily="@font/pretendard_medium"
-                android:gravity="center"
-                android:letterSpacing="0"
-                android:lineSpacingExtra="5sp"
-                android:text="@string/reservation"
-                android:textColor="@drawable/selector_textview_enabled"
-                android:textFontWeight="500"
-                android:textSize="16sp" />
+            android:layout_marginBottom="58dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_matching_success_group_info"
+            app:layout_constraintVertical_bias="1.0">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_matching_success_group_chat"
-                android:layout_width="0dp"
+                style="@style/body_1_strong"
+                android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:background="@drawable/selector_button_background_radius_12_enabled"
-                android:fontFamily="@font/pretendard_medium"
+                android:background="@drawable/background_radius_16"
+                android:backgroundTint="@color/primary_A4EF69"
                 android:gravity="center"
-                android:letterSpacing="0"
-                android:lineSpacingExtra="5sp"
-                android:text="@string/chat"
-                android:textColor="@drawable/selector_textview_enabled"
+                android:text="@string/matching_success_navigate_chat"
+                android:textColor="@color/gray_700_272929"
+                android:textFontWeight="500"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_matching_success_close"
+                style="@style/body_1_strong"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/matching_success_close"
+                android:textColor="@color/white_opacity_80"
                 android:textFontWeight="500"
                 android:textSize="16sp" />
         </LinearLayout>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
