@@ -187,12 +187,13 @@ class ChatAdapter(
                             cardViewContainer = cardviewChatOtherReservationMessage,
                             topBarColor = ContextCompat.getColor(
                                 webviewChatOtherReservationMessage.context,
-                                com.golfzon.core_ui.R.color.gray_F0F1F3
+                                com.golfzon.core_ui.R.color.gray_500_464B4B
                             ).getColorHex,
                             topBarTextColor = ContextCompat.getColor(
                                 webviewChatOtherReservationMessage.context,
-                                com.golfzon.core_ui.R.color.black
-                            ).getColorHex
+                                com.golfzon.core_ui.R.color.white
+                            ).getColorHex,
+                            topBarTextSize = 14
                         )
                     }
                 }
@@ -217,8 +218,9 @@ class ChatAdapter(
                         ).getColorHex,
                         topBarTextColor = ContextCompat.getColor(
                             webviewChatMineReservationMessage.context,
-                            com.golfzon.core_ui.R.color.white
-                        ).getColorHex
+                            com.golfzon.core_ui.R.color.gray_700_272929
+                        ).getColorHex,
+                        topBarTextSize = 14
                     )
                 }
             }

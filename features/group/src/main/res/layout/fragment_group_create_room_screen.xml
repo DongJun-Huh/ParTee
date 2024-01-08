@@ -302,8 +302,7 @@
                         android:id="@+id/cardview_create_room_screen_place_map"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginVertical="12dp"
                         app:cardCornerRadius="24dp">
 
                         <WebView

@@ -41,7 +41,8 @@
         android:backgroundTint="@{isBlackTheme ? @color/gray_800_222323 : @android:color/transparent}"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp"
-        android:paddingVertical="16dp">
+        android:paddingTop="@{isBlackTheme? @dimen/three_dp : @dimen/sixteen_dp}"
+        android:paddingBottom="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
