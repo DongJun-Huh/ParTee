@@ -99,6 +99,7 @@ class ChatAdapter(
         cardViewContainer: CustomWebViewContainer,
         topBarColor: String,
         topBarTextColor: String,
+        topBarTextSize: Int
     ) {
         val golfzonWebViewClient = object : WebViewClient() {
             override fun shouldInterceptRequest(
@@ -106,11 +107,11 @@ class ChatAdapter(
                 request: WebResourceRequest?
             ): WebResourceResponse? {
                 val uri = request!!.url
-                if (uri.toString().endsWith("pretendard_regular.otf")) {
+                if (uri.toString().endsWith("pretendard_medium.otf")) {
                     try {
                         val stream = webView.context
                             .applicationContext.assets
-                            .open("fonts/pretendard_regular.otf")
+                            .open("fonts/pretendard_medium.otf")
                         return WebResourceResponse("fonts/otf", "UTF-8", stream)
                     } catch (e: IOException) {
                         e.printStackTrace() // 글꼴 파일 로드 실패 처리
@@ -121,10 +122,10 @@ class ChatAdapter(
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 val loadFontScript =
-                    "var pretendard = new FontFace('PretendardRegular', 'url(pretendard_regular.otf)');" +
+                    "var pretendard = new FontFace('PretendardMedium', 'url(pretendard_medium.otf)');" +
                             "pretendard.load().then(function(loadedFont) {" +
                             "    document.fonts.add(loadedFont);" +
-                            "    document.body.style.fontFamily = 'PretendardRegular';" +
+                            "    document.body.style.fontFamily = 'PretendardMedium';" +
                             "}).catch(function(error) {" +
                             "    console.log('Failed to load Pretendard font: ' + error);" +
                             "});"
@@ -132,10 +133,12 @@ class ChatAdapter(
                         "var target = document.querySelector('.forweb');" +
                         "var observer = new MutationObserver(function(mutations) { " +
                         "   mutations.forEach(function(mutation) { " +
-                        "       document.querySelector('.l__sub').style.backgroundColor = '$topBarColor';" +
-                        "       document.querySelector('.l__sub').querySelector('h1').style.color = '$topBarTextColor';" +
+                        "       document.querySelector('.fullsize_map').style.overflow = 'visible';" +
+                        "       document.querySelector('.l__sub').style.backgroundColor = '${topBarColor}';" +
+                        "       document.querySelector('h1').style.color = '${topBarTextColor}';" +
                         "       document.querySelector('.btn_back').classList.remove('btn_back');" +
                         "       document.querySelector('h1').textContent ='[예약완료]';" +
+                        "       document.querySelector('h1').style.fontSize = '${topBarTextSize}px';" +
                         "   });" +
                         "});" +
                         "observer.observe(target, { childList: true, subtree: true });" +

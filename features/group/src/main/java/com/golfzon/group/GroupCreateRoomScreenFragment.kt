@@ -8,17 +8,22 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
 import com.golfzon.core_ui.extension.toast
+import com.golfzon.core_ui.getColorHex
 import com.golfzon.core_ui.map.WebViewTouchEventCallback
 import com.golfzon.group.databinding.FragmentGroupCreateRoomScreenBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.IOException
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -41,8 +46,8 @@ class GroupCreateRoomScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.groupUId = args.groupUId
-        setMap()
         observePlaceInfo()
+        setMap()
         setDateClickListener()
         setTimeClickListener()
         observeCreateSuccess()
@@ -116,19 +121,106 @@ class GroupCreateRoomScreenFragment : Fragment() {
 
     private fun setMap() {
         val golfzonWebViewClient = object : WebViewClient() {
+            override fun shouldInterceptRequest(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): WebResourceResponse? {
+                val uri = request!!.url
+                if (uri.toString().endsWith("pretendard_medium.otf")) {
+                    try {
+                        val stream = view?.context
+                            ?.applicationContext?.assets
+                            ?.open("fonts/pretendard_medium.otf")
+                        return WebResourceResponse("fonts/otf", "UTF-8", stream)
+                    } catch (e: IOException) {
+                        e.printStackTrace() // 글꼴 파일 로드 실패 처리
+                    }
+                }
+                return super.shouldInterceptRequest(view, request)
+            }
             override fun onPageFinished(view: WebView?, url: String?) {
-                // 기존 페이지의 Back button element 제거
-                view?.evaluateJavascript(
-                    "javascript:(function() { " +
-                            "var target = document.querySelector('.forweb');" +
-                            "var observer = new MutationObserver(function(mutations) { " +
-                            "   mutations.forEach(function(mutation) { " +
-                            "       document.querySelector('.btn_back').classList.remove('btn_back')" +
-                            "   });" +
-                            "});" +
-                            "observer.observe(target, { childList: true, subtree: true });" +
-                            "})();", null
-                )
+                val topBarColor = ContextCompat.getColor(
+                    requireContext(),
+                    com.golfzon.core_ui.R.color.gray_600_333636
+                ).getColorHex
+                val topBarTextColor = ContextCompat.getColor(
+                    requireContext(),
+                    com.golfzon.core_ui.R.color.white
+                ).getColorHex
+                val topBarTextSize = 14
+
+                var address1: String = ""
+                var address2: String = ""
+
+                groupViewModel.createRoomScreenPlaceRoadAddress.value?.let {
+                    val addresses = it.split(" ")
+                    address1 = addresses[0]
+                    address2 = addresses[1]
+                }
+                val addressTagAddScript =
+                    "       var container = document.createElement('div');" +
+                            "       container.style.display = 'flex';" +
+                            "       container.style.alignItems = 'center';" +
+                            "       container.style.justifyContent = 'center';" +
+                            "" +
+                            "       var newBox = document.createElement('div'); " +
+                            "       newBox.style.display = 'flex';" +
+                            "       newBox.style.alignItems = 'center';" +
+                            "       newBox.style.justifyContent = 'center';" +
+                            "       newBox.style.height = '24px';" +
+                            "       newBox.style.backgroundColor = '#272929';" +
+                            "       newBox.style.borderRadius = '8px';" +
+                            "       newBox.style.margin = '0px 8px 0px 12px';" +
+                            "       newBox.style.padding = '0px 4px 0px 4px';" +
+                            "       newBox.style.border = '1px solid #9FF06E';" +
+                            "" +
+                            "       var textElement = document.createElement('span');" +
+                            "       textElement.textContent = '${address1} ${address2}';" +
+                            "       textElement.style.color = '#9FF06E';" +
+                            "       textElement.style.fontWeight = 'bold';" +
+                            "       textElement.style.fontSize = '10px';" +
+                            "       newBox.appendChild(textElement);" +
+                            "" +
+                            "       var splitPlaceName = document.querySelector('h1').textContent.split(']');" +
+                            "       document.querySelector('h1').textContent = splitPlaceName[splitPlaceName.length - 1];" +
+                            "       var h1Element = document.querySelector('h1');" +
+                            "       var h1Text = document.createElement('span');" +
+                            "       h1Text.textContent = h1Element.textContent;" +
+                            "       h1Element.textContent = '';" +
+                            "       h1Element.appendChild(container);" +
+                            "       container.appendChild(newBox);" +
+                            "       container.appendChild(h1Text);"
+
+                val loadFontScript =
+                    "var pretendard = new FontFace('PretendardMedium', 'url(pretendard_medium.otf)');" +
+                            "pretendard.load().then(function(loadedFont) {" +
+                            "    document.fonts.add(loadedFont);" +
+                            "    document.body.style.fontFamily = 'PretendardMedium';" +
+                            "}).catch(function(error) {" +
+                            "    console.log('Failed to load Pretendard font: ' + error);" +
+                            "});"
+                val customTopBarScript = "javascript:(function() { " +
+                        "var target = document.querySelector('.forweb');" +
+                        "var observer = new MutationObserver(function(mutations) { " +
+                        "   mutations.forEach(function(mutation) { " +
+                        "       document.querySelector('.fullsize_map').style.overflow = 'visible';" +
+                        "       document.querySelector('.btn_back').classList.remove('btn_back');" +
+                        "       document.querySelector('.l__sub').style.backgroundColor = '${topBarColor}';" +
+                        "       document.querySelector('.l__sub').querySelector('h1').style.color = '${topBarTextColor}';" +
+                        "       document.querySelector('h1').style.fontSize = '${topBarTextSize}px';" +
+                        if (address1.isNotEmpty() && address2.isNotEmpty()) {
+                            addressTagAddScript
+                        } else {
+                            ""
+                        } +
+                        "   });" +
+                        "});" +
+                        "observer.observe(target, { childList: true, subtree: true });" +
+                        "})();"
+                view?.let {
+                    it.evaluateJavascript(loadFontScript, null)
+                    it.evaluateJavascript(customTopBarScript, null)
+                }
                 super.onPageFinished(view, url)
             }
         }
@@ -186,7 +278,7 @@ class GroupCreateRoomScreenFragment : Fragment() {
     private fun observePlaceInfo() {
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("recruitPlaceName")
             ?.observe(viewLifecycleOwner) { placeName ->
-                groupViewModel.createRoomScreenPlaceName.postValue(placeName)
+                groupViewModel.createRoomScreenPlaceName.postValue(placeName.split(']').last())
             }
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("recruitPlaceUId")
             ?.observe(viewLifecycleOwner) { placeUId ->

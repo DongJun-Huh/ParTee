@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.JavascriptInterface
 import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
@@ -15,6 +16,7 @@ import com.golfzon.core_ui.R
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.databinding.FragmentMapFinderBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.IOException
 import java.lang.Exception
 
 @AndroidEntryPoint
@@ -36,6 +38,7 @@ class MapFinderFragment : Fragment() {
         setWebView()
         isClosed = false
     }
+
     private fun onDestroyBindingView() {
         isClosed = false
     }
@@ -47,95 +50,137 @@ class MapFinderFragment : Fragment() {
         val regexExtendedShop = "^https://m\\.golfzon\\.com/shop/#/main/.+".toRegex()
 
         val mWebViewClient = object : WebViewClient() {
+            override fun shouldInterceptRequest(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): WebResourceResponse? {
+                val uri = request!!.url
+                if (uri.toString().endsWith("pretendard_medium.otf")) {
+                    try {
+                        val stream = view?.context
+                            ?.applicationContext?.assets
+                            ?.open("fonts/pretendard_medium.otf")
+                        return WebResourceResponse("fonts/otf", "UTF-8", stream)
+                    } catch (e: IOException) {
+                        e.printStackTrace() // 글꼴 파일 로드 실패 처리
+                    }
+                }
+                return super.shouldInterceptRequest(view, request)
+            }
+
             override fun shouldOverrideUrlLoading(
                 view: WebView?,
                 request: WebResourceRequest?
             ): Boolean {
-                if (request?.url?.toString()?.matches(regexExtendedShop) == true && args.recruitPlaceUId != "" && !args.isEdit) {
+                if (request?.url?.toString()
+                        ?.matches(regexExtendedShop) == true && args.recruitPlaceUId != "" && !args.isEdit
+                ) {
                     return true
                 }
                 return super.shouldOverrideUrlLoading(view, request)
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
+                val loadFontScript =
+                    "var pretendard = new FontFace('PretendardMedium', 'url(pretendard_medium.otf)');" +
+                            "pretendard.load().then(function(loadedFont) {" +
+                            "    document.fonts.add(loadedFont);" +
+                            "    document.body.style.fontFamily = 'PretendardMedium';" +
+                            "}).catch(function(error) {" +
+                            "    console.log('Failed to load Pretendard font: ' + error);" +
+                            "});"
+
                 if (url?.startsWith("https://m.golfzon.com/shop/#/main/") == true) {
                     view?.visibility = View.INVISIBLE // 되돌아갈때 보이지 않도록 처리
-
                     // 세부정보 페이지 로딩 완료후 콘텐츠 파싱
-                    view?.evaluateJavascript(
-                        "javascript:(function() { " +
-                                "var target = document.querySelector('.container');" +
-                                "var observer = new MutationObserver(function(mutations) { " +
-                                "   mutations.forEach(function(mutation) { " +
-                                "       HTMLHandler.processHTML(target.querySelector('.shop_summary').firstChild.textContent, ${url.split("/").last()}, target.querySelector('.shop_summary').querySelector('.add').textContent.split('(지번)') );" +
-                                "   });" +
-                                "});" +
-                                "observer.observe(target, { childList: true, subtree: true });" +
-                                "})();", null
-                    )
+                    val customScript = "javascript:(function() { " +
+                            "var target = document.querySelector('.container');" +
+                            "var observer = new MutationObserver(function(mutations) { " +
+                            "   mutations.forEach(function(mutation) { " +
+                            "       HTMLHandler.processHTML(target.querySelector('.shop_summary').firstChild.textContent, ${
+                                url.split(
+                                    "/"
+                                ).last()
+                            }, target.querySelector('.shop_summary').querySelector('.add').textContent.split('(지번)') );" +
+                            "   });" +
+                            "});" +
+                            "observer.observe(target, { childList: true, subtree: true });" +
+                            "})();"
+
+                    view?.let {
+                        it.evaluateJavascript(loadFontScript, null)
+                        it.evaluateJavascript(customScript, null)
+                    }
                 } else if (url?.matches(regexExtended) == true) {
+                    // 세부정보 페이지 로딩 완료후 콘텐츠 파싱
                     // 이미 장소가 입력된 경우
                     // 골프장 검색, 찜, 현재 위치 버튼 제거
-                    view?.evaluateJavascript(
-                        "javascript:(function() { " +
-                                "var target = document.querySelector('.shop_find_wrap.sitefinder_home');" +
-                                "var observer = new MutationObserver(function(mutations) { " +
-                                "   mutations.forEach(function(mutation) { " +
-                                "       var elementsToRemove = [" +
-                                "           target.querySelector('.shop_find_wrap.sitefinder_home')," +
-                                "           target.querySelector('.gpsbtn')," +
-                                "           target.lastElementChild];" +
-                                "       elementsToRemove.forEach(function(element) {" +
-                                "           if (element && target.contains(element) && target.childElementCount >= 3) {" +
-                                "               target.removeChild(element);" +
-                                "           }" +
-                                "       });" +
-                                "       if (document.querySelector('.shop_list_btn') != null) {" +
-                                "           document.querySelector('.shop_list_cont').removeChild(document.querySelector('.shop_list_btn'))" +
-                                "       }" +
-                                "       if (document.querySelector('.shop_list_cont.bottom_line') != null) {" +
-                                "           document.querySelectorAll('.shop_list_cont.bottom_line').forEach(function(element) {" +
-                                "              if(element.querySelector('.shop_list_btn') != null) {" +
-                                "                  element.removeChild(element.querySelector('.shop_list_btn'));" +
-                                "              }" +
-                                "          });" +
-                                "       }" +
-                                "   });" +
-                                "});" +
-                                "observer.observe(target, { childList: true, subtree: true });" +
-                                "})();", null
-                    )
-                } else if (url?.matches(regexBase) == true || args.isEdit)  {
+                    val customScript = "javascript:(function() { " +
+                            "var target = document.querySelector('.shop_find_wrap.sitefinder_home');" +
+                            "var observer = new MutationObserver(function(mutations) { " +
+                            "   mutations.forEach(function(mutation) { " +
+                            "       var elementsToRemove = [" +
+                            "           target.querySelector('.shop_find_wrap.sitefinder_home')," +
+                            "           target.querySelector('.gpsbtn')," +
+                            "           target.lastElementChild];" +
+                            "       elementsToRemove.forEach(function(element) {" +
+                            "           if (element && target.contains(element) && target.childElementCount >= 3) {" +
+                            "               target.removeChild(element);" +
+                            "           }" +
+                            "       });" +
+                            "       if (document.querySelector('.shop_list_btn') != null) {" +
+                            "           document.querySelector('.shop_list_cont').removeChild(document.querySelector('.shop_list_btn'))" +
+                            "       }" +
+                            "       if (document.querySelector('.shop_list_cont.bottom_line') != null) {" +
+                            "           document.querySelectorAll('.shop_list_cont.bottom_line').forEach(function(element) {" +
+                            "              if(element.querySelector('.shop_list_btn') != null) {" +
+                            "                  element.removeChild(element.querySelector('.shop_list_btn'));" +
+                            "              }" +
+                            "          });" +
+                            "       }" +
+                            "   });" +
+                            "});" +
+                            "observer.observe(target, { childList: true, subtree: true });" +
+                            "})();"
+
+                    view?.let {
+                        it.evaluateJavascript(loadFontScript, null)
+                        it.evaluateJavascript(customScript, null)
+                    }
+                } else if (url?.matches(regexBase) == true || args.isEdit) {
                     // 최초 장소 검색
                     // 찜, 현재 위치 버튼 제거
-                    view?.evaluateJavascript(
-                        "javascript:(function() { " +
-                                "var target = document.querySelector('.shop_find_wrap.sitefinder_home');" +
-                                "var observer = new MutationObserver(function(mutations) { " +
-                                "   mutations.forEach(function(mutation) { " +
-                                "       var elementsToRemove = [" +
-                                "           target.querySelector('.gpsbtn')," +
-                                "           target.lastElementChild];" +
-                                "       elementsToRemove.forEach(function(element) {" +
-                                "           if (element && target.contains(element) && target.childElementCount >= 3) {" +
-                                "               target.removeChild(element);" +
-                                "           }" +
-                                "       });" +
-                                "       if (document.querySelector('.shop_list_btn') != null) {" +
-                                "           document.querySelector('.shop_list_cont').removeChild(document.querySelector('.shop_list_btn'))" +
-                                "       }" +
-                                "       if (document.querySelector('.shop_list_cont.bottom_line') != null) {" +
-                                "           document.querySelectorAll('.shop_list_cont.bottom_line').forEach(function(element) {" +
-                                "              if(element.querySelector('.shop_list_btn') != null) {" +
-                                "                  element.removeChild(element.querySelector('.shop_list_btn'));" +
-                                "              }" +
-                                "          });" +
-                                "       }" +
-                                "   });" +
-                                "});" +
-                                "observer.observe(target, { childList: true, subtree: true });" +
-                                "})();", null
-                    )
+                    val customScript = "javascript:(function() { " +
+                            "var target = document.querySelector('.shop_find_wrap.sitefinder_home');" +
+                            "var observer = new MutationObserver(function(mutations) { " +
+                            "   mutations.forEach(function(mutation) { " +
+                            "       var elementsToRemove = [" +
+                            "           target.querySelector('.gpsbtn')," +
+                            "           target.lastElementChild];" +
+                            "       elementsToRemove.forEach(function(element) {" +
+                            "           if (element && target.contains(element) && target.childElementCount >= 3) {" +
+                            "               target.removeChild(element);" +
+                            "           }" +
+                            "       });" +
+                            "       if (document.querySelector('.shop_list_btn') != null) {" +
+                            "           document.querySelector('.shop_list_cont').removeChild(document.querySelector('.shop_list_btn'))" +
+                            "       }" +
+                            "       if (document.querySelector('.shop_list_cont.bottom_line') != null) {" +
+                            "           document.querySelectorAll('.shop_list_cont.bottom_line').forEach(function(element) {" +
+                            "              if(element.querySelector('.shop_list_btn') != null) {" +
+                            "                  element.removeChild(element.querySelector('.shop_list_btn'));" +
+                            "              }" +
+                            "          });" +
+                            "       }" +
+                            "   });" +
+                            "});" +
+                            "observer.observe(target, { childList: true, subtree: true });" +
+                            "})();"
+
+                    view?.let {
+                        it.evaluateJavascript(loadFontScript, null)
+                        it.evaluateJavascript(customScript, null)
+                    }
                 }
 
                 super.onPageFinished(view, url)
@@ -154,10 +199,22 @@ class MapFinderFragment : Fragment() {
                             if (view != null && requireView().findNavController().currentBackStack.value.size >= 4 && requireView().findNavController().currentDestination?.id == R.id.MapFinderFragment) {
                                 requireActivity().runOnUiThread {
                                     view?.let { notNullView ->
-                                        notNullView.findNavController().previousBackStackEntry?.savedStateHandle?.set("recruitPlaceName",placeName )
-                                        notNullView.findNavController().previousBackStackEntry?.savedStateHandle?.set("recruitPlaceUId", placeUId)
-                                        notNullView.findNavController().previousBackStackEntry?.savedStateHandle?.set("recruitPlaceRoadAddress", places[0].trim())
-                                        notNullView.findNavController().previousBackStackEntry?.savedStateHandle?.set("recruitPlacePastAddress", places[1].trim())
+                                        notNullView.findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                                            "recruitPlaceName",
+                                            placeName
+                                        )
+                                        notNullView.findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                                            "recruitPlaceUId",
+                                            placeUId
+                                        )
+                                        notNullView.findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                                            "recruitPlaceRoadAddress",
+                                            places[0].trim()
+                                        )
+                                        notNullView.findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                                            "recruitPlacePastAddress",
+                                            places[1].trim()
+                                        )
                                         if (!isClosed) {
                                             notNullView.findNavController().popBackStack()
                                             isClosed = true
