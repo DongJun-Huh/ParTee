@@ -156,11 +156,15 @@ class TeamInfoFragment : Fragment() {
             ivTeamInfoSetNickname.toggleHideAndShow()
 
             etTeamInfoSetName.isEnabled = !etTeamInfoSetName.isEnabled
-            btnTeamInfoActionAddUser.isEnabled = !btnTeamInfoActionAddUser.isEnabled
+            btnTeamInfoActionAddUser.isEnabled =
+                if ((teamViewModel.teamUsers.value?.size ?: 0) >= 3) false
+                else !btnTeamInfoActionAddUser.isEnabled
             layoutTeamInfoLocations.isEnabled = !layoutTeamInfoLocations.isEnabled
             layoutTeamInfoDaysTimes.isEnabled = !layoutTeamInfoDaysTimes.isEnabled
             btnTeamInfoActionChangeInfo.isEnabled = !btnTeamInfoActionChangeInfo.isEnabled
             btnTeamInfoActionChangeImage.isEnabled = !btnTeamInfoActionChangeImage.isEnabled
+            btnTeamInfoActionChangeLocation.isEnabled = !btnTeamInfoActionChangeLocation.isEnabled
+            btnTeamInfoActionChangeDaysTimes.isEnabled = !btnTeamInfoActionChangeDaysTimes.isEnabled
         }
     }
 
