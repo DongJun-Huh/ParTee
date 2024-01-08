@@ -3,7 +3,10 @@ package com.golfzon.chat
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableString
 import android.text.TextWatcher
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -21,6 +24,7 @@ import com.bumptech.glide.RequestManager
 import com.golfzon.chat.databinding.FragmentChatGroupBinding
 import com.golfzon.core_ui.KeyBoardUtil.hideKeyboard
 import com.golfzon.core_ui.KeyboardVisibilityUtils
+import com.golfzon.core_ui.R
 import com.golfzon.core_ui.autoCleared
 import com.golfzon.core_ui.dp
 import com.golfzon.core_ui.extension.setOnDebounceClickListener
@@ -135,8 +139,8 @@ class ChatGroupFragment : Fragment() {
 
         chatViewModel.chatGroupMembersInfo.observe(viewLifecycleOwner) {
             if (it.first.isEmpty() || it.second.first.isEmpty()) return@observe
-
-            chatHeaderAdapter = ChatHeaderAdapter(groupUId).apply {
+            setTitleChatMembersCount(it.first.size)
+            chatHeaderAdapter = ChatHeaderAdapter(groupUId, chatViewModel.groupDetailInfo.value).apply {
                 setOnItemClickListener(object : ChatHeaderAdapter.OnItemClickListener {
                     override fun reservationScreen(groupUId: String, pos: Int) {
                         (requireActivity() as ChatActivity).navigateToGroup(

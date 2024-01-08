@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.golfzon.core_ui.ListLiveData
+import com.golfzon.domain.model.Group
 import com.golfzon.domain.model.GroupMessage
 import com.golfzon.domain.model.TextMessage
 import com.golfzon.domain.model.User
@@ -38,6 +39,9 @@ class ChatViewModel @Inject constructor(
     private val _groupMembersInfo = MutableStateFlow<List<User>>(listOf())
     val groupMembersInfo: StateFlow<List<User>> get() = _groupMembersInfo
 
+    private val _groupDetailInfo = MutableLiveData<Group>()
+    val groupDetailInfo: LiveData<Group> get() = _groupDetailInfo
+
     private val _chatGroupMembersInfo = MutableLiveData<Pair<List<User>, Triple<String, String, String>>>(Pair(listOf(), Triple("", "", "")))
     val chatGroupMembersInfo: LiveData<Pair<List<User>, Triple<String, String, String>>> get() = _chatGroupMembersInfo
 
@@ -54,7 +58,10 @@ class ChatViewModel @Inject constructor(
     }
 
     fun getGroupInfo(groupUId: String) = viewModelScope.launch {
-        getMembersInfo(getGroupDetailUseCase(groupUId).membersUId)
+        getGroupDetailUseCase(groupUId).let {
+            _groupDetailInfo.postValue(it)
+            getMembersInfo(it.membersUId)
+        }
     }
 
     fun getMembersInfo(membersUId: List<String>) = viewModelScope.launch {

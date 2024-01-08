@@ -45,33 +45,27 @@
 
             <TextView
                 android:id="@+id/tv_chat_mine_time"
+                style="@style/caption_2_montserrat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:fontFamily="@font/pretendard_medium"
-                android:includeFontPadding="false"
-                android:letterSpacing="0"
-                android:lineHeight="15sp"
                 android:text="@{Instant.ofEpochMilli(messageInfo.createdAt).atZone(ZoneId.systemDefault()).toLocalDateTime().format(DateTimeFormatter.ofPattern(`a h:mm`))}"
-                android:textColor="@color/primary_A4EF69_opacity_50"
-                android:textSize="10sp"
+                android:textColor="@color/gray_400_515656"
                 tools:text="오후 6:51" />
 
             <TextView
                 android:id="@+id/tv_chat_mine_message"
+                style="@style/body_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:background="@drawable/background_radius_16"
                 android:backgroundTint="@color/primary_A4EF69"
-                android:fontFamily="@font/pretendard_medium"
                 android:gravity="start"
-                android:includeFontPadding="false"
-                android:letterSpacing="0"
-                android:paddingHorizontal="12dp"
+                android:paddingHorizontal="16dp"
                 android:paddingVertical="8dp"
                 android:text="@{messageInfo.textMessage.text}"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 tools:text="테스트 텍스트입니다" />
         </LinearLayout>
 
@@ -94,16 +88,12 @@
 
             <TextView
                 android:id="@+id/tv_chat_mine_reservation_time"
+                style="@style/caption_2_montserrat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:fontFamily="@font/pretendard_medium"
-                android:includeFontPadding="false"
-                android:letterSpacing="0"
-                android:lineHeight="15sp"
                 android:text="@{Instant.ofEpochMilli(messageInfo.createdAt).atZone(ZoneId.systemDefault()).toLocalDateTime().format(DateTimeFormatter.ofPattern(`a h:mm`))}"
-                android:textColor="@color/primary_A4EF69_opacity_50"
-                android:textSize="10sp"
+                android:textColor="@color/gray_400_515656"
                 tools:text="오후 6:51" />
 
             <LinearLayout
@@ -136,19 +126,17 @@
 
                         <TextView
                             android:id="@+id/tv_chat_mine_reservation_message"
+                            style="@style/body_2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
                             android:background="@drawable/background_radius_16_bottom"
                             android:backgroundTint="@color/primary_A4EF69"
-                            android:fontFamily="@font/pretendard_medium"
                             android:gravity="start"
-                            android:includeFontPadding="false"
-                            android:letterSpacing="0"
-                            android:paddingHorizontal="12dp"
+                            android:paddingHorizontal="16dp"
                             android:paddingVertical="8dp"
                             android:text="@{messageInfo.textMessage.text}"
-                            android:textColor="@color/white"
+                            android:textColor="@color/gray_800_222323"
                             android:textSize="10sp"
                             tools:text="23년 12월 28일 15:04\n골프존파크 대치 삼성역점" />
                     </LinearLayout>

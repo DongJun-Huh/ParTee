@@ -4,46 +4,114 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="20dp"
-    android:background="@drawable/background_radius_12"
-    android:backgroundTint="@color/white_F5F6F9"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:paddingHorizontal="20dp"
-    android:paddingVertical="12dp">
+    android:paddingBottom="16dp">
 
-    <TextView
-        android:id="@+id/tv_chat_header_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/pretendard_medium"
-        android:text="파티가 모일 골프존을 찾아 바로 예약해보세요!"
-        android:textColor="@color/primary_A4EF69"
-        android:textSize="14sp" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_chat_header_reservation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/pretendard_semi_bold"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/background_radius_16"
+        android:backgroundTint="@color/gray_900_1D1E1E"
         android:gravity="center"
-        android:includeFontPadding="false"
-        android:letterSpacing="0"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="8dp"
-        android:stateListAnimator="@null"
-        android:text="@string/reservation_2"
-        android:textColor="@color/primary_A4EF69"
-        android:textSize="14sp"
-        app:backgroundTint="@color/white_F5F6F9"
-        app:cornerRadius="8dp"
-        app:icon="@drawable/ic_calendar_filled"
-        app:iconGravity="start"
-        app:iconPadding="8dp"
-        app:iconTint="@color/primary_A4EF69"
-        app:strokeColor="@color/primary_A4EF69"
-        app:strokeWidth="1dp" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <!-- TODO 예약 완료시 화면 노출 -->
+        <LinearLayout
+            android:id="@+id/layout_chat_header_navigate_reservation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_chat_header_title"
+                style="@style/body_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="파티가 모일 골프존을 찾아 바로 예약해보세요!"
+                android:textColor="@color/white_opacity_80" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_chat_header_reservation"
+                style="@style/body_2_strong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/background_radius_8"
+                android:backgroundTint="@color/white"
+                android:gravity="center"
+                android:paddingHorizontal="13dp"
+                android:paddingVertical="8dp"
+                android:stateListAnimator="@null"
+                android:text="@string/reservation_2"
+                android:textColor="@color/gray_900_1D1E1E"
+                app:backgroundTint="@color/white_F5F6F9"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/ic_calendar_filled"
+                app:iconGravity="start"
+                app:iconPadding="8dp"
+                app:iconTint="@color/gray_900_1D1E1E"
+                app:strokeColor="@color/gray_900_1D1E1E"
+                app:strokeWidth="1dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_chat_header_reservation_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_chat_header_reservation_place"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="12dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_img_golfzon"
+                app:shapeAppearance="@style/ShapeAppearance.radius12" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_chat_header_reservation_time"
+                    style="@style/body_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    tools:text="01월 07일 토요일 16:40" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/background_radius_100"
+                    android:backgroundTint="@color/gray_500_464B4B"
+                    android:orientation="horizontal"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="14dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_location_filled"
+                        android:tint="@color/white_opacity50" />
+
+                    <TextView
+                        android:id="@+id/tv_chat_header_reservation_location"
+                        style="@style/caption_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:paddingVertical="4dp"
+                        android:textColor="@color/white_opacity_80"
+                        tools:text="골프존파크 대치점" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
