@@ -117,13 +117,13 @@ class ChatGroupFragment : Fragment() {
                 if (this != null && chatAdapter != null) {
                     chatAdapter?.submitList(it)
                     // 메시지 추가 직전에 마지막 item을 보고있었고, 새로운 채팅이 추가된 경우에만 자동 스크롤
-                    if ((binding.rvChatGroupLog.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
-                        == (binding.rvChatGroupLog.adapter?.itemCount ?: 1) - 1
-                    ) {
-                        if (it.size > 1) {
-                            binding.rvChatGroupLog.smoothScrollToPosition(it.size - 1)
+//                    if ((binding.rvChatGroupLog.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+//                        == (binding.rvChatGroupLog.adapter?.itemCount ?: 1) - 1
+//                    ) {
+                        if (it.size >= 1) {
+                            binding.rvChatGroupLog.smoothScrollToPosition(it.size)
                         }
-                    }
+//                    }
                 }
             }
         }
@@ -162,7 +162,7 @@ class ChatGroupFragment : Fragment() {
                 onFirstRenderCompleted = {
                     if (this.itemCount > 0) {
                         binding.rvChatGroupLog.let { rv ->
-                            rv.scrollToPosition(this.itemCount - 1)
+                            rv.smoothScrollToPosition(this.itemCount - 1)
                         }
                         chatLogLoadingTrace.let { trace ->
                             trace.putAttribute("chatLogCount", this.itemCount.toString())
@@ -180,15 +180,15 @@ class ChatGroupFragment : Fragment() {
 
                         // 10개 이상 채팅이 있는 경우, 10개이상 렌더링 된 경우에만 보이도록 설정, 이하인 경우 절반 이상이 렌더링 된경우에만 보이도록 설정
                         renderedItemCount++
-                        val itemCount = this@with.adapter?.itemCount ?: return
-
-                        with(this@with) {
-                            isVisible = when {
-                                itemCount <= 0 -> false
-                                itemCount >= 10 -> renderedItemCount >= 10
-                                else -> renderedItemCount > (itemCount / 2)
-                            }
-                        }
+//                        val itemCount = this@with.adapter?.itemCount ?: return
+//
+//                        with(this@with) {
+//                            isVisible = when {
+//                                itemCount <= 0 -> false
+//                                itemCount >= 10 -> renderedItemCount >= 10
+//                                else -> renderedItemCount > (itemCount / 2)
+//                            }
+//                        }
                     }
                 }
             }
