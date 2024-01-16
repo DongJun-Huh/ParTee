@@ -202,7 +202,7 @@
 
                             <TextView
                                 android:id="@+id/tv_matching_candidate_team_info_avg_years_playing"
-                                dividend="@{curTeamDetail.totalAge}"
+                                dividend="@{curTeamDetail.totalYearsPlaying}"
                                 divisor="@{curTeamDetail.headCount}"
                                 postfix="@{@string/year_unit_korean}"
                                 prefix="@{@string/average_korean + ` `}"
